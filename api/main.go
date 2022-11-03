@@ -7,7 +7,7 @@ import (
 
 const WelcomeMessage = "Enjoy your meal!"
 
-// force push test comment
+// workflow test
 
 func home(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, WelcomeMessage)
