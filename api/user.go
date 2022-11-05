@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -24,7 +25,11 @@ type UserRepository interface {
 
 func (handler *UserHandler) Get(c echo.Context) error {
 	idStr := c.Param("id")
-	id, _ := strconv.Atoi(idStr)
+	id, err := strconv.Atoi(idStr)
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", idStr))
+	}
 
 	//u, err := handler.repo.Get(id)
 	handler.db.AutoMigrate(&User{})
@@ -46,7 +51,11 @@ func (handler *UserHandler) Get(c echo.Context) error {
 
 func (handler *UserHandler) Delete(c echo.Context) error {
 	idStr := c.Param("id")
-	id, _ := strconv.Atoi(idStr)
+	id, err := strconv.Atoi(idStr)
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", idStr))
+	}
 
 	handler.db.AutoMigrate(&User{})
 
