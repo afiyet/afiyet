@@ -1,6 +1,9 @@
 package main
 
 import (
+	"os"
+
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -24,7 +27,13 @@ func main() {
 		},
 	} */
 
-	dsn := "host=lucky.db.elephantsql.com user=bwsqlljo password=L7UUGrUyswJiU8Cm8lK9LA9JTGbeoOrl dbname=bwsqlljo port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+	err := godotenv.Load("../.env")
+	if err != nil {
+		panic("Error loading .env file")
+	}
+	os.Getenv("DB_CONNECTION_STRING")
+
+	dsn := os.Getenv("DB_CONNECTION_STRING")
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("Failed to connect to database")
