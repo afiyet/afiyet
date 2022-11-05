@@ -1,15 +1,18 @@
 package main
 
 import (
-	"errors"
-	"github.com/labstack/echo/v4"
-	"golang.org/x/exp/slices"
 	"net/http"
+	"strconv"
+
+	"github.com/labstack/echo/v4"
+	"gorm.io/gorm"
 )
 
 type User struct {
-	Name string `json:"name"`
-	Id   string `json:"id"`
+	gorm.Model //has ID, CreatedAt, UpdatedAt, DeletedAt
+	Name       string
+	Surname    string
+	mail       string
 }
 
 type UserRepository interface {
@@ -18,23 +21,26 @@ type UserRepository interface {
 	List() ([]User, error)
 }
 
-type UserHandler struct {
-	repo UserRepository
-}
-
 func (handler *UserHandler) Get(c echo.Context) error {
-	id := c.Param("id")
-	u, err := handler.repo.Get(id)
+	idStr := c.Param("id")
+	id, _ := strconv.Atoi(idStr)
 
-	if err != nil {
+	//u, err := handler.repo.Get(id)
+	handler.db.AutoMigrate(&User{})
+
+	var user User
+
+	result := handler.db.First(&user, id)
+
+	if result.Error != nil {
 		return c.JSON(http.StatusBadRequest, "DB error")
 	}
 
-	if u == nil {
+	if result == nil {
 		return c.JSON(http.StatusNotFound, "User not found")
 	}
 
-	return c.JSON(http.StatusOK, u)
+	return c.JSON(http.StatusOK, user)
 }
 
 func (handler *UserHandler) Delete(c echo.Context) error {
@@ -58,7 +64,7 @@ func (handler *UserHandler) List(c echo.Context) error {
 	return c.JSON(http.StatusOK, us)
 }
 
-type MockRepository struct {
+/* type MockRepository struct {
 	users []User
 }
 
@@ -85,4 +91,4 @@ func (m *MockRepository) Delete(id string) error {
 
 func (m *MockRepository) List() ([]User, error) {
 	return m.users, nil
-}
+} */
