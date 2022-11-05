@@ -64,13 +64,15 @@ func (handler *UserHandler) Delete(c echo.Context) error {
 }
 
 func (handler *UserHandler) List(c echo.Context) error {
-	us, err := handler.repo.List()
 
-	if err != nil {
+	var users []User
+
+	result := handler.db.Find(&users)
+	if result.Error != nil {
 		return c.JSON(http.StatusBadRequest, "DB error")
 	}
 
-	return c.JSON(http.StatusOK, us)
+	return c.JSON(http.StatusOK, users)
 }
 
 func (handler *UserHandler) Add(c echo.Context) error {
