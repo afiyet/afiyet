@@ -45,14 +45,22 @@ func (handler *UserHandler) Get(c echo.Context) error {
 }
 
 func (handler *UserHandler) Delete(c echo.Context) error {
-	id := c.Param("id")
-	err := handler.repo.Delete(id)
+	idStr := c.Param("id")
+	id, _ := strconv.Atoi(idStr)
 
-	if err != nil {
+	handler.db.AutoMigrate(&User{})
+
+	result := handler.db.Delete(&User{}, id)
+
+	if result.Error != nil {
 		return c.JSON(http.StatusBadRequest, "DB error")
 	}
 
-	return c.JSON(http.StatusOK, "OK")
+	if result == nil {
+		return c.JSON(http.StatusNotFound, "User not found")
+	}
+
+	return c.JSON(http.StatusOK, "User successfully Deleted")
 }
 
 func (handler *UserHandler) List(c echo.Context) error {
