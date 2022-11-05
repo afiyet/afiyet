@@ -16,22 +16,12 @@ type UserHandler struct {
 
 func main() {
 	e := echo.New()
-	// Initialize DB and and create repository
-	/* repo := &MockRepository{
-		users: []User{
-			{Name: "Baris", Id: "0"},
-			{Name: "Oncum", Id: "1"},
-			{Name: "Umut", Id: "2"},
-			{Name: "UmutCil", Id: "3"},
-			{Name: "UmutInce", Id: "4"},
-		},
-	} */
 
 	err := godotenv.Load("../.env")
+
 	if err != nil {
 		panic("Error loading .env file")
 	}
-	os.Getenv("DB_CONNECTION_STRING")
 
 	dsn := os.Getenv("DB_CONNECTION_STRING")
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
