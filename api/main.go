@@ -36,5 +36,6 @@ func main() {
 	e.GET("/users/:id", h.Get)
 	e.DELETE("/users/:id", h.Delete)
 	e.POST("/users/:name/:surname/:mail", h.Add)
+	e.PUT("/users/:id/:name/:surname/:mail", h.Update)
 	e.Logger.Fatal(e.Start(":8080"))
 }

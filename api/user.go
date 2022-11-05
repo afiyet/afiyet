@@ -93,6 +93,32 @@ func (handler *UserHandler) Add(c echo.Context) error {
 	return c.JSON(http.StatusOK, "User successfully added")
 }
 
+func (handler *UserHandler) Update(c echo.Context) error {
+	idStr := c.Param("id")
+	id, _ := strconv.Atoi(idStr)
+	name := c.Param("name")
+	surname := c.Param("surname")
+	mail := c.Param("mail")
+
+	var user User
+
+	handler.db.AutoMigrate(&User{})
+
+	handler.db.First(&user, id)
+
+	user.Name = name
+	user.Surname = surname
+	user.Mail = mail
+
+	result := handler.db.Save(&user)
+
+	if result.Error != nil {
+		return c.JSON(http.StatusBadRequest, "DB error")
+	}
+
+	return c.JSON(http.StatusOK, "User successfully updated")
+}
+
 /* type MockRepository struct {
 	users []User
 }
