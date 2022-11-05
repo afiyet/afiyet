@@ -12,13 +12,14 @@ type User struct {
 	gorm.Model //has ID, CreatedAt, UpdatedAt, DeletedAt
 	Name       string
 	Surname    string
-	mail       string
+	Mail       string
 }
 
 type UserRepository interface {
 	Get(id string) (*User, error)
 	Delete(id string) error
 	List() ([]User, error)
+	Add(name string, surname string, mail string) error
 }
 
 func (handler *UserHandler) Get(c echo.Context) error {
@@ -62,6 +63,24 @@ func (handler *UserHandler) List(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, us)
+}
+
+func (handler *UserHandler) Add(c echo.Context) error {
+	name := c.Param("name")
+	surname := c.Param("surname")
+	mail := c.Param("mail")
+
+	handler.db.AutoMigrate(&User{})
+
+	var user = User{Name: name, Surname: surname, Mail: mail}
+
+	result := handler.db.Create(&user)
+
+	if result.Error != nil {
+		return c.JSON(http.StatusBadRequest, "DB error")
+	}
+
+	return c.JSON(http.StatusOK, "User successfully added")
 }
 
 /* type MockRepository struct {
