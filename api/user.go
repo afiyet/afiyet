@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -15,6 +16,10 @@ type User struct {
 	Surname    string
 	Mail       string
 }
+
+var (
+	UserNotFound = errors.New("user not found")
+)
 
 type UserRepository interface {
 	Get(id string) (*User, error)
@@ -128,31 +133,52 @@ func (handler *UserHandler) Update(c echo.Context) error {
 	return c.JSON(http.StatusOK, "User successfully updated")
 }
 
-/* type MockRepository struct {
-	users []User
+type MockUserRepository struct {
+	m         map[string]User
+	largestId int // Largest id
 }
 
-func (m *MockRepository) Get(id string) (*User, error) {
-	for _, v := range m.users {
-		if v.Id == id {
-			return &v, nil
-		}
+func (m MockUserRepository) Get(id string) (*User, error) {
+	u, ok := m.m[id]
+
+	if !ok {
+		return nil, UserNotFound
 	}
 
-	return nil, errors.New("not found")
+	return &u, nil
 }
 
-func (m *MockRepository) Delete(id string) error {
-	for i, v := range m.users {
-		if v.Id == id {
-			m.users = slices.Delete(m.users, i, i+1)
-			return nil
-		}
+func (m MockUserRepository) Delete(id string) error {
+	_, ok := m.m[id]
+
+	if !ok {
+		return UserNotFound
 	}
 
-	return errors.New("not found")
+	delete(m.m, id)
+
+	return nil
 }
 
-func (m *MockRepository) List() ([]User, error) {
-	return m.users, nil
-} */
+func (m MockUserRepository) List() ([]User, error) {
+	var users []User
+
+	for _, v := range m.m {
+		users = append(users, v)
+	}
+
+	return users, nil
+}
+
+func (m MockUserRepository) Add(name string, surname string, mail string) error {
+	id := strconv.Itoa(m.largestId)
+	m.m[id] = User{
+		Name:    name,
+		Surname: surname,
+		Mail:    mail,
+	}
+
+	m.largestId++
+
+	return nil
+}
