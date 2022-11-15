@@ -25,7 +25,7 @@ type UserRepository interface {
 	Get(id string) (*User, error)
 	Delete(id string) error
 	List() ([]User, error)
-	Add(name string, surname string, mail string) error
+	Add(User) error
 }
 
 func (handler *UserHandler) Get(c echo.Context) error {
@@ -133,6 +133,77 @@ func (handler *UserHandler) Update(c echo.Context) error {
 	return c.JSON(http.StatusOK, "User successfully updated")
 }
 
+type PostgresUserRepository struct {
+	db *gorm.DB
+}
+
+func (p PostgresUserRepository) Get(id string) (*User, error) {
+	err := p.db.AutoMigrate(&User{})
+
+	if err != nil {
+		return nil, err
+	}
+
+	var user User
+	res := p.db.First(&user, id)
+
+	if res == nil {
+		return nil, UserNotFound
+	}
+
+	if res.Error != nil {
+		return nil, res.Error // TODO(dbtofe) Inspect this error should we give to fe?
+	}
+
+	return &user, nil
+}
+
+func (p PostgresUserRepository) Delete(id string) error {
+	err := p.db.AutoMigrate(&User{})
+
+	if err != nil {
+		return err // TODO(dbtofe)
+	}
+
+	result := p.db.Delete(&User{}, id)
+
+	if result == nil {
+		return UserNotFound
+	}
+
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return nil
+}
+
+func (p PostgresUserRepository) List() ([]User, error) {
+	p.db.AutoMigrate(&User{})
+
+	var users []User
+
+	res := p.db.Find(&users)
+
+	if res.Error != nil {
+		return nil, res.Error // TODO(dbtofe)
+	}
+
+	return users, nil
+}
+
+func (p PostgresUserRepository) Add(u User) error {
+	p.db.AutoMigrate(&User{})
+
+	res := p.db.Create(&u)
+
+	if res.Error != nil {
+		return res.Error // TODO(dbtofe)
+	}
+
+	return nil
+}
+
 type MockUserRepository struct {
 	m         map[string]User
 	largestId int // Largest id
@@ -170,12 +241,12 @@ func (m MockUserRepository) List() ([]User, error) {
 	return users, nil
 }
 
-func (m MockUserRepository) Add(name string, surname string, mail string) error {
+func (m MockUserRepository) Add(u User) error {
 	id := strconv.Itoa(m.largestId)
 	m.m[id] = User{
-		Name:    name,
-		Surname: surname,
-		Mail:    mail,
+		Name:    u.Name,
+		Surname: u.Surname,
+		Mail:    u.Mail,
 	}
 
 	m.largestId++
