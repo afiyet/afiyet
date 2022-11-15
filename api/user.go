@@ -22,10 +22,11 @@ var (
 )
 
 type UserRepository interface {
-	Get(id string) (*User, error)
-	Delete(id string) error
+	Get(id int) (*User, error)
+	Delete(id int) error
 	List() ([]User, error)
 	Add(User) error
+	Update(u User, id int) error
 }
 
 func (handler *UserHandler) Get(c echo.Context) error {
@@ -36,22 +37,13 @@ func (handler *UserHandler) Get(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", idStr))
 	}
 
-	//u, err := handler.repo.Get(id)
-	handler.db.AutoMigrate(&User{})
+	u, err := handler.repo.Get(id)
 
-	var user User
-
-	result := handler.db.First(&user, id)
-
-	if result.Error != nil {
-		return c.JSON(http.StatusBadRequest, "DB error")
+	if err != nil { // TODO(dbtofe)
+		return c.JSON(http.StatusBadRequest, err)
 	}
 
-	if result == nil {
-		return c.JSON(http.StatusNotFound, "User not found")
-	}
-
-	return c.JSON(http.StatusOK, user)
+	return c.JSON(http.StatusOK, u)
 }
 
 func (handler *UserHandler) Delete(c echo.Context) error {
@@ -62,28 +54,20 @@ func (handler *UserHandler) Delete(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", idStr))
 	}
 
-	handler.db.AutoMigrate(&User{})
+	err = handler.repo.Delete(id)
 
-	result := handler.db.Delete(&User{}, id)
-
-	if result.Error != nil {
-		return c.JSON(http.StatusBadRequest, "DB error")
-	}
-
-	if result == nil {
-		return c.JSON(http.StatusNotFound, "User not found")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err)
 	}
 
 	return c.JSON(http.StatusOK, "User successfully Deleted")
 }
 
 func (handler *UserHandler) List(c echo.Context) error {
+	users, err := handler.repo.List()
 
-	var users []User
-
-	result := handler.db.Find(&users)
-	if result.Error != nil {
-		return c.JSON(http.StatusBadRequest, "DB error")
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err) // TODO(dbtofe)
 	}
 
 	return c.JSON(http.StatusOK, users)
@@ -94,14 +78,11 @@ func (handler *UserHandler) Add(c echo.Context) error {
 	surname := c.Param("surname")
 	mail := c.Param("mail")
 
-	handler.db.AutoMigrate(&User{})
-
 	var user = User{Name: name, Surname: surname, Mail: mail}
 
-	result := handler.db.Create(&user)
-
-	if result.Error != nil {
-		return c.JSON(http.StatusBadRequest, "DB error")
+	err := handler.repo.Add(user)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err) // TODO(dbtofe)
 	}
 
 	return c.JSON(http.StatusOK, "User successfully added")
@@ -116,18 +97,14 @@ func (handler *UserHandler) Update(c echo.Context) error {
 
 	var user User
 
-	handler.db.AutoMigrate(&User{})
-
-	handler.db.First(&user, id)
-
 	user.Name = name
 	user.Surname = surname
 	user.Mail = mail
 
-	result := handler.db.Save(&user)
+	err := handler.repo.Update(user, id)
 
-	if result.Error != nil {
-		return c.JSON(http.StatusBadRequest, "DB error")
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err) // TODO(dbtofe)
 	}
 
 	return c.JSON(http.StatusOK, "User successfully updated")
@@ -137,7 +114,7 @@ type PostgresUserRepository struct {
 	db *gorm.DB
 }
 
-func (p PostgresUserRepository) Get(id string) (*User, error) {
+func (p PostgresUserRepository) Get(id int) (*User, error) {
 	err := p.db.AutoMigrate(&User{})
 
 	if err != nil {
@@ -158,7 +135,7 @@ func (p PostgresUserRepository) Get(id string) (*User, error) {
 	return &user, nil
 }
 
-func (p PostgresUserRepository) Delete(id string) error {
+func (p PostgresUserRepository) Delete(id int) error {
 	err := p.db.AutoMigrate(&User{})
 
 	if err != nil {
@@ -204,12 +181,35 @@ func (p PostgresUserRepository) Add(u User) error {
 	return nil
 }
 
+func (p PostgresUserRepository) Update(u User, id int) error {
+	p.db.AutoMigrate(&User{})
+
+	var ru User
+	res := p.db.First(&ru, id)
+
+	if res.Error != nil {
+		return res.Error // TODO(dbtofe)
+	}
+
+	ru.Name = u.Name
+	ru.Surname = u.Surname
+	ru.Mail = u.Mail
+
+	res = p.db.Save(&ru)
+
+	if res.Error != nil {
+		return res.Error // TODO(dbtofe)
+	}
+
+	return nil
+}
+
 type MockUserRepository struct {
-	m         map[string]User
+	m         map[int]User
 	largestId int // Largest id
 }
 
-func (m MockUserRepository) Get(id string) (*User, error) {
+func (m MockUserRepository) Get(id int) (*User, error) {
 	u, ok := m.m[id]
 
 	if !ok {
@@ -219,7 +219,7 @@ func (m MockUserRepository) Get(id string) (*User, error) {
 	return &u, nil
 }
 
-func (m MockUserRepository) Delete(id string) error {
+func (m MockUserRepository) Delete(id int) error {
 	_, ok := m.m[id]
 
 	if !ok {
@@ -242,14 +242,25 @@ func (m MockUserRepository) List() ([]User, error) {
 }
 
 func (m MockUserRepository) Add(u User) error {
-	id := strconv.Itoa(m.largestId)
-	m.m[id] = User{
+	m.m[m.largestId] = User{
 		Name:    u.Name,
 		Surname: u.Surname,
 		Mail:    u.Mail,
 	}
 
 	m.largestId++
+
+	return nil
+}
+
+func (m MockUserRepository) Update(u User, id int) error {
+	u, ok := m.m[id]
+
+	if !ok {
+		return UserNotFound
+	}
+
+	m.m[id] = u
 
 	return nil
 }

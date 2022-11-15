@@ -1,17 +1,16 @@
 package main
 
 import (
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 	"os"
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 )
 
 type UserHandler struct {
 	repo UserRepository
-	db   *gorm.DB
 }
 
 func main() {
@@ -29,7 +28,7 @@ func main() {
 		panic("Failed to connect to database")
 	}
 
-	h := UserHandler{db: db}
+	h := UserHandler{repo: PostgresUserRepository{db: db}}
 
 	e.GET("/users", h.List)
 	e.GET("/users/:id", h.Get)
