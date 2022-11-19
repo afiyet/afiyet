@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -24,13 +25,13 @@ func main() {
 	err := godotenv.Load("../.env")
 
 	if err != nil {
-		panic("Error loading .env file")
+		log.Fatal("Error loading .env file")
 	}
 
 	dsn := os.Getenv("DB_CONNECTION_STRING")
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		panic("Failed to connect to database")
+		log.Fatal("Failed to connect to database")
 	}
 
 	userHandler := UserHandler{db: db}
