@@ -14,6 +14,7 @@ type User struct {
 	Name       string
 	Surname    string
 	Mail       string
+	Rating     []Rating `gorm:"-"`
 }
 
 type UserRepository interface {
