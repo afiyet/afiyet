@@ -94,9 +94,7 @@ func (handler *RatingHandler) Add(c echo.Context) error {
 	} */
 	// ---
 
-	var rating Rating
-	rating.Restaurant = restId
-	rating.UserId = userId
+	rating := Rating{Restaurant: restId, UserId: userId}
 
 	binder := echo.QueryParamsBinder(c)
 
