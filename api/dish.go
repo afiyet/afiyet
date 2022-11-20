@@ -111,8 +111,6 @@ func (handler *DishHandler) Add(c echo.Context) error {
 	dish.Ingredients = pq.StringArray(tempIngredients) //binder tarafıdan kabul edilmeyen pq.StringArray ini dışardan ekledim
 	dish.RestaurantId = restID
 
-	fmt.Print("xxxxxxxxxxxxxx : ", dish)
-
 	handler.db.AutoMigrate(&Dish{})
 
 	result := handler.db.Create(&dish)
