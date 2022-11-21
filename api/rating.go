@@ -10,12 +10,13 @@ import (
 )
 
 type Rating struct {
-	gorm.Model //has ID, CreatedAt, UpdatedAt, DeletedAt
-	UserId     string
-	User       User   `gorm:"foreignKey:UserId"`
-	Restaurant string //TODO ! restoran branch merge edildiğinde burası restaurantId	Restaurant şeklinde değiştirilmeli
-	Comment    string
-	Point      uint16
+	gorm.Model   //has ID, CreatedAt, UpdatedAt, DeletedAt
+	UserId       string
+	User         User `gorm:"foreignKey:UserId"`
+	RestaurantId string
+	Restaurant   Restaurant `gorm:"foreignKey:RestaurantId"`
+	Comment      string
+	Point        uint16
 }
 
 func (handler *RatingHandler) GetwithUser(c echo.Context) error {
@@ -81,20 +82,7 @@ func (handler *RatingHandler) Add(c echo.Context) error {
 	restId := c.Param("restaurantId")
 	userId := c.Param("userId")
 
-	// --- find that user
-	/* handler.db.AutoMigrate(&User{})
-	var user User
-	rslt := handler.db.First(&user, userId)
-	if rslt.Error != nil {
-		return c.JSON(http.StatusBadRequest, "DB error")
-	}
-
-	if rslt == nil {
-		return c.JSON(http.StatusNotFound, "User not found")
-	} */
-	// ---
-
-	rating := Rating{Restaurant: restId, UserId: userId}
+	rating := Rating{RestaurantId: restId, UserId: userId}
 
 	binder := echo.QueryParamsBinder(c)
 

@@ -16,6 +16,8 @@ type Restaurant struct {
 	Name     string
 	Address  string
 	Category string
+	Dishes   []Dish   `gorm:"-"`
+	Ratings  []Rating `gorm:"-"`
 }
 
 type RestaurantRepository interface {
@@ -89,14 +91,20 @@ func (handler *RestaurantHandler) List(c echo.Context) error {
 }
 
 func (handler *RestaurantHandler) Add(c echo.Context) error {
-	name := c.Param("name")
-	address := c.Param("restaurant")
-	category := c.Param("category")
+
+	binder := echo.QueryParamsBinder(c)
+
+	var restaurant Restaurant
+	err := binder.String("name", &restaurant.Name).
+		String("address", &restaurant.Address).
+		String("category", &restaurant.Category).
+		BindError() // returns first binding error
+	if err != nil {
+		bErr := err.(*echo.BindingError)
+		return fmt.Errorf("request query parameters binding error for field: %s values: %v", bErr.Field, bErr.Values)
+	}
 
 	handler.db.AutoMigrate(&Restaurant{})
-
-	var restaurant = Restaurant{Name: name, Address: address, Category: category}
-
 	result := handler.db.Create(&restaurant)
 
 	if result.Error != nil {
@@ -109,20 +117,22 @@ func (handler *RestaurantHandler) Add(c echo.Context) error {
 func (handler *RestaurantHandler) Update(c echo.Context) error {
 	idStr := c.Param("id")
 	id, _ := strconv.Atoi(idStr)
-	name := c.Param("name")
-	address := c.Param("address")
-	category := c.Param("category")
 
 	var restaurant Restaurant
-
 	handler.db.AutoMigrate(&Restaurant{})
-
 	handler.db.First(&restaurant, id)
 
-	restaurant.Name = name
-	restaurant.Address = address
-	restaurant.Category = category
+	binder := echo.QueryParamsBinder(c)
+	err := binder.String("name", &restaurant.Name).
+		String("address", &restaurant.Address).
+		String("category", &restaurant.Category).
+		BindError() // returns first binding error
+	if err != nil {
+		bErr := err.(*echo.BindingError)
+		return fmt.Errorf("request query parameters binding error for field: %s values: %v", bErr.Field, bErr.Values)
+	}
 
+	handler.db.AutoMigrate(&Restaurant{})
 	result := handler.db.Save(&restaurant)
 
 	if result.Error != nil {
