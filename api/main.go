@@ -69,8 +69,8 @@ func main() {
 	e.GET("/restaurant", restaurantHandler.List)
 	e.GET("/restaurant/:id", restaurantHandler.Get)
 	e.DELETE("/restaurant/:id", restaurantHandler.Delete)
-	e.POST("/restaurant/:name/:address/:category", restaurantHandler.Add)
-	e.PUT("/restaurant/:id/:name/:address/:category", restaurantHandler.Update)
+	e.POST("/restaurant", restaurantHandler.Add)       // ?name&address&category
+	e.PUT("/restaurant/:id", restaurantHandler.Update) //?name&address&category
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
