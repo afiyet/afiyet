@@ -11,8 +11,9 @@ import (
 )
 
 type Dish struct {
-	gorm.Model          //has ID, CreatedAt, UpdatedAt, DeletedAt
-	RestaurantId string //TODO ! restoran branch merge edildiğinde burası restaurantId	Restaurant şeklinde değiştirilmeli
+	gorm.Model   //has ID, CreatedAt, UpdatedAt, DeletedAt
+	RestaurantId string
+	Restaurant   Restaurant `gorm:"foreignKey:RestaurantId"`
 	Name         string
 	Category     string
 	Ingredients  pq.StringArray `gorm:"type:text[]"`
