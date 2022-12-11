@@ -21,6 +21,10 @@ type DishHandler struct {
 type RatingHandler struct {
 	db *gorm.DB
 }
+type RestaurantHandler struct {
+	repo RestaurantRepository
+	db   *gorm.DB
+}
 
 func main() {
 	e := echo.New()
@@ -40,6 +44,7 @@ func main() {
 	userHandler := UserHandler{db: db}
 	dishHandler := DishHandler{db: db}
 	ratingHandler := RatingHandler{db: db}
+	restaurantHandler := RestaurantHandler{db: db}
 
 	e.GET("/user", userHandler.List)
 	e.GET("/user/:id", userHandler.Get)
@@ -60,6 +65,12 @@ func main() {
 	e.GET("/rating/average/:id", ratingHandler.GetRestaurantAverage)
 	e.DELETE("/rating/:ratingId", ratingHandler.Delete)
 	e.POST("/rating/:restaurantId/:userId", ratingHandler.Add) // ?comment&point
+
+	e.GET("/restaurant", restaurantHandler.List)
+	e.GET("/restaurant/:id", restaurantHandler.Get)
+	e.DELETE("/restaurant/:id", restaurantHandler.Delete)
+	e.POST("/restaurant", restaurantHandler.Add)       // ?name&address&category
+	e.PUT("/restaurant/:id", restaurantHandler.Update) //?name&address&category
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
