@@ -10,7 +10,7 @@ import (
 )
 
 type Rating struct {
-	gorm.Model   //has ID, CreatedAt, UpdatedAt, DeletedAt
+	gorm.Model
 	UserId       string
 	User         User `gorm:"foreignKey:UserId"`
 	RestaurantId string

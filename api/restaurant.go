@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -18,13 +17,6 @@ type Restaurant struct {
 	Category string
 	Dishes   []Dish   `gorm:"-"`
 	Ratings  []Rating `gorm:"-"`
-}
-
-type RestaurantRepository interface {
-	Get(id string) (*Restaurant, error)
-	Delete(id string) error
-	List() ([]Restaurant, error)
-	Add(name string, address string, category string) error
 }
 
 func (handler *RestaurantHandler) Get(c echo.Context) error {
@@ -140,18 +132,4 @@ func (handler *RestaurantHandler) Update(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, "Restaurant successfully updated")
-}
-
-type RestaurantMockRepository struct {
-	restaurants []Restaurant
-}
-
-func (m *RestaurantMockRepository) Get(id string) (*Restaurant, error) {
-	for _, v := range m.restaurants {
-		uintID, _ := strconv.ParseUint(id, 10, 32)
-		if v.Model.ID == uint(uintID) {
-			return &v, nil
-		}
-	}
-	return nil, errors.New("not found")
 }

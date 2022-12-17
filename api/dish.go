@@ -11,23 +11,13 @@ import (
 )
 
 type Dish struct {
-	gorm.Model   //has ID, CreatedAt, UpdatedAt, DeletedAt
+	gorm.Model
 	RestaurantId string
 	Restaurant   Restaurant `gorm:"foreignKey:RestaurantId"`
 	Name         string
 	Category     string
 	Ingredients  pq.StringArray `gorm:"type:text[]"`
 	Price        float32
-}
-
-type DishRepository interface {
-	Get(id string) (*Dish, error)
-	Delete(id string) error
-	List() ([]Dish, error)
-	Add(restaurantId string, name string, category string, ingredients []string, price float32) error
-	Update(id string, restaurantId string, name string, category string, ingredients []string, price float32) error
-	GetwithRestId(restaurantId string) ([]Dish, error)
-	GetwithCategory(category string) ([]Dish, error)
 }
 
 func (handler *DishHandler) Get(c echo.Context) error {

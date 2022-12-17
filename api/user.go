@@ -10,18 +10,11 @@ import (
 )
 
 type User struct {
-	gorm.Model //has ID, CreatedAt, UpdatedAt, DeletedAt
-	Name       string
-	Surname    string
-	Mail       string
-	Rating     []Rating `gorm:"-"`
-}
-
-type UserRepository interface {
-	Get(id string) (*User, error)
-	Delete(id string) error
-	List() ([]User, error)
-	Add(name string, surname string, mail string) error
+	gorm.Model
+	Name    string
+	Surname string
+	Mail    string
+	Rating  []Rating `gorm:"-"`
 }
 
 func (handler *UserHandler) Get(c echo.Context) error {
@@ -128,32 +121,3 @@ func (handler *UserHandler) Update(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, "User successfully updated")
 }
-
-/* type MockRepository struct {
-	users []User
-}
-
-func (m *MockRepository) Get(id string) (*User, error) {
-	for _, v := range m.users {
-		if v.Id == id {
-			return &v, nil
-		}
-	}
-
-	return nil, errors.New("not found")
-}
-
-func (m *MockRepository) Delete(id string) error {
-	for i, v := range m.users {
-		if v.Id == id {
-			m.users = slices.Delete(m.users, i, i+1)
-			return nil
-		}
-	}
-
-	return errors.New("not found")
-}
-
-func (m *MockRepository) List() ([]User, error) {
-	return m.users, nil
-} */

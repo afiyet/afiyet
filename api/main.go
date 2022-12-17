@@ -11,19 +11,16 @@ import (
 )
 
 type UserHandler struct {
-	repo UserRepository
-	db   *gorm.DB
+	db *gorm.DB
 }
 type DishHandler struct {
-	repo DishRepository
-	db   *gorm.DB
+	db *gorm.DB
 }
 type RatingHandler struct {
 	db *gorm.DB
 }
 type RestaurantHandler struct {
-	repo RestaurantRepository
-	db   *gorm.DB
+	db *gorm.DB
 }
 
 func main() {
