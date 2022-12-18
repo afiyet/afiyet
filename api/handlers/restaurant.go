@@ -1,25 +1,18 @@
-package main
+package handlers
 
 import (
 	"fmt"
-	"log"
+	"github.com/afiyet/afiytet/api/data/repo"
+	"github.com/labstack/echo/v4"
 	"net/http"
 	"strconv"
-
-	"github.com/labstack/echo/v4"
-	"gorm.io/gorm"
 )
 
-type Restaurant struct {
-	gorm.Model
-	Name     string
-	Address  string
-	Category string
-	Dishes   []Dish   `gorm:"-"`
-	Ratings  []Rating `gorm:"-"`
+type RestaurantHandler struct {
+	r repo.RestaurantRepository
 }
 
-func (handler *RestaurantHandler) Get(c echo.Context) error {
+func (h *RestaurantHandler) Get(c echo.Context) error {
 	idStr := c.Param("id")
 	id, err := strconv.Atoi(idStr)
 
@@ -27,23 +20,15 @@ func (handler *RestaurantHandler) Get(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", idStr))
 	}
 
-	err = handler.db.AutoMigrate(&Restaurant{})
-
-	var restaurant Restaurant
-
-	result := handler.db.First(&restaurant, id)
-
-	if result.Error != nil {
-		return c.JSON(http.StatusBadRequest, "DB error")
+	res, err := h.r.Get(id)
+	if err != nil {
+		return err
 	}
 
-	if result == nil {
-		return c.JSON(http.StatusNotFound, "Restaurant not found")
-	}
-	return c.JSON(http.StatusOK, restaurant)
+	return c.JSON(http.StatusOK, res)
 }
 
-func (handler *RestaurantHandler) Delete(c echo.Context) error {
+func (h *RestaurantHandler) Delete(c echo.Context) error {
 	idStr := c.Param("id")
 	id, err := strconv.Atoi(idStr)
 
@@ -51,38 +36,26 @@ func (handler *RestaurantHandler) Delete(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", idStr))
 	}
 
-	err = handler.db.AutoMigrate(&Restaurant{})
-
+	err = h.r.Delete(id)
 	if err != nil {
-		log.Fatal(err)
-	}
-
-	result := handler.db.Delete(&Restaurant{}, id)
-
-	if result.Error != nil {
-		return c.JSON(http.StatusBadRequest, "DB error")
-	}
-
-	if result == nil {
-		return c.JSON(http.StatusNotFound, "Restaurant not found")
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	return c.JSON(http.StatusOK, "Restaurant successfully Deleted")
 }
 
-func (handler *RestaurantHandler) List(c echo.Context) error {
+func (h *RestaurantHandler) List(c echo.Context) error {
 
-	var restaurants []Restaurant
-
-	result := handler.db.Find(&restaurants)
-	if result.Error != nil {
-		return c.JSON(http.StatusBadRequest, "DB error")
+	rs, err := h.r.List()
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, restaurants)
+	return c.JSON(http.StatusOK, rs)
 }
 
-func (handler *RestaurantHandler) Add(c echo.Context) error {
+// TODO
+func (h *RestaurantHandler) Add(c echo.Context) error {
 
 	binder := echo.QueryParamsBinder(c)
 
@@ -96,8 +69,7 @@ func (handler *RestaurantHandler) Add(c echo.Context) error {
 		return fmt.Errorf("request query parameters binding error for field: %s values: %v", bErr.Field, bErr.Values)
 	}
 
-	handler.db.AutoMigrate(&Restaurant{})
-	result := handler.db.Create(&restaurant)
+	result := h.db.Create(&restaurant)
 
 	if result.Error != nil {
 		return c.JSON(http.StatusBadRequest, "DB error")
@@ -106,13 +78,13 @@ func (handler *RestaurantHandler) Add(c echo.Context) error {
 	return c.JSON(http.StatusOK, "Restaurant successfully added")
 }
 
-func (handler *RestaurantHandler) Update(c echo.Context) error {
+// TODO
+func (h *RestaurantHandler) Update(c echo.Context) error {
 	idStr := c.Param("id")
 	id, _ := strconv.Atoi(idStr)
 
 	var restaurant Restaurant
-	handler.db.AutoMigrate(&Restaurant{})
-	handler.db.First(&restaurant, id)
+	h.db.First(&restaurant, id)
 
 	binder := echo.QueryParamsBinder(c)
 	err := binder.String("name", &restaurant.Name).
@@ -124,8 +96,7 @@ func (handler *RestaurantHandler) Update(c echo.Context) error {
 		return fmt.Errorf("request query parameters binding error for field: %s values: %v", bErr.Field, bErr.Values)
 	}
 
-	handler.db.AutoMigrate(&Restaurant{})
-	result := handler.db.Save(&restaurant)
+	result := h.db.Save(&restaurant)
 
 	if result.Error != nil {
 		return c.JSON(http.StatusBadRequest, "DB error")
