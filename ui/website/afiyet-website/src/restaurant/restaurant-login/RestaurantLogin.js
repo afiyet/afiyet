@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./RestaurantLogin.css";
-import companyLogo from "../img/afiyet-logo.png";
+import companyLogo from "../../img/afiyet-logo.png";
 
 const RestaurantLogin = () => 
 {

@@ -1,9 +1,10 @@
-import RestaurantLogin from "./restaurant-login/RestaurantLogin";
+import RestaurantLogin from "./restaurant/restaurant-login/RestaurantLogin";
+import Navbar from "./restaurant/main-page/Navbar";
 
 function App() {
   return (
     <div className="App">
-      <RestaurantLogin />
+      <Navbar />
     </div>
   );
 }
