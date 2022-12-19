@@ -20,30 +20,29 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 		r: repo.NewRestaurantRepository(db),
 	}
 
-	e.GET("/user", uh.List)
-	e.GET("/user/:id", uh.Get)
-	e.DELETE("/user/:id", uh.Delete)
-	e.POST("/user/:name/:surname/:mail", uh.Add)
-	e.PUT("/users/:id/:name/:surname/:mail", uh.Update)
+	e.POST("/users", uh.Add)
+	e.DELETE("/users/:id", uh.Delete)
+	e.GET("/users/:id", uh.Get)
+	e.GET("/users", uh.List)
+	e.PUT("/users/:id", uh.Update)
+	e.PUT("/users/:id/ratings", uh.GetRatings)
 
-	e.GET("/dish", dh.List)
-	e.GET("/dish/restaurant/:restaurantId", dh.GetWithRestaurantId)
-	e.GET("/dish/:id", dh.Get)
-	e.GET("/dish/category/:category", dh.GetWithCategory)
-	e.DELETE("/dish/:id", dh.Delete)
-	e.POST("/dish/:restaurantId", dh.Add) // ?name&category&ingredients&price
-	e.PUT("/dish/:id", dh.Update)         // ?name&category&ingredients&price
+	e.POST("/dishes", dh.Add)
+	e.DELETE("/dishes/:id", dh.Delete)
+	e.GET("/dishes/:id", dh.Get)
+	e.GET("/dishes", dh.List)
+	e.PUT("/dishes/:id", dh.Update)
 
-	e.GET("/rating/user/:id", rath.GetWithUser)
-	e.GET("/rating/restaurant/:id", rath.GetWithRestaurant)
-	e.GET("/rating/average/:id", rath.GetRestaurantAverage)
-	e.DELETE("/rating/:ratingId", rath.Delete)
-	e.POST("/rating/:restaurantId/:userId", rath.Add) // ?comment&point
+	e.POST("/ratings/:restaurantId/:userId", rath.Add)
+	e.DELETE("/ratings/:ratingId", rath.Delete)
 
-	e.GET("/restaurant", resh.List)
-	e.GET("/restaurant/:id", resh.Get)
-	e.DELETE("/restaurant/:id", resh.Delete)
-	e.POST("/restaurant", resh.Add)       // ?name&address&category
-	e.PUT("/restaurant/:id", resh.Update) //?name&address&category
+	e.POST("/restaurants", resh.Add)
+	e.DELETE("/restaurants/:id", resh.Delete)
+	e.GET("/restaurants/:id", resh.Get)
+	e.GET("/restaurants/:id/dishes", resh.GetDishes)
+	e.PUT("/restaurants/:id/ratings", resh.GetRatings)
+	e.PUT("/restaurants/:id/ratings/get-average", resh.GetRestaurantAverageRating)
+	e.GET("/restaurants", resh.List)
+	e.PUT("/restaurants/:id", resh.Update)
 
 }

@@ -18,3 +18,14 @@ func NewUserRepository(db *gorm.DB) UserRepository {
 
 	return ur
 }
+
+func (ur UserRepository) GetRatings(id int) ([]model.Rating, error) {
+	var rs []model.Rating
+	err := ur.db.Where("id=", id).Find(&rs).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return rs, nil
+}
