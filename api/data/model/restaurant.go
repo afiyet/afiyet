@@ -1,12 +1,18 @@
 package model
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+	"time"
+)
 
 type Restaurant struct {
-	gorm.Model
-	Name     string
-	Address  string
-	Category string
-	Dishes   []Dish   `gorm:"-"`
-	Ratings  []Rating `gorm:"-"`
+	ID        uint           `gorm:"primarykey" json:"ID,omitempty"`
+	CreatedAt time.Time      `json:"createdAt,omitempty"`
+	UpdatedAt time.Time      `json:"updatedAt,omitempty"`
+	DeletedAt gorm.DeletedAt `gorm:"index" json:"deletedAt,omitempty"`
+	Name      string         `json:"name"`
+	Address   string         `json:"address"`
+	Category  string         `json:"category"`
+	Dishes    []Dish         `gorm:"-" json:"dishes,omitempty"`
+	Ratings   []Rating       `gorm:"-" json:"ratings,omitempty"`
 }

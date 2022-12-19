@@ -14,7 +14,7 @@ import (
 func main() {
 	e := echo.New()
 
-	err := godotenv.Load("../../../.env")
+	err := godotenv.Load()
 
 	if err != nil {
 		log.Fatal("Error loading .env file")
@@ -26,7 +26,9 @@ func main() {
 		log.Fatal("Failed to connect to database")
 	}
 
-	model.MigrateAll(db)
+	if err = model.MigrateAll(db); err != nil {
+		log.Fatal(err)
+	}
 	handlers.Bootstrap(db, e)
 
 	e.Logger.Fatal(e.Start(":8080"))

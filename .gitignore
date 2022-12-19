@@ -61,4 +61,4 @@ packages/react-devtools-timeline/dist
 
 
 #Custom 
-.env
+api/cmd/afiyet/.env

@@ -21,7 +21,7 @@ func NewRestaurantRepository(db *gorm.DB) RestaurantRepository {
 
 func (r RestaurantRepository) GetDishes(id int) ([]model.Dish, error) {
 	var ds []model.Dish
-	err := r.db.Where("restaurant = ?", id).Find(&ds).Error
+	err := r.db.Where("restaurant_id = ?", id).Find(&ds).Error
 
 	if err != nil {
 		return nil, err
