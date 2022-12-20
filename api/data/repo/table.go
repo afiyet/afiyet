@@ -28,3 +28,14 @@ func (tr TableRepository) GetWithRestaurantId(id int) ([]model.Table, error) {
 
 	return rs, nil
 }
+
+func (tr TableRepository) GetOrders(id int) ([]model.Order, error) {
+	var ds []model.Order
+	err := tr.db.Where("restaurant_id = ?", id).Find(&ds).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return ds, nil
+}
