@@ -70,3 +70,35 @@ func (h *OrderHandler) Delete(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, "Restaurant successfully Deleted")
 }
+
+func (h *OrderHandler) GetByTableID(c echo.Context) error {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", idStr))
+	}
+
+	res, err := h.r.GetByTableID(id)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, res)
+}
+
+func (h *OrderHandler) GetByRestaurantId(c echo.Context) error {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", idStr))
+	}
+
+	res, err := h.r.GetByRestaurantId(id)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, res)
+}

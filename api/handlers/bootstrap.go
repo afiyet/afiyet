@@ -19,6 +19,12 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 	resh := RestaurantHandler{
 		r: repo.NewRestaurantRepository(db),
 	}
+	th := TableHandler{
+		r: repo.NewTableRepository(db),
+	}
+	oh := OrderHandler{
+		r: repo.NewOrderRepository(db),
+	}
 
 	e.POST("/users", uh.Add)
 	e.DELETE("/users/:id", uh.Delete)
@@ -40,8 +46,13 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 	e.DELETE("/restaurants/:id", resh.Delete)
 	e.GET("/restaurants/:id", resh.Get)
 	e.GET("/restaurants/:id/dishes", resh.GetDishes)
-	e.PUT("/restaurants/:id/ratings", resh.GetRatings)
-	e.PUT("/restaurants/:id/ratings/get-average", resh.GetRestaurantAverageRating)
+	e.GET("/restaurants/:id/orders", oh.GetByRestaurantId)
+	e.POST("/restaurants/orders", oh.Add)
+	e.GET("/restaurants/:id/tables", th.List)
+	e.GET("/restaurants/tables/orders/:id", oh.GetByTableID)
+	e.POST("/restaurants/tables", th.Add)
+	e.GET("/restaurants/:id/ratings", resh.GetRatings)
+	e.GET("/restaurants/:id/ratings/get-average", resh.GetRestaurantAverageRating)
 	e.GET("/restaurants", resh.List)
 	e.PUT("/restaurants/:id", resh.Update)
 

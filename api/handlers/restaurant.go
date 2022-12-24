@@ -143,6 +143,23 @@ func (h *RestaurantHandler) GetOrders(c echo.Context) error {
 	return c.JSON(http.StatusOK, rs)
 }
 
+func (h *RestaurantHandler) GetTables(c echo.Context) error {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", idStr))
+	}
+
+	rs, err := h.r.GetTables(id)
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, rs)
+}
+
 func (h *RestaurantHandler) GetRestaurantAverageRating(c echo.Context) error {
 	restId := c.Param("id")
 	id, err := strconv.Atoi(restId)

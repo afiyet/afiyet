@@ -13,6 +13,6 @@ type Table struct {
 	DeletedAt    gorm.DeletedAt `gorm:"index" json:"deletedAt,omitempty"`
 	Name         string         `json:"name"`
 	Orders       []Order        `gorm:"-" json:"orders,omitempty"`
-	RestaurantId string         `json:"restaurantId,omitempty"`
+	RestaurantId string         `json:"restaurantId"`
 	Restaurant   Restaurant     `gorm:"foreignKey:RestaurantId" json:"restaurant,omitempty"`
 }

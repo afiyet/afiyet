@@ -12,8 +12,8 @@ type Order struct {
 	UpdatedAt    time.Time      `json:"updatedAt,omitempty"`
 	DeletedAt    gorm.DeletedAt `gorm:"index" json:"deletedAt,omitempty"`
 	Dishes       []Dish         `gorm:"-" json:"dishes,omitempty"`
-	TableId      string         `json:"tabelId,omitempty"`
+	TableId      string         `json:"tabelId"`
 	Table        Table          `gorm:"foreignKey:TableId" json:"table,omitempty"`
-	RestaurantId string         `json:"restaurantId,omitempty"`
+	RestaurantId string         `json:"restaurantId"`
 	Restaurant   Restaurant     `gorm:"foreignKey:RestaurantId" json:"restaurant,omitempty"`
 }
