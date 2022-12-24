@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { QRCodeCanvas } from "qrcode.react";
+import httpClient from 'react-http-client';
 
 import "./GenerateQr.css"
 import Navbar from "../components/Navbar";
@@ -7,6 +8,21 @@ import Navbar from "../components/Navbar";
 const GenerateQr = () => {
   const [url, setUrl] = useState("");
   const qrRef = useRef();
+
+  const setDropdown = (async (e) => {
+    const getResponse = await httpClient.Get(
+      // "/restaurants/:id/tables" 
+    );
+
+    //getResponse içindeki nameleri al dropdown a doldur
+
+  })(); //self-invoking function -> çünkü sayfa açıldığında dropdown dolmalı
+  const dropdownChange = () => {
+    //seçilen dropdown objesinden qr türet.
+
+  }
+  
+
 
   const downloadQRCode = (e) => {
     e.preventDefault();
@@ -39,20 +55,29 @@ const GenerateQr = () => {
     <div className="qr-generation">
       <Navbar />
       <div className="generate-qrcode">
-          <div className="qr-image" ref={qrRef}>
-              {qrcode}
+        <div className="qr-image" ref={qrRef}>
+          {qrcode}
+        </div>
+
+        <form className="qr-form" onSubmit={downloadQRCode}>
+          <input
+            type="text"
+            value={url}
+            onChange={qrCodeEncoder}
+            placeholder="URL Giriniz"
+          />
+          <div className="dropdown" onChange={dropdownChange}>
+            <select>
+              <option value="{restaurantId:5,masaId:4}">Bahçe-1</option>
+              <option value="{restaurantId:3,masaId:2}">Ana-3</option>
+              <option value="{restaurantId:1,masaId:7}">Üst kat-34</option>
+            </select>
           </div>
-          <form className="qr-form" onSubmit={downloadQRCode}>
-              <input
-                  type="text"
-                  value={url}
-                  onChange={qrCodeEncoder}
-                  placeholder="URL Giriniz"
-              />
-              <button className="download-button" type="submit" disabled={!url}>
-                  İndir
-              </button>
-          </form>
+          <button className="download-button" type="submit" disabled={!url}>
+            İndir
+          </button>
+        </form>
+
       </div>
     </div>
   );
