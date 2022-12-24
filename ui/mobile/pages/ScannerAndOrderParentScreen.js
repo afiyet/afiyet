@@ -5,6 +5,7 @@ import OrderScreen from "./OrderScreen";
 function ScannerAndOrderParentScreen(props) {
     const {
         setBottomNavLabel
+        
     } = props;
     const NativeStack = createNativeStackNavigator();
 
