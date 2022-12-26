@@ -41,6 +41,28 @@ func (rr RestaurantRepository) GetRatings(id int) ([]model.Rating, error) {
 	return rs, nil
 }
 
+func (rr RestaurantRepository) GetOrders(id int) ([]model.Order, error) {
+	var rs []model.Order
+	err := rr.db.Where("restaurant_id", id).Find(&rs).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return rs, nil
+}
+
+func (rr RestaurantRepository) GetTables(id int) ([]model.Table, error) {
+	var rs []model.Table
+	err := rr.db.Where("id=").Find(&rs).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return rs, nil
+}
+
 func (rr RestaurantRepository) GetRestaurantAverageRating(id int) (float64, error) {
 	var avg float64
 	row := rr.db.Table("ratings").Where("restaurant = ?", id).Select("avg(point)").Row()

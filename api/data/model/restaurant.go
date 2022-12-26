@@ -1,8 +1,9 @@
 package model
 
 import (
-	"gorm.io/gorm"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type Restaurant struct {
@@ -15,4 +16,5 @@ type Restaurant struct {
 	Category  string         `json:"category"`
 	Dishes    []Dish         `gorm:"-" json:"dishes,omitempty"`
 	Ratings   []Rating       `gorm:"-" json:"ratings,omitempty"`
+	Tables    []Table        `gorm:"-" json:"tables,omitempty"`
 }
