@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import RestaurantLogin from "./restaurant/login-page/RestaurantLogin";
 import RestaurantMain from "./restaurant/main-page/RestaurantMain";
 import GenerateQr from "./restaurant/qr-generation-page/GenerateQr";
-import AddTable from "./restaurant/add-table/AddTable";
+import AddTable from "./restaurant/add-table-page/AddTable";
 
 
 function App() {
