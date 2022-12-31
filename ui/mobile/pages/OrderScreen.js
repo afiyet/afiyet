@@ -10,7 +10,8 @@ import {
     SectionList,
     ScrollView,
     Pressable,
-    FlatList
+    FlatList,
+    Dimensions
 } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 
@@ -21,7 +22,7 @@ function OrderScreen(props) {
     const [sections, setSections] = useState([]);
     let sect = 0;
 
-    
+
     const navigation = useNavigation();
 
     useEffect(() => {
@@ -68,17 +69,30 @@ function OrderScreen(props) {
       
       const SectionItem = ({value}) => {
         return(
-            <TouchableOpacity onPress={() => {
+            <View style={{backgroundColor: "white"}}>
+                <TouchableOpacity onPress={() => {
                 flatListRef.current.scrollToIndex({index: value.index});
-                
                 sectionListRef.current.scrollToLocation({
                     itemIndex: 0,
                     sectionIndex: value.index,
                     animated: true
                 });
             }}>
-                <Text style={styles.title}>{value.item}</Text>
+                <Text style={{
+                    color: "white",
+                    fontSize: 18,
+                    margin: 10,
+                    backgroundColor: "orange",
+                    minWidth: 30,
+                    borderRadius: 20,
+                    padding: 10,
+                    paddingBottom: 10,
+                    paddingTop: 5,
+                    lineHeight: 40,
+                    textAlign: "center"
+                }}>{value.item}</Text>
             </TouchableOpacity>
+            </View>
         );
       }
       
@@ -86,24 +100,45 @@ function OrderScreen(props) {
         return(
             <Pressable
                 onPress={() => {
-                    console.log(index)
-                    
-                    navigation.navigate("Food Details")}}
+                    navigation.navigate("Food Details")
+                }}
             >
-                <View style={styles.item}>
-                <View>
-                <Image
-                    style={{width: 64, height: 64}}
-                    source={{uri:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg=="}}
-                    resizeMode="contain"
-                    />
+                <View style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    maxWidth: Dimensions.get("screen").width,
+                    padding: 18,
+                    backgroundColor: "white"
+                }}>
+                    <View style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "flex-start",
+                        flexGrow: 2,
+                        maxWidth: "70%",
+                        paddingRight: 15
+                    }}>
+                        <Text style={{fontSize:20, paddingBottom: 5}}>Mega Çiğköfte Dürüm</Text>
+                        <Text style={{fontSize:12, paddingBottom: 5, color: "gray"}}>Çiğ köfte (130g), etrcihe göre iceberg marul, domates, turşu, havuç, karalahana, nane, maydanoz, roka, limon, nar ekşisi ve acı sos ile</Text>
+                        <Text style={{fontSize:14}}>20.00 TL</Text>
+                    </View>
+                    <View style={{
+                        display: "flex",
+                        flexGrow: 1,
+                        justifyContent: "center",
+                        alignItems: "center"
+                    }}>
+                        <Image
+                            style={{
+                                width: 120,
+                                height: 120,
+                                borderRadius: 90,
+                            }}
+                            source={{uri:"https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8&w=1000&q=80"}}
+                            resizeMode="center"
+                        />
+                    </View>
                 </View>
-                <View>
-                    <Text style={styles.title}>{value}</Text>
-                    <Text>Yemek açıklaması</Text>
-                    <Text>20.99TL</Text>
-                </View>
-            </View>
             </Pressable>
           );
       }
@@ -165,7 +200,7 @@ function OrderScreen(props) {
 
     return (
         <View
-            style={{display: "flex", paddingBottom: 60}}
+            style={{display: "flex", flexGrow: 1, paddingBottom: 79}}
         >
             <FlatList
                 initialNumToRender={60}
@@ -177,7 +212,7 @@ function OrderScreen(props) {
                 getItemLayout={(data, index) => {
                     return(
                         {length: sectionLength, offset: sectionLength*index, index}
-                      );
+                    );
                 }}
                 renderItem={(item) => {
                     return  <SectionItem value={item}/>
@@ -188,10 +223,19 @@ function OrderScreen(props) {
                 sections={DATA}
                 renderItem={({ item, index }) => <MenuItem value={item} index={index} />}
                 renderSectionHeader={({ section: { title } }) => (
-                    <Text style={styles.header}>{title}</Text>
+                    <Text style={{
+                        fontSize: 32,
+                        backgroundColor: "#fff",
+                        paddingTop: 40,
+                        paddingLeft: 18,
+                        paddingBottom: 5
+                    }}>{title}</Text>
                 )}
                 onViewableItemsChanged={onViewableItemsChanged.current}
                 viewabilityConfig={viewabilityConfig}
+                ItemSeparatorComponent={() => (<View
+                    style={{ height: 1, width: '100%', backgroundColor: '#C8C8C8' }}
+                  />)}
             />
            
         </View>
@@ -199,26 +243,7 @@ function OrderScreen(props) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-     
-      marginHorizontal: 16
-    },
-    item: {
-      backgroundColor: "#f9c2ff",
-      padding: 20,
-      marginVertical: 8,
-      display: "flex",
-      flexDirection:"row"
-    },
-    header: {
-      fontSize: 32,
-      backgroundColor: "#fff"
-    },
-    title: {
-      fontSize: 24,
-      padding: 15
-    }
+    
   });
 
 export default OrderScreen;
