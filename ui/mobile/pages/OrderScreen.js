@@ -21,6 +21,7 @@ function OrderScreen(props) {
     const [sections, setSections] = useState([]);
     let sect = 0;
 
+    
     const navigation = useNavigation();
 
     useEffect(() => {
