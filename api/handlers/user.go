@@ -3,14 +3,14 @@ package handlers
 import (
 	"fmt"
 	"github.com/afiyet/afiytet/api/data/model"
-	"github.com/afiyet/afiytet/api/data/repo"
+	"github.com/afiyet/afiytet/api/service"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"strconv"
 )
 
 type UserHandler struct {
-	r repo.UserRepository
+	s service.UserService
 }
 
 func (h *UserHandler) Add(c echo.Context) error {
@@ -20,7 +20,7 @@ func (h *UserHandler) Add(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	u, err := h.r.Add(ubind)
+	u, err := h.s.Add(ubind)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -36,7 +36,7 @@ func (h *UserHandler) Delete(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", idStr))
 	}
 
-	err = h.r.Delete(id)
+	err = h.s.Delete(id)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -51,7 +51,7 @@ func (h *UserHandler) Get(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", idStr))
 	}
 
-	u, err := h.r.Get(id)
+	u, err := h.s.Get(id)
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
@@ -61,7 +61,7 @@ func (h *UserHandler) Get(c echo.Context) error {
 }
 
 func (h *UserHandler) List(c echo.Context) error {
-	us, err := h.r.List()
+	us, err := h.s.List()
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -80,7 +80,7 @@ func (h *UserHandler) Update(c echo.Context) error {
 	}
 	ubind.ID = uint(id)
 
-	u, err := h.r.Update(ubind)
+	u, err := h.s.Update(ubind)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -96,7 +96,7 @@ func (h *UserHandler) GetRatings(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", idStr))
 	}
 
-	rs, err := h.r.GetRatings(id)
+	rs, err := h.s.GetRatings(id)
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
