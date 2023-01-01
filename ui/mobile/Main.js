@@ -20,7 +20,7 @@ function Main() {
           initialRouteName='Home'
           activeColor="#000000"
           inactiveColor="#000000"
-          barStyle={{ backgroundColor: 'orange' }}
+          barStyle={{ backgroundColor: '#FD2400' }}
           >
             <Tab.Screen 
               name='Home' 

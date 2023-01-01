@@ -4,8 +4,9 @@ import {
   MD3LightTheme as DefaultTheme,
   Provider as PaperProvider,
 } from 'react-native-paper';
-function App() {
+import * as SplashScreen from "expo-splash-screen"
 
+function App() {
 
   const theme = {
     ...DefaultTheme,
@@ -16,6 +17,9 @@ function App() {
       secondaryContainer: "white",
     },
   };
+
+  SplashScreen.preventAutoHideAsync();
+  setTimeout(SplashScreen.hideAsync, 3000);
 
   return (
     <PaperProvider theme={theme}>
