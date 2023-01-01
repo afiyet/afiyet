@@ -2,13 +2,14 @@ package handlers
 
 import (
 	"github.com/afiyet/afiytet/api/data/repo"
+	"github.com/afiyet/afiytet/api/service"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 
 func Bootstrap(db *gorm.DB, e *echo.Echo) {
 	uh := UserHandler{
-		r: repo.NewUserRepository(db),
+		s: service.NewUserService(db),
 	}
 	dh := DishHandler{
 		r: repo.NewDishRepository(db),

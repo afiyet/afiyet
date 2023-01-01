@@ -3,10 +3,17 @@ package service
 import (
 	"github.com/afiyet/afiytet/api/data/model"
 	"github.com/afiyet/afiytet/api/data/repo"
+	"gorm.io/gorm"
 )
 
 type UserService struct {
 	r repo.UserRepository
+}
+
+func NewUserService(db *gorm.DB) UserService {
+	return UserService{
+		r: repo.NewUserRepository(db),
+	}
 }
 
 func (s *UserService) Add(u model.User) (*model.User, error) {

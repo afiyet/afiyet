@@ -5,6 +5,7 @@ import (
 	"github.com/afiyet/afiytet/api/handlers"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"log"
@@ -45,6 +46,9 @@ func NewApp(connstr string) (*App, error) {
 	}
 
 	e := echo.New()
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+	}))
 
 	handlers.Bootstrap(db, e)
 
