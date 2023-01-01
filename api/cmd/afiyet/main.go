@@ -12,24 +12,44 @@ import (
 )
 
 func main() {
-	e := echo.New()
-
 	err := godotenv.Load()
 
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
 
-	dsn := os.Getenv("DB_CONNECTION_STRING")
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	connstr := os.Getenv("DB_CONNECTION_STRING")
+
+	app, err := NewApp(connstr)
+
 	if err != nil {
-		log.Fatal("Failed to connect to database")
+		log.Fatal(err)
+	}
+
+	app.e.Logger.Fatal(app.e.Start(":8080"))
+}
+
+type App struct {
+	e  *echo.Echo
+	db *gorm.DB
+}
+
+func NewApp(connstr string) (*App, error) {
+	db, err := gorm.Open(postgres.Open(connstr), &gorm.Config{})
+	if err != nil {
+		return nil, err
 	}
 
 	if err = model.MigrateAll(db); err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
+
+	e := echo.New()
+
 	handlers.Bootstrap(db, e)
 
-	e.Logger.Fatal(e.Start(":8080"))
+	return &App{
+		e:  e,
+		db: db,
+	}, nil
 }
