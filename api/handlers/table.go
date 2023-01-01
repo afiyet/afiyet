@@ -2,16 +2,16 @@ package handlers
 
 import (
 	"fmt"
+	"github.com/afiyet/afiytet/api/service"
 	"net/http"
 	"strconv"
 
 	"github.com/afiyet/afiytet/api/data/model"
-	"github.com/afiyet/afiytet/api/data/repo"
 	"github.com/labstack/echo/v4"
 )
 
 type TableHandler struct {
-	r repo.TableRepository
+	s *service.TableService
 }
 
 func (h *TableHandler) Add(c echo.Context) error {
@@ -21,7 +21,7 @@ func (h *TableHandler) Add(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	r, err := h.r.Add(rbind)
+	r, err := h.s.Add(rbind)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -37,7 +37,7 @@ func (h *TableHandler) Get(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", idStr))
 	}
 
-	res, err := h.r.Get(id)
+	res, err := h.s.Get(id)
 	if err != nil {
 		return err
 	}
@@ -47,7 +47,7 @@ func (h *TableHandler) Get(c echo.Context) error {
 
 func (h *TableHandler) List(c echo.Context) error {
 
-	rs, err := h.r.List()
+	rs, err := h.s.List()
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -63,7 +63,7 @@ func (h *TableHandler) Delete(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", idStr))
 	}
 
-	err = h.r.Delete(id)
+	err = h.s.Delete(id)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -78,7 +78,7 @@ func (h *TableHandler) GetOrders(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", restId))
 	}
 
-	ds, err := h.r.GetOrders(id)
+	ds, err := h.s.GetOrders(id)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}

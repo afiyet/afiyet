@@ -3,14 +3,14 @@ package handlers
 import (
 	"fmt"
 	"github.com/afiyet/afiytet/api/data/model"
-	"github.com/afiyet/afiytet/api/data/repo"
+	"github.com/afiyet/afiytet/api/service"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"strconv"
 )
 
 type DishHandler struct {
-	r repo.DishRepository
+	s *service.DishService
 }
 
 func (h *DishHandler) Add(c echo.Context) error {
@@ -21,7 +21,7 @@ func (h *DishHandler) Add(c echo.Context) error {
 		return err
 	}
 
-	d, err := h.r.Add(dbind)
+	d, err := h.s.Add(dbind)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -37,7 +37,7 @@ func (h *DishHandler) Delete(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", idStr))
 	}
 
-	err = h.r.Delete(id)
+	err = h.s.Delete(id)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -63,7 +63,7 @@ func (h *DishHandler) normalGet(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", idStr))
 	}
 
-	d, err := h.r.Get(id)
+	d, err := h.s.Get(id)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -74,7 +74,7 @@ func (h *DishHandler) normalGet(c echo.Context) error {
 func (h *DishHandler) getWithCategory(c echo.Context) error {
 	cat := c.Param("category")
 
-	ds, err := h.r.GetWithCategory(cat)
+	ds, err := h.s.GetWithCategory(cat)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -83,7 +83,7 @@ func (h *DishHandler) getWithCategory(c echo.Context) error {
 }
 
 func (h *DishHandler) List(c echo.Context) error {
-	ds, err := h.r.List()
+	ds, err := h.s.List()
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -106,7 +106,7 @@ func (h *DishHandler) Update(c echo.Context) error {
 	}
 	dbind.ID = uint(id)
 
-	d, err := h.r.Update(dbind)
+	d, err := h.s.Update(dbind)
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())

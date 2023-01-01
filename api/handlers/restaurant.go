@@ -2,16 +2,16 @@ package handlers
 
 import (
 	"fmt"
+	"github.com/afiyet/afiytet/api/service"
 	"net/http"
 	"strconv"
 
 	"github.com/afiyet/afiytet/api/data/model"
-	"github.com/afiyet/afiytet/api/data/repo"
 	"github.com/labstack/echo/v4"
 )
 
 type RestaurantHandler struct {
-	r repo.RestaurantRepository
+	s *service.RestaurantService
 }
 
 func (h *RestaurantHandler) Add(c echo.Context) error {
@@ -21,7 +21,7 @@ func (h *RestaurantHandler) Add(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	r, err := h.r.Add(rbind)
+	r, err := h.s.Add(rbind)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -37,7 +37,7 @@ func (h *RestaurantHandler) Delete(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", idStr))
 	}
 
-	err = h.r.Delete(id)
+	err = h.s.Delete(id)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -53,7 +53,7 @@ func (h *RestaurantHandler) Get(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", idStr))
 	}
 
-	res, err := h.r.Get(id)
+	res, err := h.s.Get(id)
 	if err != nil {
 		return err
 	}
@@ -63,7 +63,7 @@ func (h *RestaurantHandler) Get(c echo.Context) error {
 
 func (h *RestaurantHandler) List(c echo.Context) error {
 
-	rs, err := h.r.List()
+	rs, err := h.s.List()
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -86,7 +86,7 @@ func (h *RestaurantHandler) Update(c echo.Context) error {
 	}
 	rbind.ID = uint(id)
 
-	r, err := h.r.Update(rbind)
+	r, err := h.s.Update(rbind)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -101,7 +101,7 @@ func (h *RestaurantHandler) GetDishes(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", restId))
 	}
 
-	ds, err := h.r.GetDishes(id)
+	ds, err := h.s.GetDishes(id)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -117,7 +117,7 @@ func (h *RestaurantHandler) GetRatings(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", idStr))
 	}
 
-	rs, err := h.r.GetRatings(id)
+	rs, err := h.s.GetRatings(id)
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
@@ -134,7 +134,7 @@ func (h *RestaurantHandler) GetOrders(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", idStr))
 	}
 
-	rs, err := h.r.GetOrders(id)
+	rs, err := h.s.GetOrders(id)
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
@@ -151,7 +151,7 @@ func (h *RestaurantHandler) GetTables(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", idStr))
 	}
 
-	rs, err := h.r.GetTables(id)
+	rs, err := h.s.GetTables(id)
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
@@ -168,7 +168,7 @@ func (h *RestaurantHandler) GetRestaurantAverageRating(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", restId))
 	}
 
-	avg, err := h.r.GetRestaurantAverageRating(id)
+	avg, err := h.s.GetRestaurantAverageRating(id)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}

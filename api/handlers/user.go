@@ -10,7 +10,7 @@ import (
 )
 
 type UserHandler struct {
-	s service.UserService
+	s *service.UserService
 }
 
 func (h *UserHandler) Add(c echo.Context) error {
