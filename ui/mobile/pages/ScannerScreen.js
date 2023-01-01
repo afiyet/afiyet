@@ -4,6 +4,7 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Camera, CameraType } from 'expo-camera';
 import { useIsFocused } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 function ScannerScreen(props) {
     const {
@@ -56,7 +57,7 @@ function ScannerScreen(props) {
             >
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
-                        <Text style={styles.text}>Flip Camera</Text>
+                        <MaterialCommunityIcons name="camera-flip-outline" color={"white"} size={80} />
                     </TouchableOpacity>
                 </View>
             </Camera>
@@ -75,10 +76,10 @@ function ScannerScreen(props) {
       flex: 1,
       backgroundColor: 'transparent',
       flexDirection: 'row',
-      margin: 20,
+      margin: 20
     },
     button: {
-      flex: 0.1,
+      flex: 0.25,
       alignSelf: 'flex-end',
       alignItems: 'center',
     },

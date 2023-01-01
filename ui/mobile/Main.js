@@ -18,7 +18,10 @@ function Main() {
       <>
         <Tab.Navigator 
           initialRouteName='Home'
-          activeColor="#000000">
+          activeColor="#000000"
+          inactiveColor="#000000"
+          barStyle={{ backgroundColor: '#FD2400' }}
+          >
             <Tab.Screen 
               name='Home' 
               component={HomeScreen}
