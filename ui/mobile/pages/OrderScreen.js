@@ -200,8 +200,14 @@ function OrderScreen(props) {
 
     return (
         <View
-            style={{display: "flex", flexGrow: 1, paddingBottom: 79}}
+            style={{display: "flex", flexGrow: 1, paddingBottom: 100}}
         >
+            <View>
+                <Image />
+                <View>
+                    <Text>Restoran Adı</Text>
+                </View>
+            </View>
             <FlatList
                 initialNumToRender={60}
                 ref={flatListRef}
@@ -226,9 +232,10 @@ function OrderScreen(props) {
                     <Text style={{
                         fontSize: 32,
                         backgroundColor: "#fff",
-                        paddingTop: 40,
+                        marginTop: 20,
                         paddingLeft: 18,
-                        paddingBottom: 5
+                        paddingTop: 18,
+                        paddingBottom: 1
                     }}>{title}</Text>
                 )}
                 onViewableItemsChanged={onViewableItemsChanged.current}
