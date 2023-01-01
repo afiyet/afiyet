@@ -82,7 +82,7 @@ function OrderScreen(props) {
                     color: "white",
                     fontSize: 18,
                     margin: 10,
-                    backgroundColor: "orange",
+                    backgroundColor: "#FD2400",
                     minWidth: 30,
                     borderRadius: 20,
                     padding: 10,
