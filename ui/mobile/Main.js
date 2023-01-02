@@ -15,19 +15,26 @@ function Main(props) {
       <>
         <Stack.Navigator
         screenOptions={{
+          //BURAYI FALSE YAP
           headerShown: true
         }}
         >
           {(onboarded) ? 
-            <Stack.Screen
-              name='Onboarding'
-              component={OnboardingOneScreen}
-            />
+          //BU GRUBA DİĞER ONBOARDING EKRANLARI GELECEK
+            <Stack.Group>
+              <Stack.Screen
+                name='Onboarding'
+                component={OnboardingOneScreen}
+              />
+            </Stack.Group>
           :
-            <Stack.Screen 
-              name='MainTabNavigation'
-              component={MainTabNavigation}
-            />
+            //BURAYA LOGIN, SIGN UP VE LOGIN STATE CONTROL GELECEK
+            <Stack.Group>
+              <Stack.Screen 
+                name='MainTabNavigation'
+                component={MainTabNavigation}
+              />
+            </Stack.Group>
           }
         </Stack.Navigator>
       </>
