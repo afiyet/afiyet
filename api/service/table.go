@@ -33,3 +33,7 @@ func (s *TableService) Delete(id int) error {
 func (s *TableService) GetOrders(id int) ([]model.Order, error) {
 	return s.r.GetOrders(id)
 }
+
+func (s *TableService) GetByRestaurant(id int) ([]model.Table, error) {
+	return s.r.GetWithRestaurantId(id)
+}

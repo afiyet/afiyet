@@ -49,7 +49,7 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 	e.GET("/restaurants/:id/dishes", restaurantHandler.GetDishes)
 	e.GET("/restaurants/:id/orders", orderHandler.GetByRestaurantId)
 	e.POST("/restaurants/orders", orderHandler.Add)
-	e.GET("/restaurants/:id/tables", tableHandler.List)
+	e.GET("/restaurants/:id/tables", tableHandler.GetByRestaurant)
 	e.GET("/restaurants/tables/orders/:id", orderHandler.GetByTableID)
 	e.POST("/restaurants/tables", tableHandler.Add)
 	e.GET("/restaurants/:id/ratings", restaurantHandler.GetRatings)

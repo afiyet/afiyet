@@ -11,7 +11,7 @@ type Order struct {
 	CreatedAt    time.Time      `json:"createdAt,omitempty"`
 	UpdatedAt    time.Time      `json:"updatedAt,omitempty"`
 	DeletedAt    gorm.DeletedAt `gorm:"index" json:"deletedAt,omitempty"`
-	Dishes       []Dish         `gorm:"-" json:"dishes,omitempty"`
+	OrderDishes  []OrderDish    `gorm:"-" json:"dishes"`
 	TableId      string         `json:"tabelId"`
 	Table        Table          `gorm:"foreignKey:TableId" json:"table,omitempty"`
 	RestaurantId string         `json:"restaurantId"`

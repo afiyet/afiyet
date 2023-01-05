@@ -2,9 +2,10 @@ package handlers
 
 import (
 	"fmt"
-	"github.com/afiyet/afiytet/api/service"
 	"net/http"
 	"strconv"
+
+	"github.com/afiyet/afiytet/api/service"
 
 	"github.com/afiyet/afiytet/api/data/model"
 	"github.com/labstack/echo/v4"
@@ -79,6 +80,21 @@ func (h *TableHandler) GetOrders(c echo.Context) error {
 	}
 
 	ds, err := h.s.GetOrders(id)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, ds)
+}
+
+func (h *TableHandler) GetByRestaurant(c echo.Context) error {
+	restId := c.Param("id")
+	id, err := strconv.Atoi(restId)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", restId))
+	}
+
+	ds, err := h.s.GetByRestaurant(id)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
