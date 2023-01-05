@@ -1,64 +1,42 @@
 import React, { useState } from 'react';
-import HomeScreen from './pages/HomeScreen';
-import MapScreen from './pages/MapScreen';
-import ScannerScreen from './pages/ScannerScreen';
-import CartScreen from './pages/CartScreen';
-import ProfileScreen from './pages/ProfileScreen';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import ScannerAndOrderParentScreen from './pages/ScannerAndOrderParentScreen';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import OnboardingOneScreen from './pages/onboarding/OnboardingOneScreen';
+import MainTabNavigation from './navigation/MainTabNavigation';
 
-const Tab = createMaterialBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
-function Main() {
+function Main(props) {
 
-  const [scannerAndOrderBottomNavLabel, setScannerAndOrderBottomNavLabel] = useState("Scanner");
+  const {
+    onboarded
+  } = props;
 
     return(
       <>
-        <Tab.Navigator 
-          initialRouteName='Home'
-          activeColor="#000000"
-          inactiveColor="#000000"
-          barStyle={{ backgroundColor: '#FD2400' }}
-          >
-            <Tab.Screen 
-              name='Home' 
-              component={HomeScreen}
-              options={{
-                tabBarLabel: 'Home',
-                tabBarIcon: ({color}) => (<MaterialCommunityIcons name="home" color={color} size={26} />),
-              }}/>
-            <Tab.Screen 
-              name='Map' 
-              component={MapScreen}
-              options={{
-                tabBarLabel: 'Map',
-                tabBarIcon: ({color}) => (<MaterialCommunityIcons name="map" color={color} size={26} />),
-              }}/>
-            <Tab.Screen 
-              name='ScannerAndOrderParent'
-              options={{
-                tabBarLabel: scannerAndOrderBottomNavLabel,
-                tabBarIcon: ({color}) => (scannerAndOrderBottomNavLabel === "Scanner" ? <MaterialCommunityIcons name="qrcode" color={color} size={26} /> : <MaterialCommunityIcons name="book-open" color={color} size={26} />),
-              }}>
-                {() => {return <ScannerAndOrderParentScreen setBottomNavLabel={setScannerAndOrderBottomNavLabel}/>}}
-            </Tab.Screen>
-            <Tab.Screen 
-              name='Cart' 
-              component={CartScreen}
-              options={{
-                tabBarLabel: 'Cart',
-                tabBarIcon: ({color}) => (<MaterialCommunityIcons name="cart-variant" color={color} size={26} />),
-              }}/>
-            <Tab.Screen 
-              name='Profile' 
-              component={ProfileScreen}
-              options={{
-                tabBarLabel: 'Profile',
-                tabBarIcon: ({color}) => (<MaterialCommunityIcons name="account-circle" color={color} size={26} />),
-              }}/>
-        </Tab.Navigator>
+        <Stack.Navigator
+        screenOptions={{
+          //BURAYI FALSE YAP
+          headerShown: false
+        }}
+        >
+          {(onboarded) ? 
+          //BU GRUBA DİĞER ONBOARDING EKRANLARI GELECEK
+            <Stack.Group>
+              <Stack.Screen
+                name='Onboarding'
+                component={OnboardingOneScreen}
+              />
+            </Stack.Group>
+          :
+            //BURAYA LOGIN, SIGN UP VE LOGIN STATE CONTROL GELECEK
+            <Stack.Group>
+              <Stack.Screen 
+                name='MainTabNavigation'
+                component={MainTabNavigation}
+              />
+            </Stack.Group>
+          }
+        </Stack.Navigator>
       </>
     );
 }

@@ -8,7 +8,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 function ScannerScreen(props) {
     const {
-        setBottomNavLabel
+        setBottomNavLabel,
+        setScannedBarcode
     } = props;
     const [hasPermission, setHasPermission] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
@@ -52,6 +53,7 @@ function ScannerScreen(props) {
                     console.log(BarCodeScanningResult);
                     console.log(BarCodeScanningResult.type);
                     console.log(BarCodeScanningResult.data);
+                    setScannedBarcode(BarCodeScanningResult.data);
                     navigation.navigate("Order");
                 }}
             >

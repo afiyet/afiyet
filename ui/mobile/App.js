@@ -5,8 +5,21 @@ import {
   Provider as PaperProvider,
 } from 'react-native-paper';
 import * as SplashScreen from "expo-splash-screen"
+import { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function App() {
+
+  const [onboarded, setOnboarded] = useState(false);
+
+  const getOnboarded = async () => {
+    const res = await AsyncStorage.getItem("ONBOARDED");
+    setOnboarded(JSON.parse(res));
+  };
+
+  useEffect(() => {
+    //getOnboarded();  STORAGE AYARLANDIĞINDA BURAYI AÇ
+  }, []);
 
   const theme = {
     ...DefaultTheme,
@@ -24,7 +37,7 @@ function App() {
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>
-        <Main />
+        <Main onboarded={onboarded}/>
       </NavigationContainer>
     </PaperProvider>
   );

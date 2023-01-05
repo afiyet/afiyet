@@ -17,7 +17,8 @@ import { useNavigation } from '@react-navigation/native';
 
 function OrderScreen(props) {
     const {
-        setBottomNavLabel
+        setBottomNavLabel,
+        scannedBarcode
     } = props;
     const [sections, setSections] = useState([]);
     let sect = 0;
@@ -205,7 +206,7 @@ function OrderScreen(props) {
             <View>
                 <Image />
                 <View>
-                    <Text>Restoran Adı</Text>
+                    <Text>{scannedBarcode}</Text>
                 </View>
             </View>
             <FlatList
