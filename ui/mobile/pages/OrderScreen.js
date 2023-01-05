@@ -170,8 +170,8 @@ function OrderScreen(props) {
         if(element?.index === null) {
             //flatListRef.current.scrollToIndex({index: value.index});
             if(changed.length !== 0) {
-                console.log(sect.indexOf(element.item.title))
-                console.log(sect)
+                //console.log(sect.indexOf(element.item.title))
+                //console.log(sect)
                 flatListRef.current.scrollToIndex({index: sect.indexOf(element.item.title)});
             }
 
