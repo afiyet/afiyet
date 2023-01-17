@@ -1,60 +1,60 @@
 package handlers
 
 import (
-	"github.com/afiyet/afiytet/api/data/repo"
 	"github.com/afiyet/afiytet/api/service"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 
 func Bootstrap(db *gorm.DB, e *echo.Echo) {
-	uh := UserHandler{
+	userHandler := UserHandler{
 		s: service.NewUserService(db),
 	}
-	dh := DishHandler{
-		r: repo.NewDishRepository(db),
+
+	dishHandler := DishHandler{
+		s: service.NewDishService(db),
 	}
-	rath := RatingHandler{
-		r: repo.NewRatingRepository(db),
+	ratingHandler := RatingHandler{
+		s: service.NewRatingService(db),
 	}
-	resh := RestaurantHandler{
-		r: repo.NewRestaurantRepository(db),
+	restaurantHandler := RestaurantHandler{
+		s: service.NewRestaurantService(db),
 	}
-	th := TableHandler{
-		r: repo.NewTableRepository(db),
+	tableHandler := TableHandler{
+		s: service.NewTableService(db),
 	}
-	oh := OrderHandler{
-		r: repo.NewOrderRepository(db),
+	orderHandler := OrderHandler{
+		s: service.NewOrderService(db),
 	}
 
-	e.POST("/users", uh.Add)
-	e.DELETE("/users/:id", uh.Delete)
-	e.GET("/users/:id", uh.Get)
-	e.GET("/users", uh.List)
-	e.PUT("/users/:id", uh.Update)
-	e.PUT("/users/:id/ratings", uh.GetRatings)
+	e.POST("/users", userHandler.Add)
+	e.DELETE("/users/:id", userHandler.Delete)
+	e.GET("/users/:id", userHandler.Get)
+	e.GET("/users", userHandler.List)
+	e.PUT("/users/:id", userHandler.Update)
+	e.PUT("/users/:id/ratings", userHandler.GetRatings)
 
-	e.POST("/dishes", dh.Add)
-	e.DELETE("/dishes/:id", dh.Delete)
-	e.GET("/dishes/:id", dh.Get)
-	e.GET("/dishes", dh.List)
-	e.PUT("/dishes/:id", dh.Update)
+	e.POST("/dishes", dishHandler.Add)
+	e.DELETE("/dishes/:id", dishHandler.Delete)
+	e.GET("/dishes/:id", dishHandler.Get)
+	e.GET("/dishes", dishHandler.List)
+	e.PUT("/dishes/:id", dishHandler.Update)
 
-	e.POST("/ratings/:restaurantId/:userId", rath.Add)
-	e.DELETE("/ratings/:ratingId", rath.Delete)
+	e.POST("/ratings/:restaurantId/:userId", ratingHandler.Add)
+	e.DELETE("/ratings/:ratingId", ratingHandler.Delete)
 
-	e.POST("/restaurants", resh.Add)
-	e.DELETE("/restaurants/:id", resh.Delete)
-	e.GET("/restaurants/:id", resh.Get)
-	e.GET("/restaurants/:id/dishes", resh.GetDishes)
-	e.GET("/restaurants/:id/orders", oh.GetByRestaurantId)
-	e.POST("/restaurants/orders", oh.Add)
-	e.GET("/restaurants/:id/tables", th.List)
-	e.GET("/restaurants/tables/orders/:id", oh.GetByTableID)
-	e.POST("/restaurants/tables", th.Add)
-	e.GET("/restaurants/:id/ratings", resh.GetRatings)
-	e.GET("/restaurants/:id/ratings/get-average", resh.GetRestaurantAverageRating)
-	e.GET("/restaurants", resh.List)
-	e.PUT("/restaurants/:id", resh.Update)
+	e.POST("/restaurants", restaurantHandler.Add)
+	e.DELETE("/restaurants/:id", restaurantHandler.Delete)
+	e.GET("/restaurants/:id", restaurantHandler.Get)
+	e.GET("/restaurants/:id/dishes", restaurantHandler.GetDishes)
+	e.GET("/restaurants/:id/orders", orderHandler.GetByRestaurantId)
+	e.POST("/restaurants/orders", orderHandler.Add)
+	e.GET("/restaurants/:id/tables", tableHandler.GetByRestaurant)
+	e.GET("/restaurants/tables/orders/:id", orderHandler.GetByTableID)
+	e.POST("/restaurants/tables", tableHandler.Add)
+	e.GET("/restaurants/:id/ratings", restaurantHandler.GetRatings)
+	e.GET("/restaurants/:id/ratings/get-average", restaurantHandler.GetRestaurantAverageRating)
+	e.GET("/restaurants", restaurantHandler.List)
+	e.PUT("/restaurants/:id", restaurantHandler.Update)
 
 }

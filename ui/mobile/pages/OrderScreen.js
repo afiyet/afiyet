@@ -17,7 +17,8 @@ import { useNavigation } from '@react-navigation/native';
 
 function OrderScreen(props) {
     const {
-        setBottomNavLabel
+        setBottomNavLabel,
+        scannedBarcode
     } = props;
     const [sections, setSections] = useState([]);
     let sect = 0;
@@ -66,7 +67,7 @@ function OrderScreen(props) {
             data: ["Cheese Cake", "Ice Cream", "Ice Cream", "Ice Cream", "Ice Cream"]
           }
       ];
-      
+
       const SectionItem = ({value}) => {
         return(
             <View style={{backgroundColor: "white"}}>
@@ -95,7 +96,7 @@ function OrderScreen(props) {
             </View>
         );
       }
-      
+
       const MenuItem = ({ value, index }) => {
         return(
             <Pressable
@@ -156,7 +157,7 @@ function OrderScreen(props) {
       }, []);
 
       const onViewableItemsChanged = useRef(({ viewableItems, changed }) => {
-        
+
         let element;
 
         viewableItems.forEach(el => {
@@ -169,11 +170,11 @@ function OrderScreen(props) {
         if(element?.index === null) {
             //flatListRef.current.scrollToIndex({index: value.index});
             if(changed.length !== 0) {
-                console.log(sect.indexOf(element.item.title))
-                console.log(sect)
+                //console.log(sect.indexOf(element.item.title))
+                //console.log(sect)
                 flatListRef.current.scrollToIndex({index: sect.indexOf(element.item.title)});
             }
-            
+
         }
 
         /*viewableItems.forEach(element => {
@@ -184,19 +185,19 @@ function OrderScreen(props) {
                     console.log(sect)
                     flatListRef.current.scrollToIndex({index: sect.indexOf(element.item.title)});
                 }
-                
+
             }
         });*/
         //console.log(changed)
       })
 
-      
+
 
     const viewabilityConfig = {
         itemVisiblePercentThreshold: 75,
       };
 
-      
+
 
     return (
         <View
@@ -205,7 +206,7 @@ function OrderScreen(props) {
             <View>
                 <Image />
                 <View>
-                    <Text>Restoran Adı</Text>
+                    <Text>{scannedBarcode}</Text>
                 </View>
             </View>
             <FlatList
@@ -244,13 +245,13 @@ function OrderScreen(props) {
                     style={{ height: 1, width: '100%', backgroundColor: '#C8C8C8' }}
                   />)}
             />
-           
+
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    
+
   });
 
 export default OrderScreen;

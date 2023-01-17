@@ -10,10 +10,8 @@ type UserService struct {
 	r repo.UserRepository
 }
 
-func NewUserService(db *gorm.DB) UserService {
-	return UserService{
-		r: repo.NewUserRepository(db),
-	}
+func NewUserService(db *gorm.DB) *UserService {
+	return &UserService{r: repo.NewUserRepository(db)}
 }
 
 func (s *UserService) Add(u model.User) (*model.User, error) {

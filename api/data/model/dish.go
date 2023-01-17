@@ -18,4 +18,5 @@ type Dish struct {
 	Category     string         `json:"category,omitempty" json:"category"`
 	Ingredients  pq.StringArray `gorm:"type:text[]" json:"ingredients"`
 	Price        float32        `json:"price,omitempty" json:"price"`
+	OrderDishes  []OrderDish    `gorm:"-" json:"dishes"`
 }
