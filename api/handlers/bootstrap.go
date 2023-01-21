@@ -10,7 +10,6 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 	userHandler := UserHandler{
 		s: service.NewUserService(db),
 	}
-
 	dishHandler := DishHandler{
 		s: service.NewDishService(db),
 	}
@@ -26,6 +25,10 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 	orderHandler := OrderHandler{
 		s: service.NewOrderService(db),
 	}
+	locationHandler := LocationHandler{
+		s: service.NewLocationService(db),
+	}
+
 
 	e.POST("/users", userHandler.Add)
 	e.DELETE("/users/:id", userHandler.Delete)
@@ -46,15 +49,21 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 	e.POST("/restaurants", restaurantHandler.Add)
 	e.DELETE("/restaurants/:id", restaurantHandler.Delete)
 	e.GET("/restaurants/:id", restaurantHandler.Get)
+	e.GET("/restaurants", restaurantHandler.List)
+	e.PUT("/restaurants/:id", restaurantHandler.Update)
+
 	e.GET("/restaurants/:id/dishes", restaurantHandler.GetDishes)
+
+	e.GET("/restaurants/:id/ratings", restaurantHandler.GetRatings)
+	e.GET("/restaurants/:id/ratings/get-average", restaurantHandler.GetRestaurantAverageRating)
+	
 	e.GET("/restaurants/:id/orders", orderHandler.GetByRestaurantId)
 	e.POST("/restaurants/orders", orderHandler.Add)
+
 	e.GET("/restaurants/:id/tables", tableHandler.GetByRestaurant)
 	e.GET("/restaurants/tables/orders/:id", orderHandler.GetByTableID)
 	e.POST("/restaurants/tables", tableHandler.Add)
-	e.GET("/restaurants/:id/ratings", restaurantHandler.GetRatings)
-	e.GET("/restaurants/:id/ratings/get-average", restaurantHandler.GetRestaurantAverageRating)
-	e.GET("/restaurants", restaurantHandler.List)
-	e.PUT("/restaurants/:id", restaurantHandler.Update)
+
+	e.GET("/locations", locationHandler.GetLocationList)
 
 }
