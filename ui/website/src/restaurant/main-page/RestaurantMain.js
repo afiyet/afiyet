@@ -1,10 +1,12 @@
 import Navbar from "../components/Navbar"
+import NavTabs from "../components/Tabs"
 import "./RestaurantMain.css"
+
 
 const RestaurantMain = () => {
     return (
       <div className="restaurant-main-page">
-        <Navbar />
+          <Navbar />
       </div>      
     );
   }

@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 import "./RestaurantLogin.css";
-import companyLogo from "../../img/afiyet-logo.png";
+import companyLogo from "../../img/afiyet-logo-w.png";
 
 const RestaurantLogin = () => 
 {
@@ -18,16 +20,19 @@ const RestaurantLogin = () =>
                 <img className="company-logo" src={companyLogo} alt="Afiyet Logosu"/>
                 <div className="form">
                     <form>
-                        <div className="input-container">
-                            <label>Kullanıcı Adı</label>
-                            <input type="text" name="uname" required />
+                        <div className="username-field">
+                            <TextField id="outlined-search" label="Kullanıcı Adı" type="search" />
                         </div>
-                        <div className="input-container">
-                            <label>Şifre</label>
-                            <input type="password" name="pass" required />
+                        <div className="password-field">
+                            <TextField
+                                id="outlined-password-input"
+                                label="Şifre"
+                                type="password"
+                                autoComplete="current-password"
+                            />
                         </div>
                         <div className="button-container">
-                            <input onClick={routeChange} type="submit" value="Giriş Yap" />
+                            <Button style={{textTransform: 'none'}} onClick={routeChange} variant="contained" color="success">Giriş Yap</Button>
                         </div>
                     </form>
                 </div>
