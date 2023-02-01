@@ -3,6 +3,7 @@ import RestaurantLogin from "./restaurant/login-page/RestaurantLogin";
 import RestaurantMain from "./restaurant/main-page/RestaurantMain";
 import GenerateQr from "./restaurant/qr-generation-page/GenerateQr";
 import AddTable from "./restaurant/add-table-page/AddTable";
+import EditMenu from "./restaurant/edit-menu-page/EditMenu";
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
           <Route exact path="/restaurant-main" element={<RestaurantMain />}></Route>
           <Route exact path="/generate-qr" element={<GenerateQr />}></Route>
           <Route exact path="/add-table" element={<AddTable />}></Route>
+          <Route exact path="/edit-menu" element={<EditMenu />}></Route>
         </Routes>
       </div>
     </Router> 
