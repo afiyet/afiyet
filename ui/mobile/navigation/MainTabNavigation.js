@@ -18,7 +18,7 @@ function MainTabNavigation() {
               initialRouteName='Home'
               activeColor="#000000"
               inactiveColor="#000000"
-              barStyle={{ backgroundColor: '#FD2400' }}
+              barStyle={{ backgroundColor: '#d82227' }}
               >
                 <Tab.Screen 
                   name='Home' 
