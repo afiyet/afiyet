@@ -224,6 +224,13 @@ function OrderScreen(props) {
                 renderItem={(item) => {
                     return  <SectionItem value={item}/>
                 }}
+                onScrollToIndexFailed={info => {
+                    console.log(info)
+                    const wait = new Promise(resolve => setTimeout(resolve, 1000));
+                    wait.then(() => {
+                      flatListRef.current?.scrollToIndex({ index: info.index, animated: true });
+                    });
+                }}
             />
             <SectionList
                 ref={sectionListRef}
