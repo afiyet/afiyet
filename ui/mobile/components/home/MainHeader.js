@@ -2,6 +2,7 @@ import React from 'react'
 import { Text, View, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import { Searchbar } from "react-native-paper";
+import { useNavigation } from '@react-navigation/native';
 
 export default function MainHeader() {
     const insets = useSafeAreaInsets();
@@ -9,14 +10,15 @@ export default function MainHeader() {
     const [searchQuery, setSearchQuery] = React.useState('');
 
     const onChangeSearch = query => setSearchQuery(query);
+    const navigation = useNavigation();
 
   return (
     <View style={[styles.container, {marginTop: insets.top}]}>
       <Text style={styles.title}>Tunali Hilmi Cad.</Text>
       <Searchbar
         placeholder="Search Restaurant and Food"
-        onChangeText={onChangeSearch}
-        value={searchQuery}
+      
+        onPressIn={() => {navigation.navigate("Search")}}
       />
     </View>
   );
