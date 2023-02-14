@@ -10,6 +10,11 @@ export default function BillingInfo() {
     </View>
   )
 }
+ /***
+  * 
+  * react-native-progress-steps eklenebilir!
+  * 
+  */
 
 const styles = StyleSheet.create({
     container: {

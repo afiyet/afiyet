@@ -3,13 +3,14 @@ import { Text, View, StyleSheet, Button, TouchableOpacity, ScrollView } from 're
 import BillingInfo from '../components/cart/BillingInfo';
 import OrderItem from '../components/cart/OrderItem';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import StepperMain from '../components/cart/StepperMain';
 
 
 export default function CartScreen() {
     
     const insets = useSafeAreaInsets();
 
-    return (
+    /*return (
         <View style={[styles.container, {marginTop: insets.top}]}>
             <ScrollView
                 showsVerticalScrollIndicator={false}
@@ -26,6 +27,10 @@ export default function CartScreen() {
                 <BillingInfo />
             </ScrollView>
         </View>
+    );*/
+
+    return (
+        <StepperMain />
     );
 };
 
