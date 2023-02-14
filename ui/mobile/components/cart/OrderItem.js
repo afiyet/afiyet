@@ -49,6 +49,7 @@ export default function OrderItem() {
 
 const styles = StyleSheet.create({
     container: {
+        elevation: 3,
         display: "flex",
         flexDirection: "row",
         alignItems: "center",

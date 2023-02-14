@@ -11,6 +11,7 @@ export default function BillingInfo() {
 
 const styles = StyleSheet.create({
     container: {
+        elevation: 3,
         backgroundColor: "#d82227",
         borderRadius: 10,
         padding: 8,
