@@ -21,12 +21,19 @@
       "supportsTablet": true
     },
     "android": {
+      "usesCleartextTraffic":"true",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FD2400"
       },
       "config": {
-        "googleMapsApiKey": "" //api_key
+        "googleMapsApiKey": "AIzaSyAmvaopkWa3rC9mKB0AFh2Jh6lrS2NO9DQ"
+      },
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSAppTransportSecurity" : {
+          "NSAllowsArbitraryLoads" : true
+        }
       }
       
     },
