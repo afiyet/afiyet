@@ -1,10 +1,32 @@
-import { FlatList, Text, View, StyleSheet, StatusBar, Image } from 'react-native';
+import { FlatList, Text, View, StyleSheet, StatusBar, Image, Pressable } from 'react-native';
 import React from 'react';
 import OrderCounter from './OrderCounter';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+const deleteButton = () => {
+    return (
+        <Pressable style={({pressed}) => [
+            {
+            backgroundColor: pressed ? "#d4989a" : "#D82227",
+            },
+            styles.deleteView,
+        ]}>
+            <MaterialCommunityIcons name="delete" size={35} />
+        </Pressable>
+    );
+}
 
 export default function OrderItem() {
+
   return (
-    <View style={styles.container}>
+    <GestureHandlerRootView>
+        <Swipeable
+        renderRightActions={deleteButton}
+        overshootRight={false}
+    >
+        <View style={styles.container}>
         <View style={styles.leftContainer}>
             <Image 
                 source={{uri: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"}}
@@ -18,6 +40,9 @@ export default function OrderItem() {
         </View>
         <OrderCounter />
     </View>
+    </Swipeable>
+    </GestureHandlerRootView>
+    
   )
 }
 
@@ -50,5 +75,24 @@ const styles = StyleSheet.create({
     },
     textView: {
         marginLeft: 15
+    },
+    deleteView: {
+        
+        marginBottom: 20,
+        marginLeft: -30,
+        paddingLeft: 20,
+        marginRight: 20,
+        paddingRight: 20,
+        borderTopRightRadius: 10,
+        borderBottomRightRadius: 10,
+        display: 'flex',
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    deleteButton: {
+        paddingLeft: 10,
+        display: 'flex',
+        justifyContent: "center",
+        alignItems: "center"
     }
 });

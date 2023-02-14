@@ -19,8 +19,13 @@ export default function OrderCounter() {
   return (
     <View style={styles.container}>
         <Pressable
-            style={styles.button}
             onPress={decreaseCount}
+            style={({pressed}) => [
+                {
+                backgroundColor: pressed ? "#d4989a" : "#D82227",
+                },
+                styles.button,
+            ]}
         >
             <Text style={styles.text}>-</Text>
         </Pressable>
@@ -29,8 +34,13 @@ export default function OrderCounter() {
         </View>
         
         <Pressable
-            style={styles.button}
             onPress={increaseCount}
+            style={({pressed}) => [
+                {
+                backgroundColor: pressed ? "#d4989a" : "#D82227",
+                },
+                styles.button,
+            ]}
         >
             <Text style={styles.text}>+</Text>
         </Pressable>
@@ -53,7 +63,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         elevation: 3,
         borderRadius: 5,
-        backgroundColor: "#D82227",
     },
     text: {
         fontSize: 16,

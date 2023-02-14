@@ -3,8 +3,16 @@ import React from 'react';
 
 export default function BillingInfo() {
   return (
-    <View>
-      <Text>BillingInfo</Text>
+    <View style={styles.container}>
+        <Text></Text>
+        <Text></Text>
+        <Text></Text>
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+    container: {
+       
+    },
+});

@@ -11,7 +11,9 @@ export default function CartScreen() {
 
     return (
         <View style={[styles.container, {marginTop: insets.top}]}>
-            <ScrollView>
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+            >
                 <OrderItem />
                 <OrderItem />
                 <OrderItem />
