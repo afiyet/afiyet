@@ -50,10 +50,12 @@ export default function RestaurantsNearYou() {
 
 const styles = StyleSheet.create({
     container: {
+      elevation: 3,
       flex: 1,
       marginTop: 18,
       backgroundColor: "white",
-      paddingBottom: 15
+      paddingBottom: 15,
+      marginBottom: 18,
     },
     SectionTitle: {
         paddingLeft: 20,

@@ -44,6 +44,7 @@ export default function PromotionList() {
 
 const styles = StyleSheet.create({
     container: {
+        elevation: 3,
         flex: 1,
         marginTop: 18,
         backgroundColor: "white",
