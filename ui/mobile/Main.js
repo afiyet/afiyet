@@ -16,7 +16,7 @@ function Main(props) {
         <Stack.Navigator
         screenOptions={{
           //BURAYI FALSE YAP
-          headerShown: true
+          headerShown: false
         }}
         >
           {(onboarded) ? 

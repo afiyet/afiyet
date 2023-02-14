@@ -5,7 +5,8 @@ import CartScreen from '../pages/CartScreen';
 import ProfileScreen from '../pages/ProfileScreen';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import ScannerAndOrderParentScreen from '../pages/ScannerAndOrderParentScreen';
+import ScannerAndOrderStackNavigation from './ScannerAndOrderStackNavigation';
+import SearchAndHomeStackNavigation from './SearchAndHomeStackNavigation';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -15,14 +16,14 @@ function MainTabNavigation() {
     
     return(
         <Tab.Navigator 
-              initialRouteName='Home'
+              initialRouteName='HomeParent'
               activeColor="#000000"
               inactiveColor="#000000"
-              barStyle={{ backgroundColor: '#FD2400' }}
+              barStyle={{ backgroundColor: '#d82227' }}
               >
                 <Tab.Screen 
-                  name='Home' 
-                  component={HomeScreen}
+                  name='HomeParent' 
+                  component={SearchAndHomeStackNavigation}
                   options={{
                     tabBarLabel: 'Home',
                     tabBarIcon: ({color}) => (<MaterialCommunityIcons name="home" color={color} size={26} />),
@@ -40,7 +41,7 @@ function MainTabNavigation() {
                     tabBarLabel: scannerAndOrderBottomNavLabel,
                     tabBarIcon: ({color}) => (scannerAndOrderBottomNavLabel === "Scanner" ? <MaterialCommunityIcons name="qrcode" color={color} size={26} /> : <MaterialCommunityIcons name="book-open" color={color} size={26} />),
                   }}>
-                    {() => {return <ScannerAndOrderParentScreen setBottomNavLabel={setScannerAndOrderBottomNavLabel}/>}}
+                    {() => {return <ScannerAndOrderStackNavigation setBottomNavLabel={setScannerAndOrderBottomNavLabel}/>}}
                 </Tab.Screen>
                 <Tab.Screen 
                   name='Cart' 
