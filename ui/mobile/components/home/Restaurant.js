@@ -34,7 +34,8 @@ const styles = StyleSheet.create({
     item: {
         marginVertical: 10,
         marginHorizontal: 5,
-        paddingLeft: 15
+        marginLeft: 15,
+        borderRadius: 10,
     },
     restaurantName: {
         paddingTop: 10,
@@ -44,12 +45,12 @@ const styles = StyleSheet.create({
     restaurantImage: {
         width: 180,
         height: 180,
-        borderRadius: 20
+        borderRadius: 10
     },
     restaurantInfoContainer: {
         display: "flex",
         flexDirection: "row",
-        paddingTop: 3,
+        
     },
     restaurantInfo: {
         color: "gray",
@@ -57,8 +58,8 @@ const styles = StyleSheet.create({
     },
     textContainer: {
         flexDirection:'row', 
-        maxWidth: 150, 
-        flexWrap: "wrap"
+        maxWidth: 180, 
+        flexWrap: "wrap",
     }
   });
 
