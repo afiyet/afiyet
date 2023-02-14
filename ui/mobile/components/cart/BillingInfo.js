@@ -4,20 +4,22 @@ import React from 'react';
 export default function BillingInfo() {
   return (
     <View style={styles.container}>
-        <Text></Text>
-        <Text></Text>
-        <Text></Text>
+        <Text style={styles.text}>Total: $ 30.00</Text>
     </View>
   )
 }
- /***
-  * 
-  * react-native-progress-steps eklenebilir!
-  * 
-  */
 
 const styles = StyleSheet.create({
     container: {
-       
+        backgroundColor: "#d82227",
+        borderRadius: 10,
+        padding: 8,
+        marginRight: 20,
+        marginBottom: 10,
     },
+    text: {
+        color: "white",
+        fontSize: 18,
+        fontWeight: "bold"
+    }
 });
