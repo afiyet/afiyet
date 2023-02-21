@@ -28,77 +28,77 @@ function OrderScreen(props) {
 
     useEffect(() => {
         setBottomNavLabel("Order");
-    },[]);
+    }, []);
 
     const flatListRef = useRef(null);
     const sectionListRef = useRef(null);
 
     const DATA = [
         {
-          title: "Main dishes",
-          data: ["Pizza", "Burger", "Risotto", "Risotto2", "Risotto3"]
+            title: "Main dishes",
+            data: ["Pizza", "Burger", "Risotto", "Risotto2", "Risotto3"]
         },
         {
-          title: "Sides",
-          data: ["French Fries", "Onion Rings", "Fried Shrimps"]
+            title: "Sides",
+            data: ["French Fries", "Onion Rings", "Fried Shrimps"]
         },
         {
-          title: "Drinks",
-          data: ["Water", "Coke", "Beer"]
+            title: "Drinks",
+            data: ["Water", "Coke", "Beer"]
         },
         {
-          title: "Su",
-          data: ["Cheese Cake", "Ice Cream", "Ice Cream", "Ice Cream", "Ice Cream"]
+            title: "Su",
+            data: ["Cheese Cake", "Ice Cream", "Ice Cream", "Ice Cream", "Ice Cream"]
         },
         {
             title: "Desserts1",
             data: ["Cheese Cake", "Ice Cream", "Ice Cream", "Ice Cream", "Ice Cream"]
-          },
-          {
+        },
+        {
             title: "Desserts2",
             data: ["Cheese Cake", "Ice Cream", "Ice Cream", "Ice Cream", "Ice Cream"]
-          },
-          {
+        },
+        {
             title: "Desserts3",
             data: ["Cheese Cake", "Ice Cream", "Ice Cream", "Ice Cream", "Ice Cream"]
-          },
-          {
+        },
+        {
             title: "Desserts4",
             data: ["Cheese Cake", "Ice Cream", "Ice Cream", "Ice Cream", "Ice Cream"]
-          }
-      ];
+        }
+    ];
 
-      const SectionItem = ({value}) => {
-        return(
-            <View style={{backgroundColor: "white"}}>
+    const SectionItem = ({ value }) => {
+        return (
+            <View style={{ backgroundColor: "white" }}>
                 <TouchableOpacity onPress={() => {
-                flatListRef.current.scrollToIndex({index: value.index});
-                sectionListRef.current.scrollToLocation({
-                    itemIndex: 0,
-                    sectionIndex: value.index,
-                    animated: true
-                });
-            }}>
-                <Text style={{
-                    color: "white",
-                    fontSize: 18,
-                    margin: 10,
-                    backgroundColor: "#FD2400",
-                    minWidth: 30,
-                    borderRadius: 20,
-                    padding: 10,
-                    paddingBottom: 10,
-                    paddingTop: 5,
-                    lineHeight: 40,
-                    textAlign: "center"
-                }}>{value.item}</Text>
-            </TouchableOpacity>
+                    flatListRef.current.scrollToIndex({ index: value.index });
+                    sectionListRef.current.scrollToLocation({
+                        itemIndex: 0,
+                        sectionIndex: value.index,
+                        animated: true
+                    });
+                }}>
+                    <Text style={{
+                        color: "white",
+                        fontSize: 18,
+                        margin: 10,
+                        backgroundColor: "#FD2400",
+                        minWidth: 30,
+                        borderRadius: 20,
+                        padding: 10,
+                        paddingBottom: 10,
+                        paddingTop: 5,
+                        lineHeight: 40,
+                        textAlign: "center"
+                    }}>{value.item}</Text>
+                </TouchableOpacity>
             </View>
         );
-      }
+    }
 
-      const MenuItem = ({ value, index }) => {
-        return(
+    const MenuItem = ({ value, index }) => {
+        return (
             <Pressable
                 onPress={() => {
                     navigation.navigate("Food Details")
@@ -119,9 +119,9 @@ function OrderScreen(props) {
                         maxWidth: "70%",
                         paddingRight: 15
                     }}>
-                        <Text style={{fontSize:20, paddingBottom: 5}}>Mega Çiğköfte Dürüm</Text>
-                        <Text style={{fontSize:12, paddingBottom: 5, color: "gray"}}>Çiğ köfte (130g), etrcihe göre iceberg marul, domates, turşu, havuç, karalahana, nane, maydanoz, roka, limon, nar ekşisi ve acı sos ile</Text>
-                        <Text style={{fontSize:14}}>20.00 TL</Text>
+                        <Text style={{ fontSize: 20, paddingBottom: 5 }}>Mega Çiğköfte Dürüm</Text>
+                        <Text style={{ fontSize: 12, paddingBottom: 5, color: "gray" }}>Çiğ köfte (130g), etrcihe göre iceberg marul, domates, turşu, havuç, karalahana, nane, maydanoz, roka, limon, nar ekşisi ve acı sos ile</Text>
+                        <Text style={{ fontSize: 14 }}>20.00 TL</Text>
                     </View>
                     <View style={{
                         display: "flex",
@@ -135,16 +135,16 @@ function OrderScreen(props) {
                                 height: 120,
                                 borderRadius: 90,
                             }}
-                            source={{uri:"https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8&w=1000&q=80"}}
+                            source={{ uri: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8&w=1000&q=80" }}
                             resizeMode="center"
                         />
                     </View>
                 </View>
             </Pressable>
-          );
-      }
-      const [sectionLength, setSectionLength] = useState(0);
-      useEffect(() => {
+        );
+    }
+    const [sectionLength, setSectionLength] = useState(0);
+    useEffect(() => {
         let charCount = 0;
         let tempSections = []
         DATA.map((item) => {
@@ -153,26 +153,26 @@ function OrderScreen(props) {
         });
         setSections(tempSections);
         sect = tempSections;
-        setSectionLength(charCount*15/DATA.length);
-      }, []);
+        setSectionLength(charCount * 15 / DATA.length);
+    }, []);
 
-      const onViewableItemsChanged = useRef(({ viewableItems, changed }) => {
+    const onViewableItemsChanged = useRef(({ viewableItems, changed }) => {
 
         let element;
 
         viewableItems.forEach(el => {
-            if(el.index === null){
+            if (el.index === null) {
                 element = el;
                 return;
             }
         });
 
-        if(element?.index === null) {
+        if (element?.index === null) {
             //flatListRef.current.scrollToIndex({index: value.index});
-            if(changed.length !== 0) {
+            if (changed.length !== 0) {
                 //console.log(sect.indexOf(element.item.title))
                 //console.log(sect)
-                flatListRef.current.scrollToIndex({index: sect.indexOf(element.item.title)});
+                flatListRef.current.scrollToIndex({ index: sect.indexOf(element.item.title) });
             }
 
         }
@@ -189,19 +189,19 @@ function OrderScreen(props) {
             }
         });*/
         //console.log(changed)
-      })
+    })
 
 
 
     const viewabilityConfig = {
         itemVisiblePercentThreshold: 75,
-      };
+    };
 
 
 
     return (
         <View
-            style={{display: "flex", flexGrow: 1, paddingBottom: 100}}
+            style={{ display: "flex", flexGrow: 1, paddingBottom: 100 }}
         >
             <View>
                 <Image />
@@ -217,18 +217,18 @@ function OrderScreen(props) {
                 data={sections}
                 //initialScrollIndex={4}
                 getItemLayout={(data, index) => {
-                    return(
-                        {length: sectionLength, offset: sectionLength*index, index}
+                    return (
+                        { length: sectionLength, offset: sectionLength * index, index }
                     );
                 }}
                 renderItem={(item) => {
-                    return  <SectionItem value={item}/>
+                    return <SectionItem value={item} />
                 }}
                 onScrollToIndexFailed={info => {
                     console.log(info)
                     const wait = new Promise(resolve => setTimeout(resolve, 1000));
                     wait.then(() => {
-                      flatListRef.current?.scrollToIndex({ index: info.index, animated: true });
+                        flatListRef.current?.scrollToIndex({ index: info.index, animated: true });
                     });
                 }}
             />
@@ -250,7 +250,7 @@ function OrderScreen(props) {
                 viewabilityConfig={viewabilityConfig}
                 ItemSeparatorComponent={() => (<View
                     style={{ height: 1, width: '100%', backgroundColor: '#C8C8C8' }}
-                  />)}
+                />)}
             />
 
         </View>
@@ -259,6 +259,6 @@ function OrderScreen(props) {
 
 const styles = StyleSheet.create({
 
-  });
+});
 
 export default OrderScreen;

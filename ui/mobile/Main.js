@@ -11,34 +11,34 @@ function Main(props) {
     onboarded
   } = props;
 
-    return(
-      <>
-        <Stack.Navigator
+  return (
+    <>
+      <Stack.Navigator
         screenOptions={{
           //BURAYI FALSE YAP
           headerShown: false
         }}
-        >
-          {(onboarded) ? 
+      >
+        {(onboarded) ?
           //BU GRUBA DİĞER ONBOARDING EKRANLARI GELECEK
-            <Stack.Group>
-              <Stack.Screen
-                name='Onboarding'
-                component={OnboardingOneScreen}
-              />
-            </Stack.Group>
+          <Stack.Group>
+            <Stack.Screen
+              name='Onboarding'
+              component={OnboardingOneScreen}
+            />
+          </Stack.Group>
           :
-            //BURAYA LOGIN, SIGN UP VE LOGIN STATE CONTROL GELECEK
-            <Stack.Group>
-              <Stack.Screen 
-                name='MainTabNavigation'
-                component={MainTabNavigation}
-              />
-            </Stack.Group>
-          }
-        </Stack.Navigator>
-      </>
-    );
+          //BURAYA LOGIN, SIGN UP VE LOGIN STATE CONTROL GELECEK
+          <Stack.Group>
+            <Stack.Screen
+              name='MainTabNavigation'
+              component={MainTabNavigation}
+            />
+          </Stack.Group>
+        }
+      </Stack.Navigator>
+    </>
+  );
 }
 
 export default Main;

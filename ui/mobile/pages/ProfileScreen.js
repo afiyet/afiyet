@@ -1,5 +1,5 @@
-function ProfileScreen(){
-    return(
+function ProfileScreen() {
+    return (
         <>
         </>
     );

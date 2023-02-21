@@ -7,9 +7,9 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 const deleteButton = () => {
     return (
-        <Pressable style={({pressed}) => [
+        <Pressable style={({ pressed }) => [
             {
-            backgroundColor: pressed ? "#d4989a" : "#D82227",
+                backgroundColor: pressed ? "#d4989a" : "#D82227",
             },
             styles.deleteView,
         ]}>
@@ -20,30 +20,30 @@ const deleteButton = () => {
 
 export default function OrderItem() {
 
-  return (
-    <GestureHandlerRootView>
-        <Swipeable
-        renderRightActions={deleteButton}
-        overshootRight={false}
-    >
-        <View style={styles.container}>
-        <View style={styles.leftContainer}>
-            <Image 
-                source={{uri: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"}}
-                resizeMode="contain"
-                style={styles.image}
-            />
-            <View style={styles.textView}>
-                <Text style={styles.text}>Special Pizza</Text>
-                <Text style={styles.text}>$30.00</Text>
-            </View>
-        </View>
-        <OrderCounter />
-    </View>
-    </Swipeable>
-    </GestureHandlerRootView>
-    
-  )
+    return (
+        <GestureHandlerRootView>
+            <Swipeable
+                renderRightActions={deleteButton}
+                overshootRight={false}
+            >
+                <View style={styles.container}>
+                    <View style={styles.leftContainer}>
+                        <Image
+                            source={{ uri: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" }}
+                            resizeMode="contain"
+                            style={styles.image}
+                        />
+                        <View style={styles.textView}>
+                            <Text style={styles.text}>Special Pizza</Text>
+                            <Text style={styles.text}>$30.00</Text>
+                        </View>
+                    </View>
+                    <OrderCounter />
+                </View>
+            </Swipeable>
+        </GestureHandlerRootView>
+
+    )
 }
 
 
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     image: {
-        width: 100, 
+        width: 100,
         height: 100,
         borderRadius: 5
     },
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
         marginLeft: 15
     },
     deleteView: {
-        
+
         marginBottom: 20,
         marginLeft: -30,
         paddingLeft: 20,

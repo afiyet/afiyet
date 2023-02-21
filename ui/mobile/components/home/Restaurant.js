@@ -10,24 +10,24 @@ export default function Restaurant(props) {
         restaurantCategory
     } = props;
 
-  return (
-    <View style={styles.item}>
-        <Image
-            style={styles.restaurantImage}
-            resizeMode="cover"
-            source={{uri: restaurantImageURL}}
-        />
-        <View style={styles.textContainer}>
-            <Text numberOfLines={10} style={styles.restaurantName}>{restaurantName}</Text>
+    return (
+        <View style={styles.item}>
+            <Image
+                style={styles.restaurantImage}
+                resizeMode="cover"
+                source={{ uri: restaurantImageURL }}
+            />
+            <View style={styles.textContainer}>
+                <Text numberOfLines={10} style={styles.restaurantName}>{restaurantName}</Text>
+            </View>
+
+            <View style={styles.restaurantInfoContainer}>
+                <Text style={styles.restaurantInfo}>{restaurantPricePoint}</Text>
+                <Text style={styles.restaurantInfo}> · </Text>
+                <Text style={styles.restaurantInfo}>{restaurantCategory}</Text>
+            </View>
         </View>
-        
-        <View style={styles.restaurantInfoContainer}>
-            <Text style={styles.restaurantInfo}>{restaurantPricePoint}</Text>
-            <Text style={styles.restaurantInfo}> · </Text>
-            <Text style={styles.restaurantInfo}>{restaurantCategory}</Text>
-        </View>
-    </View>
-  )
+    )
 };
 
 const styles = StyleSheet.create({
@@ -50,16 +50,16 @@ const styles = StyleSheet.create({
     restaurantInfoContainer: {
         display: "flex",
         flexDirection: "row",
-        
+
     },
     restaurantInfo: {
         color: "gray",
         fontWeight: "bold"
     },
     textContainer: {
-        flexDirection:'row', 
-        maxWidth: 180, 
+        flexDirection: 'row',
+        maxWidth: 180,
         flexWrap: "wrap",
     }
-  });
+});
 
