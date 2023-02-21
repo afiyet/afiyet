@@ -13,6 +13,7 @@ const MapScreen = () => {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [markerList, setMarkerList] = useState([]);
+  const [hasPermission, setHasPermission] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -22,7 +23,30 @@ const MapScreen = () => {
         return;
       }
       let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
+
+
+/***
+ * 
+ * TODO: LOCATION ALMA İŞİNİ MAINE TAŞI, REDUX İLE BURAYA GÖNDER.
+ * 
+ * map initialRegion için lat ve long'un undefined gelmemesi gerek!!!
+ * 
+ * 
+ */
+
+      console.log({
+        longitude: location.longitude,
+        latitude: location.latitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      });
+      setLocation({
+        longitude: location.longitude,
+        latitude: location.latitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      });
+      setHasPermission(true);
     })();
 
     (() => {
@@ -56,12 +80,18 @@ const MapScreen = () => {
     })
   }*/
 
-
   return (
-    <MapView
+    <View style={styles.container}>
+      {hasPermission ?
+      <MapView
       style={{ flex: 1 }}
       provider={PROVIDER_GOOGLE}
-      initialRegion={location}
+      initialRegion={{
+        latitude:39.88753599844434,
+        longitude:32.65432358225025,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      }}
       region={location}
       showsUserLocation={true}
       minZoomLevel={10}
@@ -78,7 +108,15 @@ const MapScreen = () => {
         </Marker >
       ))}
     </MapView>
+     : <Text>REQUEST PERMISSION</Text>}
+    </View>
   );
 }
 
 export default MapScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+});
