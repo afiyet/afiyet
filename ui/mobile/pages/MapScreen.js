@@ -5,101 +5,80 @@ import MapView, { PROVIDER_GOOGLE, Marker, LatLng } from 'react-native-maps';
 import * as Location from 'expo-location';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import { getMarkers } from '../endpoints';
+import Ionicons from "react-native-vector-icons/Ionicons"
 
 
 const MapScreen = () => {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [markerList, setMarkerList] = useState([]);
-  const [data, setData] = useState([]);
-
-
 
   useEffect(() => {
     (async () => {
-
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
         return;
       }
-
-      let location = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Balanced,
-        enableHighAccuracy: true,
-        timeInterval: 5
-      });
-      setLocation({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        latitudeDelta: 0.03,
-        longitudeDelta: 0.03,
-      });
-
-
-
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
     })();
-    getRestourantLocations();
+
+    (() => {
+      getMarkers()
+        .then((res) => {
+          let markers = [];
+          res.data.forEach(element => {
+            let elementLocation = JSON.parse(element.location);
+            markers.push({
+              name: element.name,
+              coordinates: {
+                latitude: parseFloat(elementLocation.latitude),
+                longitude: parseFloat(elementLocation.altitude),
+              }
+            });
+          });
+          setMarkerList(markers);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    })();
   }, []);
 
-
-  let text = 'Waiting..';
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = JSON.stringify(location);
-  }
-
-  const getRestourantLocations = async () => {
-    try {
-      const response = await fetch('http://192.168.1.23:8080/locations');
-      const json = await response.json();
-      setData(json)
-    } catch (error) {
-      console.error(error);
-    }
-
-    let markerArr = []
-    data.forEach(x => {
-      let temp = JSON.parse(x.location)
-      let obj = { name: x.name, latitude: parseFloat(temp.latitude), longitude: parseFloat(temp.altitude) }
-      markerArr.push(obj);
-    })
-    setMarkerList(markerArr)
-  }
-
-  const goRegion = (region) => {
+  /*const goRegion = (region) => {
     setLocation({
       latitude: region.latitude,
       longitude: region.longitude,
       latitudeDelta: 0.03,
       longitudeDelta: 0.03
     })
-  }
+  }*/
 
 
-
-  return (<MapView
-    style={{ flex: 1 }}
-    initialRegion={{
-      latitude: 39.88753599844434,
-      longitude: 32.65432358225025,
-      latitudeDelta: 0.03,
-      longitudeDelta: 0.03,
-    }}
-    region={location}
-  >
-    {markerList && markerList.map((x, index) => (
-      <Marker
-        key={index}
-        coordinate={{ latitude: x.latitude, longitude: x.longitude }}
-        title={JSON.stringify(x.name)}
-      >
-        <MaterialCommunityIcons name="chef-hat" color={"#FF0000"} size={26} />
-      </Marker >
-    ))}
-  </MapView>);
+  return (
+    <MapView
+      style={{ flex: 1 }}
+      provider={PROVIDER_GOOGLE}
+      initialRegion={location}
+      region={location}
+      showsUserLocation={true}
+      minZoomLevel={10}
+      rotateEnabled={false}
+      pitchEnabled={false}
+    >
+      {markerList && markerList.map((marker, index) => (
+        <Marker
+          key={index}
+          coordinate={{ latitude: marker.coordinates.latitude, longitude: marker.coordinates.longitude }}
+          title={JSON.stringify(marker.name)}
+        >
+          <Ionicons name="location-sharp" color={"#FF0000"} size={48} />
+        </Marker >
+      ))}
+    </MapView>
+  );
 }
 
-export default MapScreen
+export default MapScreen;
