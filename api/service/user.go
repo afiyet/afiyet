@@ -4,6 +4,7 @@ import (
 	"github.com/afiyet/afiytet/api/data/model"
 	"github.com/afiyet/afiytet/api/data/repo"
 	"gorm.io/gorm"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type UserService struct {
@@ -42,4 +43,18 @@ func (s *UserService) Update(u model.User) (*model.User, error) {
 
 func (s *UserService) GetRatings(id int) ([]model.Rating, error) {
 	return s.r.GetRatings(id)
+}
+
+func (s *UserService) Signup(u model.User) (*model.User, error) {
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(u.Password), 4)
+	u.Password = string(hashedPassword[:])
+
+	ret, err := s.r.Add(u)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return ret, nil
 }

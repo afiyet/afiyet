@@ -37,6 +37,8 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 	e.PUT("/users/:id", userHandler.Update)
 	e.PUT("/users/:id/ratings", userHandler.GetRatings)
 
+	e.POST("/users/signup",userHandler.Signup)
+
 	e.POST("/dishes", dishHandler.Add)
 	e.DELETE("/dishes/:id", dishHandler.Delete)
 	e.GET("/dishes/:id", dishHandler.Get)
@@ -51,6 +53,7 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 	e.GET("/restaurants/:id", restaurantHandler.Get)
 	e.GET("/restaurants", restaurantHandler.List)
 	e.PUT("/restaurants/:id", restaurantHandler.Update)
+	//e.POST("/restaurants/signup", )
 
 	e.GET("/restaurants/:id/dishes", restaurantHandler.GetDishes)
 
@@ -65,5 +68,7 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 	e.POST("/restaurants/tables", tableHandler.Add)
 
 	e.GET("/locations", locationHandler.GetLocationList)
+
+	
 
 }
