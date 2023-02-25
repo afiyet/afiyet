@@ -5,6 +5,7 @@ import (
 	"github.com/afiyet/afiytet/api/data/repo"
 	"gorm.io/gorm"
 	"golang.org/x/crypto/bcrypt"
+	"errors"
 )
 
 type UserService struct {
@@ -57,4 +58,18 @@ func (s *UserService) Signup(u model.User) (*model.User, error) {
 	}
 
 	return ret, nil
+}
+
+func (s *UserService) Login(u model.User) (*model.User, error) {
+	var res *model.User
+	res, err := s.r.GetUserLoginInfo(u.Mail)
+	if (err != nil || res.Mail != u.Mail) {
+		return nil, errors.New("mail hatali")
+	}
+
+	if err = bcrypt.CompareHashAndPassword([]byte(res.Password), []byte(u.Password)); err != nil {
+		return nil,err
+	}
+
+	return res,nil
 }

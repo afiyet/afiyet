@@ -38,6 +38,7 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 	e.PUT("/users/:id/ratings", userHandler.GetRatings)
 
 	e.POST("/users/signup",userHandler.Signup)
+	e.POST("/users/login",userHandler.Login)
 
 	e.POST("/dishes", dishHandler.Add)
 	e.DELETE("/dishes/:id", dishHandler.Delete)
