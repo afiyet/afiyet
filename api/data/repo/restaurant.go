@@ -74,3 +74,14 @@ func (rr RestaurantRepository) GetRestaurantAverageRating(id int) (float64, erro
 
 	return avg, nil
 }
+
+func (ur RestaurantRepository) GetRestaurantLoginInfo(mail string) (*model.Restaurant, error) {
+
+	var response model.Restaurant
+	err := ur.db.Where("mail", mail).Find(&response).Error
+	if err != nil {
+		return &model.Restaurant{}, err
+	}
+
+	return &response, nil
+}

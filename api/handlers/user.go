@@ -104,3 +104,33 @@ func (h *UserHandler) GetRatings(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, rs)
 }
+
+func (h *UserHandler) Signup(c echo.Context) error {
+	var ubind model.User
+	err := (&echo.DefaultBinder{}).BindBody(c, &ubind)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	u, err := h.s.Signup(ubind)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, u)
+}
+
+func (h *UserHandler) Login(c echo.Context) error {
+	var ubind model.User
+	err := (&echo.DefaultBinder{}).BindBody(c, &ubind)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	u, err := h.s.Login(ubind)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized,err.Error())
+	}
+
+	return c.JSON(http.StatusOK, u)
+}

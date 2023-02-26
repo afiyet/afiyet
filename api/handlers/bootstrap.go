@@ -29,13 +29,15 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 		s: service.NewLocationService(db),
 	}
 
-
 	e.POST("/users", userHandler.Add)
 	e.DELETE("/users/:id", userHandler.Delete)
 	e.GET("/users/:id", userHandler.Get)
 	e.GET("/users", userHandler.List)
 	e.PUT("/users/:id", userHandler.Update)
 	e.PUT("/users/:id/ratings", userHandler.GetRatings)
+
+	e.POST("/users/signup", userHandler.Signup)
+	e.POST("/users/login", userHandler.Login)
 
 	e.POST("/dishes", dishHandler.Add)
 	e.DELETE("/dishes/:id", dishHandler.Delete)
@@ -52,11 +54,14 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 	e.GET("/restaurants", restaurantHandler.List)
 	e.PUT("/restaurants/:id", restaurantHandler.Update)
 
+	e.POST("/restaurants/signup", restaurantHandler.Signup)
+	e.POST("/restaurants/login", restaurantHandler.Login)
+
 	e.GET("/restaurants/:id/dishes", restaurantHandler.GetDishes)
 
 	e.GET("/restaurants/:id/ratings", restaurantHandler.GetRatings)
 	e.GET("/restaurants/:id/ratings/get-average", restaurantHandler.GetRestaurantAverageRating)
-	
+
 	e.GET("/restaurants/:id/orders", orderHandler.GetByRestaurantId)
 	e.POST("/restaurants/orders", orderHandler.Add)
 
