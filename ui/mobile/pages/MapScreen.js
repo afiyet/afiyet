@@ -63,7 +63,7 @@ const MapScreen = () => {
               name: element.name,
               coordinates: {
                 latitude: parseFloat(elementLocation.latitude),
-                longitude: parseFloat(elementLocation.altitude),
+                longitude: parseFloat(elementLocation.longitude),
               }
             });
           });
@@ -100,7 +100,7 @@ const MapScreen = () => {
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             },
-            350
+            250
           );
         }
       }, 10);

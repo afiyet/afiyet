@@ -1,7 +1,12 @@
 import axios from "axios";
 
+/**
+ * baseURL'i düzenle 
+ * 
+*/
+
 const axiosClient = axios.create({
-    baseURL: "http://192.168.1.25:8080",
+    baseURL: "http://localhost:8080",
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
