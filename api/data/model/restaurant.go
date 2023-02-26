@@ -17,5 +17,7 @@ type Restaurant struct {
 	Dishes    []Dish         `gorm:"-" json:"dishes,omitempty"`
 	Ratings   []Rating       `gorm:"-" json:"ratings,omitempty"`
 	Tables    []Table        `gorm:"-" json:"tables,omitempty"`
-	Location string `json:"location"`
+	Location  string         `json:"location"`
+	Password  string         `json:"password"`
+	Mail      string         `json:"mail"`
 }

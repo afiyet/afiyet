@@ -1,11 +1,12 @@
 package service
 
 import (
+	"errors"
+
 	"github.com/afiyet/afiytet/api/data/model"
 	"github.com/afiyet/afiytet/api/data/repo"
-	"gorm.io/gorm"
 	"golang.org/x/crypto/bcrypt"
-	"errors"
+	"gorm.io/gorm"
 )
 
 type UserService struct {
@@ -63,13 +64,13 @@ func (s *UserService) Signup(u model.User) (*model.User, error) {
 func (s *UserService) Login(u model.User) (*model.User, error) {
 	var res *model.User
 	res, err := s.r.GetUserLoginInfo(u.Mail)
-	if (err != nil || res.Mail != u.Mail) {
+	if err != nil || res.Mail != u.Mail {
 		return nil, errors.New("mail hatali")
 	}
 
 	if err = bcrypt.CompareHashAndPassword([]byte(res.Password), []byte(u.Password)); err != nil {
-		return nil,err
+		return nil, err
 	}
 
-	return res,nil
+	return res, nil
 }
