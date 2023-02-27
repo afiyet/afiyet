@@ -18,14 +18,14 @@ func NewLocationRepository(db *gorm.DB) LocationRepository {
 	return dr
 }
 
-func (lr LocationRepository) GetLocationList() ([]model.Restaurant, error) {
-	var ds []model.Restaurant
+func (lr LocationRepository) GetLocationList() (*[]model.LocationQuery, error) {
 
-	err := lr.db.Select("name","location").Find(&ds).Error
+	var result []model.LocationQuery
+	lr.db.Raw("select * from locations_with_ratings").Scan(&result)
 
-	if err != nil {
-		return nil, err
-	}
+	// if err != nil {
+	// 	return nil, err
+	// }
 
-	return ds, nil
+	return &result, nil
 }

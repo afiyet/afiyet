@@ -14,6 +14,6 @@ func NewLocationService(db *gorm.DB) *LocationService {
 	return &LocationService{r: repo.NewLocationRepository(db)}
 }
 
-func (s *LocationService) List() ([]model.Restaurant, error) {
+func (s *LocationService) List() (*[]model.LocationQuery, error) {
 	return s.r.GetLocationList()
 }
