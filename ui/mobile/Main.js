@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import OnboardingOneScreen from './pages/onboarding/OnboardingOneScreen';
 import MainTabNavigation from './navigation/MainTabNavigation';
+import AuthStackNavigation from './navigation/AuthStackNavigation';
 
 const Stack = createNativeStackNavigator();
 
 function Main(props) {
 
   const {
-    onboarded
+    onboarded,
   } = props;
 
   return (
@@ -19,16 +20,15 @@ function Main(props) {
           headerShown: false
         }}
       >
-        {(onboarded) ?
-          //BU GRUBA DİĞER ONBOARDING EKRANLARI GELECEK
+        {(true) ?
           <Stack.Group>
             <Stack.Screen
-              name='Onboarding'
-              component={OnboardingOneScreen}
-            />
+              name='Auth'
+            > 
+              {() => {return <AuthStackNavigation onboarded={onboarded} />}}
+            </Stack.Screen>
           </Stack.Group>
           :
-          //BURAYA LOGIN, SIGN UP VE LOGIN STATE CONTROL GELECEK
           <Stack.Group>
             <Stack.Screen
               name='MainTabNavigation'
