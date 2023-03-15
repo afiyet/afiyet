@@ -56,11 +56,11 @@ const OnboardingScreen = () => {
     const setOnboarded = async (value) => {
         value = JSON.stringify(value);
         try {
-          await AsyncStorage.setItem('ONBOARDED', value)
+            await AsyncStorage.setItem('ONBOARDED', value)
         } catch (e) {
-          console.log("error while setOnboarded");
+            console.log("error while setOnboarded");
         }
-      }
+    }
 
     return (
         <View style={styles.container}>
@@ -70,8 +70,10 @@ const OnboardingScreen = () => {
                 NextButtonComponent={Next}
                 DoneButtonComponent={Done}
                 DotComponent={Dots}
-                onSkip={() => {setOnboarded(true)}}
-                onDone={() => {setOnboarded(true)}}
+                onSkip={() => { setOnboarded(true) }}
+                onDone={() => { setOnboarded(true) }}
+                titleStyles={{fontWeight: "bold"}}
+                subTitleStyles={{width: 300, fontWeight: "bold" }}
                 pages={[
                     {
                         backgroundColor: '#d82227',
