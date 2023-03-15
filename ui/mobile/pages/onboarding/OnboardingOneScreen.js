@@ -1,9 +1,8 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
-
 import Onboarding from 'react-native-onboarding-swiper';
-import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from 'react-redux';
+import { GeneralActions } from '../../actions';
 
 const Dots = ({ selected }) => {
     let backgroundColor;
@@ -50,18 +49,8 @@ const Done = ({ ...props }) => (
 );
 
 const OnboardingScreen = () => {
-
-    const navigation = useNavigation();
-
-    const setOnboarded = async (value) => {
-        value = JSON.stringify(value);
-        try {
-            await AsyncStorage.setItem('ONBOARDED', value)
-        } catch (e) {
-            console.log("error while setOnboarded");
-        }
-    }
-
+    const dispatch = useDispatch();
+    
     return (
         <View style={styles.container}>
             <StatusBar backgroundColor='#d82227' barStyle="light-content" />
@@ -70,8 +59,8 @@ const OnboardingScreen = () => {
                 NextButtonComponent={Next}
                 DoneButtonComponent={Done}
                 DotComponent={Dots}
-                onSkip={() => { setOnboarded(true) }}
-                onDone={() => { setOnboarded(true) }}
+                onSkip={() => {dispatch(GeneralActions.setOnboarded(true));}}
+                onDone={() => {dispatch(GeneralActions.setOnboarded(true));}}
                 titleStyles={{fontWeight: "bold"}}
                 subTitleStyles={{width: 300, fontWeight: "bold" }}
                 pages={[

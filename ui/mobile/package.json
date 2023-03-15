@@ -35,10 +35,13 @@
     "react-native-safe-area-context": "4.4.1",
     "react-native-screens": "^3.18.0",
     "react-native-tab-view": "^3.3.4",
-    "react-native-vector-icons": "^9.2.0"
+    "react-native-vector-icons": "^9.2.0",
+    "react-redux": "^8.0.5",
+    "redux": "^4.2.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9"
+    "@babel/core": "^7.12.9",
+    "@redux-devtools/core": "^3.13.1"
   },
   "private": true
 }
