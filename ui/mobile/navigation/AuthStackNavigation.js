@@ -25,12 +25,12 @@ export default function AuthStackNavigation(props) {
                 <NativeStack.Group
                     screenOptions={{
                         presentation: 'modal',
-                        headerShown: true
+                        headerShown: false
                     }}>
-                    <NativeStack.Screen name="Login">
+                    <NativeStack.Screen name="LoginScreen">
                         {() => { return <LoginScreen /> }}
                     </NativeStack.Screen>
-                    <NativeStack.Screen name="SignUp">
+                    <NativeStack.Screen name="SignUpScreen">
                         {() => { return <SignUpScreen /> }}
                     </NativeStack.Screen>
                 </NativeStack.Group>
