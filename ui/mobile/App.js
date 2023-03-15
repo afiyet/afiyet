@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function App() {
 
-  const [onboarded, setOnboarded] = useState(true);
+  const [onboarded, setOnboarded] = useState(false);
 
   const getOnboarded = async () => {
     const res = await AsyncStorage.getItem("ONBOARDED");

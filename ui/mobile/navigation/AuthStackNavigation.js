@@ -15,7 +15,11 @@ export default function AuthStackNavigation(props) {
     return (
         <NativeStack.Navigator>
             {(!onboarded) ?
-                <NativeStack.Group>
+                <NativeStack.Group
+                    screenOptions={{
+                        presentation: 'modal',
+                        headerShown: false
+                    }}>
                     <NativeStack.Screen
                         name='Onboarding'
                         component={OnboardingOneScreen}
