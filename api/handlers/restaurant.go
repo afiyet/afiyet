@@ -205,3 +205,15 @@ func (h *RestaurantHandler) Login(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, u)
 }
+
+func (h *RestaurantHandler) Search(c echo.Context) error {
+	str := c.Param("str")
+
+	rs, err := h.s.Search(str)
+	
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, rs)
+}

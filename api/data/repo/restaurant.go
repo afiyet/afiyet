@@ -85,3 +85,12 @@ func (ur RestaurantRepository) GetRestaurantLoginInfo(mail string) (*model.Resta
 
 	return &response, nil
 }
+
+func (ur RestaurantRepository) Search(str string) ([]model.Restaurant, error) {
+
+	var ds []model.Restaurant
+	var tempStr = "%"+str+"%"
+	ur.db.Raw("select * from restaurants where name ilike '" + tempStr +"'").Scan(&ds)
+
+	return ds, nil
+}
