@@ -15,6 +15,7 @@ function Main() {
   const onboarded = useSelector(state => state.generalState.onboarded);
   const isLoggedIn = useSelector(state => state.generalState.isLoggedIn);
 
+
   /* const getOnboarded = async () => {
     try {
       return await AsyncStorage.getItem('ONBOARDED');
@@ -57,11 +58,10 @@ function Main() {
       if (status !== 'granted') {
         return;
       }
-      let location = await Location.getCurrentPositionAsync({});
-      dispatch(LocationActions.setDeviceLocation(location.coords));
+      let {coords} = await Location.getCurrentPositionAsync({accuracy: 5});
+      dispatch(LocationActions.setDeviceLocation(coords));
     })();
   }, []);
-
 
   return (
     <>

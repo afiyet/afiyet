@@ -99,7 +99,7 @@ const LoginScreen = () => {
     }
 
     const handleLogin = () => {
-        if (data.isValidUser && data.isValidPassword) {
+        if (data.isValidUser && data.isValidPassword && (data.email.trim().length > 0 && data.password.trim().length > 0)) {
 
             let payload = {
                 "mail": data.email,

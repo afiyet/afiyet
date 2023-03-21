@@ -107,8 +107,8 @@ const MapScreen = () => {
             style={{ flex: 1 }}
             provider={PROVIDER_GOOGLE}
             initialRegion={{
-              latitude: 39.88753599844434,
-              longitude: 32.65432358225025,
+              longitude: deviceLocation.longitude,
+              latitude: deviceLocation.latitude,
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             }}

@@ -4,7 +4,7 @@ const types = {
 
 const setDeviceLocation = (value) => {
     return {
-        type: typescale.SET_DEVICE_LOCATION,
+        type: types.SET_DEVICE_LOCATION,
         data: value
     }
 };
