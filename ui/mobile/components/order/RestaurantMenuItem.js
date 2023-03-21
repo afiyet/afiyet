@@ -9,13 +9,13 @@ import {
     SectionList
 } from "react-native";
 
-function RestaurantMenuItem({title}){
+function RestaurantMenuItem({ title }) {
 
-   // const {title} = props;
+    // const {title} = props;
 
-    return(
+    return (
         <View >
-          <Text >{title}</Text>
+            <Text >{title}</Text>
         </View>
     );
 }

@@ -29,3 +29,14 @@ func (ur UserRepository) GetRatings(id int) ([]model.Rating, error) {
 
 	return rs, nil
 }
+
+func (ur UserRepository) GetUserLoginInfo(mail string) (*model.User, error) {
+
+	var response model.User
+	err := ur.db.Where("mail", mail).Find(&response).Error
+	if err != nil {
+		return &model.User{}, err
+	}
+
+	return &response, nil 
+}

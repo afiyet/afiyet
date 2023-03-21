@@ -2,9 +2,10 @@ package handlers
 
 import (
 	"fmt"
-	"github.com/afiyet/afiytet/api/service"
 	"net/http"
 	"strconv"
+
+	"github.com/afiyet/afiytet/api/service"
 
 	"github.com/afiyet/afiytet/api/data/model"
 	"github.com/labstack/echo/v4"
@@ -173,4 +174,46 @@ func (h *RestaurantHandler) GetRestaurantAverageRating(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 	return c.JSON(http.StatusOK, avg)
+}
+
+func (h *RestaurantHandler) Signup(c echo.Context) error {
+	var rbind model.Restaurant
+	err := (&echo.DefaultBinder{}).BindBody(c, &rbind)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	u, err := h.s.Signup(rbind)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, u)
+}
+
+func (h *RestaurantHandler) Login(c echo.Context) error {
+	var rbind model.Restaurant
+	err := (&echo.DefaultBinder{}).BindBody(c, &rbind)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	u, err := h.s.Login(rbind)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, u)
+}
+
+func (h *RestaurantHandler) Search(c echo.Context) error {
+	str := c.Param("str")
+
+	rs, err := h.s.Search(str)
+	
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, rs)
 }

@@ -1,8 +1,11 @@
 package service
 
 import (
+	"errors"
+
 	"github.com/afiyet/afiytet/api/data/model"
 	"github.com/afiyet/afiytet/api/data/repo"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -52,4 +55,36 @@ func (s *RestaurantService) GetTables(id int) ([]model.Table, error) {
 
 func (s *RestaurantService) GetRestaurantAverageRating(id int) (float64, error) {
 	return s.r.GetRestaurantAverageRating(id)
+}
+
+func (s *RestaurantService) Signup(r model.Restaurant) (*model.Restaurant, error) {
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(r.Password), 4)
+	r.Password = string(hashedPassword[:])
+
+	ret, err := s.r.Add(r)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return ret, nil
+}
+
+func (s *RestaurantService) Login(r model.Restaurant) (*model.Restaurant, error) {
+	var res *model.Restaurant
+	res, err := s.r.GetRestaurantLoginInfo(r.Mail)
+	if err != nil || res.Mail != r.Mail {
+		return nil, errors.New("mail hatali")
+	}
+
+	if err = bcrypt.CompareHashAndPassword([]byte(res.Password), []byte(r.Password)); err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}
+
+func (s *RestaurantService) Search(str string) ([]model.Restaurant, error) {
+	return s.r.Search(str)
 }

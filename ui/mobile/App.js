@@ -37,7 +37,7 @@ function App() {
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>
-        <Main onboarded={onboarded}/>
+        <Main onboarded={onboarded} />
       </NavigationContainer>
     </PaperProvider>
   );

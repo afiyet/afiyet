@@ -2,12 +2,12 @@ import React from 'react';
 import { Text, View, StyleSheet, Button, TouchableOpacity, ScrollView } from 'react-native';
 import BillingInfo from '../components/cart/BillingInfo';
 import OrderItem from '../components/cart/OrderItem';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import StepperMain from '../components/cart/StepperMain';
 
 
 export default function CartScreen() {
-    
+
     const insets = useSafeAreaInsets();
 
     /*return (
@@ -35,8 +35,8 @@ export default function CartScreen() {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
+    container: {
+        flex: 1
+    }
 });
 

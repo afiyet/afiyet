@@ -25,30 +25,31 @@ export default function FeaturedRestaurants() {
             restaurantPricePoint: "€€",
             restaurantCategory: "Pizza"
         },
-      ];
+    ];
 
     return (
-    <View style={styles.container}>
-        <Text style={styles.SectionTitle}>Featured Restaurants 🔥</Text>
-        <FlatList
-            horizontal
-            data={DATA}
-            renderItem={({item}) => 
-                <Restaurant 
-                    restaurantImageURL={item.restaurantImageURL}
-                    restaurantName={item.restaurantName}
-                    restaurantPricePoint={item.restaurantPricePoint}
-                    restaurantCategory={item.restaurantCategory}
-                />}
-            keyExtractor={item => item.id}
-            showsHorizontalScrollIndicator={false}
-      />
-    </View>
-  );
+        <View style={styles.container}>
+            <Text style={styles.SectionTitle}>Featured Restaurants 🔥</Text>
+            <FlatList
+                horizontal
+                data={DATA}
+                renderItem={({ item }) =>
+                    <Restaurant
+                        restaurantImageURL={item.restaurantImageURL}
+                        restaurantName={item.restaurantName}
+                        restaurantPricePoint={item.restaurantPricePoint}
+                        restaurantCategory={item.restaurantCategory}
+                    />}
+                keyExtractor={item => item.id}
+                showsHorizontalScrollIndicator={false}
+            />
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
     container: {
+        elevation: 3,
         flex: 1,
         marginTop: 18,
         backgroundColor: "white",
@@ -61,4 +62,4 @@ const styles = StyleSheet.create({
         fontSize: 28,
         fontWeight: 'bold'
     }
-  });
+});

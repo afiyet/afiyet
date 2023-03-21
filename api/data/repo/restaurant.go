@@ -74,3 +74,23 @@ func (rr RestaurantRepository) GetRestaurantAverageRating(id int) (float64, erro
 
 	return avg, nil
 }
+
+func (ur RestaurantRepository) GetRestaurantLoginInfo(mail string) (*model.Restaurant, error) {
+
+	var response model.Restaurant
+	err := ur.db.Where("mail", mail).Find(&response).Error
+	if err != nil {
+		return &model.Restaurant{}, err
+	}
+
+	return &response, nil
+}
+
+func (ur RestaurantRepository) Search(str string) ([]model.Restaurant, error) {
+
+	var ds []model.Restaurant
+	var tempStr = "%"+str+"%"
+	ur.db.Raw("select * from restaurants where name ilike '" + tempStr +"'").Scan(&ds)
+
+	return ds, nil
+}

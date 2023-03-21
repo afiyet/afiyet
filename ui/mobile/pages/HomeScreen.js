@@ -6,7 +6,7 @@ import PromotionList from '../components/home/PromotionList';
 import RestaurantsNearYou from '../components/home/RestaurantsNearYou';
 
 export default function HomeScreen() {
-    
+
 
   return (
     <View style={styles.container}>
