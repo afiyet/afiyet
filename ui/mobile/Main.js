@@ -13,7 +13,8 @@ function Main() {
   /* const [onboarded, setOnboarded] = useState(false); */
   const dispatch = useDispatch();
   const onboarded = useSelector(state => state.generalState.onboarded);
-
+  const isLoggedIn = useSelector(state => state.generalState.isLoggedIn);
+  
   /* const getOnboarded = async () => {
     try {
       return await AsyncStorage.getItem('ONBOARDED');
@@ -57,7 +58,7 @@ function Main() {
           headerShown: false
         }}
       >
-        {(true) ?
+        {(!isLoggedIn) ?
           <Stack.Group>
             <Stack.Screen
               name='Auth'

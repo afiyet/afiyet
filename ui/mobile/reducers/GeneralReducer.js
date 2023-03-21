@@ -2,6 +2,7 @@ import { GeneralActions } from "../actions";
 
 const initialState = {
     onboarded: false,
+    isLoggedIn: false,
 };
 
 const GeneralReducer = (state = initialState, action) => {
@@ -10,6 +11,11 @@ const GeneralReducer = (state = initialState, action) => {
             return {
                 ...state,
                 onboarded: action.data
+            };
+        case GeneralActions.types.IS_LOGGED_IN:
+            return {
+                ...state,
+                isLoggedIn: action.data
             };
         default:
             return {...state};
