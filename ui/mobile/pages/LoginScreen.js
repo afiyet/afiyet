@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -18,7 +18,8 @@ import { useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { login } from '../endpoints';
-import { GeneralActions } from '../actions';
+import { GeneralActions, UserActions } from '../actions';
+import SnackbarTemplate from '../components/snackbar/SnackbarTemplate';
 
 
 
@@ -27,6 +28,10 @@ const LoginScreen = () => {
     const { colors } = useTheme();
     const navigation = useNavigation();
     const dispatch = useDispatch();
+
+    const [snackbarText, setSnackbarText] = useState("");
+    const [snackbarVariant, setSnackbarVariant] = useState("");
+    const [snackbarVisible, setSnackbarVisible] = useState(false);
 
     const [data, setData] = React.useState({
         email: '',
@@ -39,7 +44,7 @@ const LoginScreen = () => {
 
 
     const textInputEmailChange = (val) => {
-        if (val.length !== 0 && /\S+@\S+\.\S+/.test(val)) {
+        if (val.trim().length !== 0 && /\S+@\S+\.\S+/.test(val)) {
             setData({
                 ...data,
                 email: val,
@@ -80,7 +85,7 @@ const LoginScreen = () => {
     }
 
     const handleValidUser = (val) => {
-        if (val.length !== 0 && /\S+@\S+\.\S+/.test(val)) {
+        if (val.trim().length !== 0 && /\S+@\S+\.\S+/.test(val)) {
             setData({
                 ...data,
                 isValidUser: true
@@ -104,13 +109,19 @@ const LoginScreen = () => {
             login(payload)
                 .then((res) => {
                     console.log(res);
+                    dispatch(UserActions.setUser(res.data));
                     dispatch(GeneralActions.setIsLoggedIn(true));
                 })
                 .catch((err) => {
                     console.log(err);
+                    setSnackbarVariant("error");
+                    setSnackbarText("Wrong credentials!");
+                    setSnackbarVisible(true);
                 })
         } else {
-
+            setSnackbarVariant("error");
+            setSnackbarText("Provided information is wrong or invalid!");
+            setSnackbarVisible(true);
         }
     }
 
@@ -206,7 +217,7 @@ const LoginScreen = () => {
                 </View>
                 {data.isValidPassword ? null :
                     <Animatable.View animation="fadeInLeft" duration={500}>
-                        <Text style={styles.errorMsg}>Password must be 8 characters long.</Text>
+                        <Text style={styles.errorMsg}>Password can not be left blank!</Text>
                     </Animatable.View>
                 }
 
@@ -243,6 +254,13 @@ const LoginScreen = () => {
                     </TouchableOpacity>
                 </View>
             </Animatable.View>
+            <SnackbarTemplate
+                snackbarText={snackbarText}
+                snackbarVisible={snackbarVisible}
+                setSnackbarVisible={setSnackbarVisible}
+                snackbarVariant={snackbarVariant}
+                snackbarDuration={4000}
+            />
         </View>
     );
 };

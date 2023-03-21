@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -15,13 +15,18 @@ import * as Animatable from 'react-native-animatable';
 import { LinearGradient } from 'expo-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
+import { Snackbar } from 'react-native-paper';
 
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { signUp } from '../endpoints';
+import SnackbarTemplate from '../components/snackbar/SnackbarTemplate';
 
 const SignUpScreen = () => {
 
+    const [snackbarText, setSnackbarText] = useState("");
+    const [snackbarVariant, setSnackbarVariant] = useState("");
+    const [snackbarVisible, setSnackbarVisible] = useState(false);
     const navigation = useNavigation();
     const dispatch = useDispatch();
 
@@ -39,48 +44,48 @@ const SignUpScreen = () => {
     });
 
     const textInputNameChange = (val) => {
-        if (val.length !== 0) {
+        if (val.trim().length !== 0) {
             setData({
                 ...data,
-                name: val,
+                name: val.trim(),
                 check_textInputNameChange: true
             });
         } else {
             setData({
                 ...data,
-                name: val,
+                name: val.trim(),
                 check_textInputNameChange: false
             });
         }
     }
 
     const textInputSurnameChange = (val) => {
-        if (val.length !== 0) {
+        if (val.trim().length !== 0) {
             setData({
                 ...data,
-                surname: val,
+                surname: val.trim(),
                 check_textInputSurnameChange: true
             });
         } else {
             setData({
                 ...data,
-                surname: val,
+                surname: val.trim(),
                 check_textInputSurnameChange: false
             });
         }
     }
 
     const textInputEmailChange = (val) => {
-        if (val.length !== 0 && /\S+@\S+\.\S+/.test(val)) {
+        if (val.trim().length !== 0 && /\S+@\S+\.\S+/.test(val)) {
             setData({
                 ...data,
-                email: val,
+                email: val.trim(),
                 check_textInputEmailChange: true
             });
         } else {
             setData({
                 ...data,
-                email: val,
+                email: val.trim(),
                 check_textInputEmailChange: false
             });
         }
@@ -103,19 +108,25 @@ const SignUpScreen = () => {
     const updateSecureTextEntry = () => {
         setData({
             ...data,
-            secureTextEntry: !data.secureTextEntry
+            secureTextEntry: !data.secureTextEntry,
+            confirm_secureTextEntry: !data.confirm_secureTextEntry
         });
     }
 
     const updateConfirmSecureTextEntry = () => {
         setData({
             ...data,
+            secureTextEntry: !data.secureTextEntry,
             confirm_secureTextEntry: !data.confirm_secureTextEntry
         });
     }
 
     const handleSignUp = () => {
-        if (data.check_textInputNameChange && data.check_textInputSurnameChange && data.check_textInputEmailChange) {
+        if (data.check_textInputNameChange && 
+            data.check_textInputSurnameChange && 
+            data.check_textInputEmailChange &&
+            (data.confirm_password === data.password)
+            ) {
 
             let payload = {
                 "name": data.name,
@@ -126,13 +137,23 @@ const SignUpScreen = () => {
 
             signUp(payload)
                 .then((res) => {
-                    
+                    setSnackbarVariant("success");
+                    setSnackbarText("Sign up successfull!");
+                    setSnackbarVisible(true);
                 })
                 .catch((err) => {
-
+                    setSnackbarVariant("error");
+                    setSnackbarVisible(true);
+                    if (err.response.data.includes("idx_users_mail")) {
+                        setSnackbarText("Sign up failed! Please try another email.");
+                    } else {
+                        setSnackbarText("Sign up failed!");
+                    }
                 })
         } else {
-
+            setSnackbarVariant("error");
+            setSnackbarText("Provided information is wrong or invalid!");
+            setSnackbarVisible(true);
         }
     }
 
@@ -347,6 +368,13 @@ const SignUpScreen = () => {
                     </View>
                 </ScrollView>
             </Animatable.View>
+            <SnackbarTemplate 
+                snackbarText={snackbarText}
+                snackbarVisible={snackbarVisible}
+                setSnackbarVisible={setSnackbarVisible}
+                snackbarVariant={snackbarVariant}
+                snackbarDuration={4000}
+            />
         </View>
     );
 };
