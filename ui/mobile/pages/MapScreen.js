@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Platform, Text, View, StyleSheet, Dimensions, Animated, TouchableOpacity } from 'react-native';
 
-import MapView, { PROVIDER_GOOGLE, Marker, LatLng } from 'react-native-maps';
-import * as Location from 'expo-location';
-
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { getMarkers } from '../endpoints';
 import Ionicons from "react-native-vector-icons/Ionicons"
+import { useSelector } from 'react-redux';
 
 const { width, height } = Dimensions.get("window");
 const CARD_HEIGHT = 220;
@@ -15,43 +13,18 @@ const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
 const MapScreen = () => {
   const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
   const [markerList, setMarkerList] = useState([]);
   const [hasPermission, setHasPermission] = useState(false);
+  const deviceLocation = useSelector(state => state.locationState);
 
   useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        return;
-      }
-      let location = await Location.getCurrentPositionAsync({});
-
-
-      /***
-       * 
-       * TODO: LOCATION ALMA İŞİNİ MAINE TAŞI, REDUX İLE BURAYA GÖNDER.
-       * 
-       * map initialRegion için lat ve long'un undefined gelmemesi gerek!!!
-       * 
-       * 
-       */
-
-      console.log({
-        longitude: location.longitude,
-        latitude: location.latitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      });
-      setLocation({
-        longitude: location.longitude,
-        latitude: location.latitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      });
-      setHasPermission(true);
-    })();
+    setLocation({
+      longitude: deviceLocation.longitude,
+      latitude: deviceLocation.latitude,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    });
+    setHasPermission(true);
 
     (() => {
       getMarkers()

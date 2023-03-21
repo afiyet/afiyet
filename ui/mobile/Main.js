@@ -4,8 +4,8 @@ import MainTabNavigation from './navigation/MainTabNavigation';
 import AuthStackNavigation from './navigation/AuthStackNavigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch, useSelector } from 'react-redux';
-import { GeneralActions } from './actions';
-
+import { GeneralActions, LocationActions } from './actions';
+import * as Location from 'expo-location';
 const Stack = createNativeStackNavigator();
 
 function Main() {
@@ -14,7 +14,7 @@ function Main() {
   const dispatch = useDispatch();
   const onboarded = useSelector(state => state.generalState.onboarded);
   const isLoggedIn = useSelector(state => state.generalState.isLoggedIn);
-  
+
   /* const getOnboarded = async () => {
     try {
       return await AsyncStorage.getItem('ONBOARDED');
@@ -34,7 +34,7 @@ function Main() {
     console.log('Done.:' + value);
   }
  */
-  
+
 
   /* useEffect(() => {
 
@@ -49,6 +49,18 @@ function Main() {
     setAsyncOnboarded(false);
 
   }, []); */
+
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        return;
+      }
+      let location = await Location.getCurrentPositionAsync({});
+      dispatch(LocationActions.setDeviceLocation(location.coords));
+    })();
+  }, []);
 
 
   return (
