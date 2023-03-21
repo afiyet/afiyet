@@ -1,8 +1,9 @@
 package model
 
 import (
-	"gorm.io/gorm"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type User struct {
@@ -12,6 +13,6 @@ type User struct {
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"deletedAt,omitempty"`
 	Name      string         `json:"name"`
 	Surname   string         `json:"surname"`
-	Mail      string         `json:"mail"`
+	Mail      string         `gorm:"unique" json:"mail"`
 	Rating    []Rating       `gorm:"-" json:"rating,omitempty"`
 }
