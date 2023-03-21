@@ -58,12 +58,16 @@ const MapScreen = () => {
         .then((res) => {
           let markers = [];
           res.data.forEach(element => {
-            let elementLocation = JSON.parse(element.location);
             markers.push({
-              name: element.name,
+              name: element.Name,
+              address: element.Address,
+              avgPoint: element.AvgPoint,
+              category: element.Category,
+              commentCount: element.CommentCount,
+              restaurantId: element.ID,
               coordinates: {
-                latitude: parseFloat(elementLocation.latitude),
-                longitude: parseFloat(elementLocation.longitude),
+                latitude: element.Latitude,
+                longitude: element.Longitude,
               }
             });
           });
@@ -91,7 +95,7 @@ const MapScreen = () => {
       clearTimeout(regionTimeout);
 
       const regionTimeout = setTimeout(() => {
-        if( mapIndex !== index ) {
+        if (mapIndex !== index) {
           mapIndex = index;
           const { coordinates } = markerList[index];
           _map.current.animateToRegion(
@@ -110,12 +114,12 @@ const MapScreen = () => {
   const onMarkerPress = (mapEventData) => {
     const markerID = mapEventData._targetInst.return.key;
 
-    let x = (markerID * CARD_WIDTH) + (markerID * 20); 
+    let x = (markerID * CARD_WIDTH) + (markerID * 20);
     if (Platform.OS === 'ios') {
       x = x - SPACING_FOR_CARD_INSET;
     }
 
-    _scrollView.current.scrollTo({x: x, y: 0, animated: true});
+    _scrollView.current.scrollTo({ x: x, y: 0, animated: true });
   }
 
   const _map = useRef(null);
@@ -142,16 +146,16 @@ const MapScreen = () => {
             pitchEnabled={false}
           >
             {markerList.map((marker, index) => {
-            return (
-              <Marker
-                key={index}
-                coordinate={{ latitude: marker.coordinates.latitude, longitude: marker.coordinates.longitude }}
-                onPress={(e) => onMarkerPress(e)}
-              >
-                <Ionicons name="location-sharp" color={"#FF0000"} size={48} />
-              </Marker >
-            );
-          })}
+              return (
+                <Marker
+                  key={index}
+                  coordinate={{ latitude: marker.coordinates.latitude, longitude: marker.coordinates.longitude }}
+                  onPress={(e) => onMarkerPress(e)}
+                >
+                  <Ionicons name="location-sharp" color={"#FF0000"} size={48} />
+                </Marker >
+              );
+            })}
           </MapView>
           <Animated.ScrollView
             ref={_scrollView}
@@ -161,7 +165,7 @@ const MapScreen = () => {
             showsHorizontalScrollIndicator={false}
             snapToInterval={CARD_WIDTH + 37}
             snapToAlignment="center"
-            disableIntervalMomentum={ true } 
+            disableIntervalMomentum={true}
             style={styles.scrollView}
             contentInset={{
               top: 0,
@@ -187,26 +191,26 @@ const MapScreen = () => {
           >
             {markerList && markerList.map((marker, index) => (
               <View style={styles.card} key={index}>
-              
-              <View style={styles.textContent}>
-                <Text numberOfLines={1} style={styles.cardtitle}>{marker.name}</Text>
-                
-                <Text numberOfLines={1} style={styles.cardDescription}>{marker.description}</Text>
-                <View style={styles.button}>
-                  <TouchableOpacity
-                    onPress={() => {}}
-                    style={[styles.signIn, {
-                      borderColor: '#FF6347',
-                      borderWidth: 1
-                    }]}
-                  >
-                    <Text style={[styles.textSign, {
-                      color: '#FF6347'
-                    }]}>Order Now</Text>
-                  </TouchableOpacity>
+
+                <View style={styles.textContent}>
+                  <Text numberOfLines={1} style={styles.cardtitle}>{marker.name}</Text>
+
+                  <Text numberOfLines={1} style={styles.cardDescription}>{marker.description}</Text>
+                  <View style={styles.button}>
+                    <TouchableOpacity
+                      onPress={() => { }}
+                      style={[styles.signIn, {
+                        borderColor: '#FF6347',
+                        borderWidth: 1
+                      }]}
+                    >
+                      <Text style={[styles.textSign, {
+                        color: '#FF6347'
+                      }]}>Order Now</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
-            </View>
             ))}
           </Animated.ScrollView>
         </View>
@@ -271,8 +275,8 @@ const styles = StyleSheet.create({
   markerWrap: {
     alignItems: "center",
     justifyContent: "center",
-    width:50,
-    height:50,
+    width: 50,
+    height: 50,
   },
   marker: {
     width: 30,
@@ -283,14 +287,14 @@ const styles = StyleSheet.create({
     marginTop: 5
   },
   signIn: {
-      width: '100%',
-      padding:5,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 3
+    width: '100%',
+    padding: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 3
   },
   textSign: {
-      fontSize: 14,
-      fontWeight: 'bold'
+    fontSize: 14,
+    fontWeight: 'bold'
   }
 });
