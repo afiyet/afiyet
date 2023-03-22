@@ -18,6 +18,7 @@ jobs:
         env:
           HOST: ${{ secrets.HOST }}
         run: |
+          mkdir -p /home/runner/.ssh/
           ssh-keyscan $HOST > /home/runner/.ssh/known_hosts
       - uses: webfactory/ssh-agent@v0.7.0
         with:
