@@ -51,6 +51,8 @@ jobs:
       - name: Build binary
         run: |
           pushd api/cmd/afiyet
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o main
+
           go build -o main
       - name: Deploy app
         env:
