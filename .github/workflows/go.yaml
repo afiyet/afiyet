@@ -51,14 +51,12 @@ jobs:
           GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o main
 
           go build -o main
-      - name: Deploy app
-        env:
-          OS_USER: ${{ secrets.OS_USER }}
-          EC2_IP: ${{ secrets.EC2_IP }}
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-        run: |
-          export SSH_AUTH_SOCK=/tmp/ssh_agent.sock
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          ssh-add - <<< "$PRIVATE_KEY"
-          scp api/cmd/afiyet/main $OS_USER@$EC2_IP:/home/ubuntu/main
-          #sudo systemctl restart afiyet.service
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.OS_USER }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          port: 22
+          source: "/cmd/afiyet/main"
+          target: "/home/ubuntu/app/main"
