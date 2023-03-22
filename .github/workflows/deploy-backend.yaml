@@ -1,9 +1,11 @@
-name: Go
+name: Deploy Backend
 
 on:
   push:
+    paths:
+      - api/*
     branches:
-      - pipeline
+      - main
 
 jobs:
   deploy:
