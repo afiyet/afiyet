@@ -4,6 +4,7 @@ import (
 	"github.com/afiyet/afiytet/api/service"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
+	"net/http"
 )
 
 func Bootstrap(db *gorm.DB, e *echo.Echo) {
@@ -28,6 +29,14 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 	locationHandler := LocationHandler{
 		s: service.NewLocationService(db),
 	}
+
+	e.GET("/ping", func(c echo.Context) error {
+		return c.String(http.StatusOK, "pong")
+	})
+
+	e.GET("/health", func(c echo.Context) error {
+		return c.String(http.StatusOK, "ok")
+	})
 
 	e.POST("/users", userHandler.Add)
 	e.DELETE("/users/:id", userHandler.Delete)
@@ -56,7 +65,7 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 
 	e.POST("/restaurants/signup", restaurantHandler.Signup)
 	e.POST("/restaurants/login", restaurantHandler.Login)
-    e.POST("/restaurant/search/:str", restaurantHandler.Search)
+	e.POST("/restaurant/search/:str", restaurantHandler.Search)
 
 	e.GET("/restaurants/:id/dishes", restaurantHandler.GetDishes)
 
@@ -69,7 +78,6 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 	e.GET("/restaurants/:id/tables", tableHandler.GetByRestaurant)
 	e.GET("/restaurants/tables/orders/:id", orderHandler.GetByTableID)
 	e.POST("/restaurants/tables", tableHandler.Add)
-
 
 	e.GET("/locations", locationHandler.GetLocationList)
 
