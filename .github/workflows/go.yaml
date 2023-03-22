@@ -50,13 +50,14 @@ jobs:
           go mod tidy
       - name: Build binary
         run: |
-          cd api
-          go build cmd/afiyet -o app
+          pushd api/cmd/afiyet
+          go build -o main
       - name: Deploy app
         run: |
-          ls
-          ls api
+          pwd
           export SSH_AUTH_SOCK=/tmp/ssh_agent.sock
           ssh-agent -a $SSH_AUTH_SOCK > /dev/null
           ssh-add - <<< "${{ secrets.PRIVATE_KEY}}"
           ssh $OS_USER@$EC2_IP "pwd && ls"
+          scp ./main $OS_USER@$EC2_IP:/home/ubuntu/main
+          #sudo systemctl restart afiyet.service
