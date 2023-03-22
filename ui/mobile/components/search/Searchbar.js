@@ -9,7 +9,8 @@ export default function Searchbar(props) {
 
     const {
         search,
-        setSearch
+        setSearch,
+        onSearchSubmit
     } = props;
 
     return (
@@ -37,6 +38,8 @@ export default function Searchbar(props) {
                     placeholder="Search"
                     value={search}
                     onChangeText={setSearch}
+                    returnKeyType={"search"}
+                    onSubmitEditing={() => {onSearchSubmit()}}
                 />
             </View>
         </View>
