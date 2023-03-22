@@ -35,7 +35,7 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 	})
 
 	e.GET("/health", func(c echo.Context) error {
-		return c.String(http.StatusOK, "oke")
+		return c.String(http.StatusOK, "ok")
 	})
 
 	e.POST("/users", userHandler.Add)
