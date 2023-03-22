@@ -46,17 +46,19 @@ jobs:
           go-version: '^1.18'
       - name: Build binary
         run: |
+          pwd
           pushd api/cmd/afiyet
+          pwd
           go mod tidy
           GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o main
 
           go build -o main
-      - name: copy file via ssh password
+      - name: Deploy binary via scp
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.OS_USER }}
           key: ${{ secrets.PRIVATE_KEY }}
           port: 22
-          source: "/cmd/afiyet/main"
+          source: "./cmd/afiyet/main"
           target: "/home/ubuntu/app/main"
