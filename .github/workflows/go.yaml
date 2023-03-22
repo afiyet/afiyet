@@ -58,6 +58,7 @@ jobs:
           export SSH_AUTH_SOCK=/tmp/ssh_agent.sock
           ssh-agent -a $SSH_AUTH_SOCK > /dev/null
           ssh-add - <<< "${{ secrets.PRIVATE_KEY}}"
-          ssh $OS_USER@$EC2_IP "pwd && ls"
+          echo "OS_USER: $OS_USER"
+          echo "EC2_IP: $EC2_IP"
           scp ./main $OS_USER@$EC2_IP:/home/ubuntu/main
           #sudo systemctl restart afiyet.service
