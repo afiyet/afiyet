@@ -46,22 +46,22 @@ jobs:
           go-version: '^1.18'
       - name: Add SSH key
         env:
-            SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
-            mkdir -p /home/runner/.ssh
-            ssh-keyscan ec2-3-70-155-6.eu-central-1.compute.amazonaws.com >> /home/runner/.ssh/known_hosts
-            echo "${{ secrets.SSH_KEY }}" > /home/runner/.ssh/github_actions
-            chmod 600 /home/runner/.ssh/github_actions
-            ssh-agent -a $SSH_AUTH_SOCK > /dev/null	
-            ssh-add /home/runner/.ssh/github_actions
+          ssh-keyscan $IP >> /home/runner/.ssh/known_hosts
+          echo "${{ secrets.SSH_KEY }}" > /home/runner/.ssh/github_actions
+          chmod 600 /home/runner/.ssh/github_actions
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null	
+          ssh-add /home/runner/.ssh/github_actions
+      - uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Build and Deploy
         env:
-          IP: ${{ secrets.IP }}
-          username: ${{ secrets.OS_USER }}
-          key: ${{ secrets.PRIVATE_KEY }}
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          HOST: ${{ secrets.HOST }}
+          USER: ${{ secrets.OS_USER }}
         run: |
           cd api/cmd/afiyet
           go mod tidy
           GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o main
-          scp main $username@$ip:/home/ubuntu/app/main
+          scp main $USER@$HOST:/home/ubuntu/app/main
