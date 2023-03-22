@@ -44,21 +44,24 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version: '^1.18'
-      - name: Build binary
+      - name: Add SSH key
+        env:
+            SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
-          pwd
-          pushd api/cmd/afiyet
-          pwd
-          go mod tidy
-          GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o main
-
-          go build -o main
-      - name: Deploy binary via scp
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.HOST }}
+            mkdir -p /home/runner/.ssh
+            ssh-keyscan ec2-3-70-155-6.eu-central-1.compute.amazonaws.com >> /home/runner/.ssh/known_hosts
+            echo "${{ secrets.SSH_KEY }}" > /home/runner/.ssh/github_actions
+            chmod 600 /home/runner/.ssh/github_actions
+            ssh-agent -a $SSH_AUTH_SOCK > /dev/null	
+            ssh-add /home/runner/.ssh/github_actions
+      - name: Build and Deploy
+        env:
+          IP: ${{ secrets.IP }}
           username: ${{ secrets.OS_USER }}
           key: ${{ secrets.PRIVATE_KEY }}
-          port: 22
-          source: "./cmd/afiyet/main"
-          target: "/home/ubuntu/app/main"
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          cd api/cmd/afiyet
+          go mod tidy
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o main
+          scp main $username@$ip:/home/ubuntu/app/main
