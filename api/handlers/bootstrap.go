@@ -30,6 +30,9 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 		s: service.NewLocationService(db),
 	}
 
+	e.GET("/health", func(c echo.Context) error {
+		return c.String(http.StatusOK, "healthy")
+	})
 	e.GET("/ping", func(c echo.Context) error {
 		return c.String(http.StatusOK, "pong")
 	})
