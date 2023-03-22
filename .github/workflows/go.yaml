@@ -38,6 +38,7 @@ jobs:
           cd ..
   deploy:
     name: Deploy
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - run: ls
@@ -51,7 +52,7 @@ jobs:
       - name: Build binary
         run: |
           cd api
-          go build cmd/afiyet main -o app
+          go build cmd/afiyet -o app
       - name: Deploy app
         run: |
           ls
