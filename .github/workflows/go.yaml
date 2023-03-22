@@ -53,11 +53,15 @@ jobs:
           pushd api/cmd/afiyet
           go build -o main
       - name: Deploy app
+        env:
+          OS_USER: ${{ secrets.OS_USER }}
+          EC2_IP: ${{ secrets.EC2_IP }}
+          PRIVATE_KEY: ${{ secrets.EC2_IP }}
         run: |
           pwd
           export SSH_AUTH_SOCK=/tmp/ssh_agent.sock
           ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          ssh-add - <<< "${{ secrets.PRIVATE_KEY}}"
+          ssh-add - <<< "$PRIVATE_KEY"
           echo "OS_USER: $OS_USER"
           echo "EC2_IP: $EC2_IP"
           scp ./main $OS_USER@$EC2_IP:/home/ubuntu/main
