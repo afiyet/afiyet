@@ -41,16 +41,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: ls
       - uses: actions/setup-go@v4
         with:
           go-version: '^1.18'
-      - run: |
-          cd api
-          go mod tidy
       - name: Build binary
         run: |
           pushd api/cmd/afiyet
+          go mod tidy
           GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o main
 
           go build -o main
@@ -58,13 +55,10 @@ jobs:
         env:
           OS_USER: ${{ secrets.OS_USER }}
           EC2_IP: ${{ secrets.EC2_IP }}
-          PRIVATE_KEY: ${{ secrets.EC2_IP }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
         run: |
-          pwd
           export SSH_AUTH_SOCK=/tmp/ssh_agent.sock
           ssh-agent -a $SSH_AUTH_SOCK > /dev/null
           ssh-add - <<< "$PRIVATE_KEY"
-          echo "OS_USER: $OS_USER"
-          echo "EC2_IP: $EC2_IP"
-          scp ./main $OS_USER@$EC2_IP:/home/ubuntu/main
+          scp api/cmd/afiyet/main $OS_USER@$EC2_IP:/home/ubuntu/main
           #sudo systemctl restart afiyet.service
