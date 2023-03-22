@@ -1,35 +1,62 @@
 name: Go
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - pipeline
 
 jobs:
-    lint:
-      name: lint
-      runs-on: ubuntu-latest
-      permissions:
-        contents: read
-      steps:
-        - uses: actions/setup-go@v3
-          with:
-            go-version: 1.18
-        - uses: actions/checkout@v3
-        - name: golangci-lint
-          uses: golangci/golangci-lint-action@v3
-          with:
-            version: v1.29
-            working-directory: api
-    unit-test:
-      strategy:
-        matrix:
-          go-version: [1.18.x]
-          os: [ubuntu-latest]
-      runs-on: ${{ matrix.os }}
-      steps:
-        - uses: actions/setup-go@v3
-          with:
-            go-version: ${{ matrix.go-version }}
-        - uses: actions/checkout@v3
-        - run: |
-            cd api
-            go test ./...
-            cd ..
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/setup-go@v3
+        with:
+          go-version: 1.18
+      - uses: actions/checkout@v3
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: v1.29
+          working-directory: api
+  unit-test:
+    strategy:
+      matrix:
+        go-version: [ 1.18.x ]
+        os: [ ubuntu-latest ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go-version }}
+      - uses: actions/checkout@v3
+      - run: |
+          cd api
+          go test ./...
+          cd ..
+  deploy:
+    name: Deploy
+    steps:
+      - uses: actions/checkout@v3
+      - run: ls
+      - uses: actions/setup-go@v4
+        with:
+          go-version: '^1.18'
+          cache: true
+      - run: |
+          cd api
+          go get .
+      - name: Build binary
+        run: |
+          cd api
+          go build cmd/afiyet main -o app
+      - name: Deploy app
+        run: |
+          ls
+          ls api
+          export SSH_AUTH_SOCK=/tmp/ssh_agent.sock
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          ssh-add - <<< "${{ secrets.PRIVATE_KEY}}"
+          ssh $OS_USER@$EC2_IP "pwd && ls"
