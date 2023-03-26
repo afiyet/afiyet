@@ -85,6 +85,6 @@ func (s *RestaurantService) Login(r model.Restaurant) (*model.Restaurant, error)
 	return res, nil
 }
 
-func (s *RestaurantService) Search(str string) ([]model.Restaurant, error) {
+func (s *RestaurantService) Search(str string) ([]model.LocationQuery, error) {
 	return s.r.Search(str)
 }

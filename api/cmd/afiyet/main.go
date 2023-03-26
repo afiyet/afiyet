@@ -27,7 +27,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	app.e.Logger.Fatal(app.e.Start(":8080"))
+	p := os.Getenv("APP_PORT")
+	if p == "" {
+		p = "8000"
+	}
+	app.e.Logger.Fatal(app.e.Start(":" + p))
 }
 
 type App struct {
