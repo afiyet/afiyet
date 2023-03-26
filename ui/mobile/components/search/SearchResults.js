@@ -1,5 +1,6 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import React, { useEffect, useState } from 'react';
+import RestaurantCard from './RestaurantCard';
 
 export default function SearchResults(props) {
 
@@ -16,6 +17,20 @@ export default function SearchResults(props) {
     return (
         <View style={styles.container}>
             <Text style={styles.SectionTitle}>Found {searchResults.length} results for ' {finalSearchedKey} '</Text>
+            <ScrollView>
+                {searchResults.map((item, index) => {
+                    return (
+                        <RestaurantCard 
+                            key={index}
+                            name={item.Name}
+                            address={item.Address}
+                            category={item.Category}
+                            avgPoint={item.AvgPoint}
+                            commentCount={item.CommentCount}
+                        />
+                    );
+                })}
+            </ScrollView>
         </View>
     )
 }

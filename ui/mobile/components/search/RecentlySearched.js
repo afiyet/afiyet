@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDispatch } from 'react-redux';
 import { SearchActions } from '../../actions';
@@ -9,7 +9,8 @@ export default function RecentlySearched(props) {
     const {
         recentlySearched,
         setSearch,
-        onSearchSubmit
+        onSearchSubmit,
+        search
     } = props;
 
     const dispatch = useDispatch();
@@ -17,6 +18,10 @@ export default function RecentlySearched(props) {
     const removeItem = (index) => {
         dispatch(SearchActions.removeFromRecentlySearched(index));
     };
+
+   /*  useEffect(() => {
+        onSearchSubmit();
+    }, [search]); */
 
     return (
         <View style={styles.container}>
@@ -27,8 +32,7 @@ export default function RecentlySearched(props) {
                         <TouchableOpacity
                             style={styles.innerLeft}
                             onPress={() => { 
-                                setSearch(item);
-                                onSearchSubmit();
+                                onSearchSubmit(item);
                             }}
                         >
                             <MaterialCommunityIcons

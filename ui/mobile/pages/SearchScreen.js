@@ -8,7 +8,6 @@ import { getSearchResults } from '../endpoints';
 import SearchResults from '../components/search/SearchResults';
 
 
-
 export default function SearchScreen() {
   const [search, setSearch] = useState('');
   const [waiting, setWaiting] = useState(false);
@@ -17,15 +16,13 @@ export default function SearchScreen() {
   const [searchResults, setSearchResults] = useState([]);
   const dispatch = useDispatch();
 
-  const onSearchSubmit = () => {
-    dispatch(SearchActions.addToRecentlySearched(search));
-    setWaiting(true);
+  const onSearchSubmit = (searchKey) => {
+    setSearch(searchKey);
     setSearchResults([]);
-    //TODO check trim and length
-
-    getSearchResults(search)
+    if(searchKey.trim().length > 0) {
+      setWaiting(true);
+      getSearchResults(searchKey)
       .then((res) => {
-        console.log(res);
         if (res.data !== null) {
           setSearchResults(res.data);
         }
@@ -37,8 +34,8 @@ export default function SearchScreen() {
       .finally(() => {
         setWaiting(false);
       })
-    /* setIsShowResults(true);
-    setWaiting(false); */
+    }
+    dispatch(SearchActions.addToRecentlySearched(searchKey));
   };
 
   const clearSearch = () => {
@@ -46,7 +43,6 @@ export default function SearchScreen() {
     setIsShowResults(false);
   }
 
-  console.log(searchState.recentlySearched)
   return (
     <View style={styles.container}>
       <Searchbar
@@ -62,6 +58,7 @@ export default function SearchScreen() {
             <RecentlySearched
               recentlySearched={searchState.recentlySearched}
               setSearch={setSearch}
+              search={search}
               onSearchSubmit={onSearchSubmit}
             />
             :
@@ -74,8 +71,6 @@ export default function SearchScreen() {
               null
         }
       </ScrollView>
-
-
     </View>
   );
 };

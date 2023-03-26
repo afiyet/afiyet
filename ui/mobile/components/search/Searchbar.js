@@ -42,22 +42,25 @@ export default function Searchbar(props) {
                     value={search}
                     onChangeText={setSearch}
                     returnKeyType={"search"}
-                    onSubmitEditing={() => { onSearchSubmit() }}
+                    onSubmitEditing={() => { onSearchSubmit(search) }}
                 />
                 <View style={styles.spinner}>
                     {(waiting) ?
                         <ActivityIndicator animating={waiting} size={"large"} color={"#d82227"} />
                         :
-                        <TouchableOpacity
-                            style={styles.clearInput}
-                            onPress={clearSearch}
-                        >
-                            <SimpleLineIcons
-                                name="close"
-                                color="black"
-                                size={20}
-                            />
-                        </TouchableOpacity>
+                        (search.length > 0) ?
+                            <TouchableOpacity
+                                style={styles.clearInput}
+                                onPress={clearSearch}
+                            >
+                                <SimpleLineIcons
+                                    name="close"
+                                    color="black"
+                                    size={20}
+                                />
+                            </TouchableOpacity>
+                            :
+                            null
                     }
 
                 </View>
