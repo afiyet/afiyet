@@ -1,13 +1,13 @@
 import { SearchActions } from "../actions";
 
 const initialState = {
-    recentlySearched: ["1",],
+    recentlySearched: [],
 };
 
 const SearchReducer = (state = initialState, action) => {
     switch (action.type) {
         case SearchActions.types.ADD_TO_RECENTLY_SEARCHED:
-            if (!state.recentlySearched.includes(action.data)) {
+            if (!state.recentlySearched.includes(action.data) && action.data.trim().length > 0) {
                 return {
                     ...state,
                     recentlySearched: [...state.recentlySearched, action.data],

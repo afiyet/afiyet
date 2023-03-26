@@ -8,7 +8,8 @@ export default function RecentlySearched(props) {
 
     const {
         recentlySearched,
-        setSearch
+        setSearch,
+        onSearchSubmit
     } = props;
 
     const dispatch = useDispatch();
@@ -25,7 +26,10 @@ export default function RecentlySearched(props) {
                     <View style={styles.searchedItem} key={index}>
                         <TouchableOpacity
                             style={styles.innerLeft}
-                            onPress={() => { setSearch(item) }}
+                            onPress={() => { 
+                                setSearch(item);
+                                onSearchSubmit();
+                            }}
                         >
                             <MaterialCommunityIcons
                                 name="history"

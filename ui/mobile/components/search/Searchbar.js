@@ -1,6 +1,7 @@
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import React from 'react';
 import Feather from 'react-native-vector-icons/Feather';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import { useNavigation } from '@react-navigation/native';
 
 export default function Searchbar(props) {
@@ -10,7 +11,9 @@ export default function Searchbar(props) {
     const {
         search,
         setSearch,
-        onSearchSubmit
+        onSearchSubmit,
+        waiting,
+        clearSearch
     } = props;
 
     return (
@@ -39,8 +42,25 @@ export default function Searchbar(props) {
                     value={search}
                     onChangeText={setSearch}
                     returnKeyType={"search"}
-                    onSubmitEditing={() => {onSearchSubmit()}}
+                    onSubmitEditing={() => { onSearchSubmit() }}
                 />
+                <View style={styles.spinner}>
+                    {(waiting) ?
+                        <ActivityIndicator animating={waiting} size={"large"} color={"#d82227"} />
+                        :
+                        <TouchableOpacity
+                            style={styles.clearInput}
+                            onPress={clearSearch}
+                        >
+                            <SimpleLineIcons
+                                name="close"
+                                color="black"
+                                size={20}
+                            />
+                        </TouchableOpacity>
+                    }
+
+                </View>
             </View>
         </View>
     )
@@ -71,14 +91,31 @@ const styles = StyleSheet.create({
     field: {
         backgroundColor: "#e9ecef",
         paddingLeft: 48,
+        paddingRight: 60,
         borderRadius: 16,
         height: 45,
         flex: 1,
         fontSize: 18,
+
     },
     arrow: {
         marginRight: 5,
         paddingHorizontal: 5,
+        paddingVertical: 6,
         //backgroundColor: "red"
+    },
+    spinner: {
+        position: 'absolute',
+        top: 5,
+        right: 15,
+        zIndex: 1,
+    },
+    clearInput: {
+        position: 'absolute',
+        top: -3,
+        right: -2,
+        zIndex: 1,
+        paddingVertical: 10,
+        paddingHorizontal: 10
     }
 });
