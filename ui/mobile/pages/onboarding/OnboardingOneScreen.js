@@ -26,7 +26,7 @@ const Skip = ({ ...props }) => (
         style={{ marginHorizontal: 10 }}
         {...props}
     >
-
+        <Text style={{ fontSize: 16, fontWeight: "bold" }}>Skip</Text>
     </TouchableOpacity>
 );
 
@@ -35,7 +35,7 @@ const Next = ({ ...props }) => (
         style={{ marginHorizontal: 10 }}
         {...props}
     >
-        <Text style={{ fontSize: 16 }}>Next</Text>
+        <Text style={{ fontSize: 16, fontWeight: "bold" }}>Next</Text>
     </TouchableOpacity>
 );
 
@@ -44,13 +44,13 @@ const Done = ({ ...props }) => (
         style={{ marginHorizontal: 10 }}
         {...props}
     >
-        <Text style={{ fontSize: 16 }}>Done</Text>
+        <Text style={{ fontSize: 16, fontWeight: "bold" }}>Done</Text>
     </TouchableOpacity>
 );
 
 const OnboardingScreen = () => {
     const dispatch = useDispatch();
-    
+
     return (
         <View style={styles.container}>
             <StatusBar backgroundColor='#d82227' barStyle="light-content" />
@@ -59,10 +59,10 @@ const OnboardingScreen = () => {
                 NextButtonComponent={Next}
                 DoneButtonComponent={Done}
                 DotComponent={Dots}
-                onSkip={() => {dispatch(GeneralActions.setOnboarded(true));}}
-                onDone={() => {dispatch(GeneralActions.setOnboarded(true));}}
-                titleStyles={{fontWeight: "bold"}}
-                subTitleStyles={{width: 300, fontWeight: "bold" }}
+                onSkip={() => { dispatch(GeneralActions.setOnboarded(true)); }}
+                onDone={() => { dispatch(GeneralActions.setOnboarded(true)); }}
+                titleStyles={{ fontWeight: "bold" }}
+                subTitleStyles={{ width: 300, fontWeight: "bold" }}
                 pages={[
                     {
                         backgroundColor: '#d82227',
