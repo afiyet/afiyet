@@ -12,13 +12,10 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
-import Separator from '../components/deneme/Seperator';
-import RestaurantCard from '../components/deneme/RestaurantCard';
-import RestaurantMediumCard from '../components/deneme/RestaurantMediumCard';
-import Campaign from '../components/deneme/Campaign';
+import Separator from '../components/home/Seperator';
+import RestaurantMediumCard from '../components/home/RestaurantMediumCard';
+import Campaign from '../components/home/Campaign';
 
 
 const sortStyle = isActive =>
@@ -30,7 +27,6 @@ const { width, height } = Dimensions.get("window");
 
 const HomeScreen = () => {
 
-  const [activeCategory, setActiveCategory] = useState();
   const [restaurants, setRestaurants] = useState([
     {
       "ID": 5,
