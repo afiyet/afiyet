@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: Colors.DEFAULT_WHITE,
+        backgroundColor: '#FFFFFF',
         borderRadius: 10,
         elevation: 3,
         marginBottom: 5,
@@ -92,11 +92,11 @@ const styles = StyleSheet.create({
     },
     tagText: {
         fontSize: 11,
-        color: Colors.DEFAULT_GREY,
+        color: '#C2C2CB',
     },
     addressText: {
         fontSize: 10,
-        color: Colors.DEFAULT_GREY,
+        color: '#C2C2CB',
         marginBottom: 5,
     },
     footerContainer: {
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 5,
         paddingVertical: 3,
-        backgroundColor: Colors.LIGHT_YELLOW,
+        backgroundColor: '#FCE6CD',
         borderRadius: 12,
         marginHorizontal: 3,
     },
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: 'bold',
         marginRight: 2,
-        color: Colors.DEFAULT_GREY,
+        color: '#C2C2CB',
     },
     nameAndRating: {
         display: "flex",
