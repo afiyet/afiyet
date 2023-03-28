@@ -17,6 +17,7 @@ export default function SearchScreen() {
   const dispatch = useDispatch();
 
   const onSearchSubmit = (searchKey) => {
+    setIsShowResults(true);
     setSearch(searchKey);
     setSearchResults([]);
     if(searchKey.trim().length > 0) {
@@ -26,7 +27,6 @@ export default function SearchScreen() {
         if (res.data !== null) {
           setSearchResults(res.data);
         }
-        setIsShowResults(true);
       })
       .catch((err) => {
         console.log(err);
