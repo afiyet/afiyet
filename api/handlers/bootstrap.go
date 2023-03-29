@@ -1,10 +1,11 @@
 package handlers
 
 import (
+	"net/http"
+
 	"github.com/afiyet/afiytet/api/service"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
-	"net/http"
 )
 
 func Bootstrap(db *gorm.DB, e *echo.Echo) {
@@ -28,6 +29,10 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 	}
 	locationHandler := LocationHandler{
 		s: service.NewLocationService(db),
+	}
+	PaymentHandler := PaymentHandler{
+		orderService: orderHandler.s,
+		userService:  userHandler.s,
 	}
 
 	e.GET("/ping", func(c echo.Context) error {
@@ -76,5 +81,7 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 	e.POST("/restaurants/tables", tableHandler.Add)
 
 	e.GET("/locations", locationHandler.GetLocationList)
+
+	e.POST("/restaurants/orderPayment", PaymentHandler.CreatePaymentWithForm)
 
 }
