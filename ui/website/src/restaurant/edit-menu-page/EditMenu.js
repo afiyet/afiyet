@@ -5,14 +5,13 @@ import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import Navbar from "../components/Navbar"
+
 import "./EditMenu.css"
 
 
 const EditMenu = () => {
     return (
       <div className="edit-menu-page">
-        <Navbar />
         <div className="menu-container">
           <div className="menu">
             <div className="menu-header">
