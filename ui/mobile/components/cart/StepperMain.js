@@ -3,6 +3,8 @@ import React from 'react';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 import OrderItem from './OrderItem';
 import BillingInfo from './BillingInfo';
+import { WebView } from 'react-native-webview';
+import { initializePayment } from '../../endpoints';
 
 export const themeColor = '#1e1e1e';
 export const textColor = '#ffffffdd';
@@ -10,6 +12,42 @@ const windowDimensions = Dimensions.get('window');
 const screenDimensions = Dimensions.get('screen');
 
 export default function StepperMain() {
+
+
+  function foo() {
+
+    let payload = {
+      "buyerID": 4,
+      "restaurantID": "5",
+      "tableID": "1",
+      "basketItems": [
+        {
+          "id": 17,
+          "name": "Whopper Menü",
+          "category": "Menüler",
+          "price": 85
+        },
+        {
+          "id": 18,
+          "name": "Soğan Halkası (8'li)",
+          "category": "Çıtır Lezzet",
+          "price": 18.70
+        }
+      ]
+    }
+
+    initializePayment(payload)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+
+      })
+
+  }
 
   const progressSteps = {
     borderWidth: 6,
@@ -68,6 +106,14 @@ export default function StepperMain() {
         <ProgressStep label="Payment" {...progressStep}
           nextBtnStyle={styles.nextBtnStyle}>
           <Text style={styles.textHeader}>Payment</Text>
+          <View style={styles.iyzicoContainer}>
+            <WebView
+              style={{ height: 400, width: 420, resizeMode: 'contain', flex: 1 }}
+              source={{ uri: "https://sandbox-cpp.iyzipay.com?token=597b70d0-1122-4773-9b8d-70fd47252d99&lang=tr" }}
+              scalesPageToFit={false}
+              scrollEnabled={true}
+            />
+          </View>
         </ProgressStep>
       </ProgressSteps>
     </View>
@@ -124,5 +170,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+  iyzicoContainer: {
+    
   }
 });
