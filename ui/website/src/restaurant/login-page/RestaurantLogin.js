@@ -1,33 +1,64 @@
 import { useNavigate } from "react-router-dom";
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 import "./RestaurantLogin.css";
-import companyLogo from "../../img/afiyet-logo.png";
+import companyLogo from "../../img/afiyet-logo-w.png";
+import { login } from "../../endpoints";
+import { useState } from "react";
+import { useDispatch } from 'react-redux';
+import UserActions from "../../actions/UserActions";
 
-const RestaurantLogin = () => 
-{
-    let navigate = useNavigate();
+const RestaurantLogin = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const routeChange = () => { 
-      let path = "restaurant-main"; 
-      navigate(path);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+
+    function authenticateRestaurant() {
+        login({
+            mail: email,
+            password: password
+        })
+            .then((res) => {
+                console.log(res);
+                dispatch(UserActions.setUser(res.data));
+                navigate("/restaurant-main");
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
     return (
         <div className="restaurant-login">
             <div className="login-form">
-                <img className="company-logo" src={companyLogo} alt="Afiyet Logosu"/>
+                <img className="company-logo" src={companyLogo} alt="Afiyet Logosu" />
                 <div className="form">
                     <form>
-                        <div className="input-container">
-                            <label>Kullanıcı Adı</label>
-                            <input type="text" name="uname" required />
+                        <div className="username-field">
+                            <TextField
+                                id="outlined-search"
+                                value={email}
+                                onChange={(event) => {setEmail(event.target.value)}}
+                                label="Kullanıcı Adı"
+                                type="search"
+                            />
                         </div>
-                        <div className="input-container">
-                            <label>Şifre</label>
-                            <input type="password" name="pass" required />
+                        <div className="password-field">
+                            <TextField
+                                id="outlined-password-input"
+                                value={password}
+                                onChange={(event) => {setPassword(event.target.value)}}
+                                label="Şifre"
+                                type="password"
+                                autoComplete="current-password"
+                            />
                         </div>
                         <div className="button-container">
-                            <input onClick={routeChange} type="submit" value="Giriş Yap" />
+                            <Button style={{ textTransform: 'none' }} onClick={authenticateRestaurant} variant="contained" color="success">Giriş Yap</Button>
                         </div>
                     </form>
                 </div>

@@ -1,7 +1,7 @@
 import httpClient from 'react-http-client';
 import { useState } from "react";
 
-import Navbar from "../components/Navbar";
+
 
 import "./AddTable.css";
 
@@ -27,7 +27,6 @@ const AddTable = () =>
 
     return (
         <div className="add-table">
-            <Navbar />
             <div className="table-form-container">
                 <div className="table-form">
                     <div className="form">

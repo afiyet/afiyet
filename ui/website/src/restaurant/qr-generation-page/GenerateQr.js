@@ -1,13 +1,15 @@
 import { useState, useEffect, useRef } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import httpClient, { get } from 'react-http-client';
+
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import Button from '@mui/material/Button';
 
 import "./GenerateQr.css"
-import Navbar from "../components/Navbar";
+
 
 const GenerateQr = () => {
   const [url, setUrl] = useState("");
@@ -63,7 +65,6 @@ const GenerateQr = () => {
 
   return (
     <div className="qr-generation">
-      <Navbar />
       <div className="generate-qrcode">
         <div className="qr-image" ref={qrRef}>
           {qrcode}
@@ -91,6 +92,7 @@ const GenerateQr = () => {
           <button className="download-button" onSubmit={downloadQRCode} type="submit">
             İndir
           </button>
+          <Button style={{textTransform: 'none'}} onSubmit={downloadQRCode} variant="contained" color="success">İndir</Button>
         </form>
       </div>
     </div>
