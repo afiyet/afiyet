@@ -1,0 +1,57 @@
+.edit-menu-page {
+  background-image: url(../../img/afiyet-tile.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+
+.menu-container {
+  margin-top: 2.6vw;
+  display: flex;
+  justify-content: center;
+}
+  
+.menu {
+  background-color: white;
+  width: 70vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-header {
+  display: flex;
+  margin-left: 1.3vw;
+  margin-top: 1.3vw;
+  gap: 58vw;
+}
+
+.menu-body {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.main-dish {
+  border-width: 1vw;
+  border-color: black;
+  width: 65vw; 
+  display: flex;
+  flex-direction: column;
+}
+
+.main-dish-header {
+  display: flex;
+  gap: 50vw;
+}
+
+.main-dish-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.dish {
+  display: flex;
+  margin: 0.5vw;
+  gap: 1.3vw;
+}

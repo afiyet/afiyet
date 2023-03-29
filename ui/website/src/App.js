@@ -1,22 +1,17 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import RestaurantLogin from "./restaurant/login-page/RestaurantLogin";
-import RestaurantMain from "./restaurant/main-page/RestaurantMain";
-import GenerateQr from "./restaurant/qr-generation-page/GenerateQr";
-import AddTable from "./restaurant/add-table-page/AddTable";
-
+import Main from "./Main";
+import Store from './Store';
+import { Provider } from 'react-redux';
 
 function App() {
+
   return (
-    <Router>
-      <div className="App">
-        <Routes>
-          <Route exact path="/" element={<RestaurantLogin />}></Route>
-          <Route exact path="/restaurant-main" element={<RestaurantMain />}></Route>
-          <Route exact path="/generate-qr" element={<GenerateQr />}></Route>
-          <Route exact path="/add-table" element={<AddTable />}></Route>
-        </Routes>
-      </div>
-    </Router> 
+    <Provider store={Store}>
+      <Router>
+        <Main />
+      </Router>
+    </Provider>
+
   );
 }
 
