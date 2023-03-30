@@ -84,5 +84,6 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 
 	e.POST("/restaurants/orderPayment", PaymentHandler.CreatePaymentWithForm)
 	e.POST("/restaurants/setOrderResult", PaymentHandler.SetPaymentResult)
+	e.POST("/restaurants/orderCallback", PaymentHandler.PaymentCallBackURL)
 
 }

@@ -80,7 +80,7 @@ func (h *PaymentHandler) CreatePaymentWithForm(c echo.Context) error {
 
 	resp := fmt.Sprintf("{") +
 		fmt.Sprintf("%q:%q,", "conversationId", strconv.FormatUint(uint64(order.ID), 10)) +
-		fmt.Sprintf("%q:%q,", "callbackUrl", "https://localhost.com/8000") +
+		fmt.Sprintf("%q:%q,", "callbackUrl", "http://3.70.155.6/restaurants/orderCallback") +
 		fmt.Sprintf("%q:%q,", "price", getPrice(rbind.BasketItems)) +
 		fmt.Sprintf("%q:%q,", "paidPrice", getPrice(rbind.BasketItems)) +
 		fmt.Sprintf("%q:%q,", "currency", "TRY") +
@@ -94,7 +94,7 @@ func (h *PaymentHandler) CreatePaymentWithForm(c echo.Context) error {
 		fmt.Sprintf("%q:%q,", "city", "Ankara") +
 		fmt.Sprintf("%q:%q,", "country", "Turkey") +
 		fmt.Sprintf("%q:%q,", "email", buyer.Mail) +
-		fmt.Sprintf("%q:%q,", "ip", "85.34.78.112") +
+		fmt.Sprintf("%q:%q,", "ip", "3.70.155.6") +
 		fmt.Sprintf("%q:%q},", "registrationAddress", "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1") +
 		fmt.Sprintf("%q:%s", "billingAddress", "{") +
 		fmt.Sprintf("%q:%q,", "contactName", buyer.Name) +
@@ -118,6 +118,10 @@ func (h *PaymentHandler) SetPaymentResult(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, rbind.request)
+}
+
+func (h *PaymentHandler) PaymentCallBackURL(c echo.Context) error {
+	return c.JSON(http.StatusOK, nil)
 }
 
 func prepareDishes(dishes []model.Dish) string {
