@@ -83,5 +83,6 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 	e.GET("/locations", locationHandler.GetLocationList)
 
 	e.POST("/restaurants/orderPayment", PaymentHandler.CreatePaymentWithForm)
+	e.POST("/restaurants/setOrderResult", PaymentHandler.SetPaymentResult)
 
 }

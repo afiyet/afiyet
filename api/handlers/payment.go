@@ -44,6 +44,10 @@ type paymentBuyer struct {
 	registrationAddress string
 }
 
+type paymentResult struct {
+	request string
+}
+
 func (h *PaymentHandler) CreatePaymentWithForm(c echo.Context) error {
 
 	var rbind paymentRequest
@@ -103,6 +107,17 @@ func (h *PaymentHandler) CreatePaymentWithForm(c echo.Context) error {
 	resp = strings.ReplaceAll(resp, "\"", `"`)
 
 	return c.JSON(http.StatusOK, resp)
+}
+
+// TODO:This is just a place holder
+func (h *PaymentHandler) SetPaymentResult(c echo.Context) error {
+	var rbind paymentResult
+	err := (&echo.DefaultBinder{}).BindBody(c, &rbind)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, rbind.request)
 }
 
 func prepareDishes(dishes []model.Dish) string {
