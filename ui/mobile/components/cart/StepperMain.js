@@ -4,7 +4,8 @@ import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 import OrderItem from './OrderItem';
 import BillingInfo from './BillingInfo';
 import { WebView } from 'react-native-webview';
-import { initializePayment } from '../../endpoints';
+import { initializePayment, getWebViewUrlFromAWS, getPaymentResult, completePayment } from '../../endpoints';
+import { useState } from 'react';
 
 export const themeColor = '#1e1e1e';
 export const textColor = '#ffffffdd';
@@ -13,9 +14,20 @@ const screenDimensions = Dimensions.get('screen');
 
 export default function StepperMain() {
 
+  const [webViewURL, setWebViewURL] = useState("");
+  const [token, setToken] = useState("");
 
-  function foo() {
 
+  function onPlaceOrderClicked() {
+    console.log("place order!");
+  }
+
+  function onReturnToCartClicked() {
+    setWebViewURL("");
+    setToken("");
+  }
+
+  function onConfirmOrderClicked() {
     let payload = {
       "buyerID": 4,
       "restaurantID": "5",
@@ -39,14 +51,38 @@ export default function StepperMain() {
     initializePayment(payload)
       .then((res) => {
         console.log(res);
+        getWebViewUrlFromAWS(res.data)
+          .then((response) => {
+            console.log(response);
+            setWebViewURL(response.data.paymentPageUrl);
+            setToken(response.data.token);
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+
       })
       .catch((err) => {
         console.log(err);
       })
-      .finally(() => {
+  }
 
-      })
-
+  function handleChange(params) {
+    if (params.url.includes("/orderCallback")) {
+      getPaymentResult({ "token": token })
+        .then((res) => {
+          completePayment(res)
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((err) => {
+              console.log(err);
+            })
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    }
   }
 
   const progressSteps = {
@@ -82,7 +118,9 @@ export default function StepperMain() {
         <ProgressStep label="Cart"
           nextBtnText='Confirm Order'
           nextBtnStyle={styles.firstStepNextButton}
-          {...firstProgressStep}>
+          {...firstProgressStep}
+          onNext={onConfirmOrderClicked}
+        >
           <View style={styles.headerWithBilling}>
             <Text style={styles.textHeader}>Cart</Text>
             <View>
@@ -103,15 +141,20 @@ export default function StepperMain() {
             <OrderItem />
           </ScrollView>
         </ProgressStep>
-        <ProgressStep label="Payment" {...progressStep}
-          nextBtnStyle={styles.nextBtnStyle}>
+        <ProgressStep
+          label="Payment" {...progressStep}
+          nextBtnStyle={styles.nextBtnStyle}
+          onPrevious={onReturnToCartClicked}
+          onSubmit={onPlaceOrderClicked}
+        >
           <Text style={styles.textHeader}>Payment</Text>
           <View style={styles.iyzicoContainer}>
             <WebView
               style={{ height: 400, width: 420, resizeMode: 'contain', flex: 1 }}
-              source={{ uri: "https://sandbox-cpp.iyzipay.com?token=597b70d0-1122-4773-9b8d-70fd47252d99&lang=tr" }}
-              scalesPageToFit={false}
-              scrollEnabled={true}
+              source={{ uri: webViewURL }}
+              /* scalesPageToFit={false}
+              scrollEnabled={true} */
+              onNavigationStateChange={handleChange}
             />
           </View>
         </ProgressStep>
@@ -172,6 +215,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   iyzicoContainer: {
-    
+
   }
 });
