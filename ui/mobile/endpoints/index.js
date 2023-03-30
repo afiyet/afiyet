@@ -1,7 +1,7 @@
 import { getMarkers } from "./map/mapEndpoints"
 import { login, signUp } from "./auth/authEndpoints";
 import { getSearchResults } from "./search/searchEndpoints";
-import { initializePayment, getWebViewUrlFromAWS, getPaymentResult } from "./cart/cartEndpoints";
+import { initializePayment, getWebViewUrlFromAWS, getPaymentResult, completePayment } from "./cart/cartEndpoints";
 
 export {
     getMarkers,
@@ -10,5 +10,6 @@ export {
     getSearchResults,
     initializePayment,
     getWebViewUrlFromAWS, 
-    getPaymentResult
+    getPaymentResult,
+    completePayment
 };

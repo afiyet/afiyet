@@ -15,3 +15,7 @@ export function getWebViewUrlFromAWS(payload) {
 export function getPaymentResult(payload) {
     return axiosClientCheckPaymentResult.post("", payload);
 }
+
+export function completePayment(payload) {
+    return axiosClient.post("/restaurants/setOrderResult", payload);
+}
