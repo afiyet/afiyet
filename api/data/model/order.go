@@ -1,10 +1,29 @@
 package model
 
 import (
+	"database/sql/driver"
 	"time"
 
 	"gorm.io/gorm"
 )
+
+type Status string
+
+const (
+	IN_PROGRESS      Status = "IN_PROGRESS"
+	PAYMENT_ACCEPTED Status = "PAYMENT_ACCEPTED"
+	PAYMENT_FAILED   Status = "PAYMENT_FAILED"
+	COMPLETED        Status = "COMPLETED"
+)
+
+func (st *Status) Scan(value interface{}) error {
+	*st = Status(value.([]byte))
+	return nil
+}
+
+func (st Status) Value() (driver.Value, error) {
+	return string(st), nil
+}
 
 type Order struct {
 	ID           uint           `gorm:"primarykey" json:"ID,omitempty"`
@@ -16,4 +35,5 @@ type Order struct {
 	Table        Table          `gorm:"foreignKey:TableId" json:"table,omitempty"`
 	RestaurantId string         `json:"restaurantId"`
 	Restaurant   Restaurant     `gorm:"foreignKey:RestaurantId" json:"restaurant,omitempty"`
+	Status       Status         `gorm:"type:status;default:'IN_PROGRESS'"`
 }
