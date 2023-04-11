@@ -3,7 +3,7 @@ import RestaurantLogin from "./restaurant/login-page/RestaurantLogin";
 import RestaurantMain from "./restaurant/main-page/RestaurantMain";
 import GenerateQr from "./restaurant/qr-generation-page/GenerateQr";
 import AddTable from "./restaurant/add-table-page/AddTable";
-import EditMenu from "./restaurant/EditMenu";
+import EditMenu from "./restaurant/edit-menu-page/EditMenu";
 import Appbar from "./restaurant/components/Appbar";
 import { useLocation } from 'react-router-dom';
 
