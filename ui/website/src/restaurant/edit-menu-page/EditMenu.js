@@ -28,7 +28,7 @@ const EditMenu = () => {
 			borderRadius: '1vh',
 			boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
 		},
-		dishName: { width: "20vw" }
+		dishName: { width: "17vw" }
 	};
 
 	return (
@@ -43,11 +43,16 @@ const EditMenu = () => {
 						<Box className="category-container" style={styles.categoryBox}>
 							<Box className="category-header">
 								<TextField id="outlined-basic" label="Kategori Adı" variant="outlined" />
-								<Button variant="text">Yemek Ekle</Button>
+								<Box className="category-utility">
+									<IconButton aria-label="delete">
+										<DeleteIcon />
+									</IconButton>
+									<Button variant="text">Yemek Ekle</Button>
+								</Box>
 							</Box>
 							<Box className="category-body">
 								<Box className="dish">
-									<TextField id="outlined-basic" label="Adı" variant="outlined" style={styles.dishName} />
+									<TextField id="outlined-basic" label="Yemek Adı" variant="outlined" style={styles.dishName} />
 									<TextField id="outlined-multiline-flexible" label="Fiyatı" />
 									<TextField id="outlined-multiline-flexible" label="Açıklama" multiline fullWidth inputProps={{ maxLength: 199 }} />
 									<Checkbox {...label} defaultChecked />
@@ -57,6 +62,9 @@ const EditMenu = () => {
 								</Box>
 							</Box>
 						</Box>
+					</Box>
+					<Box className="update-menu">
+						<Button variant="contained">Menü Güncelle</Button>
 					</Box>
 				</Box>
 			</Box>

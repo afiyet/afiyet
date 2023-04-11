@@ -31,6 +31,12 @@
   flex-direction: column;
 }
 
+.update-menu {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1vh;
+}
+
 .category-container {
   width: 65vw;
   display: flex;
@@ -40,7 +46,12 @@
 .category-header {
   width: 65vw;
   display: flex;
-  gap: 53vw;
+  gap: 50.2vw;
+}
+
+.category-utility {
+  display: flex;
+  gap: 1vw;
 }
 
 .category-body {
