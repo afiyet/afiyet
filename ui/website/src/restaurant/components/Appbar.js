@@ -4,14 +4,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import transparentLogo from "../../img/transparentLogo.png";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const pages = [{
     title: "Menü Düzenleme",
     uri: "/edit-menu"
-}, {
-    title: "QR Üretme",
-    uri: "/generate-qr"
 }, {
     title: "Masalar",
     uri: "/tables"
@@ -20,7 +17,7 @@ const pages = [{
 
 function Appbar() {
 
-    const navigate = useNavigate();
+    const history = useHistory();
 
     return (
         <AppBar position="static" style={styles.appbar}>
@@ -51,7 +48,7 @@ function Appbar() {
                         return (
                             <Button
                                 key={i}
-                                onClick={() => { navigate(page.uri) }}
+                                onClick={() => { history.push(page.uri) }}
                             >
                                 <Typography
                                     variant="h6"

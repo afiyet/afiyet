@@ -1,16 +1,15 @@
-import { useNavigate } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-
 import "./RestaurantLogin.css";
 import companyLogo from "../../img/afiyet-logo-w.png";
 import { login } from "../../endpoints";
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { RestaurantActions } from "../../actions";
+import { useHistory } from 'react-router';
 
 const RestaurantLogin = () => {
-    const navigate = useNavigate();
+    const history = useHistory();
     const dispatch = useDispatch();
 
     const [email, setEmail] = useState("");
@@ -25,7 +24,7 @@ const RestaurantLogin = () => {
             .then((res) => {
                 console.log(res);
                 dispatch(RestaurantActions.setRestaurant(res.data));
-                navigate("/restaurant-main");
+                history.push("/restaurant-main");
             })
             .catch((err) => {
                 console.log(err);
