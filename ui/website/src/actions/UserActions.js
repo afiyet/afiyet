@@ -9,7 +9,6 @@ const setUser = (value) => {
     }
 };
 
-
 export default {
     types,
     setUser

@@ -7,11 +7,10 @@
 }
 
 .menu-container {
-  margin-top: 2.6vw;
   display: flex;
   justify-content: center;
 }
-  
+
 .menu {
   background-color: white;
   width: 70vw;
@@ -32,15 +31,8 @@
   flex-direction: column;
 }
 
-.main-dish {
-  border-width: 1vw;
-  border-color: black;
-  width: 65vw; 
-  display: flex;
-  flex-direction: column;
-}
-
 .main-dish-header {
+  width: 65vw;
   display: flex;
   gap: 50vw;
 }
@@ -50,8 +42,15 @@
   flex-direction: column;
 }
 
+.main-dish {
+  width: 65vw;
+  display: flex;
+  flex-direction: column;
+}
+
 .dish {
   display: flex;
-  margin: 0.5vw;
+  margin-top: 0.5vw;
+  margin-bottom: 0.5vw;
   gap: 1.3vw;
 }

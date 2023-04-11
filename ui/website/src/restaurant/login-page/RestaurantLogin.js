@@ -7,7 +7,7 @@ import companyLogo from "../../img/afiyet-logo-w.png";
 import { login } from "../../endpoints";
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
-import UserActions from "../../actions/UserActions";
+import { RestaurantActions } from "../../actions";
 
 const RestaurantLogin = () => {
     const navigate = useNavigate();
@@ -24,7 +24,7 @@ const RestaurantLogin = () => {
         })
             .then((res) => {
                 console.log(res);
-                dispatch(UserActions.setUser(res.data));
+                dispatch(RestaurantActions.setRestaurant(res.data));
                 navigate("/restaurant-main");
             })
             .catch((err) => {

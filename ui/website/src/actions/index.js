@@ -1,5 +1,5 @@
-import UserActions from "./UserActions";
+import RestaurantActions from "./RestaurantActions";
 
 export {
-    UserActions
+    RestaurantActions
 };
