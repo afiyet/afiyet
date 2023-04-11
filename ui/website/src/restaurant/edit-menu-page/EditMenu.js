@@ -15,24 +15,37 @@ const EditMenu = () => {
 
 	let styles = {
 		menuTypography: { fontFamily: "monospace" },
+		menuBox: {
+			backgroundColor: '#d82227',
+			marginTop: '2vh',
+			borderRadius: '1vh',
+			boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
+		},
+		categoryBox: {
+			padding: '2vh',
+			marginBottom: '1vh',
+			backgroundColor: '#fe4526',
+			borderRadius: '1vh',
+			boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
+		},
 		dishName: { width: "20vw" }
 	};
 
 	return (
 		<Box className="edit-menu-page">
 			<Box className="menu-container">
-				<Box className="menu">
+				<Box className="menu" style={styles.menuBox}>
 					<Box className="menu-header">
 						<Typography variant="h3" gutterBottom style={styles.menuTypography}>Menü</Typography>
 						<Button variant="text" className="menu-add-button">KATEGORİ EKLE</Button>
 					</Box>
 					<Box className="menu-body">
-						<Box className="main-dish">
-							<Box className="main-dish-header">
+						<Box className="category-container" style={styles.categoryBox}>
+							<Box className="category-header">
 								<TextField id="outlined-basic" label="Kategori Adı" variant="outlined" />
 								<Button variant="text">Yemek Ekle</Button>
 							</Box>
-							<Box className="main-dish-body">
+							<Box className="category-body">
 								<Box className="dish">
 									<TextField id="outlined-basic" label="Adı" variant="outlined" style={styles.dishName} />
 									<TextField id="outlined-multiline-flexible" label="Fiyatı" />

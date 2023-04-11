@@ -31,19 +31,19 @@
   flex-direction: column;
 }
 
-.main-dish-header {
+.category-container {
+  width: 65vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.category-header {
   width: 65vw;
   display: flex;
   gap: 53vw;
 }
 
-.main-dish-body {
-  display: flex;
-  flex-direction: column;
-}
-
-.main-dish {
-  width: 65vw;
+.category-body {
   display: flex;
   flex-direction: column;
 }
