@@ -79,9 +79,13 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 	e.GET("/restaurants/:id/tables", tableHandler.GetByRestaurant)
 	e.GET("/restaurants/tables/orders/:id", orderHandler.GetByTableID)
 	e.POST("/restaurants/tables", tableHandler.Add)
+	e.DELETE("/restaurants/tables/:id", tableHandler.Delete)
+	e.PUT("/restaurants/tables/:id", tableHandler.Update)
 
 	e.GET("/locations", locationHandler.GetLocationList)
 
 	e.POST("/restaurants/orderPayment", PaymentHandler.CreatePaymentWithForm)
+	e.POST("/restaurants/setOrderResult", PaymentHandler.SetPaymentResult)
+	e.POST("/restaurants/orderCallback", PaymentHandler.PaymentCallBackURL)
 
 }
