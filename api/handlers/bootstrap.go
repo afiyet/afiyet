@@ -79,6 +79,8 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 	e.GET("/restaurants/:id/tables", tableHandler.GetByRestaurant)
 	e.GET("/restaurants/tables/orders/:id", orderHandler.GetByTableID)
 	e.POST("/restaurants/tables", tableHandler.Add)
+	e.DELETE("/restaurants/tables", tableHandler.Delete)
+	e.PUT("/restaurants/tables/:id", tableHandler.Update)
 
 	e.GET("/locations", locationHandler.GetLocationList)
 
