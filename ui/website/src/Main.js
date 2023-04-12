@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Route, Switch, useHistory } from "react-router-dom";
-import RestaurantLogin from "./restaurant/login-page/RestaurantLogin";
+import RestaurantLogin from "./restaurant/RestaurantLogin";
 import RestaurantMain from "./restaurant/main-page/RestaurantMain";
 import TablesPage from "./restaurant/TablesPage";
 import EditMenu from "./restaurant/EditMenu";
 import Appbar from "./restaurant/components/Appbar";
-import { useLocation } from 'react-router-dom';
+import { useLocation, Redirect } from 'react-router-dom';
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
@@ -15,7 +15,7 @@ function Main() {
     const restaurant = useSelector(state => state.restaurantState);
 
     useEffect(() => {
-        if(restaurant.restaurantId === undefined || restaurant.restaurantId === null) {
+        if (restaurant.restaurantId === undefined || restaurant.restaurantId === null) {
             history.push("/");
         }
     }, [restaurant]);
@@ -23,23 +23,31 @@ function Main() {
     return (
         <div className="App">
             {
-                (location.pathname !== "/") ?
+                (location.pathname !== "/" && restaurant.restaurantId) ?
                     <Appbar /> : null
             }
-            <Switch>
-                <Route exact path="/">
-                    <RestaurantLogin />
-                </Route>
-                <Route exact path="/restaurant-main">
-                    <RestaurantMain />
-                </Route>
-                <Route exact path="/tables">
-                    <TablesPage />
-                </Route>
-                <Route exact path="/edit-menu">
-                    <EditMenu />
-                </Route>
-            </Switch>
+            {
+                (!restaurant.restaurantId) ?
+                    <Switch>
+                        <Route path="/">
+                            <RestaurantLogin />
+                        </Route>
+                        <Redirect push to="/" />
+                    </Switch>
+                    :
+                    <Switch>
+                        <Route path="/tables" exact>
+                            <TablesPage />
+                        </Route>
+                        <Route path="/restaurant-main" exact>
+                            <RestaurantMain />
+                        </Route>
+                        <Route path="/edit-menu" exact>
+                            <EditMenu />
+                        </Route>
+                        <Redirect push to="/tables" />
+                    </Switch>
+            }
         </div>
 
     );
