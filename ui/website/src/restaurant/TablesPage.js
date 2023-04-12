@@ -17,11 +17,11 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import EditIcon from '@mui/icons-material/Edit';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useSnackbar } from 'notistack';
 
 export default function TablesPage() {
 
@@ -34,6 +34,7 @@ export default function TablesPage() {
   const [textValueUpdate, setTextValueUpdate] = useState("");
   const [selectedTable, setSelectedTable] = useState("");
   const [search, setSearch] = useState("");
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleClickOpenAdd = () => {
     setOpenAdd(true);
@@ -61,9 +62,11 @@ export default function TablesPage() {
     })
       .then((res) => {
         fetchTables();
+        enqueueSnackbar("Masa başarıyla eklendi!", { variant: "success" });
       })
       .catch((err) => {
         console.log(err);
+        enqueueSnackbar("Masa eklenemedi!", { variant: "error" });
       })
   }
 
@@ -71,9 +74,11 @@ export default function TablesPage() {
     deleteTable(tableId)
       .then((res) => {
         fetchTables();
+        enqueueSnackbar("Masa başarıyla silindi!", { variant: "success" });
       })
       .catch((err) => {
         console.log(err);
+        enqueueSnackbar("Masa silinemedi!", { variant: "error" });
       })
   }
 
@@ -85,9 +90,11 @@ export default function TablesPage() {
       .then((res) => {
         fetchTables();
         setSelectedTable("");
+        enqueueSnackbar("Masa adı başarıyla değiştirildi!", { variant: "success" });
       })
       .catch((err) => {
         console.log(err);
+        enqueueSnackbar("Masa adı değiştirilemedi", { variant: "error" });
       })
   }
 
@@ -111,6 +118,7 @@ export default function TablesPage() {
       })
       .catch((err) => {
         console.log(err);
+        enqueueSnackbar("Masalar yüklenirken hata oluştu!", { variant: "error" });
       })
   }
 
@@ -154,7 +162,7 @@ export default function TablesPage() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {selectedTable} Masa Adı Değiştir
+          Masa Adı Değiştir
         </DialogTitle>
         <DialogContent>
           <FormControl>
