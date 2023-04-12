@@ -1,17 +1,17 @@
 import * as React from 'react';
-import { useState } from 'react'; 
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Box from '@mui/material/Box'
+import Checkbox from '@mui/material/Checkbox';
 
 import DishCategory from './components/DishCategory';
 
-const EditMenu = () => {	
-	const [categories, setCategories] = useState(() => DishCategory);
+const EditMenu = () => {
 
-	function addCategory() {
-		setCategories([...categories, DishCategory]) 
-	} 
+	const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 	return (
 		<Box style={styles.editMenuPage}>
@@ -19,7 +19,7 @@ const EditMenu = () => {
 				<Box style={styles.menu}>
 					<Box style={styles.menuHeader}>
 						<Typography variant="h3" gutterBottom style={styles.menuTypography}>Menü</Typography>
-						<Button variant="text" className="menu-add-button" onClick={addCategory}>KATEGORİ EKLE</Button>
+						<Button variant="text" className="menu-add-button">KATEGORİ EKLE</Button>
 					</Box>
 					<Box style={styles.menuBody}>
 						<DishCategory />
