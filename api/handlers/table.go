@@ -56,6 +56,27 @@ func (h *TableHandler) List(c echo.Context) error {
 	return c.JSON(http.StatusOK, rs)
 }
 
+func (h *TableHandler) Update(c echo.Context) error {
+	idStr := c.Param("id")
+	id, _ := strconv.Atoi(idStr)
+
+	var tbind model.Table
+
+	err := (&echo.DefaultBinder{}).BindBody(c, &tbind)
+	if err != nil {
+		return err
+	}
+
+	tbind.ID = uint(id)
+	t, err := h.s.Update(tbind)
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, t)
+}
+
 func (h *TableHandler) Delete(c echo.Context) error {
 	idStr := c.Param("id")
 	id, err := strconv.Atoi(idStr)
