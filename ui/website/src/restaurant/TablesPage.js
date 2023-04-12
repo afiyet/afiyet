@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import AddIcon from '@mui/icons-material/Add';
 import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid';
-import { addTable, deleteTable, getTables, renameTable } from '../../endpoints';
+import { addTable, deleteTable, getTables, renameTable } from '../endpoints';
 import { useSelector } from 'react-redux';
 import { QRCodeCanvas } from "qrcode.react";
 import Dialog from '@mui/material/Dialog';

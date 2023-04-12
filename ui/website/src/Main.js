@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Switch, useHistory } from "react-router-dom";
 import RestaurantLogin from "./restaurant/login-page/RestaurantLogin";
 import RestaurantMain from "./restaurant/main-page/RestaurantMain";
-import TablesPage from "./restaurant/add-table-page/TablesPage";
+import TablesPage from "./restaurant/TablesPage";
 import EditMenu from "./restaurant/EditMenu";
 import Appbar from "./restaurant/components/Appbar";
 import { useLocation } from 'react-router-dom';
