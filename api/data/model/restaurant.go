@@ -20,4 +20,5 @@ type Restaurant struct {
 	Location  string         `json:"location"`
 	Password  string         `json:"password"`
 	Mail      string         `json:"mail"`
+	Picture   string         `json:"picture"`
 }
