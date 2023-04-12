@@ -1,9 +1,12 @@
 import  axiosClient  from "./axiosClient";
-import { getTables } from "./tables/tablesEndpoints";
+import { getTables, deleteTable, renameTable, addTable } from "./tables/tablesEndpoints";
 import { login } from "./login/loginEnpoints";
 
 export {
     axiosClient,
     getTables,
-    login
+    login,
+    deleteTable,
+    renameTable,
+    addTable
 };
