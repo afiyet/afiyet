@@ -139,7 +139,6 @@ const MapScreen = () => {
             pagingEnabled
             scrollEventThrottle={1}
             showsHorizontalScrollIndicator={false}
-            snapToInterval={CARD_WIDTH + 37}
             snapToAlignment="center"
             disableIntervalMomentum={true}
             style={styles.scrollView}
