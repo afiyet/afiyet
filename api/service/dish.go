@@ -1,9 +1,11 @@
 package service
 
 import (
+	"errors"
 	"github.com/afiyet/afiytet/api/data/model"
 	"github.com/afiyet/afiytet/api/data/repo"
 	"gorm.io/gorm"
+	"strings"
 )
 
 type DishService struct {
@@ -15,6 +17,10 @@ func NewDishService(db *gorm.DB) *DishService {
 }
 
 func (s *DishService) Add(d model.Dish) (*model.Dish, error) {
+	if strings.Contains(d.Picture, "http") {
+		return nil, errors.New("picture url should not contain protocol (http/https) give relative url")
+	}
+
 	return s.r.Add(d)
 }
 

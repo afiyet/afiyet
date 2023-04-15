@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 const RestaurantMain = () => {
 
-  const user = useSelector(state => state.userState);
+  const user = useSelector(state => state.restaurantState);
 
   useEffect(() => {
     console.log(user);
