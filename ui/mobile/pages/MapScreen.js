@@ -5,6 +5,7 @@ import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { getMarkers } from '../endpoints';
 import Ionicons from "react-native-vector-icons/Ionicons"
 import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
 const { width, height } = Dimensions.get("window");
 const CARD_HEIGHT = 220;
@@ -16,6 +17,7 @@ const MapScreen = () => {
   const [markerList, setMarkerList] = useState([]);
   const [hasPermission, setHasPermission] = useState(false);
   const deviceLocation = useSelector(state => state.locationState);
+  const navigation = useNavigation();
 
   useEffect(() => {
     setLocation({
@@ -32,6 +34,7 @@ const MapScreen = () => {
           let markers = [];
           res.data.forEach(element => {
             markers.push({
+              ID: element.ID,
               name: element.Name,
               address: element.Address,
               avgPoint: element.AvgPoint,
@@ -171,7 +174,14 @@ const MapScreen = () => {
                   <Text numberOfLines={1} style={styles.cardDescription}>{marker.description}</Text>
                   <View style={styles.button}>
                     <TouchableOpacity
-                      onPress={() => { }}
+                      onPress={() => {
+                        navigation.navigate("ScannerAndOrderParent", {
+                          screen: "Order",
+                          params: {
+                            rID: marker.ID
+                          }
+                        });
+                      }}
                       style={[styles.signIn, {
                         borderColor: '#FF6347',
                         borderWidth: 1

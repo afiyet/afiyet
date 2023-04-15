@@ -208,6 +208,7 @@ const HomeScreen = () => {
         </View>
         {restaurants.map(item => (
           <RestaurantMediumCard
+            ID={item.ID}
             name={item.Name}
             address={item.Address}
             category={item.Category}

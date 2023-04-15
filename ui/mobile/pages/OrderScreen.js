@@ -13,7 +13,7 @@ import {
     FlatList,
     Dimensions
 } from "react-native";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 function OrderScreen(props) {
     const {
@@ -25,10 +25,15 @@ function OrderScreen(props) {
 
 
     const navigation = useNavigation();
+    const route = useRoute();
 
     useEffect(() => {
         setBottomNavLabel("Order");
     }, []);
+
+    useEffect(() => {
+        console.log(route);
+    }, [route]);
 
     const flatListRef = useRef(null);
     const sectionListRef = useRef(null);

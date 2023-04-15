@@ -22,6 +22,7 @@ export default function SearchResults(props) {
                     return (
                         <RestaurantCard 
                             key={index}
+                            ID={item.ID}
                             name={item.Name}
                             address={item.Address}
                             category={item.Category}

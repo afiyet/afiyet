@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -6,6 +7,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 function RestaurantCard (props) {
     
     const {
+        ID,
         name,
         address,
         category,
@@ -13,11 +15,19 @@ function RestaurantCard (props) {
         commentCount
     } = props;
 
+    const navigation = useNavigation();
+
     return (
         <TouchableOpacity
             style={styles.container}
             activeOpacity={0.8}
-            onPress={() => { }}>
+            onPress={() => {
+                navigation.navigate("ScannerAndOrderParent", {
+                screen: "Order",
+                params: {
+                  rID: ID
+                }
+              });}}>
             <Image
                 source={{
                     uri: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",

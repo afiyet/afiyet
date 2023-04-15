@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -5,6 +6,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 const RestaurantMediumCard = (props) => {
 
     const {
+        ID,
         name,
         address,
         category,
@@ -12,10 +14,22 @@ const RestaurantMediumCard = (props) => {
         commentCount
     } = props;
 
+    const navigation = useNavigation();
+
+    function goToRestaurantPage(restaurantId) {
+        navigation.navigate("ScannerAndOrderParent", {
+            screen: "Order",
+            params: {
+                rID: restaurantId
+            }
+        });
+    }
+
     return (
         <TouchableOpacity 
             style={styles.container}
             activeOpacity={0.7}
+            onPress={() => {goToRestaurantPage(ID)}}
             >
             <View>
                 <Image
