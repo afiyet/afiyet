@@ -14,6 +14,7 @@ import {
     Dimensions
 } from "react-native";
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { getRestaurantMenu } from "../endpoints/order/orderEndpoints";
 
 function OrderScreen(props) {
     const {
@@ -21,8 +22,10 @@ function OrderScreen(props) {
         scannedBarcode
     } = props;
     const [sections, setSections] = useState([]);
+    const [sectionLength, setSectionLength] = useState(0);
     let sect = 0;
 
+    const [menu, setMenu] = useState([]);
 
     const navigation = useNavigation();
     const route = useRoute();
@@ -33,51 +36,57 @@ function OrderScreen(props) {
 
     useEffect(() => {
         console.log(route);
+        getRestaurantMenu(12)
+            .then((res) => {
+                let sikData = [];
+                let charCount = 0;
+                let tempSections = [];
+
+
+                res.data.map((item, index) => {
+                    if (!sikData.find((sItem) => { return sItem.title === item.category })) {
+                        charCount += item.category.length;
+                        tempSections.push(item.category);
+                        sikData.push({
+                            title: item.category,
+                            data: []
+                        });
+
+                    }
+                });
+                
+                setSections(tempSections);
+                setSectionLength(charCount * 15 / res.data.length);
+
+                res.data.map((item, index) => {
+                    sikData.map((sItem) => {
+                        if (sItem.title === item.category) {
+                            sItem.data.push({
+                                ID: item.ID,
+                                ingredients: item.ingredients,
+                                picture: item.picture,
+                                price: item.price,
+                                name: item.name,
+                                restaurantId: item.restaurantId
+                            });
+                        }
+                    });
+                });
+                setMenu(sikData);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }, [route]);
 
     const flatListRef = useRef(null);
     const sectionListRef = useRef(null);
 
-    const DATA = [
-        {
-            title: "Main dishes",
-            data: ["Pizza", "Burger", "Risotto", "Risotto2", "Risotto3"]
-        },
-        {
-            title: "Sides",
-            data: ["French Fries", "Onion Rings", "Fried Shrimps"]
-        },
-        {
-            title: "Drinks",
-            data: ["Water", "Coke", "Beer"]
-        },
-        {
-            title: "Su",
-            data: ["Cheese Cake", "Ice Cream", "Ice Cream", "Ice Cream", "Ice Cream"]
-        },
-        {
-            title: "Desserts1",
-            data: ["Cheese Cake", "Ice Cream", "Ice Cream", "Ice Cream", "Ice Cream"]
-        },
-        {
-            title: "Desserts2",
-            data: ["Cheese Cake", "Ice Cream", "Ice Cream", "Ice Cream", "Ice Cream"]
-        },
-        {
-            title: "Desserts3",
-            data: ["Cheese Cake", "Ice Cream", "Ice Cream", "Ice Cream", "Ice Cream"]
-        },
-        {
-            title: "Desserts4",
-            data: ["Cheese Cake", "Ice Cream", "Ice Cream", "Ice Cream", "Ice Cream"]
-        }
-    ];
-
     const SectionItem = ({ value }) => {
         return (
             <View style={{ backgroundColor: "white" }}>
                 <TouchableOpacity onPress={() => {
-                    flatListRef.current.scrollToIndex({ index: value.index });
+                    //flatListRef.current.scrollToIndex({ index: value.index });
                     sectionListRef.current.scrollToLocation({
                         itemIndex: 0,
                         sectionIndex: value.index,
@@ -91,9 +100,8 @@ function OrderScreen(props) {
                         backgroundColor: "#FD2400",
                         minWidth: 30,
                         borderRadius: 20,
-                        padding: 10,
+                        paddingHorizontal: 10,
                         paddingBottom: 10,
-                        paddingTop: 5,
                         lineHeight: 40,
                         textAlign: "center"
                     }}>{value.item}</Text>
@@ -124,9 +132,9 @@ function OrderScreen(props) {
                         maxWidth: "70%",
                         paddingRight: 15
                     }}>
-                        <Text style={{ fontSize: 20, paddingBottom: 5 }}>Mega Çiğköfte Dürüm</Text>
-                        <Text style={{ fontSize: 12, paddingBottom: 5, color: "gray" }}>Çiğ köfte (130g), etrcihe göre iceberg marul, domates, turşu, havuç, karalahana, nane, maydanoz, roka, limon, nar ekşisi ve acı sos ile</Text>
-                        <Text style={{ fontSize: 14 }}>20.00 TL</Text>
+                        <Text style={{ fontSize: 20, paddingBottom: 5 }}>{value.name}</Text>
+                        <Text style={{ fontSize: 12, paddingBottom: 5, color: "gray" }}>{value.ingredients}</Text>
+                        <Text style={{ fontSize: 14 }}>{value.price} TL</Text>
                     </View>
                     <View style={{
                         display: "flex",
@@ -148,18 +156,7 @@ function OrderScreen(props) {
             </Pressable>
         );
     }
-    const [sectionLength, setSectionLength] = useState(0);
-    useEffect(() => {
-        let charCount = 0;
-        let tempSections = []
-        DATA.map((item) => {
-            charCount += item.title.length;
-            tempSections.push(item.title);
-        });
-        setSections(tempSections);
-        sect = tempSections;
-        setSectionLength(charCount * 15 / DATA.length);
-    }, []);
+
 
     const onViewableItemsChanged = useRef(({ viewableItems, changed }) => {
 
@@ -177,7 +174,7 @@ function OrderScreen(props) {
             if (changed.length !== 0) {
                 //console.log(sect.indexOf(element.item.title))
                 //console.log(sect)
-                flatListRef.current.scrollToIndex({ index: sect.indexOf(element.item.title) });
+                // flatListRef.current.scrollToIndex({ index: sections.indexOf(element.item.title) });
             }
 
         }
@@ -205,60 +202,65 @@ function OrderScreen(props) {
 
 
     return (
-        <View
-            style={{ display: "flex", flexGrow: 1, paddingBottom: 100 }}
-        >
-            <View>
-                <Image />
-                <View>
-                    <Text>{scannedBarcode}</Text>
-                </View>
-            </View>
-            <FlatList
-                initialNumToRender={60}
-                ref={flatListRef}
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-                data={sections}
-                //initialScrollIndex={4}
-                getItemLayout={(data, index) => {
-                    return (
-                        { length: sectionLength, offset: sectionLength * index, index }
-                    );
-                }}
-                renderItem={(item) => {
-                    return <SectionItem value={item} />
-                }}
-                onScrollToIndexFailed={info => {
-                    console.log(info)
-                    const wait = new Promise(resolve => setTimeout(resolve, 1000));
-                    wait.then(() => {
-                        flatListRef.current?.scrollToIndex({ index: info.index, animated: true });
-                    });
-                }}
-            />
-            <SectionList
-                ref={sectionListRef}
-                sections={DATA}
-                renderItem={({ item, index }) => <MenuItem value={item} index={index} />}
-                renderSectionHeader={({ section: { title } }) => (
-                    <Text style={{
-                        fontSize: 32,
-                        backgroundColor: "#fff",
-                        marginTop: 20,
-                        paddingLeft: 18,
-                        paddingTop: 18,
-                        paddingBottom: 1
-                    }}>{title}</Text>
-                )}
-                onViewableItemsChanged={onViewableItemsChanged.current}
-                viewabilityConfig={viewabilityConfig}
-                ItemSeparatorComponent={() => (<View
-                    style={{ height: 1, width: '100%', backgroundColor: '#C8C8C8' }}
-                />)}
-            />
 
-        </View>
+        (menu.length) > 0 ?
+            <View
+                style={{ display: "flex", flexGrow: 1, paddingBottom: 100 }}
+            >
+                <View>
+                    <Image />
+                    <View>
+                        <Text>{scannedBarcode}</Text>
+                    </View>
+                </View>
+                <FlatList
+                    initialNumToRender={60}
+                    ref={flatListRef}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    data={sections}
+                    //initialScrollIndex={4}
+                    getItemLayout={(data, index) => {
+                        return (
+                            { length: sectionLength, offset: sectionLength * index, index }
+                        );
+                    }}
+                    renderItem={(item) => {
+                        return <SectionItem value={item} />
+                    }}
+                    onScrollToIndexFailed={info => {
+                        console.log(info)
+                        const wait = new Promise(resolve => setTimeout(resolve, 1000));
+                        wait.then(() => {
+                            flatListRef.current?.scrollToIndex({ index: info.index, animated: true });
+                        });
+                    }}
+                />
+                <SectionList
+                    ref={sectionListRef}
+                    sections={menu}
+                    renderItem={({ item, index }) => <MenuItem value={item} index={index} />}
+                    renderSectionHeader={({ section: { title } }) => (
+                        <Text style={{
+                            fontSize: 32,
+                            backgroundColor: "#fff",
+                            marginTop: 20,
+                            paddingLeft: 18,
+                            paddingTop: 18,
+                            paddingBottom: 1
+                        }}>{title}</Text>
+                    )}
+                    onViewableItemsChanged={onViewableItemsChanged.current}
+                    viewabilityConfig={viewabilityConfig}
+                    ItemSeparatorComponent={() => (<View
+                        style={{ height: 1, width: '100%', backgroundColor: '#C8C8C8' }}
+                    />)}
+                />
+
+            </View>
+            :
+            null
+
     );
 }
 

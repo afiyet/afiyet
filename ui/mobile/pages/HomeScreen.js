@@ -67,66 +67,6 @@ const HomeScreen = () => {
       "Longitude": 32.64494972002105,
       "AvgPoint": 0,
       "CommentCount": 0
-    },
-    {
-      "ID": 12,
-      "Name": "",
-      "Address": "",
-      "Category": "",
-      "Latitude": 0,
-      "Longitude": 0,
-      "AvgPoint": 0,
-      "CommentCount": 0
-    },
-    {
-      "ID": 15,
-      "Name": "",
-      "Address": "",
-      "Category": "",
-      "Latitude": 0,
-      "Longitude": 0,
-      "AvgPoint": 0,
-      "CommentCount": 0
-    },
-    {
-      "ID": 16,
-      "Name": "",
-      "Address": "",
-      "Category": "",
-      "Latitude": 0,
-      "Longitude": 0,
-      "AvgPoint": 0,
-      "CommentCount": 0
-    },
-    {
-      "ID": 17,
-      "Name": "",
-      "Address": "",
-      "Category": "",
-      "Latitude": 0,
-      "Longitude": 0,
-      "AvgPoint": 0,
-      "CommentCount": 0
-    },
-    {
-      "ID": 18,
-      "Name": "",
-      "Address": "",
-      "Category": "",
-      "Latitude": 0,
-      "Longitude": 0,
-      "AvgPoint": 0,
-      "CommentCount": 0
-    },
-    {
-      "ID": 20,
-      "Name": "",
-      "Address": "",
-      "Category": "",
-      "Latitude": 0,
-      "Longitude": 0,
-      "AvgPoint": 0,
-      "CommentCount": 0
     }
   ]);
   const [activeSortItem, setActiveSortItem] = useState('recent');
