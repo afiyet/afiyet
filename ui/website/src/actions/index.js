@@ -1,5 +1,7 @@
-import UserActions from "./UserActions";
+import RestaurantActions from "./RestaurantActions";
+import MenuActions from "./MenuActions";
 
 export {
-    UserActions
+    RestaurantActions,
+    MenuActions,
 };

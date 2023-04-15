@@ -1,7 +1,7 @@
-import { UserActions } from "../actions";
+import { RestaurantActions } from "../actions";
 
 const initialState = {
-    userId: "",
+    restaurantId: "",
     name: "",
     address: "",
     category: "",
@@ -10,12 +10,12 @@ const initialState = {
     mail: ""
 };
 
-const UserReducer = (state = initialState, action) => {
+const RestaurantReducer = (state = initialState, action) => {
     switch (action.type) {
-        case UserActions.types.SET_USER:
+        case RestaurantActions.types.SET_RESTAURANT:
             return {
                 ...state,
-                userId: action.data.ID,
+                restaurantId: action.data.ID,
                 name: action.data.name,
                 address: action.data.address,
                 category: action.data.category,
@@ -28,4 +28,4 @@ const UserReducer = (state = initialState, action) => {
     }
 };
 
-export default UserReducer;
+export default RestaurantReducer;
