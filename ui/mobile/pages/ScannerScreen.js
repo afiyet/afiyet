@@ -5,16 +5,18 @@ import { Camera, CameraType } from 'expo-camera';
 import { useIsFocused } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useDispatch } from 'react-redux';
+import { OrderActions } from "../actions";
 
 function ScannerScreen(props) {
     const {
         setBottomNavLabel,
-        setScannedBarcode
     } = props;
     const [hasPermission, setHasPermission] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
     const isFocused = useIsFocused();
     const navigation = useNavigation();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         (async () => {
@@ -22,6 +24,10 @@ function ScannerScreen(props) {
             setHasPermission(status === 'granted');
             console.log(status);
         })();
+        dispatch(OrderActions.setBarcodeParams({
+            restaurantId: "",
+            tableId: ""
+        }));
     }, []);
 
     useEffect(() => {
@@ -50,11 +56,14 @@ function ScannerScreen(props) {
                         barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr]
                     }}
                     onBarCodeScanned={(BarCodeScanningResult) => {
-                        console.log(BarCodeScanningResult);
+                        /* console.log(BarCodeScanningResult);
                         console.log(BarCodeScanningResult.type);
                         console.log(BarCodeScanningResult.data);
-                        setScannedBarcode(BarCodeScanningResult.data);
-                        navigation.navigate("Order");
+                        setScannedBarcode(BarCodeScanningResult.data); */
+                        navigation.navigate("Order", {
+                            rID: BarCodeScanningResult.data.split(":")[0],
+                            tableId: BarCodeScanningResult.data.split(":")[1],
+                        });
                     }}
                 >
                     <View style={styles.buttonContainer}>

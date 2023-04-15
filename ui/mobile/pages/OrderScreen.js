@@ -15,28 +15,41 @@ import {
 } from "react-native";
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { getRestaurantMenu } from "../endpoints/order/orderEndpoints";
+import { useDispatch, useSelector } from 'react-redux';
+import { OrderActions } from "../actions";
 
 function OrderScreen(props) {
     const {
         setBottomNavLabel,
-        scannedBarcode
     } = props;
     const [sections, setSections] = useState([]);
     const [sectionLength, setSectionLength] = useState(0);
-    let sect = 0;
-
+    
     const [menu, setMenu] = useState([]);
 
     const navigation = useNavigation();
     const route = useRoute();
+    const dispatch = useDispatch();
+    const orderState = useSelector(state => state.orderState);
 
     useEffect(() => {
         setBottomNavLabel("Order");
     }, []);
 
     useEffect(() => {
+        console.log(orderState);
+    }, [orderState]);
+
+    useEffect(() => {
         console.log(route);
-        getRestaurantMenu(12)
+        
+        dispatch(OrderActions.setBarcodeParams({
+            restaurantId: route.params.rID,
+            tableId: route.params.tableId
+        }));
+        
+        setBottomNavLabel("Order");
+        getRestaurantMenu(route.params.rID)
             .then((res) => {
                 let sikData = [];
                 let charCount = 0;
@@ -76,6 +89,7 @@ function OrderScreen(props) {
             })
             .catch((err) => {
                 console.log(err);
+                setMenu([]);
             })
     }, [route]);
 
@@ -146,7 +160,7 @@ function OrderScreen(props) {
                             style={{
                                 width: 120,
                                 height: 120,
-                                borderRadius: 90,
+                                borderRadius: 10,
                             }}
                             source={{ uri: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8&w=1000&q=80" }}
                             resizeMode="center"
@@ -174,7 +188,7 @@ function OrderScreen(props) {
             if (changed.length !== 0) {
                 //console.log(sect.indexOf(element.item.title))
                 //console.log(sect)
-                // flatListRef.current.scrollToIndex({ index: sections.indexOf(element.item.title) });
+                /* flatListRef.current.scrollToIndex({ index: sections.indexOf(element.item.title) }); */
             }
 
         }
@@ -193,13 +207,9 @@ function OrderScreen(props) {
         //console.log(changed)
     })
 
-
-
     const viewabilityConfig = {
         itemVisiblePercentThreshold: 75,
     };
-
-
 
     return (
 
@@ -207,12 +217,6 @@ function OrderScreen(props) {
             <View
                 style={{ display: "flex", flexGrow: 1, paddingBottom: 100 }}
             >
-                <View>
-                    <Image />
-                    <View>
-                        <Text>{scannedBarcode}</Text>
-                    </View>
-                </View>
                 <FlatList
                     initialNumToRender={60}
                     ref={flatListRef}
@@ -250,7 +254,7 @@ function OrderScreen(props) {
                             paddingBottom: 1
                         }}>{title}</Text>
                     )}
-                    onViewableItemsChanged={onViewableItemsChanged.current}
+                    //onViewableItemsChanged={onViewableItemsChanged.current}
                     viewabilityConfig={viewabilityConfig}
                     ItemSeparatorComponent={() => (<View
                         style={{ height: 1, width: '100%', backgroundColor: '#C8C8C8' }}
