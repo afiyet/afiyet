@@ -10,7 +10,6 @@ import Feather from 'react-native-vector-icons/Feather';
 export default function ScannerAndOrderStackNavigation(props) {
     const {
         setBottomNavLabel
-
     } = props;
     const NativeStack = createNativeStackNavigator();
     const [scannedBarcode, setScannedBarcode] = useState("");
@@ -44,7 +43,7 @@ export default function ScannerAndOrderStackNavigation(props) {
                             </TouchableOpacity>
                         )
                     })}>
-                    {() => { return <OrderScreen scannedBarcode={scannedBarcode} setBottomNavLabel={setBottomNavLabel} /> }}
+                    {() => { return <OrderScreen setBottomNavLabel={setBottomNavLabel} /> }}
                 </NativeStack.Screen>
                 <NativeStack.Screen name="Food Details">
                     {() => { return <FoodDetails /> }}
