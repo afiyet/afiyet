@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { View, Text, StyleSheet, Image, Button } from 'react-native';
+import { View, Text, StyleSheet, Image, Button, Pressable } from 'react-native';
 import OrderCounter from '../cart/OrderCounter';
 import BottomSheetOrderCounter from './BottomSheetOrderCounter';
 import { useDispatch, useSelector } from 'react-redux';
@@ -54,24 +54,30 @@ function OrderFood(props) {
           paddingTop: 15,
         }}>
           <BottomSheetOrderCounter />
-          <Button onPress={() => {
-            //console.log(selectedMenuItem);
-            dispatch(OrderActions.addToCart({
-              ID: selectedMenuItem.ID,
-              ingredients: selectedMenuItem.ingredients,
-              picture: selectedMenuItem.picture,
-              price: selectedMenuItem.price,
-              name: selectedMenuItem.name,
-              restaurantId: selectedMenuItem.restaurantId,
-              category: selectedMenuItem.category
-            }));
-          }}
-            style={{ flex: 1 }} title="Add to Cart"></Button>
+          <Pressable
+            onPress={() => {
+              //console.log(selectedMenuItem);
+              dispatch(OrderActions.addToCart({
+                ID: selectedMenuItem.ID,
+                ingredients: selectedMenuItem.ingredients,
+                picture: selectedMenuItem.picture,
+                price: selectedMenuItem.price,
+                name: selectedMenuItem.name,
+                restaurantId: selectedMenuItem.restaurantId,
+                category: selectedMenuItem.category
+              }));
+            }}
+            style={({ pressed }) => [
+              {
+                backgroundColor: pressed ? "gray" : "#202533",
+              },
+              styles.pressable,
+            ]}
+          >
+            <Text style={styles.text}>Add To Cart</Text>
+          </Pressable>
         </View>
-
-
       </View>
-
     </View>
   );
 };
@@ -108,7 +114,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
-    elevation: 3,
     marginBottom: 5,
     marginHorizontal: 10,
     marginVertical: 10,
@@ -173,6 +178,12 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 18,
     fontWeight: "bold"
+  },
+  pressable: {
+    borderRadius: 10,
+    display: "flex",
+    justifyContent: "center",
+    paddingHorizontal: 20
   }
 });
 

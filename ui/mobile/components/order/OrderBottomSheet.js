@@ -24,7 +24,7 @@ const OrderBottomSheet = (props) => {
   const bottomSheetModalRef = useRef(null);
 
   // variables
-  const snapPoints = ['60%', '80%'];
+  const snapPoints = ['60%', '70%'];
 
   // callbacks
   const handlePresentModalPress = useCallback(() => {
@@ -34,34 +34,22 @@ const OrderBottomSheet = (props) => {
     console.log('handleSheetChanges', index);
   }, []);
 
-  // renders
-  const renderBackdrop = useCallback(
-    props => (
-      <BottomSheetBackdrop
-        {...props}
-        disappearsOnIndex={1}
-        appearsOnIndex={2}
-        opacity={1}
-      />
-    ),
-    []
-  );
 
   return (
     <BottomSheetModalProvider>
       <View style={styles.container}>
         <BottomSheetModal
           ref={bottomSheetModalRef}
-          index={1}
+          index={0}
           snapPoints={snapPoints}
           onChange={handleSheetChanges}
           enableDismissOnClose={true}
           onDismiss={() => {setIsBottomSheetOpen(false)}}
-          enableHandlePanningGesture={true}
+          enableHandlePanningGesture={false}
           enableOverDrag={true}
           enablePanDownToClose={true}
-          backdropComponent={renderBackdrop}
-          backgroundStyle={{backgroundColor: "grey"}}
+          backdropComponent={props => ( <BottomSheetBackdrop appearsOnIndex={0} disappearsOnIndex={-1} {...props} opacity={0.7} enableTouchThrough={true} /> )}
+          
         >
           <View style={styles.contentContainer}>
             <OrderFood 

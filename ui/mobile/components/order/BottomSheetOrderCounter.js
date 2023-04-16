@@ -53,15 +53,15 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        backgroundColor: "red",
-        borderRadius: 8,
+        backgroundColor: "#202533",
+        borderRadius: 15,
     },
     button: {
         alignItems: 'center',
         justifyContent: 'center',
-        paddingVertical: 6,
-        paddingHorizontal: 10,
-        borderRadius: 5,
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        borderRadius: 10,
     },
     text: {
         fontSize: 16,
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
         color: "white"
     },
     counterView: {
-        paddingVertical: 6,
-        paddingHorizontal: 10,
+        paddingVertical: 12,
+        paddingHorizontal: 20,
     }
 });
