@@ -22,11 +22,11 @@ function OrderScreen(props) {
     const {
         setBottomNavLabel,
     } = props;
+
     const [sections, setSections] = useState([]);
     const [sectionLength, setSectionLength] = useState(0);
-
+    const sectionListRef = useRef(null);
     const [menu, setMenu] = useState([]);
-
     const navigation = useNavigation();
     const route = useRoute();
     const dispatch = useDispatch();
@@ -49,18 +49,17 @@ function OrderScreen(props) {
         }));
 
         setBottomNavLabel("Order");
-        getRestaurantMenu(route.params.rID)
+        getRestaurantMenu(12)
             .then((res) => {
-                let sikData = [];
+                let tempData = [];
                 let charCount = 0;
                 let tempSections = [];
 
-
                 res.data.map((item, index) => {
-                    if (!sikData.find((sItem) => { return sItem.title === item.category })) {
+                    if (!tempData.find((sItem) => { return sItem.title === item.category })) {
                         charCount += item.category.length;
                         tempSections.push(item.category);
-                        sikData.push({
+                        tempData.push({
                             title: item.category,
                             data: []
                         });
@@ -72,7 +71,7 @@ function OrderScreen(props) {
                 setSectionLength(charCount * 15 / res.data.length);
 
                 res.data.map((item, index) => {
-                    sikData.map((sItem) => {
+                    tempData.map((sItem) => {
                         if (sItem.title === item.category) {
                             sItem.data.push({
                                 ID: item.ID,
@@ -85,7 +84,7 @@ function OrderScreen(props) {
                         }
                     });
                 });
-                setMenu(sikData);
+                setMenu(tempData);
             })
             .catch((err) => {
                 console.log(err);
@@ -93,14 +92,12 @@ function OrderScreen(props) {
             })
     }, [route]);
 
-    const flatListRef = useRef(null);
-    const sectionListRef = useRef(null);
+    
 
     const SectionItem = ({ value }) => {
         return (
             <View>
                 <TouchableOpacity onPress={() => {
-                    //flatListRef.current.scrollToIndex({ index: value.index });
                     sectionListRef.current.scrollToLocation({
                         itemIndex: 0,
                         sectionIndex: value.index,
@@ -171,47 +168,7 @@ function OrderScreen(props) {
     }
 
 
-    const onViewableItemsChanged = useRef(({ viewableItems, changed }) => {
-
-        let element;
-
-        viewableItems.forEach(el => {
-            if (el.index === null) {
-                element = el;
-                return;
-            }
-        });
-
-        if (element?.index === null) {
-            //flatListRef.current.scrollToIndex({index: value.index});
-            if (changed.length !== 0) {
-                //console.log(sect.indexOf(element.item.title))
-                //console.log(sect)
-                /* flatListRef.current.scrollToIndex({ index: sections.indexOf(element.item.title) }); */
-            }
-
-        }
-
-        /*viewableItems.forEach(element => {
-            if(element.index === null) {
-                //flatListRef.current.scrollToIndex({index: value.index});
-                if(changed.length !== 0) {
-                    console.log(sect.indexOf(element.item.title))
-                    console.log(sect)
-                    flatListRef.current.scrollToIndex({index: sect.indexOf(element.item.title)});
-                }
-
-            }
-        });*/
-        //console.log(changed)
-    })
-
-    const viewabilityConfig = {
-        itemVisiblePercentThreshold: 75,
-    };
-
     return (
-
         (menu.length) > 0 ?
             <View
                 style={{ display: "flex", flexGrow: 1, paddingBottom: 100 }}
@@ -219,7 +176,6 @@ function OrderScreen(props) {
                 <View style={{flexGrow: 1, backgroundColor: "white"}}>
                     <FlatList
                         initialNumToRender={60}
-                        ref={flatListRef}
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}
                         data={sections}
@@ -231,13 +187,6 @@ function OrderScreen(props) {
                         }}
                         renderItem={(item) => {
                             return <SectionItem value={item} />
-                        }}
-                        onScrollToIndexFailed={info => {
-                            console.log(info)
-                            const wait = new Promise(resolve => setTimeout(resolve, 1000));
-                            wait.then(() => {
-                                flatListRef.current?.scrollToIndex({ index: info.index, animated: true });
-                            });
                         }}
                     />
                 </View>
@@ -255,8 +204,6 @@ function OrderScreen(props) {
                             paddingBottom: 1
                         }}>{title}</Text>
                     )}
-                    //onViewableItemsChanged={onViewableItemsChanged.current}
-                    viewabilityConfig={viewabilityConfig}
                     ItemSeparatorComponent={() => (<View
                         style={{ height: 1, width: '100%', backgroundColor: '#C8C8C8' }}
                     />)}
@@ -265,7 +212,6 @@ function OrderScreen(props) {
             </View>
             :
             null
-
     );
 }
 
