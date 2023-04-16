@@ -44,7 +44,7 @@ export default function OrderItem(props) {
                             style={styles.image}
                         />
                         <View style={styles.textView}>
-                            <Text style={styles.text}>{item.name}</Text>
+                            <Text ellipsizeMode='tail' numberOfLines={2} style={styles.text}>{item.name}</Text>
                             <Text style={styles.text}>{item.price} TL</Text>
                         </View>
                     </View>
@@ -82,10 +82,11 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
     text: {
-        fontSize: 16,
+        fontSize: 14,
     },
     textView: {
-        marginLeft: 15
+        marginLeft: 15,
+        width: 130
     },
     deleteView: {
 
