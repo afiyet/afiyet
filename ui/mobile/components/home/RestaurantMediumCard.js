@@ -40,7 +40,7 @@ const RestaurantMediumCard = (props) => {
             </View>
             <View style={styles.labelContainer}>
                 <View style={styles.nameAndRating}>
-                    <Text style={styles.titleText}>{name}</Text>
+                    <Text ellipsizeMode={"tail"} numberOfLines={3} style={styles.titleText}>{name}</Text>
                     <View style={styles.rowAndCenter}>
                         <FontAwesome name="star" size={20} color={"#F53920"} />
                         <Text style={styles.ratingText}>{avgPoint}</Text>
@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: '#0E122B',
         marginBottom: 5,
+        maxWidth: 210
     },
     tagsText: {
         fontSize: 11,

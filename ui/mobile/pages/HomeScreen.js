@@ -16,6 +16,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import Separator from '../components/home/Seperator';
 import RestaurantMediumCard from '../components/home/RestaurantMediumCard';
 import Campaign from '../components/home/Campaign';
+import { getRestaurants } from '../endpoints/order/orderEndpoints';
 
 
 const sortStyle = isActive =>
@@ -27,48 +28,31 @@ const { width, height } = Dimensions.get("window");
 
 const HomeScreen = () => {
 
-  const [restaurants, setRestaurants] = useState([
-    {
-      "ID": 5,
-      "Name": "Burger King İvedik",
-      "Address": "Karşıyaka, İvedik Cd. No: 402, 06190 Yenimahalle/Ankara",
-      "Category": "Hamburger",
-      "Latitude": 39.96961212553303,
-      "Longitude": 32.792698771097925,
-      "AvgPoint": 3.5,
-      "CommentCount": 2
-    },
-    {
-      "ID": 7,
-      "Name": "Maydonoz Döner",
-      "Address": "BAĞLICA MAH. BAĞLICA BLV. N0:55, 06000 Etimesgut/Ankara",
-      "Category": "Döner",
-      "Latitude": 39.89854002121635,
-      "Longitude": 32.640891794317845,
-      "AvgPoint": 2,
-      "CommentCount": 1
-    },
-    {
-      "ID": 8,
-      "Name": "OT NOKTA",
-      "Address": "Çayyolu, ÜMİT MAH, 2479 CAD NO:2/34, 06810 Çankaya/Ankara",
-      "Category": "Cafe",
-      "Latitude": 39.90068869031159,
-      "Longitude": 32.692331561361804,
-      "AvgPoint": 0,
-      "CommentCount": 0
-    },
-    {
-      "ID": 10,
-      "Name": "Mado Yaşamkent",
-      "Address": "Yaşamkent 3222. Caddesi No:27 D:H, 06810 Çankaya",
-      "Category": "Cafe",
-      "Latitude": 39.857496020055144,
-      "Longitude": 32.64494972002105,
-      "AvgPoint": 0,
-      "CommentCount": 0
-    }
-  ]);
+  useEffect(() => {
+    getRestaurants()
+      .then((res) => {
+        console.log(res);
+        let tempRestaurantList = [];
+        res.data.map((item, index) => {
+          tempRestaurantList.push({
+            ID: item.ID,
+            Name: item.Name,
+            Address: item.Address,
+            Category: item.Category,
+            Latitude: item.Latitude,
+            Longitude: item.Longitude,
+            AvgPoint: item.AvgPoint,
+            CommentCount: item.CommentCount
+          });
+        });
+        setRestaurants(tempRestaurantList);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }, []);
+
+  const [restaurants, setRestaurants] = useState([]);
   const [activeSortItem, setActiveSortItem] = useState('recent');
   const navigation = useNavigation();
 

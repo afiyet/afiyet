@@ -24,7 +24,7 @@ function OrderScreen(props) {
     } = props;
     const [sections, setSections] = useState([]);
     const [sectionLength, setSectionLength] = useState(0);
-    
+
     const [menu, setMenu] = useState([]);
 
     const navigation = useNavigation();
@@ -42,12 +42,12 @@ function OrderScreen(props) {
 
     useEffect(() => {
         console.log(route);
-        
+
         dispatch(OrderActions.setBarcodeParams({
             restaurantId: route.params.rID,
             tableId: route.params.tableId
         }));
-        
+
         setBottomNavLabel("Order");
         getRestaurantMenu(route.params.rID)
             .then((res) => {
@@ -67,7 +67,7 @@ function OrderScreen(props) {
 
                     }
                 });
-                
+
                 setSections(tempSections);
                 setSectionLength(charCount * 15 / res.data.length);
 
@@ -98,7 +98,7 @@ function OrderScreen(props) {
 
     const SectionItem = ({ value }) => {
         return (
-            <View style={{ backgroundColor: "white" }}>
+            <View>
                 <TouchableOpacity onPress={() => {
                     //flatListRef.current.scrollToIndex({ index: value.index });
                     sectionListRef.current.scrollToLocation({
@@ -115,7 +115,6 @@ function OrderScreen(props) {
                         minWidth: 30,
                         borderRadius: 20,
                         paddingHorizontal: 10,
-                        paddingBottom: 10,
                         lineHeight: 40,
                         textAlign: "center"
                     }}>{value.item}</Text>
@@ -217,29 +216,31 @@ function OrderScreen(props) {
             <View
                 style={{ display: "flex", flexGrow: 1, paddingBottom: 100 }}
             >
-                <FlatList
-                    initialNumToRender={60}
-                    ref={flatListRef}
-                    horizontal={true}
-                    showsHorizontalScrollIndicator={false}
-                    data={sections}
-                    //initialScrollIndex={4}
-                    getItemLayout={(data, index) => {
-                        return (
-                            { length: sectionLength, offset: sectionLength * index, index }
-                        );
-                    }}
-                    renderItem={(item) => {
-                        return <SectionItem value={item} />
-                    }}
-                    onScrollToIndexFailed={info => {
-                        console.log(info)
-                        const wait = new Promise(resolve => setTimeout(resolve, 1000));
-                        wait.then(() => {
-                            flatListRef.current?.scrollToIndex({ index: info.index, animated: true });
-                        });
-                    }}
-                />
+                <View style={{flexGrow: 1, backgroundColor: "white"}}>
+                    <FlatList
+                        initialNumToRender={60}
+                        ref={flatListRef}
+                        horizontal={true}
+                        showsHorizontalScrollIndicator={false}
+                        data={sections}
+                        //initialScrollIndex={4}
+                        getItemLayout={(data, index) => {
+                            return (
+                                { length: sectionLength, offset: sectionLength * index, index }
+                            );
+                        }}
+                        renderItem={(item) => {
+                            return <SectionItem value={item} />
+                        }}
+                        onScrollToIndexFailed={info => {
+                            console.log(info)
+                            const wait = new Promise(resolve => setTimeout(resolve, 1000));
+                            wait.then(() => {
+                                flatListRef.current?.scrollToIndex({ index: info.index, animated: true });
+                            });
+                        }}
+                    />
+                </View>
                 <SectionList
                     ref={sectionListRef}
                     sections={menu}
