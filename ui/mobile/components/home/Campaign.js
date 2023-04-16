@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -13,8 +14,17 @@ const Campaign = ({
     distance,
     time,
     navigate,
+    index
 }) => {
     const dispatch = useDispatch();
+
+
+    const bannerList = [
+        require("../../assets/banners/subwayBanner.png"),
+        require("../../assets/banners/burgermakeBanner.png"),
+        require("../../assets/banners/dominosBanner.png"),
+        require("../../assets/banners/littleBanner.png")
+    ];
 
     return (
         <TouchableOpacity
@@ -22,7 +32,7 @@ const Campaign = ({
             activeOpacity={0.8}
         >
             <Image
-                source={{ uri: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" }}
+                source={bannerList[index%4]}
                 resizeMode="contain"
                 style={styles.posterStyle}
             />

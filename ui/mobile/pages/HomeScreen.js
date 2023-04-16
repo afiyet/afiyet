@@ -105,9 +105,10 @@ const HomeScreen = () => {
             ListFooterComponent={() => <Separator width={20} />}
             ItemSeparatorComponent={() => <Separator width={10} />}
             showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
               <Campaign
                 key={item.ID}
+                index={index}
                 {...item}
 
               />
