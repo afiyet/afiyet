@@ -100,6 +100,7 @@ export default function TablesPage() {
 
   const downloadQRCode = (e) => {
     e.preventDefault();
+    e.stopPropagation();
     let canvas = qrRef.current.querySelector("canvas");
     let image = canvas.toDataURL("image/png");
     let anchor = document.createElement("a");
@@ -108,6 +109,7 @@ export default function TablesPage() {
     document.body.appendChild(anchor);
     anchor.click();
     document.body.removeChild(anchor);
+    console.log(e);
   };
 
 
