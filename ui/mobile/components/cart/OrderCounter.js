@@ -15,9 +15,6 @@ export default function OrderCounter(props) {
     const decreaseCount = () => {
         if (orderedCount > 0) {
             dispatch(OrderActions.decreaseCountOfOrderedItem(orderedFoodId));
-        } else if (orderedCount === 1) {
-            console.log(orderedCount);
-            dispatch(OrderActions.removeFromCart(orderedFoodId));
         }
     }
 

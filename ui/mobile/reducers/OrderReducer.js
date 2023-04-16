@@ -84,7 +84,11 @@ const OrderReducer = (state = initialState, action) => {
             console.log(action);
             state.orderedItems.map((item, index) => {
                 if (item.id === action.data) {
-                    item.counter = item.counter - 1
+                    if (item.counter > 1) {
+                        item.counter = item.counter - 1
+                    } else {
+                        state.orderedItems.splice(index,1);
+                    }
                 }
             });
 
