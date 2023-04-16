@@ -109,7 +109,6 @@ export default function TablesPage() {
     document.body.appendChild(anchor);
     anchor.click();
     document.body.removeChild(anchor);
-    console.log(e);
   };
 
 
