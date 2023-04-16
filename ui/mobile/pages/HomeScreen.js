@@ -35,7 +35,7 @@ const HomeScreen = () => {
   useEffect(() => {
     getRestaurants()
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         let tempRestaurantList = [];
         res.data.map((item, index) => {
           tempRestaurantList.push({

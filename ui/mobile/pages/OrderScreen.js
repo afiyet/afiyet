@@ -17,6 +17,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { getRestaurantMenu } from "../endpoints/order/orderEndpoints";
 import { useDispatch, useSelector } from 'react-redux';
 import { OrderActions } from "../actions";
+import OrderBottomSheet from "../components/order/OrderBottomSheet";
 
 function OrderScreen(props) {
     const {
@@ -31,6 +32,8 @@ function OrderScreen(props) {
     const route = useRoute();
     const dispatch = useDispatch();
     const orderState = useSelector(state => state.orderState);
+    const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+    const [selectedMenuItem, setSelectedMenuItem] = useState({});
 
     useEffect(() => {
         setBottomNavLabel("Order");
@@ -49,7 +52,7 @@ function OrderScreen(props) {
         }));
 
         setBottomNavLabel("Order");
-        getRestaurantMenu(12)
+        getRestaurantMenu(route.params.rID)
             .then((res) => {
                 let tempData = [];
                 let charCount = 0;
@@ -79,7 +82,8 @@ function OrderScreen(props) {
                                 picture: item.picture,
                                 price: item.price,
                                 name: item.name,
-                                restaurantId: item.restaurantId
+                                restaurantId: item.restaurantId,
+                                category: item.category
                             });
                         }
                     });
@@ -92,7 +96,7 @@ function OrderScreen(props) {
             })
     }, [route]);
 
-    
+
 
     const SectionItem = ({ value }) => {
         return (
@@ -124,7 +128,9 @@ function OrderScreen(props) {
         return (
             <Pressable
                 onPress={() => {
-                    navigation.navigate("Food Details")
+                    //navigation.navigate("Food Details")
+                    setIsBottomSheetOpen(true);
+                    setSelectedMenuItem(value);
                 }}
             >
                 <View style={{
@@ -173,42 +179,48 @@ function OrderScreen(props) {
             <View
                 style={{ display: "flex", flexGrow: 1, paddingBottom: 100 }}
             >
-                <View style={{flexGrow: 1, backgroundColor: "white"}}>
-                    <FlatList
-                        initialNumToRender={60}
-                        horizontal={true}
-                        showsHorizontalScrollIndicator={false}
-                        data={sections}
-                        //initialScrollIndex={4}
-                        getItemLayout={(data, index) => {
-                            return (
-                                { length: sectionLength, offset: sectionLength * index, index }
-                            );
-                        }}
-                        renderItem={(item) => {
-                            return <SectionItem value={item} />
-                        }}
+                <View>
+                    <View style={{ flexGrow: 1, backgroundColor: "white" }}>
+                        <FlatList
+                            initialNumToRender={60}
+                            horizontal={true}
+                            showsHorizontalScrollIndicator={false}
+                            data={sections}
+                            //initialScrollIndex={4}
+                            getItemLayout={(data, index) => {
+                                return (
+                                    { length: sectionLength, offset: sectionLength * index, index }
+                                );
+                            }}
+                            renderItem={(item) => {
+                                return <SectionItem value={item} />
+                            }}
+                        />
+                    </View>
+                    <SectionList
+                        ref={sectionListRef}
+                        sections={menu}
+                        renderItem={({ item, index }) => <MenuItem value={item} index={index} />}
+                        renderSectionHeader={({ section: { title } }) => (
+                            <Text style={{
+                                fontSize: 32,
+                                backgroundColor: "#fff",
+                                marginTop: 20,
+                                paddingLeft: 18,
+                                paddingTop: 18,
+                                paddingBottom: 1
+                            }}>{title}</Text>
+                        )}
+                        ItemSeparatorComponent={() => (<View
+                            style={{ height: 1, width: '100%', backgroundColor: '#C8C8C8' }}
+                        />)}
                     />
                 </View>
-                <SectionList
-                    ref={sectionListRef}
-                    sections={menu}
-                    renderItem={({ item, index }) => <MenuItem value={item} index={index} />}
-                    renderSectionHeader={({ section: { title } }) => (
-                        <Text style={{
-                            fontSize: 32,
-                            backgroundColor: "#fff",
-                            marginTop: 20,
-                            paddingLeft: 18,
-                            paddingTop: 18,
-                            paddingBottom: 1
-                        }}>{title}</Text>
-                    )}
-                    ItemSeparatorComponent={() => (<View
-                        style={{ height: 1, width: '100%', backgroundColor: '#C8C8C8' }}
-                    />)}
+                <OrderBottomSheet
+                    isBottomSheetOpen={isBottomSheetOpen}
+                    setIsBottomSheetOpen={setIsBottomSheetOpen}
+                    selectedMenuItem={selectedMenuItem}
                 />
-
             </View>
             :
             null

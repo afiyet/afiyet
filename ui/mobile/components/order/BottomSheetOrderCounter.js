@@ -1,7 +1,7 @@
 import { FlatList, Text, View, StyleSheet, StatusBar, Image, Pressable } from 'react-native';
 import React, { useState } from 'react';
 
-export default function OrderCounter() {
+export default function BottomSheetOrderCounter() {
     const [count, setCount] = useState(0);
 
     const decreaseCount = () => {
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        backgroundColor: "#202533",
+        backgroundColor: "red",
         borderRadius: 8,
     },
     button: {

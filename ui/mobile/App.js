@@ -7,6 +7,7 @@ import {
 import * as SplashScreen from "expo-splash-screen"
 import Store from './Store';
 import { Provider } from 'react-redux';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 function App() {
 
@@ -24,13 +25,15 @@ function App() {
   setTimeout(SplashScreen.hideAsync, 3000);
 
   return (
-    <Provider store={Store}>
-      <PaperProvider theme={theme}>
-        <NavigationContainer>
-          <Main />
-        </NavigationContainer>
-      </PaperProvider>
-    </Provider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Provider store={Store}>
+        <PaperProvider theme={theme}>
+          <NavigationContainer>
+            <Main />
+          </NavigationContainer>
+        </PaperProvider>
+      </Provider>
+    </GestureHandlerRootView>
   );
 }
 
