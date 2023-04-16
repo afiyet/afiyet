@@ -224,7 +224,7 @@ export default function TablesPage() {
                       </Typography>
                     </CardContent>
                     <CardActions>
-                      <IconButton onClick={downloadQRCode}>
+                      <IconButton onClick={downloadQRCode} id={item.name}>
                         <QrCode2Icon id={item.name} />
                       </IconButton>
                       <IconButton onClick={() => {

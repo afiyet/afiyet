@@ -138,7 +138,7 @@ let styles = {
 	},
 	menuContainer: {
 		display: 'flex',
-		justifyContent: 'center'
+		justifyContent: 'center',
 	},
 	menu: {
 		width: '70vw',
@@ -147,7 +147,8 @@ let styles = {
 		backgroundColor: '#d82227',
 		marginTop: '2vh',
 		borderRadius: '1vh',
-		boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
+		boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+		padding: 10
 	},
 	menuHeader: {
 		display: 'flex',
@@ -160,11 +161,11 @@ let styles = {
 		alignItems: 'center',
 		flexDirection: 'column'
 	},
-	menuTypography: { fontFamily: "monospace" },
+	menuTypography: { fontFamily: "monospace", color: "#fff" },
 	updateMenu: {
 		display: 'flex',
 		justifyContent: 'center',
-		marginBottom: '1vh'
+		marginBottom: '1vh',
 	}
 };
 
