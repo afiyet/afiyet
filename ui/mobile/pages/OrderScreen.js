@@ -127,6 +127,7 @@ function OrderScreen(props) {
     const MenuItem = ({ value, index }) => {
         return (
             <Pressable
+                disabled={(orderState.tableId === undefined || orderState.tableId === "") ? true : false}
                 onPress={() => {
                     //navigation.navigate("Food Details")
                     setIsBottomSheetOpen(true);

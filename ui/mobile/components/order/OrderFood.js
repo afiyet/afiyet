@@ -45,7 +45,7 @@ function OrderFood(props) {
           </View>
         </View>
         <View style={styles.footerContainer}>
-          <Text style={styles.ingredientsText}>{selectedMenuItem.ingredients}dkjhaskdjhaskdjaskjhjjdhaskjdhasjkdhasjkdhasjkdhajkdhajksdhakjdhkjasdhjaskdkjashdkjasdjk</Text>
+          <Text style={styles.ingredientsText}>{selectedMenuItem.ingredients}</Text>
         </View>
 
         <View style={{
