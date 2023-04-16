@@ -1,10 +1,15 @@
 import { FlatList, Text, View, StyleSheet, StatusBar, Image, Pressable } from 'react-native';
 import React from 'react';
 
-export default function BillingInfo() {
+export default function BillingInfo(props) {
+
+  const {
+    totalPrice
+  } = props;
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Total: $ 30.00</Text>
+      <Text style={styles.text}>Total: {totalPrice} TL</Text>
     </View>
   )
 }

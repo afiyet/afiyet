@@ -1,19 +1,28 @@
 import { FlatList, Text, View, StyleSheet, StatusBar, Image, Pressable } from 'react-native';
 import React, { useState } from 'react';
+import { OrderActions } from '../../actions';
+import {useDispatch} from "react-redux";
 
-export default function OrderCounter() {
-    const [count, setCount] = useState(0);
+export default function OrderCounter(props) {
+
+    const {
+        orderedCount,
+        orderedFoodId
+    } = props;
+
+    const dispatch = useDispatch();
 
     const decreaseCount = () => {
-        if (count > 0) {
-            setCount(count - 1);
-        } else {
-            setCount(0);
+        if (orderedCount > 0) {
+            dispatch(OrderActions.decreaseCountOfOrderedItem(orderedFoodId));
+        } else if (orderedCount === 1) {
+            console.log(orderedCount);
+            dispatch(OrderActions.removeFromCart(orderedFoodId));
         }
     }
 
     const increaseCount = () => {
-        setCount(count + 1);
+        dispatch(OrderActions.increaseCountOfOrderedItem(orderedFoodId));
     }
 
     return (
@@ -30,7 +39,7 @@ export default function OrderCounter() {
                 <Text style={styles.text}>-</Text>
             </Pressable>
             <View style={styles.counterView}>
-                <Text style={styles.text}>{count}</Text>
+                <Text style={styles.text}>{orderedCount}</Text>
             </View>
 
             <Pressable

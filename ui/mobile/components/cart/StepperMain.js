@@ -6,6 +6,8 @@ import BillingInfo from './BillingInfo';
 import { WebView } from 'react-native-webview';
 import { initializePayment, getWebViewUrlFromAWS, getPaymentResult, completePayment } from '../../endpoints';
 import { useState } from 'react';
+import { useSelector } from "react-redux";
+import { useEffect } from 'react';
 
 export const themeColor = '#1e1e1e';
 export const textColor = '#ffffffdd';
@@ -16,6 +18,20 @@ export default function StepperMain() {
 
   const [webViewURL, setWebViewURL] = useState("");
   const [token, setToken] = useState("");
+  const orderState = useSelector(state => state.orderState);
+  const userState = useSelector(state => state.userState);
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  useEffect(() => {
+    
+    let total = 0;
+    
+    orderState.orderedItems.map((item, index) => {
+      total += item.price * item.counter;
+    });
+
+    setTotalPrice(total);
+  }, [orderState]);
 
 
   function onPlaceOrderClicked() {
@@ -28,7 +44,7 @@ export default function StepperMain() {
   }
 
   function onConfirmOrderClicked() {
-    let payload = {
+    /* let payload = {
       "buyerID": 4,
       "restaurantID": "5",
       "tableID": "1",
@@ -46,6 +62,13 @@ export default function StepperMain() {
           "price": 18.70
         }
       ]
+    } */
+
+    let payload = {
+      buyerID: userState.userId,
+      restaurantID: orderState.restaurantId,
+      tableID: orderState.tableId,
+      basketItems: orderState.orderedItems
     }
 
     initializePayment(payload)
@@ -124,21 +147,19 @@ export default function StepperMain() {
           <View style={styles.headerWithBilling}>
             <Text style={styles.textHeader}>Cart</Text>
             <View>
-              <BillingInfo />
+              <BillingInfo totalPrice={totalPrice} />
             </View>
           </View>
           <ScrollView
             showsVerticalScrollIndicator={false}
           >
-            <OrderItem />
-            <OrderItem />
-            <OrderItem />
-            <OrderItem />
-            <OrderItem />
-            <OrderItem />
-            <OrderItem />
-            <OrderItem />
-            <OrderItem />
+            {
+              orderState.orderedItems.map((item, index) => {
+                return (
+                  <OrderItem key={item.id} item={item}/>
+                );
+              })
+            }
           </ScrollView>
         </ProgressStep>
         <ProgressStep

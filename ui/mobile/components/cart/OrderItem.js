@@ -4,21 +4,31 @@ import OrderCounter from './OrderCounter';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useDispatch } from 'react-redux';
+import { OrderActions } from '../../actions';
 
-const deleteButton = () => {
-    return (
-        <Pressable style={({ pressed }) => [
-            {
-                backgroundColor: pressed ? "#d4989a" : "#D82227",
-            },
-            styles.deleteView,
-        ]}>
-            <MaterialCommunityIcons name="delete" size={35} />
-        </Pressable>
-    );
-}
+export default function OrderItem(props) {
 
-export default function OrderItem() {
+    const {
+        item
+    } = props;
+
+    const dispatch = useDispatch();
+
+    const deleteButton = () => {
+        return (
+            <Pressable
+                style={({ pressed }) => [{ backgroundColor: pressed ? "#d4989a" : "#D82227", }, styles.deleteView]}
+                onPress={() => {
+                    console.log("pres");
+                    console.log(item.id);
+                    dispatch(OrderActions.removeFromCart(item.id));
+                }}
+            >
+                <MaterialCommunityIcons name="delete" size={35} />
+            </Pressable>
+        );
+    }
 
     return (
         <GestureHandlerRootView>
@@ -34,11 +44,11 @@ export default function OrderItem() {
                             style={styles.image}
                         />
                         <View style={styles.textView}>
-                            <Text style={styles.text}>Special Pizza</Text>
-                            <Text style={styles.text}>$30.00</Text>
+                            <Text style={styles.text}>{item.name}</Text>
+                            <Text style={styles.text}>{item.price} TL</Text>
                         </View>
                     </View>
-                    <OrderCounter />
+                    <OrderCounter orderedCount={item.counter} orderedFoodId={item.id} />
                 </View>
             </Swipeable>
         </GestureHandlerRootView>

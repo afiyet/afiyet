@@ -2,6 +2,9 @@ const types = {
     SET_BARCODE_PARAMS: "SET_BARCODE_PARAMS",
     UNSET_BARCODE_PARAMS: "UNSET_BARCODE_PARAMS",
     ADD_TO_CART: "ADD_TO_CART",
+    REMOVE_FROM_CARD: "REMOVE_FROM_CARD",
+    INCREASE_COUNT_OF_ORDERED_ITEM: "INCREASE_COUNT_OF_ORDERED_ITEM",
+    DECREASE_COUNT_OF_ORDERED_ITEM: "DECREASE_COUNT_OF_ORDERED_ITEM"
 }
 
 const setBarcodeParams = (value) => {
@@ -18,9 +21,34 @@ const addToCart = (value) => {
     }
 };
 
+const removeFromCart = (value) => {
+    return {
+        type: types.REMOVE_FROM_CARD,
+        data: value
+    }
+}
+
+const decreaseCountOfOrderedItem = (value) => {
+    return {
+        type: types.DECREASE_COUNT_OF_ORDERED_ITEM,
+        data: value
+    }
+}
+
+const increaseCountOfOrderedItem = (value) => {
+    return {
+        type: types.INCREASE_COUNT_OF_ORDERED_ITEM,
+        data: value
+    }
+}
+
+
 
 export default {
     types,
     setBarcodeParams,
-    addToCart
+    addToCart,
+    removeFromCart,
+    decreaseCountOfOrderedItem,
+    increaseCountOfOrderedItem
 };

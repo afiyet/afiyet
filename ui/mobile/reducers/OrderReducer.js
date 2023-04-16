@@ -59,6 +59,38 @@ const OrderReducer = (state = initialState, action) => {
             return {
                 ...newStateAfterAddToCart
             }
+        case OrderActions.types.REMOVE_FROM_CARD:
+            state.orderedItems.map((item, index) => {
+                if (item.id === action.data) {
+                    state.orderedItems.splice(index,1);
+                }
+            });    
+            console.log("remove");
+            return {
+                ...state
+            };
+        case OrderActions.types.INCREASE_COUNT_OF_ORDERED_ITEM:
+
+            state.orderedItems.map((item, index) => {
+                if (item.id === action.data) {
+                    item.counter = item.counter + 1
+                }
+            });
+            console.log("aaa");
+            return {
+                ...state
+            };
+        case OrderActions.types.DECREASE_COUNT_OF_ORDERED_ITEM:
+            console.log(action);
+            state.orderedItems.map((item, index) => {
+                if (item.id === action.data) {
+                    item.counter = item.counter - 1
+                }
+            });
+
+            return{
+                ...state
+            };
         default:
             return { ...state };
     }
