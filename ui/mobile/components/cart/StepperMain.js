@@ -140,7 +140,8 @@ export default function StepperMain() {
       <ProgressSteps {...progressSteps}>
         <ProgressStep label="Cart"
           nextBtnText='Confirm Order'
-          nextBtnStyle={styles.firstStepNextButton}
+          nextBtnStyle={(orderState.orderedItems.length > 0) ? styles.firstStepNextButton : styles.firstStepNextButtonDisabled}
+          nextBtnDisabled={(orderState.orderedItems.length > 0) ? false : true}
           {...firstProgressStep}
           onNext={onConfirmOrderClicked}
         >
@@ -156,7 +157,7 @@ export default function StepperMain() {
             {
               orderState.orderedItems.map((item, index) => {
                 return (
-                  <OrderItem key={item.id} item={item}/>
+                  <OrderItem key={item.id} item={item} />
                 );
               })
             }
@@ -190,6 +191,15 @@ const styles = StyleSheet.create({
   },
   firstStepNextButton: {
     backgroundColor: themeColor,
+    width: screenDimensions.width - 40,
+    paddingVertical: 10,
+    position: "absolute",
+    left: -screenDimensions.width + 60 + 20,
+    top: -40,
+    borderRadius: 10,
+  },
+  firstStepNextButtonDisabled: {
+    backgroundColor: "gray",
     width: screenDimensions.width - 40,
     paddingVertical: 10,
     position: "absolute",
