@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
-
 import Onboarding from 'react-native-onboarding-swiper';
-import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { GeneralActions } from '../../actions';
 
 const Dots = ({ selected }) => {
     let backgroundColor;
@@ -26,7 +26,7 @@ const Skip = ({ ...props }) => (
         style={{ marginHorizontal: 10 }}
         {...props}
     >
-
+        <Text style={{ fontSize: 16, fontWeight: "bold" }}>Skip</Text>
     </TouchableOpacity>
 );
 
@@ -35,7 +35,7 @@ const Next = ({ ...props }) => (
         style={{ marginHorizontal: 10 }}
         {...props}
     >
-        <Text style={{ fontSize: 16 }}>Next</Text>
+        <Text style={{ fontSize: 16, fontWeight: "bold" }}>Next</Text>
     </TouchableOpacity>
 );
 
@@ -44,13 +44,12 @@ const Done = ({ ...props }) => (
         style={{ marginHorizontal: 10 }}
         {...props}
     >
-        <Text style={{ fontSize: 16 }}>Done</Text>
+        <Text style={{ fontSize: 16, fontWeight: "bold" }}>Done</Text>
     </TouchableOpacity>
 );
 
 const OnboardingScreen = () => {
-
-    const navigation = useNavigation();
+    const dispatch = useDispatch();
 
     return (
         <View style={styles.container}>
@@ -60,8 +59,10 @@ const OnboardingScreen = () => {
                 NextButtonComponent={Next}
                 DoneButtonComponent={Done}
                 DotComponent={Dots}
-                onSkip={() => navigation.replace("Login")}
-                onDone={() => navigation.navigate("LoginScreen")}
+                onSkip={() => { dispatch(GeneralActions.setOnboarded(true)); }}
+                onDone={() => { dispatch(GeneralActions.setOnboarded(true)); }}
+                titleStyles={{ fontWeight: "bold" }}
+                subTitleStyles={{ width: 300, fontWeight: "bold" }}
                 pages={[
                     {
                         backgroundColor: '#d82227',
@@ -74,7 +75,7 @@ const OnboardingScreen = () => {
                             }}
                             source={require("../../assets/onboarding/undraw_map.png")} />,
                         title: 'Discover places near you',
-                        subtitle: 'We make it simple for you to find restaurants around you',
+                        subtitle: 'We make it simple for you to find restaurants around you.',
                     },
                     {
                         backgroundColor: '#d82227',
@@ -86,14 +87,47 @@ const OnboardingScreen = () => {
                                 marginTop: -50,
                             }}
                             source={require("../../assets/onboarding/undraw_review.png")} />,
-                        title: 'Share Your Favorites',
-                        subtitle: 'Share Your Thoughts With Similar Kind of Peodsadasdasdasdasdasdasple',
+                        title: 'Check what others think',
+                        subtitle: 'We provide a way to evaluate restaurants from other\'s point of view.',
                     },
                     {
                         backgroundColor: '#d82227',
-                        //image: <Image source={require('../assets/onboarding-img3.png')} />,
-                        title: 'Become The Star',
-                        subtitle: "Let The Spot Light Capture You",
+                        image: <Image
+                            style={{
+                                resizeMode: 'contain',
+                                height: 300,
+                                width: 400,
+                                marginTop: -50,
+                            }}
+                            source={require("../../assets/onboarding/undraw_online_groceries.png")} />,
+                        title: 'Order from your phone',
+                        subtitle: 'See available offerings and order at your fingertips.',
+                    },
+                    {
+                        backgroundColor: '#d82227',
+                        image: <Image
+                            style={{
+                                resizeMode: 'contain',
+                                height: 300,
+                                width: 400,
+                                marginTop: -50,
+                            }}
+                            source={require("../../assets/onboarding/undraw_Mobile_pay.png")} />,
+                        title: 'Pay from your phone',
+                        subtitle: 'Want to split the check? Just pay from your phone.',
+                    },
+                    {
+                        backgroundColor: '#d82227',
+                        image: <Image
+                            style={{
+                                resizeMode: 'contain',
+                                height: 300,
+                                width: 400,
+                                marginTop: -50,
+                            }}
+                            source={require("../../assets/onboarding/undraw_Eating_together.png")} />,
+                        title: 'Enjoy your food',
+                        subtitle: 'Get your food delivered to your table just like that!',
                     },
                 ]}
             />

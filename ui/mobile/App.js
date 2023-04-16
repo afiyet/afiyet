@@ -5,21 +5,11 @@ import {
   Provider as PaperProvider,
 } from 'react-native-paper';
 import * as SplashScreen from "expo-splash-screen"
-import { useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import Store from './Store';
+import { Provider } from 'react-redux';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 function App() {
-
-  const [onboarded, setOnboarded] = useState(false);
-
-  const getOnboarded = async () => {
-    const res = await AsyncStorage.getItem("ONBOARDED");
-    setOnboarded(JSON.parse(res));
-  };
-
-  useEffect(() => {
-    //getOnboarded();  STORAGE AYARLANDIĞINDA BURAYI AÇ
-  }, []);
 
   const theme = {
     ...DefaultTheme,
@@ -35,11 +25,15 @@ function App() {
   setTimeout(SplashScreen.hideAsync, 3000);
 
   return (
-    <PaperProvider theme={theme}>
-      <NavigationContainer>
-        <Main onboarded={onboarded} />
-      </NavigationContainer>
-    </PaperProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Provider store={Store}>
+        <PaperProvider theme={theme}>
+          <NavigationContainer>
+            <Main />
+          </NavigationContainer>
+        </PaperProvider>
+      </Provider>
+    </GestureHandlerRootView>
   );
 }
 

@@ -175,9 +175,10 @@ let styles = {
 		flexDirection: 'column',
 		padding: '2vh',
 		marginBottom: '1vh',
-		backgroundColor: '#fe4526',
+		backgroundColor: '#fff',
 		borderRadius: '1vh',
-		boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
+		boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+		margin: 10
 	},
 	categoryHeader: {
 		width: '65wv',
