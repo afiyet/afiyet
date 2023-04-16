@@ -29,29 +29,29 @@ const OrderReducer = (state = initialState, action) => {
             let newStateAfterAddToCart = {...state};
 
             let isExist = newStateAfterAddToCart.orderedItems.find((item, index) => {
-                return item.id === action.data.ID;
+                return item.id === action.data.addedItem.ID;
             });
 
             if (isExist !== undefined) {
                
                 isExist = {
                     ...isExist,
-                    counter: isExist.counter + 1
+                    counter: isExist.counter + action.data.amountToAdd
                 }
 
                 newStateAfterAddToCart.orderedItems.map((item, index) => {
-                    if (item.id === action.data.ID) {
+                    if (item.id === action.data.addedItem.ID) {
                         newStateAfterAddToCart.orderedItems.push(isExist);
                         newStateAfterAddToCart.orderedItems.splice(index,1);
                     }
                 });
             } else {
                 newStateAfterAddToCart.orderedItems.push({
-                        id: action.data.ID,
-                        name: action.data.name,
-                        category: action.data.category,
-                        price: action.data.price,
-                        counter: 1
+                        id: action.data.addedItem.ID,
+                        name: action.data.addedItem.name,
+                        category: action.data.addedItem.category,
+                        price: action.data.addedItem.price,
+                        counter: action.data.amountToAdd
                     }
                 );
             }

@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, Button, Pressable } from 'react-native';
 import OrderCounter from '../cart/OrderCounter';
 import BottomSheetOrderCounter from './BottomSheetOrderCounter';
@@ -24,6 +24,7 @@ function OrderFood(props) {
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const [count, setCount] = useState(1);
 
   return (
     <View
@@ -53,19 +54,23 @@ function OrderFood(props) {
           justifyContent: "space-around",
           paddingTop: 15,
         }}>
-          <BottomSheetOrderCounter />
+          <BottomSheetOrderCounter count={count} setCount={setCount} />
           <Pressable
             onPress={() => {
               //console.log(selectedMenuItem);
-              dispatch(OrderActions.addToCart({
-                ID: selectedMenuItem.ID,
-                ingredients: selectedMenuItem.ingredients,
-                picture: selectedMenuItem.picture,
-                price: selectedMenuItem.price,
-                name: selectedMenuItem.name,
-                restaurantId: selectedMenuItem.restaurantId,
-                category: selectedMenuItem.category
-              }));
+              dispatch(OrderActions.addToCart(
+                {
+                  amountToAdd: count,
+                  addedItem: {
+                    ID: selectedMenuItem.ID,
+                    ingredients: selectedMenuItem.ingredients,
+                    picture: selectedMenuItem.picture,
+                    price: selectedMenuItem.price,
+                    name: selectedMenuItem.name,
+                    restaurantId: selectedMenuItem.restaurantId,
+                    category: selectedMenuItem.category
+                  }
+                }));
             }}
             style={({ pressed }) => [
               {

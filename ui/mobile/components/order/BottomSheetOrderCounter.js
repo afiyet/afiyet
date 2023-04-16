@@ -1,14 +1,18 @@
 import { FlatList, Text, View, StyleSheet, StatusBar, Image, Pressable } from 'react-native';
 import React, { useState } from 'react';
 
-export default function BottomSheetOrderCounter() {
-    const [count, setCount] = useState(0);
+export default function BottomSheetOrderCounter(props) {
+    
+    const {
+        count,
+        setCount
+    } = props;
 
     const decreaseCount = () => {
-        if (count > 0) {
+        if (count > 1) {
             setCount(count - 1);
         } else {
-            setCount(0);
+            setCount(1);
         }
     }
 
