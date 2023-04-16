@@ -7,12 +7,16 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ScannerAndOrderStackNavigation from './ScannerAndOrderStackNavigation';
 import SearchAndHomeStackNavigation from './SearchAndHomeStackNavigation';
+import { Badge } from 'react-native-paper';
+import { View } from 'react-native';
+import { useSelector } from "react-redux";
 
 const Tab = createMaterialBottomTabNavigator();
 
 function MainTabNavigation() {
 
   const [scannerAndOrderBottomNavLabel, setScannerAndOrderBottomNavLabel] = useState("Scanner");
+  const orderState = useSelector(state => state.orderState);
 
   return (
     <Tab.Navigator
@@ -48,7 +52,19 @@ function MainTabNavigation() {
         component={CartScreen}
         options={{
           tabBarLabel: 'Cart',
-          tabBarIcon: ({ color }) => (<MaterialCommunityIcons name="cart-variant" color={color} size={26} />),
+          tabBarIcon: ({ color }) => {
+            return (
+              <View style={{ display: "flex", flexDirection: "row" }}>
+                <MaterialCommunityIcons name="cart-variant" color={color} size={26} />
+                {
+                  (orderState.orderedItems.length > 0) ?
+                    <Badge style={{ position: "absolute", top: 2, right: -17, backgroundColor: "#0fdb8a", color: "black", fontWeight: "bold" }}>{orderState.orderedItems.length}</Badge>
+                    :
+                    null
+                }
+              </View>
+            );
+          },
         }} />
       <Tab.Screen
         name='Profile'
