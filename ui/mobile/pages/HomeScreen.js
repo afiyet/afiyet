@@ -17,6 +17,8 @@ import Separator from '../components/home/Seperator';
 import RestaurantMediumCard from '../components/home/RestaurantMediumCard';
 import Campaign from '../components/home/Campaign';
 import { getRestaurants } from '../endpoints/order/orderEndpoints';
+import { useSelector } from 'react-redux';
+import getDistanceFromLatLonInKm from '../components/home/DistanceCalculations';
 
 
 const sortStyle = isActive =>
@@ -27,6 +29,8 @@ const sortStyle = isActive =>
 const { width, height } = Dimensions.get("window");
 
 const HomeScreen = () => {
+
+  const userLocation = useSelector(state => state.locationState);
 
   useEffect(() => {
     getRestaurants()
@@ -53,7 +57,7 @@ const HomeScreen = () => {
   }, []);
 
   const [restaurants, setRestaurants] = useState([]);
-  const [activeSortItem, setActiveSortItem] = useState('recent');
+  const [activeSortItem, setActiveSortItem] = useState('featured');
   const navigation = useNavigation();
 
   return (
@@ -111,12 +115,12 @@ const HomeScreen = () => {
           />
         </View>
         <View style={styles.sortListContainer}>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={sortStyle(activeSortItem === 'recent')}
             activeOpacity={0.8}
             onPress={() => setActiveSortItem('recent')}>
             <Text style={styles.sortListItemText}>Recent</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             style={sortStyle(activeSortItem === 'featured')}
             activeOpacity={0.8}
@@ -130,16 +134,37 @@ const HomeScreen = () => {
             <Text style={styles.sortListItemText}>Near</Text>
           </TouchableOpacity>
         </View>
-        {restaurants.map(item => (
-          <RestaurantMediumCard
-            ID={item.ID}
-            name={item.Name}
-            address={item.Address}
-            category={item.Category}
-            avgPoint={item.AvgPoint}
-            commentCount={item.CommentCount}
-            key={item.ID} />
-        ))}
+        {restaurants.map(item => {
+
+          if (activeSortItem === "near") {
+            let distance = getDistanceFromLatLonInKm(Number(userLocation.latitude), Number(userLocation.longitude), Number(item.Latitude), Number(item.Longitude));
+            if (distance < 4) {
+              return (
+                <RestaurantMediumCard
+                  ID={item.ID}
+                  name={item.Name}
+                  address={item.Address}
+                  category={item.Category}
+                  avgPoint={item.AvgPoint}
+                  commentCount={item.CommentCount}
+                  key={item.ID}
+                />
+              );
+            }
+          } else {
+            return (
+              <RestaurantMediumCard
+                ID={item.ID}
+                name={item.Name}
+                address={item.Address}
+                category={item.Category}
+                avgPoint={item.AvgPoint}
+                commentCount={item.CommentCount}
+                key={item.ID}
+              />
+            );
+          }
+        })}
       </ScrollView>
     </View>
   );
