@@ -127,49 +127,35 @@ function OrderScreen(props) {
     const MenuItem = ({ value, index }) => {
         return (
             <Pressable
+            style={({ pressed }) => [
+                {
+                    backgroundColor: pressed ? "#cfcfcf" : "#fff",
+                },
+                styles.container,
+            ]}
                 disabled={(orderState.tableId === undefined || orderState.tableId === "") ? true : false}
                 onPress={() => {
-                    //navigation.navigate("Food Details")
                     setIsBottomSheetOpen(true);
                     setSelectedMenuItem(value);
                 }}
             >
-                <View style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    maxWidth: Dimensions.get("screen").width,
-                    padding: 18,
-                    backgroundColor: "white"
-                }}>
-                    <View style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "flex-start",
-                        flexGrow: 2,
-                        maxWidth: "70%",
-                        paddingRight: 15
-                    }}>
-                        <Text style={{ fontSize: 20, paddingBottom: 5 }}>{value.name}</Text>
-                        <Text style={{ fontSize: 12, paddingBottom: 5, color: "gray" }}>{value.ingredients}</Text>
-                        <Text style={{ fontSize: 14 }}>{value.price} TL</Text>
+                <View>
+                    <Image
+                        source={{ uri: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" }}
+                        resizeMode="contain"
+                        style={styles.posterStyle}
+                    />
+                </View>
+                <View style={styles.labelContainer}>
+                    <View style={styles.nameAndPrice}>
+                        <Text ellipsizeMode={"tail"} numberOfLines={3} style={styles.titleText}>{value.name}</Text>
+                        <Text style={styles.priceText}>{value.price} TL</Text>
                     </View>
-                    <View style={{
-                        display: "flex",
-                        flexGrow: 1,
-                        justifyContent: "center",
-                        alignItems: "center"
-                    }}>
-                        <Image
-                            style={{
-                                width: 120,
-                                height: 120,
-                                borderRadius: 10,
-                            }}
-                            source={{ uri: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8&w=1000&q=80" }}
-                            resizeMode="center"
-                        />
+                    <View style={styles.footerContainer}>
+                        <Text style={styles.tagsText}>{value.ingredients}DHSAKJDHAS ASJDHASDH ASJHDASJKDH DASHDJKLA</Text>
                     </View>
                 </View>
+
             </Pressable>
         );
     }
@@ -229,7 +215,66 @@ function OrderScreen(props) {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        //backgroundColor: 'yellow',
+    },
+    posterStyle: {
+        width: 100,
+        height: 100,
+        borderRadius: 10,
+        margin: 5,
+    },
+    labelContainer: {
+        flex: 1,
+        marginHorizontal: 8,
+        //backgroundColor: "blue",
+        paddingVertical: 10
+    },
+    titleText: {
+        //backgroundColor: "red",
+        fontSize: 18,
+        fontWeight: "bold",
+        color: '#0E122B',
+        marginBottom: 5,
+        maxWidth: 210
+    },
+    tagsText: {
+        fontSize: 12,
+        color: '#C2C2CB',
+        marginBottom: 7,
+    },
 
+    rowAndCenter: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    priceText: {
+        marginLeft: 5,
+        fontSize: 18,
+        color: '#0E122B',
+    },
+    reviewsText: {
+        fontSize: 10,
+        lineHeight: 10 * 1.4,
+
+        color: '#0E122B',
+    },
+    addressText: {
+        fontSize: 10,
+        color: '#C2C2CB',
+        marginBottom: 5,
+    },
+    nameAndPrice: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        paddingRight: 5,
+        //marginLeft: 8,
+        //backgroundColor: "green"
+    }
 });
 
 export default OrderScreen;

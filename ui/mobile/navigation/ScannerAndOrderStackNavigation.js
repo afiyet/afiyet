@@ -1,7 +1,6 @@
 import React from 'react';
 import ScannerScreen from '../pages/ScannerScreen';
 import OrderScreen from '../pages/OrderScreen';
-import FoodDetails from '../pages/FoodDetails';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
@@ -44,9 +43,6 @@ export default function ScannerAndOrderStackNavigation(props) {
                         )
                     })}>
                     {() => { return <OrderScreen setBottomNavLabel={setBottomNavLabel} /> }}
-                </NativeStack.Screen>
-                <NativeStack.Screen name="Food Details">
-                    {() => { return <FoodDetails /> }}
                 </NativeStack.Screen>
             </NativeStack.Group>
         </NativeStack.Navigator>
