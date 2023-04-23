@@ -14,7 +14,7 @@ export default function CommentsPage() {
   const [comments, setComments] = useState([]);
   const [waiting, setWaiting] = useState(true);
   const [filterPoint, setFilterPoint] = useState(["5", "4", "3", "2", "1"]);
-  const [selectedFilter, setSelectedFilter] = useState("5");
+  const [selectedFilter, setSelectedFilter] = useState("");
 
   useEffect(() => {
     setWaiting(false);
