@@ -11,6 +11,7 @@ import (
 )
 
 type OrderDishHandler struct {
+	// TODO(umutcil) ?
 	s *service.DishService
 }
 

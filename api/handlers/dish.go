@@ -1,12 +1,14 @@
 package handlers
 
 import (
+	"encoding/base64"
 	"fmt"
 	"github.com/afiyet/afiytet/api/data/model"
 	"github.com/afiyet/afiytet/api/service"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 type DishHandler struct {
@@ -21,11 +23,16 @@ func (h *DishHandler) Add(c echo.Context) error {
 		return err
 	}
 
+	decoded, err := decodeBase64(dbind.Picture)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+	dbind.Picture = decoded
+
 	d, err := h.s.Add(dbind)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
-
 	return c.JSON(http.StatusOK, d)
 }
 
@@ -113,4 +120,17 @@ func (h *DishHandler) Update(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, d)
+}
+
+func decodeBase64(str string) (string, error) {
+	if strings.Contains(str, ",") {
+		str = str[strings.IndexByte(string(str), ',')+1:]
+	}
+	resp, err := base64.StdEncoding.DecodeString(str)
+
+	if err != nil {
+		return "", fmt.Errorf("base64 decode: %w", err)
+	}
+
+	return string(resp), nil
 }

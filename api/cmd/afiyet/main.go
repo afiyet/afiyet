@@ -21,6 +21,10 @@ func main() {
 
 	connstr := os.Getenv("DB_CONNECTION_STRING")
 
+	if os.Getenv("AWS_ACCESS_KEY_ID") == "" || os.Getenv("AWS_SECRET_ACCESS_KEY") == "" {
+		log.Fatal("Missing aws keys")
+	}
+
 	app, err := NewApp(connstr)
 
 	if err != nil {
@@ -54,7 +58,9 @@ func NewApp(connstr string) (*App, error) {
 		AllowOrigins: []string{"*"},
 	}))
 
-	handlers.Bootstrap(db, e)
+	if err = handlers.Bootstrap(db, e); err != nil {
+		return nil, err
+	}
 
 	return &App{
 		e:  e,
