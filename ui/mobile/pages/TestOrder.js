@@ -291,12 +291,14 @@ const styles = StyleSheet.create({
         fontSize: 13,
         lineHeight: 13 * 1.4,
         color: Colors.DEFAULT_BLACK,
+        fontWeight: "bold",
     },
     reviewsText: {
         marginLeft: 5,
         fontSize: 13,
         lineHeight: 13 * 1.4,
         color: Colors.DEFAULT_BLACK,
+        fontWeight: "bold",
     },
     deliveryDetailsContainer: {
         flexDirection: 'row',

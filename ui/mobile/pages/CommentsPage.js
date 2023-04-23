@@ -1,10 +1,20 @@
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView } from 'react-native'
 import React from 'react'
+import CommentItem from '../components/comment/CommentItem'
 
 export default function CommentsPage() {
   return (
-    <View>
-      <Text>CommentsPage</Text>
-    </View>
+    <ScrollView>
+      <CommentItem />
+      <CommentItem />
+      <CommentItem />
+      <CommentItem />
+      <CommentItem />
+      <CommentItem />
+      <CommentItem />
+      <CommentItem />
+      <CommentItem />
+      <CommentItem />
+    </ScrollView>
   )
 }
