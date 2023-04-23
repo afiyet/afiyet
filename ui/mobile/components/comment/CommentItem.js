@@ -5,23 +5,26 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 export default function CommentItem(props) {
 
     const {
-
+        commentText,
+        commentPoint,
+        time,
+        userFullName,
     } = props;
 
     return (
         <View style={styles.container}>
             <View style={styles.nameAndPoints}>
-                <Text style={styles.nameText}>Ad soyad</Text>
+                <Text style={styles.nameText}>{userFullName}</Text>
                 <View style={styles.star}>
                     <FontAwesome name="star" size={20} color={'#F53920'} />
-                    <Text style={styles.pointText}>4</Text>
+                    <Text style={styles.pointText}>{commentPoint}</Text>
                 </View>
             </View>
             <View style={styles.timeContainer}>
-                <Text style={styles.timeText}>4 days ago</Text>
+                <Text style={styles.timeText}>{time}</Text>
             </View>
             <View style={styles.commentContainer}>
-                <Text style={styles.commentText}>Pizza baharatı gönderilmemişti ve pizzalar soğuk gelmişti. Hiç beğenmedim !!!</Text>
+                <Text style={styles.commentText}>{commentText}</Text>
             </View>
         </View>
     )
