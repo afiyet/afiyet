@@ -17,3 +17,7 @@ func NewLocationService(db *gorm.DB) *LocationService {
 func (s *LocationService) List() (*[]model.LocationQuery, error) {
 	return s.r.GetLocationList()
 }
+
+func (s *LocationService) GetLocationWithId(id int) (*model.LocationQuery, error) {
+	return s.r.GetLocationWithId(id)
+}

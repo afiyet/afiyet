@@ -9,4 +9,5 @@ type LocationQuery struct {
 	Longitude    float64
 	AvgPoint     float64
 	CommentCount int
+	Picture      string
 }
