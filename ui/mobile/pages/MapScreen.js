@@ -6,6 +6,7 @@ import { getMarkers } from '../endpoints';
 import Ionicons from "react-native-vector-icons/Ionicons"
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const { width, height } = Dimensions.get("window");
 const CARD_HEIGHT = 220;
@@ -168,9 +169,16 @@ const MapScreen = () => {
               <View style={styles.card} key={index}>
 
                 <View style={styles.textContent}>
-                  <Text numberOfLines={1} style={styles.cardtitle}>{marker.name}</Text>
-
-                  <Text numberOfLines={1} style={styles.cardDescription}>{marker.description}</Text>
+                  <View style={styles.nameAndStar}>
+                    <Text numberOfLines={1} style={styles.cardtitle}>{marker.name}</Text>
+                    <View style={styles.starAndPoint}>
+                      <FontAwesome name="star" size={20} color={'#F53920'} />
+                      <Text style={styles.pointText}>{marker.avgPoint}</Text>
+                      <Text style={styles.commentText}>({marker.commentCount})</Text>
+                    </View>
+                  </View>
+                  <Text numberOfLines={1} style={styles.cardDescription}>{marker.category}</Text>
+                  <Text numberOfLines={1} style={styles.cardDescription}>{marker.address}</Text>
                   <View style={styles.button}>
                     <TouchableOpacity
                       onPress={() => {
@@ -182,12 +190,12 @@ const MapScreen = () => {
                         });
                       }}
                       style={[styles.signIn, {
-                        borderColor: '#FF6347',
+                        borderColor: '#FF0000',
                         borderWidth: 1
                       }]}
                     >
                       <Text style={[styles.textSign, {
-                        color: '#FF6347'
+                        color: '#FF0000'
                       }]}>See Restaurant</Text>
                     </TouchableOpacity>
                   </View>
@@ -249,10 +257,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     // marginTop: 5,
     fontWeight: "bold",
+    width: CARD_WIDTH * 0.75
   },
   cardDescription: {
     fontSize: 12,
-    color: "#444",
+    color: "#A3A3A3",
   },
   markerWrap: {
     alignItems: "center",
@@ -278,5 +287,23 @@ const styles = StyleSheet.create({
   textSign: {
     fontSize: 14,
     fontWeight: 'bold'
+  },
+  nameAndStar: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  starAndPoint: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  pointText: {
+    marginLeft: 5
+  },
+  commentText: {
+    marginLeft: 5,
+    color: "#A3A3A3",
   }
 });
