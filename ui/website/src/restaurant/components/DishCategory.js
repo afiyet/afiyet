@@ -7,13 +7,14 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
+import ImageIcon from '@mui/icons-material/Image';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from "react-redux";
 import Dish from './Dish';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { MenuActions } from '../../actions';
 import { addMenuItem, deleteMenuItem } from '../../endpoints';
+import {toBase64} from "../../util";
 
 const DishCategory = (props) => {
 
@@ -28,6 +29,7 @@ const DishCategory = (props) => {
 	const [menuDialogOpen, setMenuDialogOpen] = useState(false);
 	const [foodNameTextFieldValue, setFoodNAmeTextFieldValue] = useState("");
 	const [priceTextFieldValue, setPriceTextFieldValue] = useState("");
+	const [pictureBase64, setPictureBase64] = useState("");
 	const [ingredientsTextFieldValue, setInredientsTextFieldValue] = useState("");
 	const menu = useSelector(state => state.menuState.menu);
 
@@ -51,7 +53,7 @@ const DishCategory = (props) => {
 			category: categoryName,
 			ingredients: ingredientsTextFieldValue.split(","),
 			price: Number(priceTextFieldValue),
-			picture: ""
+			picture: pictureBase64
 		})
 			.then((res) => {
 				fetchMenu();
@@ -78,6 +80,13 @@ const DishCategory = (props) => {
 		dispatch(MenuActions.deleteCategory({
 			categoryName: categoryName
 		}));
+	}
+
+	async function handlePicture(){
+		let file = document.getElementById("picture").files[0];
+		const b64 = await toBase64(file);
+		console.log("foo: ", b64)
+		setPictureBase64(b64);
 	}
 
 	return (
@@ -115,6 +124,15 @@ const DishCategory = (props) => {
 						value={priceTextFieldValue}
 						onChange={(event) => { setPriceTextFieldValue(event.target.value); }}
 					/>
+					<Button
+						component="label"
+						variant="outlined"
+						startIcon={<ImageIcon />}
+						sx={{ marginRight: "1rem", marginTop: "1rem" }}
+					>
+						Upload Image
+						<input id="picture" type="file" accept="image/png, image/gif, image/jpeg" hidden onChange={handlePicture} />
+					</Button>
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleMenuDialogClose}>İptal</Button>

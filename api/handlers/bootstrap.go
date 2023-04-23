@@ -8,12 +8,17 @@ import (
 	"gorm.io/gorm"
 )
 
-func Bootstrap(db *gorm.DB, e *echo.Echo) {
+func Bootstrap(db *gorm.DB, e *echo.Echo) error {
+	aws, err := service.NewAmazonService()
+	if err != nil {
+		return err
+	}
+
 	userHandler := UserHandler{
 		s: service.NewUserService(db),
 	}
 	dishHandler := DishHandler{
-		s: service.NewDishService(db),
+		s: service.NewDishService(db, aws),
 	}
 	ratingHandler := RatingHandler{
 		s: service.NewRatingService(db),
@@ -88,4 +93,5 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) {
 	e.POST("/restaurants/setOrderResult", PaymentHandler.SetPaymentResult)
 	e.POST("/restaurants/orderCallback", PaymentHandler.PaymentCallBackURL)
 
+	return nil
 }
