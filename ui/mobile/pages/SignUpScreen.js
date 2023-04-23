@@ -122,37 +122,44 @@ const SignUpScreen = () => {
     }
 
     const handleSignUp = () => {
-        if (data.check_textInputNameChange && 
-            data.check_textInputSurnameChange && 
-            data.check_textInputEmailChange &&
-            (data.confirm_password === data.password)
+
+        if ((data.password.length >= 6 && data.password.length <= 14)) {
+            if (data.check_textInputNameChange &&
+                data.check_textInputSurnameChange &&
+                data.check_textInputEmailChange &&
+                (data.confirm_password === data.password)
             ) {
 
-            let payload = {
-                "name": data.name,
-                "surname": data.surname,
-                "mail": data.email,
-                "password": data.password
-            };
+                let payload = {
+                    "name": data.name,
+                    "surname": data.surname,
+                    "mail": data.email,
+                    "password": data.password
+                };
 
-            signUp(payload)
-                .then((res) => {
-                    setSnackbarVariant("success");
-                    setSnackbarText("Sign up successfull!");
-                    setSnackbarVisible(true);
-                })
-                .catch((err) => {
-                    setSnackbarVariant("error");
-                    setSnackbarVisible(true);
-                    if (err.response.data.includes("idx_users_mail")) {
-                        setSnackbarText("Sign up failed! Please try another email.");
-                    } else {
-                        setSnackbarText("Sign up failed!");
-                    }
-                })
+                signUp(payload)
+                    .then((res) => {
+                        setSnackbarVariant("success");
+                        setSnackbarText("Sign up successfull!");
+                        setSnackbarVisible(true);
+                    })
+                    .catch((err) => {
+                        setSnackbarVariant("error");
+                        setSnackbarVisible(true);
+                        if (err.response.data.includes("idx_users_mail")) {
+                            setSnackbarText("Sign up failed! Please try another email.");
+                        } else {
+                            setSnackbarText("Sign up failed!");
+                        }
+                    })
+            } else {
+                setSnackbarVariant("error");
+                setSnackbarText("Provided information is wrong or invalid!");
+                setSnackbarVisible(true);
+            }
         } else {
             setSnackbarVariant("error");
-            setSnackbarText("Provided information is wrong or invalid!");
+            setSnackbarText("Password must be 6 - 14 characters long!");
             setSnackbarVisible(true);
         }
     }
@@ -368,7 +375,7 @@ const SignUpScreen = () => {
                     </View>
                 </ScrollView>
             </Animatable.View>
-            <SnackbarTemplate 
+            <SnackbarTemplate
                 snackbarText={snackbarText}
                 snackbarVisible={snackbarVisible}
                 setSnackbarVisible={setSnackbarVisible}

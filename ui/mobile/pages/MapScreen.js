@@ -188,7 +188,7 @@ const MapScreen = () => {
                     >
                       <Text style={[styles.textSign, {
                         color: '#FF6347'
-                      }]}>Order Now</Text>
+                      }]}>See Restaurant</Text>
                     </TouchableOpacity>
                   </View>
                 </View>

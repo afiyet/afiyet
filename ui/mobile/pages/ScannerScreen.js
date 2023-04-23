@@ -56,11 +56,7 @@ function ScannerScreen(props) {
                         barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr]
                     }}
                     onBarCodeScanned={(BarCodeScanningResult) => {
-                        /* console.log(BarCodeScanningResult);
-                        console.log(BarCodeScanningResult.type);
-                        console.log(BarCodeScanningResult.data);
-                        setScannedBarcode(BarCodeScanningResult.data); */
-                        navigation.navigate("Order", {
+                        navigation.push("Order", {
                             rID: BarCodeScanningResult.data.split(":")[0],
                             tableId: BarCodeScanningResult.data.split(":")[1],
                         });
