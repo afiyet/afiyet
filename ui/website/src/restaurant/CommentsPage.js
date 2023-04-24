@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import CommentItem from './components/CommentItem';
 import { getComments } from '../endpoints';
 import { useSelector } from 'react-redux';
+import Rating from '@mui/material/Rating';
 
 export default function Comments() {
   const [selectedFilter, setSelectedFilter] = useState("");
@@ -21,11 +22,11 @@ export default function Comments() {
   }, []);
 
   const buttons = [
-    <Button variant={(selectedFilter === "5") ? "contained" : "outlined"} key="five" onClick={() => {handleFilterButtonClick("5")}}>5</Button>,
-    <Button variant={(selectedFilter === "4") ? "contained" : "outlined"} key="four" onClick={() => {handleFilterButtonClick("4")}}>4</Button>,
-    <Button variant={(selectedFilter === "3") ? "contained" : "outlined"} key="three" onClick={() => {handleFilterButtonClick("3")}}>3</Button>,
-    <Button variant={(selectedFilter === "2") ? "contained" : "outlined"} key="two" onClick={() => {handleFilterButtonClick("2")}}>2</Button>,
-    <Button variant={(selectedFilter === "1") ? "contained" : "outlined"} key="one" onClick={() => {handleFilterButtonClick("1")}}>1</Button>,
+    <Button variant={(selectedFilter === "5") ? "contained" : "outlined"} key="five" onClick={() => {handleFilterButtonClick("5")}}><Rating value={5} readOnly /></Button>,
+    <Button variant={(selectedFilter === "4") ? "contained" : "outlined"} key="four" onClick={() => {handleFilterButtonClick("4")}}><Rating value={4} readOnly /></Button>,
+    <Button variant={(selectedFilter === "3") ? "contained" : "outlined"} key="three" onClick={() => {handleFilterButtonClick("3")}}><Rating value={3} readOnly /></Button>,
+    <Button variant={(selectedFilter === "2") ? "contained" : "outlined"} key="two" onClick={() => {handleFilterButtonClick("2")}}><Rating value={2} readOnly /></Button>,
+    <Button variant={(selectedFilter === "1") ? "contained" : "outlined"} key="one" onClick={() => {handleFilterButtonClick("1")}}><Rating value={1} readOnly /></Button>,
   ];
 
   function handleFilterButtonClick(clickedButtonValue) {
