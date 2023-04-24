@@ -11,7 +11,7 @@ export default function BillingInfo(props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{t("CART_SCREEN.TOTAL")} {totalPrice} TL</Text>
+      <Text style={styles.text}>{t("CART_SCREEN.TOTAL")}: {totalPrice} TL</Text>
     </View>
   )
 }
