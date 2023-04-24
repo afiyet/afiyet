@@ -1,15 +1,17 @@
 import { FlatList, Text, View, StyleSheet, StatusBar, Image, Pressable } from 'react-native';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function BillingInfo(props) {
 
   const {
     totalPrice
   } = props;
+  const {t, i18n} = useTranslation();
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Total: {totalPrice} TL</Text>
+      <Text style={styles.text}>{t("CART_SCREEN.TOTAL")}: {totalPrice} TL</Text>
     </View>
   )
 }

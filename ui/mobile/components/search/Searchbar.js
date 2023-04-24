@@ -3,10 +3,12 @@ import React from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 export default function Searchbar(props) {
 
     const navigation = useNavigation();
+    const {t, i18n} = useTranslation();
 
     const {
         search,
@@ -38,7 +40,7 @@ export default function Searchbar(props) {
                 </View>
                 <TextInput
                     style={styles.field}
-                    placeholder="Search"
+                    placeholder={t("SEARCH_SCREEN.SEARCH")}
                     value={search}
                     onChangeText={setSearch}
                     returnKeyType={"search"}

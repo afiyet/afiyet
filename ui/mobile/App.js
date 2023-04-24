@@ -8,6 +8,7 @@ import * as SplashScreen from "expo-splash-screen"
 import Store from './Store';
 import { Provider } from 'react-redux';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import "./localization/i18n";
 
 function App() {
 

@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDispatch } from 'react-redux';
 import { SearchActions } from '../../actions';
+import { useTranslation } from 'react-i18next';
 
 export default function RecentlySearched(props) {
 
@@ -14,7 +15,7 @@ export default function RecentlySearched(props) {
     } = props;
 
     const dispatch = useDispatch();
-
+    const {t, i18n} = useTranslation();
     const removeItem = (index) => {
         dispatch(SearchActions.removeFromRecentlySearched(index));
     };
@@ -25,7 +26,7 @@ export default function RecentlySearched(props) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.SectionTitle}>Recent searches</Text>
+            <Text style={styles.SectionTitle}>{t("SEARCH_SCREEN.RECENT_SEARCHES")}</Text>
             {recentlySearched.map((item, index) => {
                 return (
                     <View style={styles.searchedItem} key={index}>

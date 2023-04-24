@@ -1,0 +1,78 @@
+{
+    "ONBOARDING_1_TITLE": "Yakınınızdaki yerleri keşfedin",
+    "ONBOARDING_1_TEXT": "Yakınınızdaki restoranları keşfetmenizi kolaylaştırıyoruz.",
+    "ONBOARDING_2_TITLE": "Başkalarının ne düşündüğüne bakın",
+    "ONBOARDING_2_TEXT": "Restoranları başkasının gözünden değerlendirin.",
+    "ONBOARDING_3_TITLE": "Telefonunuzdan sipariş verin",
+    "ONBOARDING_3_TEXT": "Restoranların menüleri parmaklarınızın ucunda.",
+    "ONBOARDING_4_TITLE": "Telefonunuzdan ödeyin",
+    "ONBOARDING_4_TEXT": "Hesabı bölüşmek mi istiyorsunuz? Telefonunuzdan ödeyin.",
+    "ONBOARDING_5_TITLE": "Yemeğinizin keyfini çıkarın",
+    "ONBOARDING_5_TEXT": "Yemeğiniz masanıza gelsin.",
+    "ONBOARDING_DONE": "Bitir",
+    "ONBOARDING_SKIP": "Atla",
+    "ONBOARDING_NEXT": "İlerle",
+
+    "LOGIN_TITLE": "Hoşgeldiniz!",
+    "EMAIL": "E-posta",
+    "YOUR_EMAIL": "E-postanız",
+    "PASSWORD": "Şifre",
+    "YOUR_PASSWORD": "Şifreniz",
+    "CONFIRM_PASSWORD": "Şifrenizi tekrar giriniz",
+    "FORGOT_PASSWORD": "Şifrenizi mi unuttunuz?",
+    "LOGIN": "Giriş yap",
+    "SIGNUP": "Kayıt ol",
+    "SIGNUP_TITLE": "Şimdi kayıt ol!",
+    "NAME": "Ad",
+    "SURNAME": "Soyad",
+    "YOUR_NAME": "Adınız",
+    "YOUR_SURNAME": "Soyadınız",
+    "INVALID_EMAIL": "Bu geçerli bir e-posta değil!",
+    "BLANK_PASSWORD": "Şifre alanı boş bırakılamaz!",
+    "WRONG_CREDS": "Giriş bilgileri yanlış!",
+    "WRONG_INPUT": "Girilen bilgiler eksik veya yanlış!",
+    "PASSWORD_LENGTH": "Şifre 6 - 14 karakter uzunluğunda olmalıdır!",
+    "SIGNUP_SUCCESS": "Kayıt başarılı!",
+    "SIGNUP_ERROR": "Kayıt yapılamadı!",
+    "SIGNUP_ERROR_EMAIL": "Kayıt yapılamadı! Lütfen başka e-posta deneyiniz!",
+
+    "TAB_NAV": {
+        "HOME_TAB": "Ana Sayfa",
+        "MAP_TAB": "Harita",
+        "Scanner": "Tarayıcı",
+        "CART_TAB": "Sepet",
+        "PROFILE_TAB": "Profil",
+        "Order": "Sipariş",
+        "Comment": "Yorumlar"
+    },
+
+    "HOME_SCREEN": {
+        "FEATURED": "Öne Çıkan",
+        "NEAR": "Yakındakiler",
+        "SEARCH": "Ara..."
+    },
+
+    "SEARCH_SCREEN": {
+        "RECENT_SEARCHES": "Geçmiş aramalar",
+        "FOUND_RESULTS": "''Y'' için X tane sonuç bulundu",
+        "SEARCH": "Ara..."
+    },
+
+    "MAP_SCREEN": {
+        "SEE_RESTAURANT": "Restoranı Gör"
+    },
+
+    "ORDER_SCREEN": {
+        "REVIEWS": "İnceleme",
+        "ADD_TO_CART": "Sepete Ekle"
+    },
+
+    "CART_SCREEN": {
+        "CART": "Sepet",
+        "PAYMENT": "Ödeme",
+        "TOTAL": "Toplam",
+        "CONFIRM_ORDER": "Sepeti Onayla",
+        "RETURN_TO_CART": "Sepete Dön",
+        "PLACE_ORDER": "Siparişi Tamamla"
+    }
+}
