@@ -57,6 +57,7 @@ export default function TableItem(props) {
                             fetchTables={fetchTables}
                         />
                         <TableItemOrder
+                            item={item}
                         />
                     </Box>
                 </CardActions>
