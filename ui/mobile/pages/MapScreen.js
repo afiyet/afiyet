@@ -7,6 +7,7 @@ import Ionicons from "react-native-vector-icons/Ionicons"
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { useTranslation } from 'react-i18next';
 
 const { width, height } = Dimensions.get("window");
 const CARD_HEIGHT = 220;
@@ -19,6 +20,7 @@ const MapScreen = () => {
   const [hasPermission, setHasPermission] = useState(false);
   const deviceLocation = useSelector(state => state.locationState);
   const navigation = useNavigation();
+  const {t, i18n} = useTranslation();
 
   useEffect(() => {
     setLocation({
@@ -196,7 +198,7 @@ const MapScreen = () => {
                     >
                       <Text style={[styles.textSign, {
                         color: '#FF0000'
-                      }]}>See Restaurant</Text>
+                      }]}>{t("MAP_SCREEN.SEE_RESTAURANT")}</Text>
                     </TouchableOpacity>
                   </View>
                 </View>

@@ -34,5 +34,45 @@
     "PASSWORD_LENGTH": "Şifre 6 - 14 karakter uzunluğunda olmalıdır!",
     "SIGNUP_SUCCESS": "Kayıt başarılı!",
     "SIGNUP_ERROR": "Kayıt yapılamadı!",
-    "SIGNUP_ERROR_EMAIL": "Kayıt yapılamadı! Lütfen başka e-posta deneyiniz!"
+    "SIGNUP_ERROR_EMAIL": "Kayıt yapılamadı! Lütfen başka e-posta deneyiniz!",
+
+    "TAB_NAV": {
+        "HOME_TAB": "Ana Sayfa",
+        "MAP_TAB": "Harita",
+        "Scanner": "Tarayıcı",
+        "CART_TAB": "Sepet",
+        "PROFILE_TAB": "Profil",
+        "Order": "Sipariş",
+        "Comment": "Yorumlar"
+    },
+
+    "HOME_SCREEN": {
+        "FEATURED": "Öne Çıkan",
+        "NEAR": "Yakındakiler",
+        "SEARCH": "Ara..."
+    },
+
+    "SEARCH_SCREEN": {
+        "RECENT_SEARCHES": "Geçmiş aramalar",
+        "FOUND_RESULTS": "''Y'' için X tane sonuç bulundu",
+        "SEARCH": "Ara..."
+    },
+
+    "MAP_SCREEN": {
+        "SEE_RESTAURANT": "Restoranı Gör"
+    },
+
+    "ORDER_SCREEN": {
+        "REVIEWS": "İnceleme",
+        "ADD_TO_CART": "Sepete Ekle"
+    },
+
+    "CART_SCREEN": {
+        "CART": "Sepet",
+        "PAYMENT": "Ödeme",
+        "TOTAL": "Toplam",
+        "CONFIRM_ORDER": "Sepeti Onayla",
+        "RETURN_TO_CART": "Sepete Dön",
+        "PLACE_ORDER": "Siparişi Tamamla"
+    }
 }

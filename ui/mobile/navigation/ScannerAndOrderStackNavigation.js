@@ -7,6 +7,7 @@ import { TouchableOpacity } from "react-native";
 import Feather from 'react-native-vector-icons/Feather';
 import TestOrder from '../pages/TestOrder';
 import CommentsPage from '../pages/CommentsPage';
+import { useTranslation } from 'react-i18next';
 
 export default function ScannerAndOrderStackNavigation(props) {
     const {
@@ -14,13 +15,15 @@ export default function ScannerAndOrderStackNavigation(props) {
     } = props;
     const NativeStack = createNativeStackNavigator();
     const [scannedBarcode, setScannedBarcode] = useState("");
+    const {t, i18n} = useTranslation();
 
     return (
         <NativeStack.Navigator>
             <NativeStack.Group screenOptions={{ presentation: 'modal' }}>
                 <NativeStack.Screen name="Scanner"
                     options={{
-                        headerBackVisible: false
+                        headerBackVisible: false,
+                        title: t("TAB_NAV.Scanner")
                     }}
                 >
                     {() => { return <ScannerScreen setScannedBarcode={setScannedBarcode} setBottomNavLabel={setBottomNavLabel} /> }}
@@ -42,7 +45,8 @@ export default function ScannerAndOrderStackNavigation(props) {
                                     size={26}
                                 />
                             </TouchableOpacity>
-                        )
+                        ),
+                        title: t("TAB_NAV.Order")
                     })}>
                     {() => { return <TestOrder setBottomNavLabel={setBottomNavLabel} /> }}
                 </NativeStack.Screen>
@@ -63,7 +67,8 @@ export default function ScannerAndOrderStackNavigation(props) {
                                     size={26}
                                 />
                             </TouchableOpacity>
-                        )
+                        ),
+                        title: t("TAB_NAV.Comment")
                     })}
                 >
                     {() => { return <CommentsPage /> }}

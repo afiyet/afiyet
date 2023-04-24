@@ -34,5 +34,45 @@
     "PASSWORD_LENGTH": "Password must be 6 - 14 characters long!",
     "SIGNUP_SUCCESS": "Sign up successfull!",
     "SIGNUP_ERROR": "Sign up failed!",
-    "SIGNUP_ERROR_EMAIL": "Sign up failed! Please try another email!"
+    "SIGNUP_ERROR_EMAIL": "Sign up failed! Please try another email!",
+
+    "TAB_NAV": {
+        "HOME_TAB": "Home",
+        "MAP_TAB": "Map",
+        "Scanner": "Scanner",
+        "CART_TAB": "Cart",
+        "PROFILE_TAB": "Profile",
+        "Order": "Order",
+        "Comment": "Comments"
+    },
+
+    "HOME_SCREEN": {
+        "FEATURED": "Featured",
+        "NEAR": "Near",
+        "SEARCH": "Search..."
+    },
+
+    "SEARCH_SCREEN": {
+        "RECENT_SEARCHES": "Recent searches",
+        "FOUND_RESULTS": "Found X results for ''Y''",
+        "SEARCH": "Search..."
+    },
+
+    "MAP_SCREEN": {
+        "SEE_RESTAURANT": "See Restaurant"
+    },
+
+    "ORDER_SCREEN": {
+        "REVIEWS": "Reviews",
+        "ADD_TO_CART": "Add To Cart"
+    },
+
+    "CART_SCREEN": {
+        "CART": "Cart",
+        "PAYMENT": "Payment",
+        "TOTAL": "Total",
+        "CONFIRM_ORDER": "Confirm Order",
+        "RETURN_TO_CART": "Return to Cart",
+        "PLACE_ORDER": "Place Order"
+    }
 }
