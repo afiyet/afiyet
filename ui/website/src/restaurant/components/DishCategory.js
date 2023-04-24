@@ -100,7 +100,7 @@ const DishCategory = (props) => {
 						id="foodName"
 						label="Yemek Adı"
 						fullWidth
-						variant="standard"
+						variant="outlined"
 						value={foodNameTextFieldValue}
 						onChange={(event) => { setFoodNAmeTextFieldValue(event.target.value); }}
 					/>
@@ -110,7 +110,7 @@ const DishCategory = (props) => {
 						id="ingredients"
 						label="Yemek İçeriği"
 						fullWidth
-						variant="standard"
+						variant="outlined"
 						value={ingredientsTextFieldValue}
 						onChange={(event) => { setInredientsTextFieldValue(event.target.value); }}
 					/>
@@ -120,7 +120,7 @@ const DishCategory = (props) => {
 						id="price"
 						label="Fiyat Bilgisi"
 						fullWidth
-						variant="standard"
+						variant="outlined"
 						value={priceTextFieldValue}
 						onChange={(event) => { setPriceTextFieldValue(event.target.value); }}
 					/>
@@ -176,6 +176,7 @@ const DishCategory = (props) => {
 									ID={item.ID}
 									fetchMenu={fetchMenu}
 									categoryName={categoryName}
+									picture={item.picture}
 								/>
 							</Box>
 						);

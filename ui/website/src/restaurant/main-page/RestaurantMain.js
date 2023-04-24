@@ -7,7 +7,7 @@ const RestaurantMain = () => {
   const user = useSelector(state => state.restaurantState);
 
   useEffect(() => {
-    console.log(user);
+    //console.log(user);
   }, [])
 
     return (

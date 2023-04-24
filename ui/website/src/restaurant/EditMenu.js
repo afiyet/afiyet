@@ -85,7 +85,7 @@ const EditMenu = () => {
 						id="categoryName"
 						label="Kategori Adı"
 						fullWidth
-						variant="standard"
+						variant="outlined"
 						value={categoryTextFieldValue}
 						onChange={(event) => { setCategoryTextFieldValue(event.target.value) }}
 					/>
