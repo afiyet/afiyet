@@ -3,6 +3,7 @@ import { View, Text, Image, TouchableOpacity, StyleSheet, StatusBar } from 'reac
 import Onboarding from 'react-native-onboarding-swiper';
 import { useDispatch } from 'react-redux';
 import { GeneralActions } from '../../actions';
+import { useTranslation } from 'react-i18next';
 
 const Dots = ({ selected }) => {
     let backgroundColor;
@@ -21,35 +22,51 @@ const Dots = ({ selected }) => {
     );
 }
 
-const Skip = ({ ...props }) => (
-    <TouchableOpacity
-        style={{ marginHorizontal: 10 }}
-        {...props}
-    >
-        <Text style={{ fontSize: 16, fontWeight: "bold" }}>Skip</Text>
-    </TouchableOpacity>
-);
+const Skip = ({ ...props }) => {
+    const { t, i18n } = useTranslation();
 
-const Next = ({ ...props }) => (
-    <TouchableOpacity
-        style={{ marginHorizontal: 10 }}
-        {...props}
-    >
-        <Text style={{ fontSize: 16, fontWeight: "bold" }}>Next</Text>
-    </TouchableOpacity>
-);
+    return (
+        <TouchableOpacity
+            style={{ marginHorizontal: 10 }}
+            {...props}
+        >
+            <Text style={{ fontSize: 16, fontWeight: "bold" }}>{t("ONBOARDING_SKIP")}</Text>
+        </TouchableOpacity>
+    );
+}
 
-const Done = ({ ...props }) => (
-    <TouchableOpacity
-        style={{ marginHorizontal: 10 }}
-        {...props}
-    >
-        <Text style={{ fontSize: 16, fontWeight: "bold" }}>Done</Text>
-    </TouchableOpacity>
-);
+
+const Next = ({ ...props }) => {
+    const { t, i18n } = useTranslation();
+
+    return (
+        <TouchableOpacity
+            style={{ marginHorizontal: 10 }}
+            {...props}
+        >
+            <Text style={{ fontSize: 16, fontWeight: "bold" }}>{t("ONBOARDING_NEXT")}</Text>
+        </TouchableOpacity>
+    );
+}
+
+
+const Done = ({ ...props }) => {
+    const { t, i18n } = useTranslation();
+
+    return (
+        <TouchableOpacity
+            style={{ marginHorizontal: 10 }}
+            {...props}
+        >
+            <Text style={{ fontSize: 16, fontWeight: "bold" }}>{t("ONBOARDING_DONE")}</Text>
+        </TouchableOpacity>
+    );
+}
+
 
 const OnboardingScreen = () => {
     const dispatch = useDispatch();
+    const { t, i18n } = useTranslation();
 
     return (
         <View style={styles.container}>
@@ -74,8 +91,8 @@ const OnboardingScreen = () => {
                                 marginTop: -50,
                             }}
                             source={require("../../assets/onboarding/undraw_map.png")} />,
-                        title: 'Discover places near you',
-                        subtitle: 'We make it simple for you to find restaurants around you.',
+                        title: t("ONBOARDING_1_TITLE"),
+                        subtitle: t("ONBOARDING_1_TEXT"),
                     },
                     {
                         backgroundColor: '#d82227',
@@ -87,8 +104,8 @@ const OnboardingScreen = () => {
                                 marginTop: -50,
                             }}
                             source={require("../../assets/onboarding/undraw_review.png")} />,
-                        title: 'Check what others think',
-                        subtitle: 'We provide a way to evaluate restaurants from other\'s point of view.',
+                        title: t("ONBOARDING_2_TITLE"),
+                        subtitle: t("ONBOARDING_2_TEXT"),
                     },
                     {
                         backgroundColor: '#d82227',
@@ -100,8 +117,8 @@ const OnboardingScreen = () => {
                                 marginTop: -50,
                             }}
                             source={require("../../assets/onboarding/undraw_online_groceries.png")} />,
-                        title: 'Order from your phone',
-                        subtitle: 'See available offerings and order at your fingertips.',
+                        title: t("ONBOARDING_3_TITLE"),
+                        subtitle: t("ONBOARDING_3_TEXT"),
                     },
                     {
                         backgroundColor: '#d82227',
@@ -113,8 +130,8 @@ const OnboardingScreen = () => {
                                 marginTop: -50,
                             }}
                             source={require("../../assets/onboarding/undraw_Mobile_pay.png")} />,
-                        title: 'Pay from your phone',
-                        subtitle: 'Want to split the check? Just pay from your phone.',
+                        title: t("ONBOARDING_4_TITLE"),
+                        subtitle: t("ONBOARDING_4_TEXT"),
                     },
                     {
                         backgroundColor: '#d82227',
@@ -126,8 +143,8 @@ const OnboardingScreen = () => {
                                 marginTop: -50,
                             }}
                             source={require("../../assets/onboarding/undraw_Eating_together.png")} />,
-                        title: 'Enjoy your food',
-                        subtitle: 'Get your food delivered to your table just like that!',
+                        title: t("ONBOARDING_5_TITLE"),
+                        subtitle: t("ONBOARDING_5_TEXT"),
                     },
                 ]}
             />

@@ -20,7 +20,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../endpoints';
 import { GeneralActions, UserActions } from '../actions';
 import SnackbarTemplate from '../components/snackbar/SnackbarTemplate';
-
+import { useTranslation } from 'react-i18next';
 
 
 const LoginScreen = () => {
@@ -28,6 +28,7 @@ const LoginScreen = () => {
     const { colors } = useTheme();
     const navigation = useNavigation();
     const dispatch = useDispatch();
+    const { t, i18n } = useTranslation();
 
     const [snackbarText, setSnackbarText] = useState("");
     const [snackbarVariant, setSnackbarVariant] = useState("");
@@ -115,12 +116,12 @@ const LoginScreen = () => {
                 .catch((err) => {
                     console.log(err);
                     setSnackbarVariant("error");
-                    setSnackbarText("Wrong credentials!");
+                    setSnackbarText(t("WRONG_CREDS"));
                     setSnackbarVisible(true);
                 })
         } else {
             setSnackbarVariant("error");
-            setSnackbarText("Provided information is wrong or invalid!");
+            setSnackbarText(t("WRONG_INPUT"));
             setSnackbarVisible(true);
         }
     }
@@ -130,7 +131,7 @@ const LoginScreen = () => {
         <View style={styles.container}>
             <StatusBar backgroundColor='#d82227' barStyle="light-content" />
             <View style={styles.header}>
-                <Text style={styles.text_header}>Welcome!</Text>
+                <Text style={styles.text_header}>{t("LOGIN_TITLE")}</Text>
             </View>
             <Animatable.View
                 animation="fadeInUpBig"
@@ -140,7 +141,7 @@ const LoginScreen = () => {
             >
                 <Text style={[styles.text_footer, {
                     color: colors.text
-                }]}>Email</Text>
+                }]}>{t("EMAIL")}</Text>
                 <View style={styles.action}>
                     <FontAwesome
                         name="at"
@@ -148,7 +149,7 @@ const LoginScreen = () => {
                         size={20}
                     />
                     <TextInput
-                        placeholder="Your email"
+                        placeholder={t("YOUR_EMAIL")}
                         placeholderTextColor="#666666"
                         style={[styles.textInput, {
                             color: colors.text
@@ -172,7 +173,7 @@ const LoginScreen = () => {
                 </View>
                 {data.isValidUser ? null :
                     <Animatable.View animation="fadeInLeft" duration={500}>
-                        <Text style={styles.errorMsg}>This is not a valid email!</Text>
+                        <Text style={styles.errorMsg}>{t("INVALID_EMAIL")}</Text>
                     </Animatable.View>
                 }
 
@@ -180,7 +181,7 @@ const LoginScreen = () => {
                 <Text style={[styles.text_footer, {
                     color: colors.text,
                     marginTop: 35
-                }]}>Password</Text>
+                }]}>{t("PASSWORD")}</Text>
                 <View style={styles.action}>
                     <Feather
                         name="lock"
@@ -188,7 +189,7 @@ const LoginScreen = () => {
                         size={20}
                     />
                     <TextInput
-                        placeholder="Your Password"
+                        placeholder={t("YOUR_PASSWORD")}
                         placeholderTextColor="#666666"
                         secureTextEntry={data.secureTextEntry ? true : false}
                         style={[styles.textInput, {
@@ -217,13 +218,13 @@ const LoginScreen = () => {
                 </View>
                 {data.isValidPassword ? null :
                     <Animatable.View animation="fadeInLeft" duration={500}>
-                        <Text style={styles.errorMsg}>Password can not be left blank!</Text>
+                        <Text style={styles.errorMsg}>{t("BLANK_PASSWORD")}</Text>
                     </Animatable.View>
                 }
 
 
                 <TouchableOpacity>
-                    <Text style={{ color: '#202533', marginTop: 15, fontWeight: "bold" }}>Forgot password?</Text>
+                    <Text style={{ color: '#202533', marginTop: 15, fontWeight: "bold" }}>{t("FORGOT_PASSWORD")}</Text>
                 </TouchableOpacity>
                 <View style={styles.button}>
                     <TouchableOpacity
@@ -236,7 +237,7 @@ const LoginScreen = () => {
                         >
                             <Text style={[styles.textSign, {
                                 color: '#fff'
-                            }]}>Login</Text>
+                            }]}>{t("LOGIN")}</Text>
                         </LinearGradient>
                     </TouchableOpacity>
 
@@ -250,7 +251,7 @@ const LoginScreen = () => {
                     >
                         <Text style={[styles.textSign, {
                             color: '#d82227'
-                        }]}>Sign Up</Text>
+                        }]}>{t("SIGNUP")}</Text>
                     </TouchableOpacity>
                 </View>
             </Animatable.View>

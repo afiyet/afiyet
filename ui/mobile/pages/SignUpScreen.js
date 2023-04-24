@@ -16,11 +16,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import { Snackbar } from 'react-native-paper';
-
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { signUp } from '../endpoints';
 import SnackbarTemplate from '../components/snackbar/SnackbarTemplate';
+import { useTranslation } from 'react-i18next';
 
 const SignUpScreen = () => {
 
@@ -29,6 +29,7 @@ const SignUpScreen = () => {
     const [snackbarVisible, setSnackbarVisible] = useState(false);
     const navigation = useNavigation();
     const dispatch = useDispatch();
+    const { t, i18n } = useTranslation();
 
     const [data, setData] = React.useState({
         name: '',
@@ -122,14 +123,12 @@ const SignUpScreen = () => {
     }
 
     const handleSignUp = () => {
-
-        if ((data.password.length >= 6 && data.password.length <= 14)) {
-            if (data.check_textInputNameChange &&
-                data.check_textInputSurnameChange &&
-                data.check_textInputEmailChange &&
-                (data.confirm_password === data.password)
-            ) {
-
+        if (data.check_textInputNameChange &&
+            data.check_textInputSurnameChange &&
+            data.check_textInputEmailChange &&
+            (data.confirm_password === data.password)
+        ) {
+            if ((data.password.length >= 6 && data.password.length <= 14)) {
                 let payload = {
                     "name": data.name,
                     "surname": data.surname,
@@ -140,26 +139,26 @@ const SignUpScreen = () => {
                 signUp(payload)
                     .then((res) => {
                         setSnackbarVariant("success");
-                        setSnackbarText("Sign up successfull!");
+                        setSnackbarText(t("SIGNUP_SUCCESS"));
                         setSnackbarVisible(true);
                     })
                     .catch((err) => {
                         setSnackbarVariant("error");
                         setSnackbarVisible(true);
                         if (err.response.data.includes("idx_users_mail")) {
-                            setSnackbarText("Sign up failed! Please try another email.");
+                            setSnackbarText(t("SIGNUP_ERROR_EMAIL"));
                         } else {
-                            setSnackbarText("Sign up failed!");
+                            setSnackbarText(t("SIGNUP_ERROR"));
                         }
                     })
             } else {
                 setSnackbarVariant("error");
-                setSnackbarText("Provided information is wrong or invalid!");
+                setSnackbarText(t("PASSWORD_LENGTH"));
                 setSnackbarVisible(true);
             }
         } else {
             setSnackbarVariant("error");
-            setSnackbarText("Password must be 6 - 14 characters long!");
+            setSnackbarText(t("WRONG_INPUT"));
             setSnackbarVisible(true);
         }
     }
@@ -168,7 +167,7 @@ const SignUpScreen = () => {
         <View style={styles.container}>
             <StatusBar backgroundColor='#d82227' barStyle="light-content" />
             <View style={styles.header}>
-                <Text style={styles.text_header}>Register Now!</Text>
+                <Text style={styles.text_header}>{t("SIGNUP_TITLE")}</Text>
             </View>
             <Animatable.View
                 animation="fadeInUpBig"
@@ -177,7 +176,7 @@ const SignUpScreen = () => {
                 <ScrollView>
                     <Text style={[styles.text_footer, {
                         marginTop: 0
-                    }]}>Name</Text>
+                    }]}>{t("NAME")}</Text>
                     <View style={styles.action}>
                         <FontAwesome
                             name="user-o"
@@ -185,7 +184,7 @@ const SignUpScreen = () => {
                             size={20}
                         />
                         <TextInput
-                            placeholder="Your name"
+                            placeholder={t("YOUR_NAME")}
                             style={styles.textInput}
                             autoCapitalize="none"
                             onChangeText={(val) => textInputNameChange(val)}
@@ -208,7 +207,7 @@ const SignUpScreen = () => {
                             />}
                     </View>
 
-                    <Text style={styles.text_footer}>Surname</Text>
+                    <Text style={styles.text_footer}>{t("SURNAME")}</Text>
                     <View style={styles.action}>
                         <FontAwesome
                             name="user-o"
@@ -216,7 +215,7 @@ const SignUpScreen = () => {
                             size={20}
                         />
                         <TextInput
-                            placeholder="Your surname"
+                            placeholder={t("YOUR_SURNAME")}
                             style={styles.textInput}
                             autoCapitalize="none"
                             onChangeText={(val) => textInputSurnameChange(val)}
@@ -239,7 +238,7 @@ const SignUpScreen = () => {
                             />}
                     </View>
 
-                    <Text style={styles.text_footer}>Email</Text>
+                    <Text style={styles.text_footer}>{t("EMAIL")}</Text>
                     <View style={styles.action}>
                         <FontAwesome
                             name="at"
@@ -247,7 +246,7 @@ const SignUpScreen = () => {
                             size={20}
                         />
                         <TextInput
-                            placeholder="Your email"
+                            placeholder={t("YOUR_EMAIL")}
                             style={styles.textInput}
                             autoCapitalize="none"
                             keyboardType='email-address'
@@ -271,7 +270,7 @@ const SignUpScreen = () => {
                             />}
                     </View>
 
-                    <Text style={styles.text_footer}>Password</Text>
+                    <Text style={styles.text_footer}>{t("PASSWORD")}</Text>
                     <View style={styles.action}>
                         <Feather
                             name="lock"
@@ -279,7 +278,7 @@ const SignUpScreen = () => {
                             size={20}
                         />
                         <TextInput
-                            placeholder="Your Password"
+                            placeholder={t("YOUR_PASSWORD")}
                             secureTextEntry={data.secureTextEntry ? true : false}
                             style={styles.textInput}
                             autoCapitalize="none"
@@ -304,7 +303,7 @@ const SignUpScreen = () => {
                         </TouchableOpacity>
                     </View>
 
-                    <Text style={styles.text_footer}>Confirm Password</Text>
+                    <Text style={styles.text_footer}>{t("CONFIRM_PASSWORD")}</Text>
                     <View style={styles.action}>
                         <Feather
                             name="lock"
@@ -312,7 +311,7 @@ const SignUpScreen = () => {
                             size={20}
                         />
                         <TextInput
-                            placeholder="Confirm Your Password"
+                            placeholder={t("CONFIRM_PASSWORD")}
                             secureTextEntry={data.confirm_secureTextEntry ? true : false}
                             style={styles.textInput}
                             autoCapitalize="none"
@@ -336,14 +335,6 @@ const SignUpScreen = () => {
                             }
                         </TouchableOpacity>
                     </View>
-                    <View style={styles.textPrivate}>
-                        <Text style={styles.color_textPrivate}>
-                            By signing up you agree to our
-                        </Text>
-                        <Text style={[styles.color_textPrivate, { fontWeight: 'bold' }]}>{" "}Terms of service</Text>
-                        <Text style={styles.color_textPrivate}>{" "}and</Text>
-                        <Text style={[styles.color_textPrivate, { fontWeight: 'bold' }]}>{" "}Privacy policy</Text>
-                    </View>
                     <View style={styles.button}>
                         <TouchableOpacity
                             style={styles.signIn}
@@ -355,7 +346,7 @@ const SignUpScreen = () => {
                             >
                                 <Text style={[styles.textSign, {
                                     color: '#fff'
-                                }]}>Sign Up</Text>
+                                }]}>{t("SIGNUP")}</Text>
                             </LinearGradient>
                         </TouchableOpacity>
 
@@ -370,7 +361,7 @@ const SignUpScreen = () => {
                         >
                             <Text style={[styles.textSign, {
                                 color: '#d82227'
-                            }]}>Login</Text>
+                            }]}>{t("LOGIN")}</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
