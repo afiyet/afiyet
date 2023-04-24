@@ -129,7 +129,7 @@ export default function TablesPage() {
 
 
   return (
-    <Box sx={{ flexGrow: 1,  marginTop: '2vh' }}>
+    <Box sx={{ flexGrow: 1, marginTop: '2vh' }}>
       <Dialog
         open={openAdd}
         onClose={handleCloseAdd}
@@ -142,10 +142,11 @@ export default function TablesPage() {
         <DialogContent>
           <FormControl>
             <TextField
+            style={{marginTop: 10}}
               id="outlined-password-input"
               value={textValueAdd}
               onChange={(event) => { setTextValueAdd(event.target.value) }}
-              variant='standard'
+              variant='outlined'
               label="Masa Adı"
             />
           </FormControl>
