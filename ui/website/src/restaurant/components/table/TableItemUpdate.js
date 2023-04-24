@@ -12,6 +12,7 @@ import FormControl from '@mui/material/FormControl';
 import EditIcon from '@mui/icons-material/Edit';
 import { useSnackbar } from 'notistack';
 import { renameTable } from '../../../endpoints';
+import Tooltip from '@mui/material/Tooltip';
 
 export default function TableItemUpdate(props) {
 
@@ -66,7 +67,7 @@ export default function TableItemUpdate(props) {
                 <DialogContent>
                     <FormControl>
                         <TextField
-                            style={{marginTop: 10}}
+                            style={{ marginTop: 10 }}
                             id="outlined-password-input"
                             value={textValueUpdate}
                             onChange={(event) => { setTextValueUpdate(event.target.value) }}
@@ -81,12 +82,14 @@ export default function TableItemUpdate(props) {
                     <Button onClick={handleEditTable} autoFocus>Değiştir</Button>
                 </DialogActions>
             </Dialog>
-            <IconButton onClick={() => {
-                handleClickOpenUpdate(true);
-                setSelectedTable(item.ID);
-            }}>
-                <EditIcon />
-            </IconButton>
+            <Tooltip title="Masa Adını Güncelle">
+                <IconButton onClick={() => {
+                    handleClickOpenUpdate(true);
+                    setSelectedTable(item.ID);
+                }}>
+                    <EditIcon />
+                </IconButton>
+            </Tooltip>
         </Box>
     )
 }

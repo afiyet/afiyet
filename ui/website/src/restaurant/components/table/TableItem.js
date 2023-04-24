@@ -10,6 +10,8 @@ import { QRCodeCanvas } from "qrcode.react";
 import TableItemDelete from './TableItemDelete';
 import TableItemUpdate from './TableItemUpdate';
 import TableItemQR from './TableItemQR';
+import Chip from '@mui/material/Chip';
+import TableItemOrder from './TableItemOrder';
 
 export default function TableItem(props) {
 
@@ -35,25 +37,41 @@ export default function TableItem(props) {
                             style={{ width: "100%", height: "100%" }}
                         />
                     </Box>
-                    <Typography gutterBottom noWrap={true} variant="h5">
-                        {item.name}
-                    </Typography>
+                    <Box style={styles.nameAndChip}>
+                        <Typography gutterBottom noWrap={true} variant="h5">{item.name}</Typography>
+                        <Chip label="primary" color="primary" />
+                    </Box>
                 </CardContent>
                 <CardActions>
-                    <TableItemQR
-                        item={item}
-                        qrRef={qrRef}
-                    />
-                    <TableItemUpdate
-                        item={item}
-                        fetchTables={fetchTables}
-                    />
-                    <TableItemDelete
-                        item={item}
-                        fetchTables={fetchTables}
-                    />
+                    <Box style={styles.iconButtonContainer}>
+                        <TableItemQR
+                            item={item}
+                            qrRef={qrRef}
+                        />
+                        <TableItemUpdate
+                            item={item}
+                            fetchTables={fetchTables}
+                        />
+                        <TableItemDelete
+                            item={item}
+                            fetchTables={fetchTables}
+                        />
+                        <TableItemOrder
+                        />
+                    </Box>
                 </CardActions>
             </Card>
         </Grid>
     )
+};
+
+const styles = {
+    nameAndChip: {
+        display: "flex",
+        justifyContent: "space-between"
+    },
+    iconButtonContainer: {
+        display: "flex",
+        justifyContent: "space-around"
+    }
 }
