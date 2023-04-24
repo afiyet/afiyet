@@ -129,7 +129,7 @@ export default function TablesPage() {
 
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1,  marginTop: '2vh' }}>
       <Dialog
         open={openAdd}
         onClose={handleCloseAdd}
@@ -194,7 +194,7 @@ export default function TablesPage() {
                 id="outlined-password-input"
                 value={search}
                 onChange={(event) => { setSearch(event.target.value) }}
-                variant='standard'
+                variant='outlined'
                 label="Masa Ara"
               />
               <Button variant="contained" size="large" onClick={handleClickOpenAdd} startIcon={<AddIcon />}>
