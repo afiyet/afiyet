@@ -44,6 +44,9 @@ export default function TableItem(props) {
                 </CardContent>
                 <CardActions>
                     <Box style={styles.iconButtonContainer}>
+                        <TableItemOrder
+                            item={item}
+                        />
                         <TableItemQR
                             item={item}
                             qrRef={qrRef}
@@ -55,9 +58,6 @@ export default function TableItem(props) {
                         <TableItemDelete
                             item={item}
                             fetchTables={fetchTables}
-                        />
-                        <TableItemOrder
-                            item={item}
                         />
                     </Box>
                 </CardActions>
