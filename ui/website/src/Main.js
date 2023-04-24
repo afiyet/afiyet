@@ -7,6 +7,7 @@ import Appbar from "./restaurant/components/Appbar";
 import { useLocation, Redirect } from 'react-router-dom';
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import CommentsPage from "./restaurant/CommentsPage";
 
 function Main() {
 
@@ -44,6 +45,9 @@ function Main() {
                         </Route>
                         <Route path="/edit-menu" exact>
                             <EditMenu />
+                        </Route>
+                        <Route path="/comments" exact>
+                            <CommentsPage />
                         </Route>
                         <Redirect push to="/tables" />
                     </Switch>

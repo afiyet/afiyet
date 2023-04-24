@@ -12,6 +12,9 @@ const pages = [{
 }, {
     title: "Masalar",
     uri: "/tables"
+}, {
+    title: "Yorumlar",
+    uri: "/comments"
 }];
 
 
