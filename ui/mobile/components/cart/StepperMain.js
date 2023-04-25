@@ -8,6 +8,7 @@ import { initializePayment, getWebViewUrlFromAWS, getPaymentResult, completePaym
 import { useState } from 'react';
 import { useSelector } from "react-redux";
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const themeColor = '#1e1e1e';
 export const textColor = '#ffffffdd';
@@ -21,6 +22,7 @@ export default function StepperMain() {
   const orderState = useSelector(state => state.orderState);
   const userState = useSelector(state => state.userState);
   const [totalPrice, setTotalPrice] = useState(0);
+  const {t, i18n} = useTranslation();
 
   useEffect(() => {
     
@@ -120,8 +122,8 @@ export default function StepperMain() {
   };
   const progressStep = {
 
-    previousBtnText: 'Return to Cart',
-    finishBtnText: 'Place Order',
+    previousBtnText: t("CART_SCREEN.RETURN_TO_CART"),
+    finishBtnText: t("CART_SCREEN.PLACE_ORDER"),
     previousBtnStyle: styles.previousButton,
     nextBtnTextStyle: styles.buttonText,
     previousBtnTextStyle: styles.buttonText,
@@ -138,15 +140,15 @@ export default function StepperMain() {
   return (
     <View style={{ flex: 1, marginBottom: -30 }}>
       <ProgressSteps {...progressSteps}>
-        <ProgressStep label="Cart"
-          nextBtnText='Confirm Order'
+        <ProgressStep label={t("CART_SCREEN.CART")}
+          nextBtnText={t("CART_SCREEN.CONFIRM_ORDER")}
           nextBtnStyle={(orderState.orderedItems.length > 0) ? styles.firstStepNextButton : styles.firstStepNextButtonDisabled}
           nextBtnDisabled={(orderState.orderedItems.length > 0) ? false : true}
           {...firstProgressStep}
           onNext={onConfirmOrderClicked}
         >
           <View style={styles.headerWithBilling}>
-            <Text style={styles.textHeader}>Cart</Text>
+            <Text style={styles.textHeader}>{t("CART_SCREEN.CART")}</Text>
             <View>
               <BillingInfo totalPrice={totalPrice} />
             </View>
@@ -164,12 +166,12 @@ export default function StepperMain() {
           </ScrollView>
         </ProgressStep>
         <ProgressStep
-          label="Payment" {...progressStep}
+          label={t("CART_SCREEN.PAYMENT")} {...progressStep}
           nextBtnStyle={styles.nextBtnStyle}
           onPrevious={onReturnToCartClicked}
           onSubmit={onPlaceOrderClicked}
         >
-          <Text style={styles.textHeader}>Payment</Text>
+          <Text style={styles.textHeader}>{t("CART_SCREEN.PAYMENT")}</Text>
           <View style={styles.iyzicoContainer}>
             <WebView
               style={{ height: 400, width: 420, resizeMode: 'contain', flex: 1 }}

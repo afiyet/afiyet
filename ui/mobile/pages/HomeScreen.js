@@ -19,7 +19,7 @@ import Campaign from '../components/home/Campaign';
 import { getRestaurants } from '../endpoints/order/orderEndpoints';
 import { useSelector } from 'react-redux';
 import getDistanceFromLatLonInKm from '../components/home/DistanceCalculations';
-
+import { useTranslation } from 'react-i18next';
 
 const sortStyle = isActive =>
   isActive
@@ -31,6 +31,7 @@ const { width, height } = Dimensions.get("window");
 const HomeScreen = () => {
 
   const userLocation = useSelector(state => state.locationState);
+  const {t, i18n} = useTranslation();
 
   useEffect(() => {
     getRestaurants()
@@ -86,7 +87,7 @@ const HomeScreen = () => {
                 color="black"
                 size={25}
               />
-              <Text style={styles.searchText}>Search..</Text>
+              <Text style={styles.searchText}>{t("HOME_SCREEN.SEARCH")}</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -126,13 +127,13 @@ const HomeScreen = () => {
             style={sortStyle(activeSortItem === 'featured')}
             activeOpacity={0.8}
             onPress={() => setActiveSortItem('featured')}>
-            <Text style={styles.sortListItemText}>Featured</Text>
+            <Text style={styles.sortListItemText}>{t("HOME_SCREEN.FEATURED")}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={sortStyle(activeSortItem === 'near')}
             activeOpacity={0.8}
             onPress={() => setActiveSortItem('near')}>
-            <Text style={styles.sortListItemText}>Near</Text>
+            <Text style={styles.sortListItemText}>{t("HOME_SCREEN.NEAR")}</Text>
           </TouchableOpacity>
         </View>
         {restaurants.map(item => {

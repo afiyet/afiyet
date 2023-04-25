@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import RestaurantCard from './RestaurantCard';
+import { useTranslation } from 'react-i18next';
 
 export default function SearchResults(props) {
 
@@ -9,6 +10,7 @@ export default function SearchResults(props) {
         searchResults
     } = props;
 
+    const {t, i18n} = useTranslation();
     const [finalSearchedKey, setFinalSearchedKey] = useState("");
     useEffect(() => {
         setFinalSearchedKey(searchedKey);
@@ -16,7 +18,7 @@ export default function SearchResults(props) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.SectionTitle}>Found {searchResults.length} results for ' {finalSearchedKey} '</Text>
+            <Text style={styles.SectionTitle}>{t("SEARCH_SCREEN.FOUND_RESULTS").replace("X", searchResults.length).replace("Y", finalSearchedKey)}</Text>
             <ScrollView>
                 {searchResults.map((item, index) => {
                     return (

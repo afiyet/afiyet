@@ -88,6 +88,7 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) error {
 	e.PUT("/restaurants/tables/:id", tableHandler.Update)
 
 	e.GET("/locations", locationHandler.GetLocationList)
+	e.GET("/locations/:id", locationHandler.GetLocationWithId)
 
 	e.POST("/restaurants/orderPayment", PaymentHandler.CreatePaymentWithForm)
 	e.POST("/restaurants/setOrderResult", PaymentHandler.SetPaymentResult)
