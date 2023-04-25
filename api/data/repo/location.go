@@ -29,3 +29,10 @@ func (lr LocationRepository) GetLocationList() (*[]model.LocationQuery, error) {
 
 	return &result, nil
 }
+
+func (lr LocationRepository) GetLocationWithId(id int) (*model.LocationQuery, error) {
+
+	var result model.LocationQuery
+	lr.db.Raw("select * from locations_with_ratings where id = ?", id).Scan(&result)
+	return &result, nil
+}
