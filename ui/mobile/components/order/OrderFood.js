@@ -34,8 +34,8 @@ function OrderFood(props) {
     >
       <Image
         source={{
-          uri: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
-          resizeMode: "contain"
+          uri: selectedMenuItem.picture,
+          resizeMode: "stretch"
         }}
         style={styles.posterStyle}
       />

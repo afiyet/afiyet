@@ -7,6 +7,8 @@ import { useState } from 'react';
 import { getRestaurantComments } from '../endpoints';
 import { FlatList } from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { LinearGradient } from 'expo-linear-gradient';
+import CommentBottomSheet from '../components/comment/CommentBottomSheet';
 
 export default function CommentsPage() {
 
@@ -15,6 +17,7 @@ export default function CommentsPage() {
   const [waiting, setWaiting] = useState(true);
   const [filterPoint, setFilterPoint] = useState(["5", "4", "3", "2", "1"]);
   const [selectedFilter, setSelectedFilter] = useState("");
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
   useEffect(() => {
     setWaiting(false);
@@ -53,37 +56,56 @@ export default function CommentsPage() {
   return (
     <View style={{ flex: 1 }}>
       {(!waiting) ?
-        <View>
-          <FlatList
-            contentContainerStyle={styles.flatListContainer}
-            horizontal
-            data={filterPoint}
-            renderItem={(point) => {
-              return (
-                <FilterItem point={point} />
-              );
-            }}
-          />
-          <ScrollView>
-            {comments
-              .filter((comment) => {
-                if (selectedFilter === "") {
-                  return true;
-                }
-                return comment.point.toString() === selectedFilter
-              })
-              .map((comment) => {
+        <View style={styles.contentContainer}>
+          <View style={styles.filterAndScrollView}>
+            <FlatList
+              contentContainerStyle={styles.flatListContainer}
+              horizontal
+              data={filterPoint}
+              renderItem={(point) => {
                 return (
-                  <CommentItem
-                    key={comment.ID}
-                    commentText={comment.comment}
-                    commentPoint={comment.point}
-                    time={comment.createdAt}
-                    userFullName={comment.user.name + " " + comment.user.surname}
-                  />
+                  <FilterItem point={point} />
                 );
-              })}
-          </ScrollView>
+              }}
+            />
+            <ScrollView>
+              {comments
+                .filter((comment) => {
+                  if (selectedFilter === "") {
+                    return true;
+                  }
+                  return comment.point.toString() === selectedFilter
+                })
+                .map((comment) => {
+                  return (
+                    <CommentItem
+                      key={comment.ID}
+                      commentText={comment.comment}
+                      commentPoint={comment.point}
+                      time={comment.createdAt}
+                      userFullName={comment.user.name + " " + comment.user.surname}
+                    />
+                  );
+                })}
+            </ScrollView>
+          </View>
+          <TouchableOpacity
+            style={styles.commentBtnContainer}
+            onPress={() => {setIsBottomSheetOpen(true);}}
+          >
+            <LinearGradient
+              colors={['#FF0000', '#d82227']}
+              style={styles.addCommentButton}
+            >
+              <Text style={[styles.textAddComment, {
+                color: '#fff'
+              }]}>Yorum ekle</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+          <CommentBottomSheet 
+            isBottomSheetOpen={isBottomSheetOpen}
+            setIsBottomSheetOpen={setIsBottomSheetOpen}
+          />
         </View>
         :
         <ActivityIndicator style={{ flex: 1, justifyContent: "center" }} animating={waiting} size={"large"} color={"#d82227"} />
@@ -126,5 +148,36 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: "#fff"
+  },
+  addCommentButton: {
+    width: '100%',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10
+  },
+  textAddComment: {
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
+  commentBtnContainer: {
+    width: '100%',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    position: "absolute",
+    bottom: 5
+  },
+  contentContainer: { 
+    flex: 1, 
+    display:"flex", 
+    flexDirection:"column", 
+    justifyContent: "space-between" 
+  },
+  filterAndScrollView: {
+    marginBottom: 120
   }
 });
