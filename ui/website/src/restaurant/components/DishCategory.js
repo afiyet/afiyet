@@ -11,7 +11,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from "react-redux";
 import Dish from './Dish';
-import { useState } from 'react';
+import {useId, useState} from 'react';
 import { MenuActions } from '../../actions';
 import { addMenuItem, deleteMenuItem } from '../../endpoints';
 import {toBase64} from "../../util";
@@ -25,6 +25,7 @@ const DishCategory = (props) => {
 		fetchMenu
 	} = props;
 
+	const id = useId();
 	const dispatch = useDispatch();
 	const [menuDialogOpen, setMenuDialogOpen] = useState(false);
 	const [foodNameTextFieldValue, setFoodNAmeTextFieldValue] = useState("");
@@ -83,9 +84,8 @@ const DishCategory = (props) => {
 	}
 
 	async function handlePicture(){
-		let file = document.getElementById("picture").files[0];
+		let file = document.getElementById(id).files[0];
 		const b64 = await toBase64(file);
-		console.log("foo: ", b64)
 		setPictureBase64(b64);
 	}
 
@@ -131,7 +131,7 @@ const DishCategory = (props) => {
 						sx={{ marginRight: "1rem", marginTop: "1rem" }}
 					>
 						Upload Image
-						<input id="picture" type="file" accept="image/png, image/gif, image/jpeg" hidden onChange={handlePicture} />
+						<input id={id} type="file" accept="image/png, image/gif, image/jpeg" hidden onChange={handlePicture} />
 					</Button>
 				</DialogContent>
 				<DialogActions>

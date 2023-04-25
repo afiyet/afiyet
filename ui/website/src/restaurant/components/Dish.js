@@ -7,7 +7,7 @@ import SyncIcon from '@mui/icons-material/Sync';
 import { deleteMenuItem, updateMenuItem } from '../../endpoints';
 import { useDispatch } from 'react-redux';
 import { MenuActions } from '../../actions';
-import { useEffect, useState } from 'react';
+import {useEffect, useId, useState} from 'react';
 import { Button } from '@mui/material';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { toBase64 } from '../../util';
@@ -35,15 +35,15 @@ const Dish = (props) => {
         console.log(picture)
     }, []);
 
+    const id = useId();
     const [foodNameTextFieldValue, setFoodNameTextFieldValue] = useState("");
     const [priceTextFieldValue, setPriceTextFieldValue] = useState("");
     const [ingredientsTextFieldValue, setIngredientsTextFieldValue] = useState("");
     const [pictureBase64, setPictureBase64] = useState("");
 
     async function handlePicture(){
-		let file = document.getElementById("picture-2").files[0];
+		let file = document.getElementById(id).files[0];
 		const b64 = await toBase64(file);
-		console.log("foo: ", b64)
 		setPictureBase64(b64);
 	}
 
@@ -61,7 +61,7 @@ const Dish = (props) => {
                     />
                 }
             >
-                <input id="picture-2" type="file" accept="image/png, image/gif, image/jpeg" hidden onChange={handlePicture} />
+                <input id={id} type="file" accept="image/png, image/gif, image/jpeg" hidden onChange={handlePicture} />
             </Button>
             <TextField
                 id="outlined-basic"

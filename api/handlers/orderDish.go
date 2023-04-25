@@ -87,7 +87,7 @@ func (h *OrderDishHandler) Update(c echo.Context) error {
 	}
 	dbind.ID = uint(id)
 
-	d, err := h.s.Update(dbind)
+	d, err := h.s.Update(dbind, false, "") // TOOD(umutcil)
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
