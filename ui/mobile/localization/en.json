@@ -74,5 +74,12 @@
         "CONFIRM_ORDER": "Confirm Order",
         "RETURN_TO_CART": "Return to Cart",
         "PLACE_ORDER": "Place Order"
+    },
+
+    "COMMENT_SCREEN": {
+        "ADD_COMMENT_BUTTON": "Add Comment",
+        "BOTTOM_SHEET_TITLE": "Share your experience!",
+        "TEXT_INPUT_PLACEHOLDER": "Your comment...",
+        "SEND_BUTTON": "Send"
     }
 }

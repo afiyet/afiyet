@@ -2,7 +2,8 @@ import { getMarkers } from "./map/mapEndpoints"
 import { login, signUp } from "./auth/authEndpoints";
 import { getSearchResults } from "./search/searchEndpoints";
 import { initializePayment, getWebViewUrlFromAWS, getPaymentResult, completePayment } from "./cart/cartEndpoints";
-import { getRestaurantComments } from "./comment/commentEndpoints";
+import { getRestaurantComments, addCommentToRestaurant } from "./comment/commentEndpoints";
+import { getRestaurant, getRestaurants, getRestaurantMenu } from "./order/orderEndpoints";
 
 export {
     getMarkers,
@@ -13,5 +14,9 @@ export {
     getWebViewUrlFromAWS, 
     getPaymentResult,
     completePayment,
-    getRestaurantComments
+    getRestaurantComments,
+    getRestaurant, 
+    getRestaurants, 
+    getRestaurantMenu,
+    addCommentToRestaurant
 };

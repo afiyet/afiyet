@@ -14,6 +14,8 @@ import Dish from './Dish';
 import {useId, useState} from 'react';
 import { MenuActions } from '../../actions';
 import { addMenuItem, deleteMenuItem } from '../../endpoints';
+import { useTranslation } from 'react-i18next';
+import Tooltip from '@mui/material/Tooltip';
 import {toBase64} from "../../util";
 
 const DishCategory = (props) => {
@@ -33,6 +35,7 @@ const DishCategory = (props) => {
 	const [pictureBase64, setPictureBase64] = useState("");
 	const [ingredientsTextFieldValue, setInredientsTextFieldValue] = useState("");
 	const menu = useSelector(state => state.menuState.menu);
+	const { t, i18n } = useTranslation();
 
 	function handleMenuDialogClose() {
 		setFoodNAmeTextFieldValue("");
@@ -69,12 +72,12 @@ const DishCategory = (props) => {
 			if (category.categoryName === categoryName) {
 				category.categoryItems.map((dish, i) => {
 					deleteMenuItem(dish.ID)
-                    .then((res) => {
-                        console.log(res);
-                    })
-                    .catch((err) => {
+						.then((res) => {
+							console.log(res);
+						})
+						.catch((err) => {
 
-                    })
+						})
 				});
 			}
 		});
@@ -92,13 +95,13 @@ const DishCategory = (props) => {
 	return (
 		<Box>
 			<Dialog open={menuDialogOpen} onClose={handleMenuDialogClose}>
-				<DialogTitle>Yemek Ekle</DialogTitle>
+				<DialogTitle>{t("MENU_EDIT_PAGE.DISH_DIALOG.TITLE")}</DialogTitle>
 				<DialogContent>
 					<TextField
 						autoFocus
 						margin="dense"
 						id="foodName"
-						label="Yemek Adı"
+						label={t("MENU_EDIT_PAGE.DISH_DIALOG.DISH_NAME")}
 						fullWidth
 						variant="outlined"
 						value={foodNameTextFieldValue}
@@ -108,7 +111,7 @@ const DishCategory = (props) => {
 						autoFocus
 						margin="dense"
 						id="ingredients"
-						label="Yemek İçeriği"
+						label={t("MENU_EDIT_PAGE.DISH_DIALOG.DISH_INGREDIENTS")}
 						fullWidth
 						variant="outlined"
 						value={ingredientsTextFieldValue}
@@ -118,7 +121,7 @@ const DishCategory = (props) => {
 						autoFocus
 						margin="dense"
 						id="price"
-						label="Fiyat Bilgisi"
+						label={t("MENU_EDIT_PAGE.DISH_DIALOG.DISH_PRICE")}
 						fullWidth
 						variant="outlined"
 						value={priceTextFieldValue}
@@ -135,8 +138,8 @@ const DishCategory = (props) => {
 					</Button>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={handleMenuDialogClose}>İptal</Button>
-					<Button onClick={handleMenuAdd}>Ekle</Button>
+					<Button onClick={handleMenuDialogClose}>{t("MENU_EDIT_PAGE.DISH_DIALOG.CANCEL_BUTTON")}</Button>
+					<Button onClick={handleMenuAdd}>{t("MENU_EDIT_PAGE.DISH_DIALOG.ADD_BUTTON")}</Button>
 				</DialogActions>
 			</Dialog>
 
@@ -144,22 +147,24 @@ const DishCategory = (props) => {
 				<Box style={styles.categoryHeader}>
 					<TextField
 						id="outlined-basic"
-						label="Kategori Adı"
+						label={t("MENU_EDIT_PAGE.CATEGORY_NAME")}
 						variant="outlined"
 						value={categoryName}
 					/>
 					<Box style={styles.categoryUtility}>
-						<IconButton
-							aria-label="delete"
-							onClick={handleDeleteCategory}
-						>
-							<DeleteIcon />
-						</IconButton>
+						<Tooltip title={t("MENU_EDIT_PAGE.DELETE_CATEGORY_BUTTON")}>
+							<IconButton
+								aria-label="delete"
+								onClick={handleDeleteCategory}
+							>
+								<DeleteIcon />
+							</IconButton>
+						</Tooltip>
 						<Button
 							variant="contained"
 							onClick={handleMenuDialogOpen}
 						>
-							Yemek Ekle
+							{t("MENU_EDIT_PAGE.ADD_DISH_BUTTON")}
 						</Button>
 					</Box>
 				</Box>

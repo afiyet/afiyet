@@ -73,6 +73,13 @@
         "TOTAL": "Toplam",
         "CONFIRM_ORDER": "Sepeti Onayla",
         "RETURN_TO_CART": "Sepete Dön",
-        "PLACE_ORDER": "Siparişi Tamamla"
+        "PLACE_ORDER": "Tamamla"
+    },
+
+    "COMMENT_SCREEN": {
+        "ADD_COMMENT_BUTTON": "Yorum Ekle",
+        "BOTTOM_SHEET_TITLE": "Deneyiminizi paylaşın!",
+        "TEXT_INPUT_PLACEHOLDER": "Yorumunuz...",
+        "SEND_BUTTON": "Gönder"
     }
 }

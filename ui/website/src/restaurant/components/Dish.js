@@ -8,6 +8,8 @@ import { deleteMenuItem, updateMenuItem } from '../../endpoints';
 import { useDispatch } from 'react-redux';
 import { MenuActions } from '../../actions';
 import { useEffect, useId, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import Tooltip from '@mui/material/Tooltip';
 import { Button } from '@mui/material';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { toBase64 } from '../../util';
@@ -27,6 +29,7 @@ const Dish = (props) => {
 
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
     const dispatch = useDispatch();
+    const { t, i18n } = useTranslation();
 
     useEffect(() => {
         setFoodNameTextFieldValue(name);
@@ -65,72 +68,79 @@ const Dish = (props) => {
             </Button>
             <TextField
                 id="outlined-basic"
-                label="Yemek Adı"
+                label={t("MENU_EDIT_PAGE.DISH_NAME")}
                 variant="outlined"
                 style={styles.dishName}
                 value={foodNameTextFieldValue}
-                onChange={(event) => { setFoodNameTextFieldValue(event.target.value); }}
+                onChange={(event) => {  setFoodNameTextFieldValue(event.target.value);  }}
             />
             <TextField
                 id="outlined-multiline-flexible"
-                label="Fiyatı"
+                label={t("MENU_EDIT_PAGE.PRICE")}
                 value={priceTextFieldValue}
-                onChange={(event) => { setPriceTextFieldValue(event.target.value); }}
+                onChange={(event) => {  setPriceTextFieldValue(event.target.value);  }}
             />
             <TextField
                 id="outlined-multiline-flexible"
-                label="İçindekiler"
+                label={t("MENU_EDIT_PAGE.INGREDIENTS")}
                 multiline
                 fullWidth
                 inputProps={{ maxLength: 199 }}
                 value={ingredientsTextFieldValue}
-                onChange={(event) => { setIngredientsTextFieldValue(event.target.value); }}
+                onChange={(event) => {  setIngredientsTextFieldValue(event.target.value);  }}
             />
             {/* <Checkbox {...label} defaultChecked /> */}
-            <IconButton
-                aria-label="delete"
-                onClick={() => {
-                    deleteMenuItem(ID)
-                        .then((res) => {
-                            console.log(res);
-                            dispatch(MenuActions.deleteMenuItem({
-                                ID: ID,
-                                category: categoryName
-                            }));
-                            fetchMenu();
-                        })
-                        .catch((err) => {
+            <Tooltip title={t("MENU_EDIT_PAGE.DELETE_DISH_BUTTON")}>
+                <IconButton
+                    aria-label="delete"
+                    onClick={() => {
+                        deleteMenuItem(ID)
+                                .then((res) => {
+                                    console.log(res);
+                                    dispatch(MenuActions.deleteMenuItem({
+                                        ID: ID,
+                                        category: categoryName
+                                    }));
+                                    fetchMenu();
+                                })
+                                .catch((err) => {
 
+                            })
+                    }}
+                >
+                    <DeleteIcon />
+                </IconButton>
+            </Tooltip>
+
+            <Tooltip title={t("MENU_EDIT_PAGE.UPDATE_DISH_BUTTON")}>
+                <IconButton
+                    aria-label="delete"
+                    onClick={() => {
+                        updateMenuItem(ID, {
+                            restaurantId: "" + restaurantId,
+                            name: foodNameTextFieldValue,
+                            category: categoryName,
+                            ingredients: ingredientsTextFieldValue.split(","),
+                            price: Number(priceTextFieldValue),
+                            picture: pictureBase64
                         })
-                }}
-            >
-                <DeleteIcon />
-            </IconButton>
-            <IconButton
-                aria-label="delete"
-                onClick={() => {
-                    updateMenuItem(ID, {
-                        restaurantId: "" + restaurantId,
-                        name: foodNameTextFieldValue,
-                        category: categoryName,
-                        ingredients: ingredientsTextFieldValue.split(","),
-                        price: Number(priceTextFieldValue),
-                        picture: pictureBase64
-                    })
-                        .then((res) => {
-                            dispatch(MenuActions.deleteMenuItem({
-                                ID: ID,
-                                category: categoryName
-                            }));
-                            fetchMenu();
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        })
-                }}
-            >
-                <SyncIcon />
-            </IconButton>
+                            .then((res) => {
+                                dispatch(MenuActions.deleteMenuItem({
+                                    ID: ID,
+                                    category: categoryName
+                                }));
+                                fetchMenu();
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            })
+                    }}
+                >
+                    <SyncIcon />
+                </IconButton>
+            </Tooltip>
+
+
         </Box>
     );
 }

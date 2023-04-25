@@ -1,12 +1,14 @@
 import { BrowserRouter as Router, Route, Switch, useHistory } from "react-router-dom";
 import RestaurantLogin from "./restaurant/RestaurantLogin";
-import RestaurantMain from "./restaurant/main-page/RestaurantMain";
+import RestaurantMain from "./restaurant/RestaurantMain";
 import TablesPage from "./restaurant/TablesPage";
 import EditMenu from "./restaurant/EditMenu";
 import Appbar from "./restaurant/components/Appbar";
 import { useLocation, Redirect } from 'react-router-dom';
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import CommentsPage from "./restaurant/CommentsPage";
+import OrdersPage from "./restaurant/OrdersPage";
 
 function Main() {
 
@@ -36,6 +38,9 @@ function Main() {
                     </Switch>
                     :
                     <Switch>
+                        <Route path="/orders" exact>
+                            <OrdersPage />
+                        </Route>
                         <Route path="/tables" exact>
                             <TablesPage />
                         </Route>
@@ -44,6 +49,9 @@ function Main() {
                         </Route>
                         <Route path="/edit-menu" exact>
                             <EditMenu />
+                        </Route>
+                        <Route path="/comments" exact>
+                            <CommentsPage />
                         </Route>
                         <Redirect push to="/tables" />
                     </Switch>

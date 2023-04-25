@@ -10,13 +10,14 @@ import { useSnackbar } from 'notistack';
 
 import companyLogo from "../img/afiyet-logo-w.png";
 import { RestaurantActions } from "../actions";
-import { login } from "../endpoints";
+import { login, getLocation } from "../endpoints";
+import { useTranslation } from 'react-i18next';
 
 const RestaurantLogin = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
-
+    const {t, i18n} = useTranslation();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -29,12 +30,22 @@ const RestaurantLogin = () => {
             .then((res) => {
                 console.log(res);
                 dispatch(RestaurantActions.setRestaurant(res.data));
+
+                getLocation(res.data.ID)
+                    .then((res) => {
+                        dispatch(RestaurantActions.setLatLon(res.data));
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        enqueueSnackbar(t("SNACKBAR.LOCATION_ERROR"), {variant: "error"});
+                    })
+
                 history.push("/restaurant-main");
-                enqueueSnackbar("Giriş Başarılı!", {variant: "success"});
+                enqueueSnackbar(t("SNACKBAR.LOGIN_SUCCESS"), {variant: "success"});
             })
             .catch((err) => {
                 console.log(err);
-                enqueueSnackbar("Giriş Başarısız!", {variant: "error"});
+                enqueueSnackbar(t("SNACKBAR.LOGIN_ERROR"), {variant: "error"});
             })
     }
 
@@ -49,7 +60,7 @@ const RestaurantLogin = () => {
                                 id="outlined-search"
                                 value={email}
                                 onChange={(event) => {setEmail(event.target.value)}}
-                                label="Kullanıcı Adı"
+                                label={t("LOGIN.EMAIL")}
                                 type="search"
                             />
                         </Box>
@@ -58,13 +69,13 @@ const RestaurantLogin = () => {
                                 id="outlined-password-input"
                                 value={password}
                                 onChange={(event) => {setPassword(event.target.value)}}
-                                label="Şifre"
+                                label={t("LOGIN.PASSWORD")}
                                 type="password"
                                 autoComplete="current-password"
                             />
                         </Box>
                         <Box style={styles.buttonContainer}>
-                            <Button style={{ textTransform: 'none' }} onClick={authenticateRestaurant} variant="contained" color="success">Giriş Yap</Button>
+                            <Button style={{ textTransform: 'none' }} onClick={authenticateRestaurant} variant="contained" color="success">{t("LOGIN.LOGIN_BUTTON")}</Button>
                         </Box>
                     </FormControl>
                 </Box>
