@@ -49,7 +49,7 @@ export default function AppbarMenu() {
     }
 
     return (
-        <React.Fragment>
+        <Box>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                 <Tooltip title="Account settings">
                     <IconButton
@@ -120,6 +120,6 @@ export default function AppbarMenu() {
                     Logout
                 </MenuItem>
             </Menu>
-        </React.Fragment>
+        </Box>
     );
 }

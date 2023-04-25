@@ -95,11 +95,13 @@ const styles = {
     },
     leftAndRight: {
         display: "flex",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        alignItems: "center"
     },
     container: {
         display: "flex",
-        alignItems: "center"
+        alignItems: "center",
+        justifyContent: "space-between",
     },
     logo: {
         paddingRight: "1vw"
