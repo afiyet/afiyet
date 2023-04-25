@@ -20,6 +20,7 @@ import { OrderActions } from '../actions';
 import FoodCard from '../components/order/FoodCard';
 import OrderBottomSheet from '../components/order/OrderBottomSheet';
 import getDistanceFromLatLonInKm from '../components/home/DistanceCalculations';
+import { useTranslation } from 'react-i18next';
 
 const ListHeader = () => (
     <View
@@ -83,6 +84,7 @@ const TestOrder = (props) => {
     const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
     const [selectedMenuItem, setSelectedMenuItem] = useState({});
     const [waiting, setWaiting] = useState(true);
+    const {t, i18n} = useTranslation();
 
 
     useEffect(() => {
@@ -155,7 +157,7 @@ const TestOrder = (props) => {
                                         color={"#D82227"}
                                     />
                                     <Text style={styles.ratingText}>4.2</Text>
-                                    <Text style={styles.reviewsText}>(455 Reviews)</Text>
+                                    <Text style={styles.reviewsText}>(455 {t("ORDER_SCREEN.REVIEWS")})</Text>
                                 </TouchableOpacity>
                                 <View style={styles.deliveryDetailsContainer}>
                                     <View style={styles.rowAndCenter}>

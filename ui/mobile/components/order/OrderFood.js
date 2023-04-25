@@ -6,6 +6,7 @@ import BottomSheetOrderCounter from './BottomSheetOrderCounter';
 import { useDispatch, useSelector } from 'react-redux';
 import { OrderActions } from '../../actions';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 /*
   ID: item.ID,
@@ -25,6 +26,7 @@ function OrderFood(props) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);
+  const {t, i18n} = useTranslation();
 
   return (
     <View
@@ -79,7 +81,7 @@ function OrderFood(props) {
               styles.pressable,
             ]}
           >
-            <Text style={styles.text}>Add To Cart</Text>
+            <Text style={styles.text}>{t("ORDER_SCREEN.ADD_TO_CART")}</Text>
           </Pressable>
         </View>
       </View>
