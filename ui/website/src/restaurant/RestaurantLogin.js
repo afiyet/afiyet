@@ -10,7 +10,7 @@ import { useSnackbar } from 'notistack';
 
 import companyLogo from "../img/afiyet-logo-w.png";
 import { RestaurantActions } from "../actions";
-import { login, getLocation } from "../endpoints";
+import { login } from "../endpoints";
 import { useTranslation } from 'react-i18next';
 
 const RestaurantLogin = () => {
@@ -30,15 +30,6 @@ const RestaurantLogin = () => {
             .then((res) => {
                 console.log(res);
                 dispatch(RestaurantActions.setRestaurant(res.data));
-
-                getLocation(res.data.ID)
-                    .then((res) => {
-                        dispatch(RestaurantActions.setLatLon(res.data));
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                        enqueueSnackbar(t("SNACKBAR.LOCATION_ERROR"), {variant: "error"});
-                    })
 
                 history.push("/restaurant-main");
                 enqueueSnackbar(t("SNACKBAR.LOGIN_SUCCESS"), {variant: "success"});
