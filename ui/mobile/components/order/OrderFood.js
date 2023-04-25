@@ -35,7 +35,7 @@ function OrderFood(props) {
       <Image
         source={{
           uri: selectedMenuItem.picture,
-          resizeMode: "stretch"
+          resizeMode: "cover"
         }}
         style={styles.posterStyle}
       />
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
   },
   posterStyle: {
     width: "97%",
-    height: "35%",
+    height: "60%",
     borderRadius: 10,
     margin: 5,
   },

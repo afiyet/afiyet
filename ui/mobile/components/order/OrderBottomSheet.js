@@ -24,7 +24,7 @@ const OrderBottomSheet = (props) => {
   const bottomSheetModalRef = useRef(null);
 
   // variables
-  const snapPoints = ['60%', '70%'];
+  const snapPoints = ['85%', '95%'];
 
   // callbacks
   const handlePresentModalPress = useCallback(() => {
