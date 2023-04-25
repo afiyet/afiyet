@@ -6,30 +6,35 @@ import {
   BottomSheetBackdrop
 } from '@gorhom/bottom-sheet';
 import { useEffect } from 'react';
-import OrderFood from './OrderFood';
+import AddComment from './AddComment';
 
-const OrderBottomSheet = (props) => {
+const CommentBottomSheet = (props) => {
 
     const {
         isBottomSheetOpen,
         setIsBottomSheetOpen,
-        selectedMenuItem
     } = props;
 
     useEffect(() => {
         if(isBottomSheetOpen){handlePresentModalPress();}
+        if(!isBottomSheetOpen){handleClose();}
     }, [isBottomSheetOpen]);
 
   // ref
   const bottomSheetModalRef = useRef(null);
 
   // variables
-  const snapPoints = ['85%', '95%'];
+  const snapPoints = ['90%'];
 
   // callbacks
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
+
+  const handleClose = useCallback(() => {
+    bottomSheetModalRef.current?.close();
+  }, []);
+
   const handleSheetChanges = useCallback((index) => {
     console.log('handleSheetChanges', index);
   }, []);
@@ -37,7 +42,7 @@ const OrderBottomSheet = (props) => {
 
   return (
     <BottomSheetModalProvider>
-      <View style={styles.container}>
+      <View>
         <BottomSheetModal
           ref={bottomSheetModalRef}
           index={0}
@@ -52,8 +57,8 @@ const OrderBottomSheet = (props) => {
           
         >
           <View style={styles.contentContainer}>
-            <OrderFood 
-                selectedMenuItem={selectedMenuItem}
+            <AddComment
+              setIsBottomSheetOpen={setIsBottomSheetOpen}
             />
           </View>
         </BottomSheetModal>
@@ -63,11 +68,6 @@ const OrderBottomSheet = (props) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'grey',
-  },
   contentContainer: {
     flex: 1,
     alignItems: 'center',
@@ -75,4 +75,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OrderBottomSheet;
+export default CommentBottomSheet;

@@ -43,7 +43,7 @@ const RestaurantMediumCard = (props) => {
                     <Text ellipsizeMode={"tail"} numberOfLines={3} style={styles.titleText}>{name}</Text>
                     <View style={styles.rowAndCenter}>
                         <FontAwesome name="star" size={20} color={"#F53920"} />
-                        <Text style={styles.ratingText}>{avgPoint}</Text>
+                        <Text style={styles.ratingText}>{avgPoint.toString().substr(0,3)}</Text>
                         <Text style={styles.reviewsText}>({commentCount})</Text>
                     </View>
                 </View>

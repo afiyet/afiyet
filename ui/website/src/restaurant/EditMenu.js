@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { MenuActions } from '../actions';
 
 import { addTable, getRestaurantMenu } from '../endpoints';
+import { useTranslation } from 'react-i18next';
 
 const EditMenu = () => {
 
@@ -26,6 +27,7 @@ const EditMenu = () => {
 	const menu = useSelector(state => state.menuState.menu);
 	const restaurantId = useSelector(state => state.restaurantState.restaurantId);
 	const dispatch = useDispatch();
+	const {t, i18n} = useTranslation();
 
 	useEffect(() => {
 		fetchMenu();
@@ -77,35 +79,35 @@ const EditMenu = () => {
 	return (
 		<Box>
 			<Dialog open={categoryDialogOpen} onClose={handleCategoryDialogClose}>
-				<DialogTitle>Kategori Ekle</DialogTitle>
+				<DialogTitle>{t("MENU_EDIT_PAGE.CATEGORY_DIALOG.TITLE")}</DialogTitle>
 				<DialogContent>
 					<TextField
 						autoFocus
 						margin="dense"
 						id="categoryName"
-						label="Kategori Adı"
+						label={t("MENU_EDIT_PAGE.CATEGORY_DIALOG.CATEGORY_NAME")}
 						fullWidth
-						variant="standard"
+						variant="outlined"
 						value={categoryTextFieldValue}
 						onChange={(event) => { setCategoryTextFieldValue(event.target.value) }}
 					/>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={handleCategoryDialogClose}>İptal</Button>
-					<Button onClick={handleCategoryAdd}>Ekle</Button>
+					<Button onClick={handleCategoryDialogClose}>{t("MENU_EDIT_PAGE.CATEGORY_DIALOG.CANCEL_BUTTON")}</Button>
+					<Button onClick={handleCategoryAdd}>{t("MENU_EDIT_PAGE.CATEGORY_DIALOG.ADD_BUTTON")}</Button>
 				</DialogActions>
 			</Dialog>
 			<Box style={styles.editMenuPage}>
 				<Box style={styles.menuContainer}>
 					<Box style={styles.menu}>
 						<Box style={styles.menuHeader}>
-							<Typography variant="h3" gutterBottom style={styles.menuTypography}>Menü</Typography>
+							<Typography variant="h3" gutterBottom style={styles.menuTypography}>{t("MENU_EDIT_PAGE.TITLE")}</Typography>
 							<Button
 								variant="contained"
 								className="menu-add-button"
 								onClick={handleCategoryDialogOpen}
 							>
-								KATEGORİ EKLE
+								{t("MENU_EDIT_PAGE.ADD_CATEGORY_BUTTON")}
 							</Button>
 						</Box>
 						{

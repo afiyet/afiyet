@@ -7,3 +7,7 @@ export function getRestaurantMenu(restaurantId) {
 export function getRestaurants() {
     return axiosClient.get("/locations");
 };
+
+export function getRestaurant(restaurantId) {
+    return axiosClient.get("/locations/" + restaurantId);
+};

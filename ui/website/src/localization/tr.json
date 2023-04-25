@@ -1,0 +1,96 @@
+{
+    "LOGIN": {
+        "EMAIL": "E-posta",
+        "PASSWORD": "Şifre",
+        "LOGIN_BUTTON": "Giriş Yap"
+    },
+    "APPBAR": {
+        "MENU_EDIT": "Menü Düzenleme",
+        "TABLES": "Masalar",
+        "REVIEWS": "Yorumlar",
+        "ORDERS": "Sİparİşler",
+        "APPBAR_MENU": {
+            "PROFILE": "Profil",
+            "CHANGE_LANG": "Dil Değiştir",
+            "LOGOUT": "Çıkış Yap",
+            "SETTINGS_TOOLTIP": "Ayarlar"
+        }
+    },
+    "MENU_EDIT_PAGE": {
+        "TITLE": "Menü",
+        "ADD_CATEGORY_BUTTON": "Kategori Ekle",
+        "ADD_DISH_BUTTON": "Yemek Ekle",
+        "CATEGORY_NAME": "Kategori Adı",
+        "DISH_NAME": "Yemek Adı",
+        "PRICE": "Fiyatı",
+        "INGREDIENTS": "İçindekiler",
+        "DELETE_DISH_BUTTON": "Yemeği Sil",
+        "UPDATE_DISH_BUTTON": "Yemeği Güncelle",
+        "DELETE_CATEGORY_BUTTON": "Kategoriyi Sil",
+        "CATEGORY_DIALOG": {
+            "TITLE": "Kategori Ekle",
+            "CATEGORY_NAME": "Kategori Adı",
+            "CANCEL_BUTTON": "İptal",
+            "ADD_BUTTON": "Ekle"
+        },
+        "DISH_DIALOG": {
+            "TITLE": "Yemek Ekle",
+            "DISH_NAME": "Yemek Adı",
+            "DISH_INGREDIENTS": "Yemek İçeriği",
+            "DISH_PRICE": "Fiyat Bilgisi",
+            "CANCEL_BUTTON": "İptal",
+            "ADD_BUTTON": "Ekle"
+        }
+    },
+    "TABLES_PAGE": {
+        "SEARCH_TABLES": "Masa Ara",
+        "ADD_TABLE_BUTTON": "Masa Ekle",
+        "ADD_TABLE_DIALOG": {
+            "TITLE": "Masa Ekle",
+            "TABLE_NAME": "Masa Adı",
+            "CANCEL_BUTTON": "İptal",
+            "ADD_BUTTON": "Ekle"
+        },
+        "TABLE_CART": {
+            "QR_TOOLTIP": "QR İndir",
+            "EDIT_TOOLTIP": "Masa Adını Güncelle",
+            "DELETE_TOOLTIP": "Masayı Sil",
+            "EDIT_TABLE_DIALOG": {
+                "TITLE": "Masa Adı Değiştir",
+                "NEW_TABLE_NAME": "Yeni Masa Adı",
+                "CANCEL_BUTTON": "İptal",
+                "CHANGE_BUTTON": "Değiştir"
+            }
+        }
+    },
+    "REVIEWS_PAGE": {
+        "TITLE": "Yorumlar"
+    },
+    "ORDERS_PAGE": {
+        "TITLE": "Siparişler"
+    },
+    "MAIN_PAGE": {
+        "TITLE": "Restoran Bilgileri",
+        "NAME": "Restoran Adı",
+        "ADDRESS": "Restoran Adresi",
+        "CATEGORY": "Restoran Kategorisi",
+        "LOCATION": "Restoran Konumu",
+        "PASSWORD": "Restoran Şifresi",
+        "MAIL": "Restoran e-postası",
+        "PICTURE": "Fotoğraf",
+        "LATITUDE": "Enlem",
+        "LONGITUDE": "Boylam"
+    },
+    "SNACKBAR": {
+        "LOCATION_ERROR": "Konum Bilgisi Alınamadı!",
+        "LOGIN_ERROR": "Giriş Başarısız!",
+        "LOGIN_SUCCESS": "Giriş Başarılı!",
+        "TABLE_ADD_SUCCESS": "Masa başarıyla eklendi!",
+        "TABLE_ADD_ERROR": "Masa eklenemedi!",
+        "TABLE_LOAD_ERROR": "Masalar yüklenirken hata oluştu!",
+        "TABLE_DELETE_SUCCESS": "Masa başarıyla silindi!",
+        "TABLE_DELETE_ERROR": "Masa silinemedi!",
+        "TABLE_UPDATE_SUCCESS": "Masa adı başarıyla değiştirildi!",
+        "TABLE_UPDATE_ERROR": "Masa adı değiştirilemedi!"
+    }
+}
