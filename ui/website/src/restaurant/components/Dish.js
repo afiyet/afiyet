@@ -41,7 +41,7 @@ const Dish = (props) => {
     const [pictureBase64, setPictureBase64] = useState("");
 
     async function handlePicture(){
-		let file = document.getElementById("picture").files[0];
+		let file = document.getElementById("picture-2").files[0];
 		const b64 = await toBase64(file);
 		console.log("foo: ", b64)
 		setPictureBase64(b64);
@@ -61,7 +61,7 @@ const Dish = (props) => {
                     />
                 }
             >
-                <input id="picture" type="file" accept="image/png, image/gif, image/jpeg" hidden onChange={handlePicture} />
+                <input id="picture-2" type="file" accept="image/png, image/gif, image/jpeg" hidden onChange={handlePicture} />
             </Button>
             <TextField
                 id="outlined-basic"

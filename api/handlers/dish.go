@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/base64"
+	"errors"
 	"fmt"
 	"github.com/afiyet/afiytet/api/data/model"
 	"github.com/afiyet/afiytet/api/service"
@@ -17,19 +18,24 @@ type DishHandler struct {
 
 func (h *DishHandler) Add(c echo.Context) error {
 	var dbind model.Dish
+	var extension string
 
 	err := (&echo.DefaultBinder{}).BindBody(c, &dbind)
 	if err != nil {
 		return err
 	}
 
+	extension, err = getExtension(dbind.Picture)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
 	decoded, err := decodeBase64(dbind.Picture)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 	dbind.Picture = decoded
 
-	d, err := h.s.Add(dbind)
+	d, err := h.s.Add(dbind, extension)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -133,4 +139,15 @@ func decodeBase64(str string) (string, error) {
 	}
 
 	return string(resp), nil
+}
+
+func getExtension(b64 string) (string, error) {
+	start := strings.Index(b64, "/")
+	end := strings.Index(b64, ";")
+
+	if start == -1 || end == -1 {
+		return "", errors.New("no / or ; in base64")
+	}
+
+	return b64[start+1 : end], nil
 }

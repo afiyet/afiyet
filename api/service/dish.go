@@ -18,8 +18,8 @@ func NewDishService(db *gorm.DB, aws *AmazonService) *DishService {
 	return &DishService{r: repo.NewDishRepository(db), aws: aws}
 }
 
-func (s *DishService) Add(d model.Dish) (*model.Dish, error) {
-	s3key := getDishS3Key(d)
+func (s *DishService) Add(d model.Dish, extension string) (*model.Dish, error) {
+	s3key := getDishS3Key(d, extension)
 	reader := strings.NewReader(d.Picture)
 
 	err := s.aws.Upload(s3key, reader)
@@ -57,6 +57,6 @@ func (s *DishService) Update(d model.Dish) (*model.Dish, error) {
 	return s.r.Update(d)
 }
 
-func getDishS3Key(d model.Dish) string {
-	return fmt.Sprintf("dish/%s-%s", d.Name, uuid.NewString())
+func getDishS3Key(d model.Dish, extension string) string {
+	return fmt.Sprintf("dish/%s-%s.%s", d.Name, uuid.NewString(), extension)
 }
