@@ -62,5 +62,17 @@
     },
     "ORDERS_PAGE": {
         "TITLE": "Orders"
+    },
+    "MAIN_PAGE": {
+        "TITLE": "Restaurant Information",
+        "NAME": "Restaurant Name",
+        "ADDRESS": "Restaurant Address",
+        "CATEGORY": "Restaurant Category",
+        "LOCATION": "Restaurant Location",
+        "PASSWORD": "Restaurant Password",
+        "MAIL": "Restaurant email",
+        "PICTURE": "Photo",
+        "LATITUDE": "Latitude",
+        "LONGITUDE": "Longitude"
     }
 }

@@ -62,5 +62,17 @@
     },
     "ORDERS_PAGE": {
         "TITLE": "Siparişler"
+    },
+    "MAIN_PAGE": {
+        "TITLE": "Restoran Bilgileri",
+        "NAME": "Restoran Adı",
+        "ADDRESS": "Restoran Adresi",
+        "CATEGORY": "Restoran Kategorisi",
+        "LOCATION": "Restoran Konumu",
+        "PASSWORD": "Restoran Şifresi",
+        "MAIL": "Restoran e-postası",
+        "PICTURE": "Fotoğraf",
+        "LATITUDE": "Enlem",
+        "LONGITUDE": "Boylam"
     }
 }

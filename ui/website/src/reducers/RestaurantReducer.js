@@ -7,7 +7,10 @@ const initialState = {
     category: "",
     location: "",
     password: "",
-    mail: ""
+    mail: "",
+    picture: "",
+    latitude: "",
+    longitude: ""
 };
 
 const RestaurantReducer = (state = initialState, action) => {
@@ -21,7 +24,14 @@ const RestaurantReducer = (state = initialState, action) => {
                 category: action.data.category,
                 location: action.data.location,
                 password: action.data.password,
-                mail: action.data.mail
+                mail: action.data.mail,
+                picture: action.data.picture
+            }
+        case RestaurantActions.types.SET_LAT_LON:
+            return {
+                ...state,
+                latitude: action.data.Latitude,
+                longitude: action.data.Longitude
             }
         default:
             return { ...state };

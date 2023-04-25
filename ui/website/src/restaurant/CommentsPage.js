@@ -43,9 +43,9 @@ export default function Comments() {
     <Box style={styles.container}>
       <Box style={styles.commentsContainer}>
         <Box style={styles.titleAndFilter}>
-          <Typography style={styles.pageTitle} gutterBottom variant="h3">{t("REVIEWS_PAGE.TITLE")}</Typography>
+          <Typography style={styles.pageTitle} variant="h3">{t("REVIEWS_PAGE.TITLE")}</Typography>
           <Box style={styles.buttonsContainer}>
-            <ButtonGroup size="large" aria-label="large button group">
+            <ButtonGroup size="medium" aria-label="large button group">
               {buttons}
             </ButtonGroup>
           </Box>
@@ -103,6 +103,7 @@ const styles = {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
+    flexWrap: "wrap"
   }
 };

@@ -38,42 +38,48 @@ function Appbar() {
                         height={50}
                     />
                 </Box>
-                <Typography
-                    variant="h4"
-                    sx={{
-                        mr: 2,
-                        fontFamily: 'monospace',
-                        fontWeight: 700,
-                        letterSpacing: '.3rem',
-                        color: 'inherit',
-                        textDecoration: 'none',
-                    }}
-                >
-                    AFİYET
-                </Typography>
-                <Box>
-                    {pages.map((page, i) => {
-                        return (
-                            <Button
-                                key={i}
-                                onClick={() => { history.push(page.uri) }}
+                <Button
+                    onClick={() => { history.push("/restaurant-main") }}
+                    variant='text' color='inherit'>
+                    <Typography
+                        variant="h4"
+                        sx={{
+                            m: 2,
+                            fontFamily: 'monospace',
+                            fontWeight: 700,
+                            letterSpacing: '.3rem',
+                            color: 'inherit',
+                            textDecoration: 'none',
+                        }}
+                    >
+                        AFİYET
+                    </Typography>
+                </Button>
+
+
+                {pages.map((page, i) => {
+                    return (
+                        <Button
+                            key={i}
+                            onClick={() => { history.push(page.uri) }}
+                            variant='text' color='inherit' style={{ height: 87 }}
+                        >
+                            <Typography
+                                variant="h6"
+                                sx={{
+                                    m: 2,
+                                    fontFamily: 'monospace',
+                                    fontWeight: "bold",
+                                    textDecoration: 'none',
+                                    color: "white"
+                                }}
                             >
-                                <Typography
-                                    variant="h6"
-                                    sx={{
-                                        m: 2,
-                                        fontFamily: 'monospace',
-                                        fontWeight: "bold",
-                                        textDecoration: 'none',
-                                        color: "white"
-                                    }}
-                                >
-                                    {page.title}
-                                </Typography>
-                            </Button>
-                        );
-                    })}
-                </Box>
+                                {page.title}
+                            </Typography>
+                        </Button>
+                    );
+                })}
+
             </Box>
         </AppBar>
     );

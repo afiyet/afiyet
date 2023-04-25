@@ -3,6 +3,7 @@ package repo
 import (
 	"github.com/afiyet/afiytet/api/data/model"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type RestaurantRepository struct {
@@ -32,7 +33,7 @@ func (r RestaurantRepository) GetDishes(id int) ([]model.Dish, error) {
 
 func (rr RestaurantRepository) GetRatings(id int) ([]model.Rating, error) {
 	var rs []model.Rating
-	err := rr.db.Where("restaurant_id", id).Find(&rs).Error
+	err := rr.db.Preload("User").Preload(clause.Associations).Where("restaurant_id", id).Find(&rs).Error
 
 	if err != nil {
 		return nil, err
