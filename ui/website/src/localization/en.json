@@ -39,7 +39,8 @@
             "DISH_INGREDIENTS": "Dish Ingredients",
             "DISH_PRICE": "Dish Price",
             "CANCEL_BUTTON": "Cancel",
-            "ADD_BUTTON": "Add"
+            "ADD_BUTTON": "Add",
+            "UPLOAD_IMAGE_BUTTON": "Upload Image"
         }
     },
     "TABLES_PAGE": {

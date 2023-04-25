@@ -1,8 +1,12 @@
 import { useSelector } from 'react-redux';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useId } from "react";
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import MapLeaflet from './components/main/MapLeaflet';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import { toBase64 } from '../util';
+import { getRestaurantInfo, updateRestaurantInfo } from '../endpoints';
+import { RestaurantActions } from '../actions';
 
 const RestaurantMain = () => {
   /**
@@ -30,6 +34,8 @@ const RestaurantMain = () => {
   const [picture, setPicture] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
+  const id = useId();
+  const [pictureBase64, setPictureBase64] = useState("");
 
   function handleRestaurantStateChange() {
     setName(restaurantState.name);
@@ -46,6 +52,41 @@ const RestaurantMain = () => {
     handleRestaurantStateChange();
   }, [restaurantState])
 
+  async function handlePicture() {
+    let file = document.getElementById(id).files[0];
+    const b64 = await toBase64(file);
+    setPictureBase64(b64);
+  }
+
+  function handleClickUpdate() {
+    let payload = {
+      name: name,
+      address: address,
+      category: category,
+      //password: "",
+      mail: mail,
+      picture: pictureBase64 || picture,
+      latitude: latitude,
+      longitude: longitude
+    };
+
+    updateRestaurantInfo(restaurantState.restaurantId, payload)
+      .then((res) => {
+        //snackbar
+        getRestaurantInfo(restaurantState.restaurantId)
+          .then((res) => {
+            console.log(res);
+            RestaurantActions.setRestaurant(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+      })
+      .catch((err) => {
+        console.log(err);
+        //snackbar
+      })
+  }
 
   return (
     <Box style={styles.container}>
@@ -58,8 +99,17 @@ const RestaurantMain = () => {
                 <Grid item xs={6}>
                   <Box style={styles.imageBox}>
                     <Typography style={styles.pageTitle} gutterBottom variant="button">{t("MAIN_PAGE.RESTAURANT_PICTURE")}</Typography>
-                    <Button>
-                      <img src='https://images.deliveryhero.io/image/fd-tr/LH/wltj-hero.jpg?width=1600&height=400&quality=45' width={"100%"} height={350}/>
+                    <Button
+                      component="label"
+                      variant="text"
+                      style={{ minHeight: 350 }}
+                    >
+                      {(picture !== "" || pictureBase64 !== "") ?
+                        <img height={350} width={"100%"} src={pictureBase64 || picture} style={styles.t} />
+                        :
+                        <AddAPhotoIcon style={styles.t} sx={{ margin: 0 }} />
+                      }
+                      <input id={id} type="file" accept="image/png, image/gif, image/jpeg" hidden onChange={handlePicture} />
                     </Button>
                   </Box>
                 </Grid>
@@ -67,7 +117,7 @@ const RestaurantMain = () => {
                   <Box style={styles.imageBox}>
                     <Typography style={styles.pageTitle} gutterBottom variant="button">{t("MAIN_PAGE.CAMPAIGN_PICTURE")}</Typography>
                     <Button>
-                      <img src='https://iaaspr.tmgrup.com.tr/b1da05/0/0/0/0/0/0?u=https://iaspr.tmgrup.com.tr/2022/09/27/beyti-kebabi-nasil-yapilir-beyti-kebabi-tarifi-malzemeleri-yapilisi-ve-puf-noktalari-nedir-1664266814597.jpeg&mw=700' width={"100%"} height={350}/>
+                      <img src='https://iaaspr.tmgrup.com.tr/b1da05/0/0/0/0/0/0?u=https://iaspr.tmgrup.com.tr/2022/09/27/beyti-kebabi-nasil-yapilir-beyti-kebabi-tarifi-malzemeleri-yapilisi-ve-puf-noktalari-nedir-1664266814597.jpeg&mw=700' width={"100%"} height={350} />
                     </Button>
                   </Box>
                 </Grid>
@@ -147,6 +197,7 @@ const RestaurantMain = () => {
                     variant='contained'
                     fullWidth
                     style={{ height: "100%" }}
+                    onClick={handleClickUpdate}
                   >
                     {t("MAIN_PAGE.UPDATE_BUTTON")}
                   </Button>
