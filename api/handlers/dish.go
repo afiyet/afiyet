@@ -105,6 +105,8 @@ func (h *DishHandler) List(c echo.Context) error {
 }
 
 func (h *DishHandler) Update(c echo.Context) error {
+	var updateImage bool
+	var extension string
 	idStr := c.Param("id")
 	id, err := strconv.Atoi(idStr)
 
@@ -119,7 +121,24 @@ func (h *DishHandler) Update(c echo.Context) error {
 	}
 	dbind.ID = uint(id)
 
-	d, err := h.s.Update(dbind)
+	// If new base64 have sent
+	if !strings.Contains(dbind.Picture, service.CloudFrontUrl) {
+		updateImage = true
+
+		extension, err = getExtension(dbind.Picture)
+
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, err.Error())
+		}
+
+		decoded, err := decodeBase64(dbind.Picture)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, err.Error())
+		}
+		dbind.Picture = decoded
+	}
+
+	d, err := h.s.Update(dbind, updateImage, extension)
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())

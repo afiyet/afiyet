@@ -53,7 +53,18 @@ func (s *DishService) List() ([]model.Dish, error) {
 	return s.r.List()
 }
 
-func (s *DishService) Update(d model.Dish) (*model.Dish, error) {
+func (s *DishService) Update(d model.Dish, updateImage bool, extension string) (*model.Dish, error) {
+	if updateImage {
+		s3key := getDishS3Key(d, extension)
+		reader := strings.NewReader(d.Picture)
+
+		err := s.aws.Upload(s3key, reader)
+		if err != nil {
+			return nil, fmt.Errorf("s3 upload: %w", err)
+		}
+
+		d.Picture = CloudFrontUrl + "/" + s3key
+	}
 	return s.r.Update(d)
 }
 
