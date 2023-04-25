@@ -80,5 +80,17 @@
         "PICTURE": "Photo",
         "LATITUDE": "Latitude",
         "LONGITUDE": "Longitude"
+    },
+    "SNACKBAR": {
+        "LOCATION_ERROR": "Location Info Error!",
+        "LOGIN_ERROR": "Login Error!",
+        "LOGIN_SUCCESS": "Logged in successfully!",
+        "TABLE_ADD_SUCCESS": "Table added successfully!",
+        "TABLE_ADD_ERROR": "Table adding unsuccessful!",
+        "TABLE_LOAD_ERROR": "Table load error!",
+        "TABLE_DELETE_SUCCESS": "Table deleted successfully!",
+        "TABLE_DELETE_ERROR": "Table deletion error!",
+        "TABLE_UPDATE_SUCCESS": "Table name updated successfully!",
+        "TABLE_UPDATE_ERROR": "Table name update error!"
     }
 }

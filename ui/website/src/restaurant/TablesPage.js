@@ -44,11 +44,11 @@ export default function TablesPage() {
     })
       .then((res) => {
         fetchTables();
-        enqueueSnackbar("Masa başarıyla eklendi!", { variant: "success" });
+        enqueueSnackbar(t("SNACKBAR.TABLE_ADD_SUCCESS"), { variant: "success" });
       })
       .catch((err) => {
         console.log(err);
-        enqueueSnackbar("Masa eklenemedi!", { variant: "error" });
+        enqueueSnackbar(t("SNACKBAR.TABLE_ADD_ERROR"), { variant: "error" });
       })
   }
 
@@ -60,7 +60,7 @@ export default function TablesPage() {
       })
       .catch((err) => {
         console.log(err);
-        enqueueSnackbar("Masalar yüklenirken hata oluştu!", { variant: "error" });
+        enqueueSnackbar(t("SNACKBAR.TABLE_LOAD_ERROR"), { variant: "error" });
       })
   }
 

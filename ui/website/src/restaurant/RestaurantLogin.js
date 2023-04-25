@@ -37,15 +37,15 @@ const RestaurantLogin = () => {
                     })
                     .catch((err) => {
                         console.log(err);
-                        enqueueSnackbar("Konum Bilgisi Alınamadı!", {variant: "error"});
+                        enqueueSnackbar(t("SNACKBAR.LOCATION_ERROR"), {variant: "error"});
                     })
 
                 history.push("/restaurant-main");
-                enqueueSnackbar("Giriş Başarılı!", {variant: "success"});
+                enqueueSnackbar(t("SNACKBAR.LOGIN_SUCCESS"), {variant: "success"});
             })
             .catch((err) => {
                 console.log(err);
-                enqueueSnackbar("Giriş Başarısız!", {variant: "error"});
+                enqueueSnackbar(t("SNACKBAR.LOGIN_ERROR"), {variant: "error"});
             })
     }
 

@@ -46,11 +46,11 @@ export default function TableItemUpdate(props) {
             .then((res) => {
                 fetchTables();
                 setSelectedTable("");
-                enqueueSnackbar("Masa adı başarıyla değiştirildi!", { variant: "success" });
+                enqueueSnackbar(t("SNACKBAR.TABLE_UPDATE_SUCCESS"), { variant: "success" });
             })
             .catch((err) => {
                 console.log(err);
-                enqueueSnackbar("Masa adı değiştirilemedi", { variant: "error" });
+                enqueueSnackbar(t("SNACKBAR.TABLE_UPDATE_ERROR"), { variant: "error" });
             })
         handleCloseUpdate();
     }

@@ -8,7 +8,7 @@
         "MENU_EDIT": "Menü Düzenleme",
         "TABLES": "Masalar",
         "REVIEWS": "Yorumlar",
-        "ORDERS": "Siparişler",
+        "ORDERS": "Sİparİşler",
         "APPBAR_MENU": {
             "PROFILE": "Profil",
             "CHANGE_LANG": "Dil Değiştir",
@@ -80,5 +80,17 @@
         "PICTURE": "Fotoğraf",
         "LATITUDE": "Enlem",
         "LONGITUDE": "Boylam"
+    },
+    "SNACKBAR": {
+        "LOCATION_ERROR": "Konum Bilgisi Alınamadı!",
+        "LOGIN_ERROR": "Giriş Başarısız!",
+        "LOGIN_SUCCESS": "Giriş Başarılı!",
+        "TABLE_ADD_SUCCESS": "Masa başarıyla eklendi!",
+        "TABLE_ADD_ERROR": "Masa eklenemedi!",
+        "TABLE_LOAD_ERROR": "Masalar yüklenirken hata oluştu!",
+        "TABLE_DELETE_SUCCESS": "Masa başarıyla silindi!",
+        "TABLE_DELETE_ERROR": "Masa silinemedi!",
+        "TABLE_UPDATE_SUCCESS": "Masa adı başarıyla değiştirildi!",
+        "TABLE_UPDATE_ERROR": "Masa adı değiştirilemedi!"
     }
 }

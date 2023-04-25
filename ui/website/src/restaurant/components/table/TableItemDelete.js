@@ -20,11 +20,11 @@ export default function TableItemDelete(props) {
     deleteTable(tableId)
       .then((res) => {
         fetchTables();
-        enqueueSnackbar("Masa başarıyla silindi!", { variant: "success" });
+        enqueueSnackbar(t("SNACKBAR.TABLE_DELETE_SUCCESS"), { variant: "success" });
       })
       .catch((err) => {
         console.log(err);
-        enqueueSnackbar("Masa silinemedi!", { variant: "error" });
+        enqueueSnackbar(t("SNACKBAR.TABLE_DELETE_ERROR"), { variant: "error" });
       })
   }
 
