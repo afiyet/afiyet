@@ -36,7 +36,7 @@ const CommentBottomSheet = (props) => {
 
   return (
     <BottomSheetModalProvider>
-      <View style={styles.container}>
+      <View>
         <BottomSheetModal
           ref={bottomSheetModalRef}
           index={0}
@@ -61,11 +61,6 @@ const CommentBottomSheet = (props) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'grey',
-  },
   contentContainer: {
     flex: 1,
     alignItems: 'center',

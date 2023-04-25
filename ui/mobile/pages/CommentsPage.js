@@ -52,12 +52,11 @@ export default function CommentsPage() {
     );
   }
 
-
   return (
     <View style={{ flex: 1 }}>
       {(!waiting) ?
-        <View style={styles.contentContainer}>
-          <View style={styles.filterAndScrollView}>
+        <View style={{ flex: 1 }}>
+          <View style={{ paddingBottom: 120 }}>
             <FlatList
               contentContainerStyle={styles.flatListContainer}
               horizontal
@@ -91,7 +90,7 @@ export default function CommentsPage() {
           </View>
           <TouchableOpacity
             style={styles.commentBtnContainer}
-            onPress={() => {setIsBottomSheetOpen(true);}}
+            onPress={() => { setIsBottomSheetOpen(true); }}
           >
             <LinearGradient
               colors={['#FF0000', '#d82227']}
@@ -102,7 +101,7 @@ export default function CommentsPage() {
               }]}>Yorum ekle</Text>
             </LinearGradient>
           </TouchableOpacity>
-          <CommentBottomSheet 
+          <CommentBottomSheet
             isBottomSheetOpen={isBottomSheetOpen}
             setIsBottomSheetOpen={setIsBottomSheetOpen}
           />
@@ -171,13 +170,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 5
   },
-  contentContainer: { 
-    flex: 1, 
-    display:"flex", 
-    flexDirection:"column", 
-    justifyContent: "space-between" 
-  },
-  filterAndScrollView: {
-    marginBottom: 120
+  contentContainer: {
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between"
   }
 });
