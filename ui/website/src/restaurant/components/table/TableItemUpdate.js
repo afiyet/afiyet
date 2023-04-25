@@ -13,6 +13,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useSnackbar } from 'notistack';
 import { renameTable } from '../../../endpoints';
 import Tooltip from '@mui/material/Tooltip';
+import { useTranslation } from 'react-i18next';
 
 export default function TableItemUpdate(props) {
 
@@ -26,6 +27,7 @@ export default function TableItemUpdate(props) {
     const { enqueueSnackbar } = useSnackbar();
     const [textValueUpdate, setTextValueUpdate] = useState("");
     const restaurant = useSelector(state => state.restaurantState);
+    const {t, i18n} = useTranslation();
 
     const handleClickOpenUpdate = () => {
         setOpenUpdate(true);
@@ -62,7 +64,7 @@ export default function TableItemUpdate(props) {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    Masa Adı Değiştir
+                {t("TABLES_PAGE.TABLE_CART.EDIT_TABLE_DIALOG.TITLE")}
                 </DialogTitle>
                 <DialogContent>
                     <FormControl>
@@ -72,17 +74,17 @@ export default function TableItemUpdate(props) {
                             value={textValueUpdate}
                             onChange={(event) => { setTextValueUpdate(event.target.value) }}
                             variant='outlined'
-                            label="Yeni Masa Adı"
+                            label={t("TABLES_PAGE.TABLE_CART.EDIT_TABLE_DIALOG.NEW_TABLE_NAME")}
                         />
                     </FormControl>
 
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleCloseUpdate}>İptal</Button>
-                    <Button onClick={handleEditTable} autoFocus>Değiştir</Button>
+                    <Button onClick={handleCloseUpdate}>{t("TABLES_PAGE.TABLE_CART.EDIT_TABLE_DIALOG.CANCEL_BUTTON")}</Button>
+                    <Button onClick={handleEditTable} autoFocus>{t("TABLES_PAGE.TABLE_CART.EDIT_TABLE_DIALOG.CHANGE_BUTTON")}</Button>
                 </DialogActions>
             </Dialog>
-            <Tooltip title="Masa Adını Güncelle">
+            <Tooltip title={t("TABLES_PAGE.TABLE_CART.EDIT_TOOLTIP")}>
                 <IconButton onClick={() => {
                     handleClickOpenUpdate(true);
                     setSelectedTable(item.ID);

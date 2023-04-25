@@ -5,22 +5,24 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import transparentLogo from "../../img/transparentLogo.png";
 import { useHistory } from "react-router-dom";
-
-const pages = [{
-    title: "Menü Düzenleme",
-    uri: "/edit-menu"
-}, {
-    title: "Masalar",
-    uri: "/tables"
-}, {
-    title: "Yorumlar",
-    uri: "/comments"
-}];
+import { useTranslation } from 'react-i18next';
 
 
 function Appbar() {
 
     const history = useHistory();
+    const { t, i18n } = useTranslation();
+
+    const pages = [{
+        title: t("APPBAR.MENU_EDIT"),
+        uri: "/edit-menu"
+    }, {
+        title: t("APPBAR.TABLES"),
+        uri: "/tables"
+    }, {
+        title: t("APPBAR.REVIEWS"),
+        uri: "/comments"
+    }];
 
     return (
         <AppBar position="static" style={styles.appbar}>

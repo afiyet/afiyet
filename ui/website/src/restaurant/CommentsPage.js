@@ -4,11 +4,13 @@ import CommentItem from './components/CommentItem';
 import { getComments } from '../endpoints';
 import { useSelector } from 'react-redux';
 import Rating from '@mui/material/Rating';
+import { useTranslation } from 'react-i18next';
 
 export default function Comments() {
   const [selectedFilter, setSelectedFilter] = useState("");
   const [comments, setComments] = useState([]);
   const restaurnatState = useSelector(state => state.restaurantState);
+  const {t, i18n} = useTranslation();
 
   useEffect(() => {
     getComments(restaurnatState.restaurantId)
@@ -41,7 +43,7 @@ export default function Comments() {
     <Box style={styles.container}>
       <Box style={styles.commentsContainer}>
         <Box style={styles.titleAndFilter}>
-          <Typography style={styles.pageTitle} gutterBottom variant="h3">Yorumlar</Typography>
+          <Typography style={styles.pageTitle} gutterBottom variant="h3">{t("REVIEWS_PAGE.TITLE")}</Typography>
           <Box style={styles.buttonsContainer}>
             <ButtonGroup size="large" aria-label="large button group">
               {buttons}

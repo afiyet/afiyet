@@ -4,6 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useSnackbar } from 'notistack';
 import { deleteTable } from '../../../endpoints';
 import Tooltip from '@mui/material/Tooltip';
+import { useTranslation } from 'react-i18next';
 
 export default function TableItemDelete(props) {
 
@@ -13,6 +14,7 @@ export default function TableItemDelete(props) {
   } = props;
 
   const { enqueueSnackbar } = useSnackbar();
+  const {t, i18n} = useTranslation();
 
   const handleDeleteTable = (tableId) => {
     deleteTable(tableId)
@@ -27,7 +29,7 @@ export default function TableItemDelete(props) {
   }
 
   return (
-    <Tooltip title="Masayı Sil">
+    <Tooltip title={t("TABLES_PAGE.TABLE_CART.DELETE_TOOLTIP")}>
       <IconButton onClick={() => { handleDeleteTable(item.ID) }}>
         <DeleteIcon />
       </IconButton>

@@ -15,6 +15,7 @@ import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import { useSnackbar } from 'notistack';
 import TableItem from './components/table/TableItem';
+import { useTranslation } from 'react-i18next';
 
 export default function TablesPage() {
 
@@ -24,6 +25,7 @@ export default function TablesPage() {
   const [textValueAdd, setTextValueAdd] = useState("");
   const [search, setSearch] = useState("");
   const { enqueueSnackbar } = useSnackbar();
+  const {t, i18n} = useTranslation();
 
   const handleClickOpenAdd = () => {
     setOpenAdd(true);
@@ -76,7 +78,7 @@ export default function TablesPage() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          Masa Ekle
+        {t("TABLES_PAGE.ADD_TABLE_DIALOG.TITLE")}
         </DialogTitle>
         <DialogContent>
           <FormControl>
@@ -86,14 +88,14 @@ export default function TablesPage() {
               value={textValueAdd}
               onChange={(event) => { setTextValueAdd(event.target.value) }}
               variant='outlined'
-              label="Masa Adı"
+              label={t("TABLES_PAGE.ADD_TABLE_DIALOG.TABLE_NAME")}
             />
           </FormControl>
 
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseAdd}>İptal</Button>
-          <Button onClick={handleAddTable} autoFocus>Ekle</Button>
+          <Button onClick={handleCloseAdd}>{t("TABLES_PAGE.ADD_TABLE_DIALOG.CANCEL_BUTTON")}</Button>
+          <Button onClick={handleAddTable} autoFocus>{t("TABLES_PAGE.ADD_TABLE_DIALOG.ADD_BUTTON")}</Button>
         </DialogActions>
       </Dialog>
       <Grid container spacing={4}>
@@ -109,10 +111,10 @@ export default function TablesPage() {
                 value={search}
                 onChange={(event) => { setSearch(event.target.value) }}
                 variant='outlined'
-                label="Masa Ara"
+                label={t("TABLES_PAGE.SEARCH_TABLES")}
               />
               <Button variant="contained" size="large" onClick={handleClickOpenAdd} startIcon={<AddIcon />}>
-                Masa Ekle
+              {t("TABLES_PAGE.ADD_TABLE_BUTTON")}
               </Button>
             </CardContent>
           </Card>

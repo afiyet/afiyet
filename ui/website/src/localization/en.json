@@ -1,0 +1,62 @@
+{
+    "LOGIN": {
+        "EMAIL": "E-mail",
+        "PASSWORD": "Password",
+        "LOGIN_BUTTON": "Login"
+    },
+    "APPBAR": {
+        "MENU_EDIT": "Edit Menu",
+        "TABLES": "Tables",
+        "REVIEWS": "Reviews"
+    },
+    "MENU_EDIT_PAGE": {
+        "TITLE": "Menu",
+        "ADD_CATEGORY_BUTTON": "Add Category",
+        "ADD_DISH_BUTTON": "Add Dish",
+        "CATEGORY_NAME": "Category Name",
+        "DISH_NAME": "Dish Name",
+        "PRICE": "Price",
+        "INGREDIENTS": "Ingredients",
+        "DELETE_DISH_BUTTON": "Delete Dish",
+        "UPDATE_DISH_BUTTON": "Update Dish",
+        "DELETE_CATEGORY_BUTTON": "Delete Category",
+        "CATEGORY_DIALOG": {
+            "TITLE": "Add Category",
+            "CATEGORY_NAME": "Category Name",
+            "CANCEL_BUTTON": "Cancel",
+            "ADD_BUTTON": "Add"
+        },
+        "DISH_DIALOG": {
+            "TITLE": "Add Dish",
+            "DISH_NAME": "Dish Name",
+            "DISH_INGREDIENTS": "Dish Ingredients",
+            "DISH_PRICE": "Dish Price",
+            "CANCEL_BUTTON": "Cancel",
+            "ADD_BUTTON": "Add"
+        }
+    },
+    "TABLES_PAGE": {
+        "SEARCH_TABLES": "Search Tables",
+        "ADD_TABLE_BUTTON": "Add Table",
+        "ADD_TABLE_DIALOG": {
+            "TITLE": "Add Table",
+            "TABLE_NAME": "Table Name",
+            "CANCEL_BUTTON": "Cancel",
+            "ADD_BUTTON": "Add"
+        },
+        "TABLE_CART": {
+            "QR_TOOLTIP": "Download QR",
+            "EDIT_TOOLTIP": "Update Table Name",
+            "DELETE_TOOLTIP": "Delete Table",
+            "EDIT_TABLE_DIALOG": {
+                "TITLE": "Change Table Name",
+                "NEW_TABLE_NAME": "New Table Name",
+                "CANCEL_BUTTON": "Cancel",
+                "CHANGE_BUTTON": "Change"
+            }
+        }
+    },
+    "REVIEWS_PAGE": {
+        "TITLE": "Reviews"
+    }
+}
