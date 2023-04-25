@@ -7,9 +7,12 @@ import SyncIcon from '@mui/icons-material/Sync';
 import { deleteMenuItem, updateMenuItem } from '../../endpoints';
 import { useDispatch } from 'react-redux';
 import { MenuActions } from '../../actions';
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@mui/material/Tooltip';
+import { Button } from '@mui/material';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import { toBase64 } from '../../util';
 
 const Dish = (props) => {
 
@@ -20,7 +23,8 @@ const Dish = (props) => {
         ingredients,
         ID,
         fetchMenu,
-        categoryName
+        categoryName,
+        picture
     } = props;
 
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -31,27 +35,50 @@ const Dish = (props) => {
         setFoodNameTextFieldValue(name);
         setPriceTextFieldValue(price);
         setIngredientsTextFieldValue(ingredients.toString());
+        console.log(picture)
     }, []);
 
+    const id = useId();
     const [foodNameTextFieldValue, setFoodNameTextFieldValue] = useState("");
     const [priceTextFieldValue, setPriceTextFieldValue] = useState("");
     const [ingredientsTextFieldValue, setIngredientsTextFieldValue] = useState("");
+    const [pictureBase64, setPictureBase64] = useState("");
+
+    async function handlePicture() {
+        let file = document.getElementById(id).files[0];
+        const b64 = await toBase64(file);
+        setPictureBase64(b64);
+    }
 
     return (
         <Box style={styles.dish}>
+            <Button
+                component="label"
+                variant="text"
+                style={styles.t}
+                sx={{ margin: 0, maxWidth: 60, maxHeight: 60 }}
+            >
+                {(picture !== "") ?
+                    <img height={60} width={60} src={pictureBase64 || picture} style={styles.t} />
+                    :
+                    <AddAPhotoIcon style={styles.t} sx={{ margin: 0 }}
+                    />
+                }
+                <input id={id} type="file" accept="image/png, image/gif, image/jpeg" hidden onChange={handlePicture} />
+            </Button>
             <TextField
                 id="outlined-basic"
                 label={t("MENU_EDIT_PAGE.DISH_NAME")}
                 variant="outlined"
                 style={styles.dishName}
                 value={foodNameTextFieldValue}
-                onChange={(event) => { setFoodNameTextFieldValue(event.target.value); }}
+                onChange={(event) => {  setFoodNameTextFieldValue(event.target.value);  }}
             />
             <TextField
                 id="outlined-multiline-flexible"
                 label={t("MENU_EDIT_PAGE.PRICE")}
                 value={priceTextFieldValue}
-                onChange={(event) => { setPriceTextFieldValue(event.target.value); }}
+                onChange={(event) => {  setPriceTextFieldValue(event.target.value);  }}
             />
             <TextField
                 id="outlined-multiline-flexible"
@@ -60,7 +87,7 @@ const Dish = (props) => {
                 fullWidth
                 inputProps={{ maxLength: 199 }}
                 value={ingredientsTextFieldValue}
-                onChange={(event) => { setIngredientsTextFieldValue(event.target.value); }}
+                onChange={(event) => {  setIngredientsTextFieldValue(event.target.value);  }}
             />
             {/* <Checkbox {...label} defaultChecked /> */}
             <Tooltip title={t("MENU_EDIT_PAGE.DELETE_DISH_BUTTON")}>
@@ -68,15 +95,15 @@ const Dish = (props) => {
                     aria-label="delete"
                     onClick={() => {
                         deleteMenuItem(ID)
-                            .then((res) => {
-                                console.log(res);
-                                dispatch(MenuActions.deleteMenuItem({
-                                    ID: ID,
-                                    category: categoryName
-                                }));
-                                fetchMenu();
-                            })
-                            .catch((err) => {
+                                .then((res) => {
+                                    console.log(res);
+                                    dispatch(MenuActions.deleteMenuItem({
+                                        ID: ID,
+                                        category: categoryName
+                                    }));
+                                    fetchMenu();
+                                })
+                                .catch((err) => {
 
                             })
                     }}
@@ -95,7 +122,7 @@ const Dish = (props) => {
                             category: categoryName,
                             ingredients: ingredientsTextFieldValue.split(","),
                             price: Number(priceTextFieldValue),
-                            picture: ""
+                            picture: pictureBase64
                         })
                             .then((res) => {
                                 dispatch(MenuActions.deleteMenuItem({
@@ -125,7 +152,14 @@ let styles = {
         marginBottom: '0.5vw',
         gap: '1.3vw'
     },
-    dishName: { width: "17vw" }
+    dishName: { width: "17vw" },
+    iconButtonPicture: {
+        borderRadius: 0,
+        height: 60
+    },
+    t: {
+        margin: 0
+    }
 };
 
 export default Dish;
