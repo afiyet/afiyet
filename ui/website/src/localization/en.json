@@ -7,7 +7,8 @@
     "APPBAR": {
         "MENU_EDIT": "Edit Menu",
         "TABLES": "Tables",
-        "REVIEWS": "Reviews"
+        "REVIEWS": "Reviews",
+        "ORDERS": "Orders"
     },
     "MENU_EDIT_PAGE": {
         "TITLE": "Menu",
@@ -58,5 +59,8 @@
     },
     "REVIEWS_PAGE": {
         "TITLE": "Reviews"
+    },
+    "ORDERS_PAGE": {
+        "TITLE": "Orders"
     }
 }

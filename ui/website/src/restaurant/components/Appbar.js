@@ -14,6 +14,9 @@ function Appbar() {
     const { t, i18n } = useTranslation();
 
     const pages = [{
+        title: t("APPBAR.ORDERS"),
+        uri: "/orders"
+    }, {
         title: t("APPBAR.MENU_EDIT"),
         uri: "/edit-menu"
     }, {
