@@ -7,7 +7,7 @@ import SyncIcon from '@mui/icons-material/Sync';
 import { deleteMenuItem, updateMenuItem } from '../../endpoints';
 import { useDispatch } from 'react-redux';
 import { MenuActions } from '../../actions';
-import {useEffect, useId, useState} from 'react';
+import { useEffect, useId, useState } from 'react';
 import { Button } from '@mui/material';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { toBase64 } from '../../util';
@@ -41,11 +41,11 @@ const Dish = (props) => {
     const [ingredientsTextFieldValue, setIngredientsTextFieldValue] = useState("");
     const [pictureBase64, setPictureBase64] = useState("");
 
-    async function handlePicture(){
-		let file = document.getElementById(id).files[0];
-		const b64 = await toBase64(file);
-		setPictureBase64(b64);
-	}
+    async function handlePicture() {
+        let file = document.getElementById(id).files[0];
+        const b64 = await toBase64(file);
+        setPictureBase64(b64);
+    }
 
     return (
         <Box style={styles.dish}>
@@ -53,14 +53,14 @@ const Dish = (props) => {
                 component="label"
                 variant="text"
                 style={styles.t}
-                sx={{margin: 0}}
-                startIcon={(picture !== "") ?
-                    <img height={50} src={pictureBase64 || picture} style={styles.t}/>
+                sx={{ margin: 0, maxWidth: 60, maxHeight: 60 }}
+            >
+                {(picture !== "") ?
+                    <img height={60} width={60} src={pictureBase64 || picture} style={styles.t} />
                     :
-                    <AddAPhotoIcon style={styles.t} sx={{margin: 0}}
+                    <AddAPhotoIcon style={styles.t} sx={{ margin: 0 }}
                     />
                 }
-            >
                 <input id={id} type="file" accept="image/png, image/gif, image/jpeg" hidden onChange={handlePicture} />
             </Button>
             <TextField
