@@ -103,8 +103,6 @@ const TestOrder = (props) => {
                 let tempData = [];
                 let charCount = 0;
                 let tempSections = [];
-                console.log("restaurant Data");
-                console.log(res.data);
 
                 res.data.map((item, index) => {
                     if (!tempData.find((sItem) => { return sItem.title === item.category })) {
@@ -123,7 +121,6 @@ const TestOrder = (props) => {
 
                 getRestaurant(route.params.rID)
                     .then((res) => {
-                        console.log(res.data);
                         setRestaurant(res.data);
                     })
                     .catch((err) => {
@@ -201,7 +198,6 @@ const TestOrder = (props) => {
                                     {menu
                                         ?.filter(food => food.category === selectedCategory)
                                         ?.map(item => {
-                                            console.log(item);
                                             return (
                                                 <FoodCard
                                                     key={item.ID}
