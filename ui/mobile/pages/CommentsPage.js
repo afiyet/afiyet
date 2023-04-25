@@ -59,7 +59,7 @@ export default function CommentsPage() {
     <View style={{ flex: 1 }}>
       {(!waiting) ?
         <View style={{ flex: 1 }}>
-          <View style={{ paddingBottom: 120 }}>
+          <View style={{ paddingBottom: 130 }}>
             <FlatList
               style={{height: 70}}
               contentContainerStyle={styles.flatListContainer}
