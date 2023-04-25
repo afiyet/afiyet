@@ -8,6 +8,7 @@ import { useLocation, Redirect } from 'react-router-dom';
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import CommentsPage from "./restaurant/CommentsPage";
+import OrdersPage from "./restaurant/OrdersPage";
 
 function Main() {
 
@@ -37,6 +38,9 @@ function Main() {
                     </Switch>
                     :
                     <Switch>
+                        <Route path="/orders" exact>
+                            <OrdersPage />
+                        </Route>
                         <Route path="/tables" exact>
                             <TablesPage />
                         </Route>
