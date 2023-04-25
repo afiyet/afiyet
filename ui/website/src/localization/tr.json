@@ -39,7 +39,8 @@
             "DISH_INGREDIENTS": "Yemek İçeriği",
             "DISH_PRICE": "Fiyat Bilgisi",
             "CANCEL_BUTTON": "İptal",
-            "ADD_BUTTON": "Ekle"
+            "ADD_BUTTON": "Ekle",
+            "UPLOAD_IMAGE_BUTTON": "Fotoğraf Yükle"
         }
     },
     "TABLES_PAGE": {
