@@ -14,7 +14,7 @@ import {
     Dimensions
 } from "react-native";
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { getRestaurantMenu } from "../endpoints/order/orderEndpoints";
+import { getRestaurantMenu } from "../endpoints";
 import { useDispatch, useSelector } from 'react-redux';
 import { OrderActions } from "../actions";
 import OrderBottomSheet from "../components/order/OrderBottomSheet";

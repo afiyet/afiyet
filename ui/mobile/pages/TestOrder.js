@@ -15,7 +15,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
 import CategoryListItem from '../components/order/CategoryListItem';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { getRestaurantMenu } from '../endpoints/order/orderEndpoints';
+import { getRestaurantMenu, getRestaurant } from '../endpoints';
 import { OrderActions } from '../actions';
 import FoodCard from '../components/order/FoodCard';
 import OrderBottomSheet from '../components/order/OrderBottomSheet';
@@ -84,7 +84,7 @@ const TestOrder = (props) => {
     const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
     const [selectedMenuItem, setSelectedMenuItem] = useState({});
     const [waiting, setWaiting] = useState(true);
-    const {t, i18n} = useTranslation();
+    const { t, i18n } = useTranslation();
 
 
     useEffect(() => {
@@ -120,6 +120,16 @@ const TestOrder = (props) => {
                 setSelectedCategory(tempSections[0]);
                 setSections(tempSections);
                 setMenu(res.data);
+
+                getRestaurant(route.params.rID)
+                    .then((res) => {
+                        console.log(res.data);
+                        setRestaurant(res.data);
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+
                 setTimeout(() => { setWaiting(false); }, 1000);
             })
             .catch((err) => {
@@ -143,31 +153,31 @@ const TestOrder = (props) => {
                         <ScrollView>
                             <View style={styles.mainContainer}>
                                 <View style={styles.titleContainer}>
-                                    <Text style={styles.title}>{restaurant?.name}RESTAURANT NAME</Text>
+                                    <Text style={styles.title}>{restaurant.Name}</Text>
                                 </View>
-                                <Text style={styles.tagText}>{restaurant?.tags?.join(' • ')}BURGER BLA BLA</Text>
-                                <TouchableOpacity
-                                    style={styles.ratingReviewsContainer}
-                                    activeOpacity={0.1}
-                                    onPress={() => { navigation.push("Comments") }}
-                                >
-                                    <FontAwesome
-                                        name="star"
-                                        size={18}
-                                        color={"#D82227"}
-                                    />
-                                    <Text style={styles.ratingText}>4.2</Text>
-                                    <Text style={styles.reviewsText}>(455 {t("ORDER_SCREEN.REVIEWS")})</Text>
-                                </TouchableOpacity>
-                                <View style={styles.deliveryDetailsContainer}>
-                                    <View style={styles.rowAndCenter}>
-                                        {/* <Image
-                                style={styles.deliveryDetailIcon}
-                                source={Images.MARKER}
-                            /> */}
-                                        <Text style={styles.deliveryDetailText}>
-                                            {/* {getDistanceFromLatLonInKm(Number(userLocation.latitude), Number(userLocation.longitude), Number(item.Latitude), Number(item.Longitude))} km */}
-                                        </Text>
+                                <Text style={styles.tagText}>{restaurant.Category}</Text>
+                                <Text style={styles.addressText}>{restaurant.Address}</Text>
+                                <View style={styles.reviewAndLocation}>
+                                    <TouchableOpacity
+                                        style={styles.ratingReviewsContainer}
+                                        activeOpacity={0.1}
+                                        onPress={() => { navigation.push("Comments") }}
+                                    >
+                                        <FontAwesome
+                                            name="star"
+                                            size={18}
+                                            color={"#D82227"}
+                                        />
+                                        <Text style={styles.ratingText}>{restaurant.AvgPoint}</Text>
+                                        <Text style={styles.reviewsText}>({restaurant.CommentCount} {t("ORDER_SCREEN.REVIEWS")})</Text>
+                                    </TouchableOpacity>
+                                    <View style={styles.deliveryDetailsContainer}>
+                                        <View style={styles.rowAndCenter}>
+                                            <Text style={styles.deliveryDetailText}>
+                                                {Math.round(getDistanceFromLatLonInKm(Number(userLocation.latitude), Number(userLocation.longitude), Number(restaurant.Latitude), Number(restaurant.Longitude)))} km
+                                            </Text>
+                                            <Ionicons name="location-sharp" size={18} color={"#D82227"} />
+                                        </View>
                                     </View>
                                 </View>
                                 <View style={styles.categoriesContainer}>
@@ -274,6 +284,7 @@ const styles = StyleSheet.create({
         fontSize: 23,
         lineHeight: 23 * 1.4,
         color: Colors.DEFAULT_BLACK,
+        fontWeight: "bold"
     },
     tagText: {
         marginHorizontal: 25,
@@ -310,18 +321,21 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     deliveryDetailText: {
-        marginLeft: 3,
-        fontSize: 12,
-        lineHeight: 12 * 1.4,
+        marginLeft: 5,
+        fontSize: 13,
+        lineHeight: 13 * 1.4,
         color: Colors.DEFAULT_BLACK,
+        fontWeight: "bold",
     },
     deliveryDetailIcon: {
         height: 16,
         width: 16,
     },
     rowAndCenter: {
+        display: "flex",
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: "center"
     },
     restaurantType: {
         backgroundColor: Colors.LIGHT_YELLOW,
@@ -342,6 +356,18 @@ const styles = StyleSheet.create({
     foodList: {
         marginHorizontal: 15,
     },
+    reviewAndLocation: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between"
+    },
+    addressText: {
+        marginHorizontal: 25,
+        marginTop: 5,
+        fontSize: 13,
+        lineHeight: 13 * 1.4,
+        color: Colors.DEFAULT_GREY,
+    }
 });
 
 export default TestOrder;

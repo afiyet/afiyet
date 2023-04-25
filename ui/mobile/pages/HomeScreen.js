@@ -16,7 +16,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import Separator from '../components/home/Seperator';
 import RestaurantMediumCard from '../components/home/RestaurantMediumCard';
 import Campaign from '../components/home/Campaign';
-import { getRestaurants } from '../endpoints/order/orderEndpoints';
+import { getRestaurants } from '../endpoints';
 import { useSelector } from 'react-redux';
 import getDistanceFromLatLonInKm from '../components/home/DistanceCalculations';
 import { useTranslation } from 'react-i18next';
