@@ -61,6 +61,7 @@ export default function CommentsPage() {
         <View style={{ flex: 1 }}>
           <View style={{ paddingBottom: 120 }}>
             <FlatList
+              style={{height: 70}}
               contentContainerStyle={styles.flatListContainer}
               horizontal
               data={filterPoint}
