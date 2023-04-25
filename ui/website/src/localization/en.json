@@ -8,7 +8,13 @@
         "MENU_EDIT": "Edit Menu",
         "TABLES": "Tables",
         "REVIEWS": "Reviews",
-        "ORDERS": "Orders"
+        "ORDERS": "Orders",
+        "APPBAR_MENU": {
+            "PROFILE": "Profile",
+            "CHANGE_LANG": "Change Language",
+            "LOGOUT": "Logout",
+            "SETTINGS_TOOLTIP": "Settings"
+        }
     },
     "MENU_EDIT_PAGE": {
         "TITLE": "Menu",

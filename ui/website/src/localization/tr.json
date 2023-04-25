@@ -8,7 +8,13 @@
         "MENU_EDIT": "Menü Düzenleme",
         "TABLES": "Masalar",
         "REVIEWS": "Yorumlar",
-        "ORDERS": "Siparişler"
+        "ORDERS": "Siparişler",
+        "APPBAR_MENU": {
+            "PROFILE": "Profil",
+            "CHANGE_LANG": "Dil Değiştir",
+            "LOGOUT": "Çıkış Yap",
+            "SETTINGS_TOOLTIP": "Ayarlar"
+        }
     },
     "MENU_EDIT_PAGE": {
         "TITLE": "Menü",

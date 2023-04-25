@@ -51,7 +51,7 @@ export default function AppbarMenu() {
     return (
         <Box>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-                <Tooltip title="Account settings">
+                <Tooltip title={t("APPBAR.APPBAR_MENU.SETTINGS_TOOLTIP")}>
                     <IconButton
                         onClick={handleClick}
                         size="small"
@@ -103,21 +103,21 @@ export default function AppbarMenu() {
                     <ListItemIcon>
                         <Settings fontSize="small" />
                     </ListItemIcon>
-                    Profile
+                    {t("APPBAR.APPBAR_MENU.PROFILE")}
                 </MenuItem>
                 <Divider />
                 <MenuItem onClick={handleChangeLanguage}>
                     <ListItemIcon>
                         <LanguageIcon fontSize="small" />
                     </ListItemIcon>
-                    Change Language
+                    {t("APPBAR.APPBAR_MENU.CHANGE_LANG")}
                 </MenuItem>
                 <Divider />
                 <MenuItem onClick={handleLogout}>
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>
-                    Logout
+                    {t("APPBAR.APPBAR_MENU.LOGOUT")}
                 </MenuItem>
             </Menu>
         </Box>

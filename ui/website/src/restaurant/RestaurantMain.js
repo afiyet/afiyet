@@ -50,7 +50,7 @@ const RestaurantMain = () => {
   return (
     <Box style={styles.container}>
       <Box style={styles.contentContainer}>
-        <Typography style={styles.pageTitle} variant="h3">{t("MAIN_PAGE.TITLE")}</Typography>
+        <Typography style={styles.pageTitle} gutterBottom variant="h3">{t("MAIN_PAGE.TITLE")}</Typography>
         <Box style={styles.restaurantInfoTextFieldContainer}>
           <Box style={styles.imgAndTextFields}>
             <Box>
