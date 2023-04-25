@@ -64,6 +64,9 @@ func (s *RestaurantService) GetRestaurantAverageRating(id int) (float64, error) 
 
 func (s *RestaurantService) Signup(r model.Restaurant) (*model.Restaurant, error) {
 
+	if r.Mail == "" || r.Password == "" {
+		return nil, errors.New("Boş Değer")
+	}
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(r.Password), 4)
 	r.Password = string(hashedPassword[:])
 
