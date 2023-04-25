@@ -55,6 +55,22 @@ const RestaurantMain = () => {
           <Box style={styles.imgAndTextFields}>
             <Box>
               <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <Box style={styles.imageBox}>
+                    <Typography style={styles.pageTitle} gutterBottom variant="button">{t("MAIN_PAGE.RESTAURANT_PICTURE")}</Typography>
+                    <Button>
+                      <img src='https://images.deliveryhero.io/image/fd-tr/LH/wltj-hero.jpg?width=1600&height=400&quality=45' width={"100%"} height={350}/>
+                    </Button>
+                  </Box>
+                </Grid>
+                <Grid item xs={6}>
+                  <Box style={styles.imageBox}>
+                    <Typography style={styles.pageTitle} gutterBottom variant="button">{t("MAIN_PAGE.CAMPAIGN_PICTURE")}</Typography>
+                    <Button>
+                      <img src='https://iaaspr.tmgrup.com.tr/b1da05/0/0/0/0/0/0?u=https://iaspr.tmgrup.com.tr/2022/09/27/beyti-kebabi-nasil-yapilir-beyti-kebabi-tarifi-malzemeleri-yapilisi-ve-puf-noktalari-nedir-1664266814597.jpeg&mw=700' width={"100%"} height={350}/>
+                    </Button>
+                  </Box>
+                </Grid>
                 <Grid item xs={3}>
                   <TextField
                     fullWidth
@@ -87,14 +103,14 @@ const RestaurantMain = () => {
                   />
                 </Grid>
                 <Grid item xs={3}>
-                  <TextField
+                  <Button
                     fullWidth
-                    id="outlined-basic"
-                    label={t("MAIN_PAGE.PASSWORD")}
-                    variant="outlined"
-                    value={password}
-                    onChange={(e) => { setPassword(e.target.value) }}
-                  />
+                    size="large"
+                    variant="contained"
+                    style={{ height: "100%" }}
+                  >
+                    {t("MAIN_PAGE.CHANGE_PASSWORD")}
+                  </Button>
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
@@ -106,42 +122,33 @@ const RestaurantMain = () => {
                     onChange={(e) => { setAddress(e.target.value) }}
                   />
                 </Grid>
-                <Grid item xs={12}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                      <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                          <TextField
-                            fullWidth
-                            id="outlined-basic"
-                            label={t("MAIN_PAGE.LATITUDE")}
-                            variant="outlined"
-                            value={latitude}
-                            onChange={(e) => { setLatitude(e.target.value) }}
-                          />
-                        </Grid>
-                        <Grid item xs={12}>
-                          <TextField
-                            fullWidth
-                            id="outlined-basic"
-                            label={t("MAIN_PAGE.LONGITUDE")}
-                            variant="outlined"
-                            value={longitude}
-                            onChange={(e) => { setLongitude(e.target.value) }}
-                          />
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Button>
-                        <img src='https://images.deliveryhero.io/image/fd-tr/LH/wltj-hero.jpg?width=1600&height=400&quality=45' width={"100%"} />
-                      </Button>
-                    </Grid>
-                  </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    fullWidth
+                    id="outlined-basic"
+                    label={t("MAIN_PAGE.LATITUDE")}
+                    variant="outlined"
+                    value={latitude}
+                    onChange={(e) => { setLatitude(e.target.value) }}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    fullWidth
+                    id="outlined-basic"
+                    label={t("MAIN_PAGE.LONGITUDE")}
+                    variant="outlined"
+                    value={longitude}
+                    onChange={(e) => { setLongitude(e.target.value) }}
+                  />
                 </Grid>
                 <Grid item xs={12}>
-                  <Button variant='contained' fullWidth>
-                    Update
+                  <Button
+                    variant='contained'
+                    fullWidth
+                    style={{ height: "100%" }}
+                  >
+                    {t("MAIN_PAGE.UPDATE_BUTTON")}
                   </Button>
                 </Grid>
               </Grid>
@@ -202,6 +209,13 @@ const styles = {
   },
   imgAndTextFields: {
     paddingBottom: 20
+  },
+  imageBox: {
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: '#d82227',
+    borderRadius: '1vh',
+    padding: 20,
   }
 
 };
