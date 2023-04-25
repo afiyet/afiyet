@@ -17,6 +17,7 @@ const CommentBottomSheet = (props) => {
 
     useEffect(() => {
         if(isBottomSheetOpen){handlePresentModalPress();}
+        if(!isBottomSheetOpen){handleClose();}
     }, [isBottomSheetOpen]);
 
   // ref
@@ -29,6 +30,11 @@ const CommentBottomSheet = (props) => {
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
+
+  const handleClose = useCallback(() => {
+    bottomSheetModalRef.current?.close();
+  }, []);
+
   const handleSheetChanges = useCallback((index) => {
     console.log('handleSheetChanges', index);
   }, []);
@@ -51,7 +57,8 @@ const CommentBottomSheet = (props) => {
           
         >
           <View style={styles.contentContainer}>
-            <AddComment 
+            <AddComment
+              setIsBottomSheetOpen={setIsBottomSheetOpen}
             />
           </View>
         </BottomSheetModal>

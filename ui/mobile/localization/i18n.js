@@ -16,7 +16,7 @@ i18n
     .use(initReactI18next) // bind react-i18next to the instance
     .init({
         compatibilityJSON: 'v3',
-        lng: 'tr',
+        lng: 'en',
         fallbackLng: 'en',
         resources,
         interpolation: {

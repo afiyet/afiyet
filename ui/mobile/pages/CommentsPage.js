@@ -9,6 +9,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { LinearGradient } from 'expo-linear-gradient';
 import CommentBottomSheet from '../components/comment/CommentBottomSheet';
+import { useTranslation } from 'react-i18next';
 
 export default function CommentsPage() {
 
@@ -18,6 +19,8 @@ export default function CommentsPage() {
   const [filterPoint, setFilterPoint] = useState(["5", "4", "3", "2", "1"]);
   const [selectedFilter, setSelectedFilter] = useState("");
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+  const {t, i18n} = useTranslation();
+
 
   useEffect(() => {
     setWaiting(false);
@@ -98,7 +101,7 @@ export default function CommentsPage() {
             >
               <Text style={[styles.textAddComment, {
                 color: '#fff'
-              }]}>Yorum ekle</Text>
+              }]}>{t("COMMENT_SCREEN.ADD_COMMENT_BUTTON")}</Text>
             </LinearGradient>
           </TouchableOpacity>
           <CommentBottomSheet

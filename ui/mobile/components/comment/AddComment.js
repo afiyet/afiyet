@@ -5,8 +5,9 @@ import { useState } from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { LinearGradient } from 'expo-linear-gradient';
 import { addCommentToRestaurant } from '../../endpoints';
+import { useTranslation } from 'react-i18next';
 
-export default function AddComment() {
+export default function AddComment(props) {
 
     const FilterItem = ({ point }) => {
         return (
@@ -27,11 +28,16 @@ export default function AddComment() {
         );
     }
 
+    const {
+        setIsBottomSheetOpen
+    } = props;
+
     const userId = useSelector(state => state.userState.userId);
     const restaurantId = useSelector(state => state.orderState.restaurantId);
     const [comment, setComment] = useState("");
     const [filterPoint, setFilterPoint] = useState(["5", "4", "3", "2", "1"]);
     const [selectedFilter, setSelectedFilter] = useState("");
+    const {t, i18n} = useTranslation();
 
     function handleSendComment() {
         if (selectedFilter !== "" && comment.length > 0) {
@@ -46,6 +52,7 @@ export default function AddComment() {
                 .then((res) => {
                     //snackbar success
                     console.log(res);
+                    setIsBottomSheetOpen(false);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -59,7 +66,7 @@ export default function AddComment() {
     return (
         <View style={{ flex: 1 }}>
             <View style={styles.titleContainer}>
-                <Text style={styles.titleText}>Deneyiminizi paylaşın!</Text>
+                <Text style={styles.titleText}>{t("COMMENT_SCREEN.BOTTOM_SHEET_TITLE")}</Text>
             </View>
 
             <View style={{ height: 60 }}>
@@ -79,7 +86,7 @@ export default function AddComment() {
                     editable
                     multiline
                     textAlignVertical='top'
-                    placeholder={"Yorumunuz..."}
+                    placeholder={t("COMMENT_SCREEN.TEXT_INPUT_PLACEHOLDER")}
                     numberOfLines={4}
                     maxLength={200}
                     onChangeText={text => setComment(text)}
@@ -98,7 +105,7 @@ export default function AddComment() {
                 >
                     <Text style={[styles.textAddComment, {
                         color: '#fff'
-                    }]}>Gönder</Text>
+                    }]}>{t("COMMENT_SCREEN.SEND_BUTTON")}</Text>
                 </LinearGradient>
             </TouchableOpacity>
         </View>
