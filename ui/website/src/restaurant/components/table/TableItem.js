@@ -30,7 +30,7 @@ export default function TableItem(props) {
                     <Box ref={qrRef}>
                         <QRCodeCanvas
                             id="qrCode"
-                            value={restaurant.restaurantId + ":" + item.name}
+                            value={restaurant.restaurantId + ":" + item.ID}
                             size={200}
                             bgColor={"#ffffff"}
                             level={"H"}
