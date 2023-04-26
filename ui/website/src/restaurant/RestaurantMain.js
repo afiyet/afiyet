@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import { useEffect, useState, useId } from "react";
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import MapLeaflet from './components/main/MapLeaflet';
+import MapLeaflet from './components/mainPage/MapLeaflet';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { toBase64 } from '../util';
 import { getRestaurantInfo, updateRestaurantInfo } from '../endpoints';
