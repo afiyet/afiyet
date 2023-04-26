@@ -3,7 +3,7 @@ import { getTables, deleteTable, renameTable, addTable } from "./tables/tablesEn
 import { login } from "./login/loginEndpoints";
 import { addMenuItem, deleteMenuItem, getRestaurantMenu, updateMenuItem } from "./menu/menuEndpoints";
 import { getComments } from "./comments/commentEndpoints";
-import { updateRestaurantInfo, getRestaurantInfo } from "./main/mainPageEndpoints";
+import { updateRestaurantInfo, getRestaurantInfo } from "./mainPage/mainPageEndpoints";
  
 export {
     axiosClient,
