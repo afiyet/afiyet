@@ -1,8 +1,6 @@
 package handlers
 
 import (
-	"net/http"
-
 	"github.com/afiyet/afiytet/api/service"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
@@ -39,14 +37,6 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) error {
 		orderService: orderHandler.s,
 		userService:  userHandler.s,
 	}
-
-	e.GET("/ping", func(c echo.Context) error {
-		return c.String(http.StatusOK, "pong")
-	})
-
-	e.GET("/health", func(c echo.Context) error {
-		return c.String(http.StatusOK, "oke")
-	})
 
 	e.POST("/users", userHandler.Add)
 	e.DELETE("/users/:id", userHandler.Delete)
