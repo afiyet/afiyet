@@ -33,5 +33,5 @@ jobs:
           cd api/cmd/afiyet
           go mod tidy
           GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o main
-          scp main $USER@$HOST:/home/ubuntu/old/main
-          ssh $USER@$HOST /home/ubuntu/deploy.sh
+          scp main $USER@$HOST:/home/ubuntu/app/new
+          ssh $USER@$HOST /home/ubuntu/app/deploy.sh
