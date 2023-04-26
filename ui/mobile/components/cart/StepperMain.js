@@ -68,16 +68,21 @@ export default function StepperMain() {
 
     let payload = {
       buyerID: userState.userId,
-      restaurantID: orderState.restaurantId,
+      restaurantID: ""+orderState.restaurantId,
       tableID: orderState.tableId,
       basketItems: orderState.orderedItems
     }
 
+    console.log("on confirm order clicked: ");
+    console.log(payload);
+
     initializePayment(payload)
       .then((res) => {
+        console.log("initialize payment: ");
         console.log(res);
         getWebViewUrlFromAWS(res.data)
           .then((response) => {
+            console.log("iyzico from aws:");
             console.log(response);
             setWebViewURL(response.data.paymentPageUrl);
             setToken(response.data.token);
