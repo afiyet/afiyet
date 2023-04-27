@@ -63,3 +63,5 @@ packages/react-devtools-timeline/dist
 #Custom 
 api/cmd/afiyet/.env
 main
+.env
+afiyet-prod-ssh.cer

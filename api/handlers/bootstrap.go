@@ -39,6 +39,10 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) error {
 		orderDishService: service.NewOrderDishService(db),
 	}
 
+	campaignHandler := CampaignHandler{
+		s: service.NewCampaignService(db, aws),
+	}
+
 	e.POST("/users", userHandler.Add)
 	e.DELETE("/users/:id", userHandler.Delete)
 	e.GET("/users/:id", userHandler.Get)
@@ -88,6 +92,12 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) error {
 	e.POST("/restaurants/orderPayment", PaymentHandler.CreatePaymentWithForm)
 	e.POST("/restaurants/setOrderResult", PaymentHandler.SetPaymentResult)
 	e.POST("/restaurants/orderCallback", PaymentHandler.PaymentCallBackURL)
+
+	e.POST("/campaigns", campaignHandler.Add)
+	e.DELETE("/campaigns/:id", campaignHandler.Delete)
+	e.GET("/campaigns/:id", campaignHandler.Get)
+	e.GET("/campaigns", campaignHandler.List)
+	e.PUT("/campaigns/:id", campaignHandler.Update)
 
 	return nil
 }
