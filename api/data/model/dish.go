@@ -20,4 +20,5 @@ type Dish struct {
 	Price        float32        `json:"price,omitempty" json:"price"`
 	OrderDishes  []OrderDish    `gorm:"-" json:"dishes"`
 	Picture      string         `json:"picture"`
+	IsDisabled   bool           `gorm:"default: false"`
 }
