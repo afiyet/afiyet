@@ -6,13 +6,13 @@ import (
 )
 
 type OrderDishRepository struct {
-	GenericRepository[model.Dish]
+	GenericRepository[model.OrderDish]
 	db *gorm.DB
 }
 
 func NewOrderDishRepository(db *gorm.DB) OrderDishRepository {
 	odr := OrderDishRepository{
-		GenericRepository: NewGenericRepository[model.Dish](db),
+		GenericRepository: NewGenericRepository[model.OrderDish](db),
 		db:                db,
 	}
 

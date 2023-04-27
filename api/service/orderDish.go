@@ -7,22 +7,22 @@ import (
 )
 
 type OrderDishService struct {
-	r repo.OrderRepository
+	r repo.OrderDishRepository
 }
 
 func NewOrderDishService(db *gorm.DB) *OrderDishService {
-	return &OrderDishService{r: repo.NewOrderRepository(db)}
+	return &OrderDishService{r: repo.NewOrderDishRepository(db)}
 }
 
-func (s *OrderDishService) Add(o model.Order) (*model.Order, error) {
+func (s *OrderDishService) Add(o model.OrderDish) (*model.OrderDish, error) {
 	return s.r.Add(o)
 }
 
-func (s *OrderDishService) Get(id int) (*model.Order, error) {
+func (s *OrderDishService) Get(id int) (*model.OrderDish, error) {
 	return s.r.Get(id)
 }
 
-func (s *OrderDishService) List() ([]model.Order, error) {
+func (s *OrderDishService) List() ([]model.OrderDish, error) {
 	return s.r.List()
 }
 

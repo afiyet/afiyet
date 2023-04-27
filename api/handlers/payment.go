@@ -13,8 +13,9 @@ import (
 )
 
 type PaymentHandler struct {
-	orderService *service.OrderService
-	userService  *service.UserService
+	orderService     *service.OrderService
+	userService      *service.UserService
+	orderDishService *service.OrderDishService
 }
 
 type paymentRequest struct {
@@ -60,7 +61,7 @@ func (h *PaymentHandler) CreatePaymentWithForm(c echo.Context) error {
 
 	for i := 0; i < len(rbind.BasketItems); i++ {
 		temp := model.OrderDish{
-			DishId: string(rbind.BasketItems[i].ID),
+			DishId: strconv.Itoa(int(rbind.BasketItems[i].ID)),
 		}
 		orderDishes = append(orderDishes, temp)
 	}
@@ -76,11 +77,22 @@ func (h *PaymentHandler) CreatePaymentWithForm(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
+	for i := 0; i < len(orderDishes); i++ {
+		orderDishes[i].OrderId = strconv.Itoa(int(order.ID))
+	}
+
+	for i := 0; i < len(orderDishes); i++ {
+		_, err := h.orderDishService.Add(orderDishes[i])
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, err.Error())
+		}
+	}
+
 	buyer, _ := h.userService.Get(rbind.BuyerID)
 
 	resp := fmt.Sprintf("{") +
 		fmt.Sprintf("%q:%q,", "conversationId", strconv.FormatUint(uint64(order.ID), 10)) +
-		fmt.Sprintf("%q:%q,", "callbackUrl", "http://3.70.155.6/restaurants/orderCallback") +
+		fmt.Sprintf("%q:%q,", "callbackUrl", "http://52.57.220.100/restaurants/orderCallback") +
 		fmt.Sprintf("%q:%q,", "price", getPrice(rbind.BasketItems)) +
 		fmt.Sprintf("%q:%q,", "paidPrice", getPrice(rbind.BasketItems)) +
 		fmt.Sprintf("%q:%q,", "currency", "TRY") +

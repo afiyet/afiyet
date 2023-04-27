@@ -34,8 +34,9 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) error {
 		s: service.NewLocationService(db),
 	}
 	PaymentHandler := PaymentHandler{
-		orderService: orderHandler.s,
-		userService:  userHandler.s,
+		orderService:     orderHandler.s,
+		userService:      userHandler.s,
+		orderDishService: service.NewOrderDishService(db),
 	}
 
 	e.POST("/users", userHandler.Add)
