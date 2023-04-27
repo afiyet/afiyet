@@ -15,8 +15,9 @@ type Dish struct {
 	RestaurantId string         `json:"restaurantId"`
 	Restaurant   Restaurant     `gorm:"foreignKey:RestaurantId" json:"restaurant,omitempty"`
 	Name         string         `json:"name,omitempty" json:"name"`
-	Category     string         `json:"category,omitempty" json:"category"`
+	Category     string         `json:"category"`
 	Ingredients  pq.StringArray `gorm:"type:text[]" json:"ingredients"`
 	Price        float32        `json:"price,omitempty" json:"price"`
 	OrderDishes  []OrderDish    `gorm:"-" json:"dishes"`
+	Picture      string         `json:"picture"`
 }

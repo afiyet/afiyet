@@ -3,6 +3,7 @@ package repo
 import (
 	"github.com/afiyet/afiytet/api/data/model"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type RestaurantRepository struct {
@@ -32,7 +33,7 @@ func (r RestaurantRepository) GetDishes(id int) ([]model.Dish, error) {
 
 func (rr RestaurantRepository) GetRatings(id int) ([]model.Rating, error) {
 	var rs []model.Rating
-	err := rr.db.Where("id=", id).Find(&rs).Error
+	err := rr.db.Preload("User").Preload(clause.Associations).Where("restaurant_id", id).Find(&rs).Error
 
 	if err != nil {
 		return nil, err
@@ -65,7 +66,7 @@ func (rr RestaurantRepository) GetTables(id int) ([]model.Table, error) {
 
 func (rr RestaurantRepository) GetRestaurantAverageRating(id int) (float64, error) {
 	var avg float64
-	row := rr.db.Table("ratings").Where("restaurant = ?", id).Select("avg(point)").Row()
+	row := rr.db.Table("ratings").Where("restaurant_id = ?", id).Select("avg(point)").Row()
 	err := row.Scan(&avg)
 
 	if err != nil {
@@ -89,8 +90,7 @@ func (ur RestaurantRepository) GetRestaurantLoginInfo(mail string) (*model.Resta
 func (ur RestaurantRepository) Search(str string) ([]model.LocationQuery, error) {
 
 	var ds []model.LocationQuery
-	ur.db.Raw("select * from get_search_with_ratings('"+str+"')").Scan(&ds)
-	
+	ur.db.Raw("select * from get_search_with_ratings('" + str + "')").Scan(&ds)
 
 	return ds, nil
 }

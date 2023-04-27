@@ -11,6 +11,7 @@ import (
 )
 
 type OrderDishHandler struct {
+	// TODO(umutcil) ?
 	s *service.DishService
 }
 
@@ -22,7 +23,7 @@ func (h *OrderDishHandler) Add(c echo.Context) error {
 		return err
 	}
 
-	d, err := h.s.Add(dbind)
+	d, err := h.s.Add(dbind, "") // TODO(umutcil)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -86,7 +87,7 @@ func (h *OrderDishHandler) Update(c echo.Context) error {
 	}
 	dbind.ID = uint(id)
 
-	d, err := h.s.Update(dbind)
+	d, err := h.s.Update(dbind, false, "") // TOOD(umutcil)
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())

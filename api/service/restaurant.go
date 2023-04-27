@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"strings"
 
 	"github.com/afiyet/afiytet/api/data/model"
 	"github.com/afiyet/afiytet/api/data/repo"
@@ -18,6 +19,10 @@ func NewRestaurantService(db *gorm.DB) *RestaurantService {
 }
 
 func (s *RestaurantService) Add(r model.Restaurant) (*model.Restaurant, error) {
+	if strings.Contains(r.Picture, "http") {
+		return nil, errors.New("picture url should not contain protocol (http/https) give relative url")
+	}
+
 	return s.r.Add(r)
 }
 
@@ -59,6 +64,9 @@ func (s *RestaurantService) GetRestaurantAverageRating(id int) (float64, error) 
 
 func (s *RestaurantService) Signup(r model.Restaurant) (*model.Restaurant, error) {
 
+	if r.Mail == "" || r.Password == "" {
+		return nil, errors.New("Boş Değer")
+	}
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(r.Password), 4)
 	r.Password = string(hashedPassword[:])
 

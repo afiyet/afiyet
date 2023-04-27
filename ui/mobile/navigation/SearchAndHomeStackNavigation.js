@@ -18,7 +18,11 @@ export default function SearchAndHomeStackNavigation() {
                     {() => { return <HomeScreen /> }}
                 </NativeStack.Screen>
             </NativeStack.Group>
-            <NativeStack.Group>
+            <NativeStack.Group
+                screenOptions={{
+                    presentation: 'modal',
+                    headerShown: false
+                }}>
                 <NativeStack.Screen name="Search">
                     {() => { return <SearchScreen /> }}
                 </NativeStack.Screen>

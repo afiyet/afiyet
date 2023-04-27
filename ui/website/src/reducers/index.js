@@ -1,6 +1,8 @@
 import { combineReducers } from "redux";
-import UserReducer from "./UserReducer";
+import RestaurantReducer from "./RestaurantReducer";
+import MenuReducer from "./MenuReducer";
 
 export default combineReducers({
-    userState: UserReducer
+    restaurantState: RestaurantReducer,
+    menuState: MenuReducer,
 });

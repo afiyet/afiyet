@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
-
 import Onboarding from 'react-native-onboarding-swiper';
-import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { GeneralActions } from '../../actions';
+import { useTranslation } from 'react-i18next';
 
 const Dots = ({ selected }) => {
     let backgroundColor;
@@ -21,36 +22,51 @@ const Dots = ({ selected }) => {
     );
 }
 
-const Skip = ({ ...props }) => (
-    <TouchableOpacity
-        style={{ marginHorizontal: 10 }}
-        {...props}
-    >
+const Skip = ({ ...props }) => {
+    const { t, i18n } = useTranslation();
 
-    </TouchableOpacity>
-);
+    return (
+        <TouchableOpacity
+            style={{ marginHorizontal: 10 }}
+            {...props}
+        >
+            <Text style={{ fontSize: 16, fontWeight: "bold" }}>{t("ONBOARDING_SKIP")}</Text>
+        </TouchableOpacity>
+    );
+}
 
-const Next = ({ ...props }) => (
-    <TouchableOpacity
-        style={{ marginHorizontal: 10 }}
-        {...props}
-    >
-        <Text style={{ fontSize: 16 }}>Next</Text>
-    </TouchableOpacity>
-);
 
-const Done = ({ ...props }) => (
-    <TouchableOpacity
-        style={{ marginHorizontal: 10 }}
-        {...props}
-    >
-        <Text style={{ fontSize: 16 }}>Done</Text>
-    </TouchableOpacity>
-);
+const Next = ({ ...props }) => {
+    const { t, i18n } = useTranslation();
+
+    return (
+        <TouchableOpacity
+            style={{ marginHorizontal: 10 }}
+            {...props}
+        >
+            <Text style={{ fontSize: 16, fontWeight: "bold" }}>{t("ONBOARDING_NEXT")}</Text>
+        </TouchableOpacity>
+    );
+}
+
+
+const Done = ({ ...props }) => {
+    const { t, i18n } = useTranslation();
+
+    return (
+        <TouchableOpacity
+            style={{ marginHorizontal: 10 }}
+            {...props}
+        >
+            <Text style={{ fontSize: 16, fontWeight: "bold" }}>{t("ONBOARDING_DONE")}</Text>
+        </TouchableOpacity>
+    );
+}
+
 
 const OnboardingScreen = () => {
-
-    const navigation = useNavigation();
+    const dispatch = useDispatch();
+    const { t, i18n } = useTranslation();
 
     return (
         <View style={styles.container}>
@@ -60,8 +76,10 @@ const OnboardingScreen = () => {
                 NextButtonComponent={Next}
                 DoneButtonComponent={Done}
                 DotComponent={Dots}
-                onSkip={() => navigation.replace("Login")}
-                onDone={() => navigation.navigate("LoginScreen")}
+                onSkip={() => { dispatch(GeneralActions.setOnboarded(true)); }}
+                onDone={() => { dispatch(GeneralActions.setOnboarded(true)); }}
+                titleStyles={{ fontWeight: "bold" }}
+                subTitleStyles={{ width: 300, fontWeight: "bold" }}
                 pages={[
                     {
                         backgroundColor: '#d82227',
@@ -73,8 +91,8 @@ const OnboardingScreen = () => {
                                 marginTop: -50,
                             }}
                             source={require("../../assets/onboarding/undraw_map.png")} />,
-                        title: 'Discover places near you',
-                        subtitle: 'We make it simple for you to find restaurants around you',
+                        title: t("ONBOARDING_1_TITLE"),
+                        subtitle: t("ONBOARDING_1_TEXT"),
                     },
                     {
                         backgroundColor: '#d82227',
@@ -86,14 +104,47 @@ const OnboardingScreen = () => {
                                 marginTop: -50,
                             }}
                             source={require("../../assets/onboarding/undraw_review.png")} />,
-                        title: 'Share Your Favorites',
-                        subtitle: 'Share Your Thoughts With Similar Kind of Peodsadasdasdasdasdasdasple',
+                        title: t("ONBOARDING_2_TITLE"),
+                        subtitle: t("ONBOARDING_2_TEXT"),
                     },
                     {
                         backgroundColor: '#d82227',
-                        //image: <Image source={require('../assets/onboarding-img3.png')} />,
-                        title: 'Become The Star',
-                        subtitle: "Let The Spot Light Capture You",
+                        image: <Image
+                            style={{
+                                resizeMode: 'contain',
+                                height: 300,
+                                width: 400,
+                                marginTop: -50,
+                            }}
+                            source={require("../../assets/onboarding/undraw_online_groceries.png")} />,
+                        title: t("ONBOARDING_3_TITLE"),
+                        subtitle: t("ONBOARDING_3_TEXT"),
+                    },
+                    {
+                        backgroundColor: '#d82227',
+                        image: <Image
+                            style={{
+                                resizeMode: 'contain',
+                                height: 300,
+                                width: 400,
+                                marginTop: -50,
+                            }}
+                            source={require("../../assets/onboarding/undraw_Mobile_pay.png")} />,
+                        title: t("ONBOARDING_4_TITLE"),
+                        subtitle: t("ONBOARDING_4_TEXT"),
+                    },
+                    {
+                        backgroundColor: '#d82227',
+                        image: <Image
+                            style={{
+                                resizeMode: 'contain',
+                                height: 300,
+                                width: 400,
+                                marginTop: -50,
+                            }}
+                            source={require("../../assets/onboarding/undraw_Eating_together.png")} />,
+                        title: t("ONBOARDING_5_TITLE"),
+                        subtitle: t("ONBOARDING_5_TEXT"),
                     },
                 ]}
             />
