@@ -35,5 +35,5 @@ type Order struct {
 	Table        Table          `gorm:"foreignKey:TableId" json:"table,omitempty"`
 	RestaurantId string         `json:"restaurantId"`
 	Restaurant   Restaurant     `gorm:"foreignKey:RestaurantId" json:"restaurant,omitempty"`
-	Status       Status         `gorm:"type:status;default:'IN_PROGRESS'"`
+	Status       string         `gorm:"type:status;default:'IN_PROGRESS'"`
 }
