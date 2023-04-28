@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState, useId } from "react";
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -26,6 +26,7 @@ const RestaurantMain = () => {
 
   const restaurantState = useSelector(state => state.restaurantState);
   const { t, i18n } = useTranslation();
+  const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [category, setCategory] = useState("");
@@ -86,8 +87,7 @@ const RestaurantMain = () => {
         //snackbar
         getRestaurantInfo(restaurantState.restaurantId)
           .then((res) => {
-            console.log(res);
-            RestaurantActions.setRestaurant(res.data);
+            dispatch(RestaurantActions.setRestaurant(res.data));
           })
           .catch((err) => {
             console.log(err);
