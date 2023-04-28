@@ -23,7 +23,7 @@ export default function CommentItem(props) {
                             <Typography variant="h4" component="div">{userFullName}</Typography>
                             <Rating value={point} readOnly />
                         </Box>
-                        <Typography gutterBottom variant="button" component="div" color="text.secondary">{date}</Typography>
+                        <Typography gutterBottom variant="button" component="div" color="text.secondary">{new Intl.DateTimeFormat("en-GB").format(new Date(date))}</Typography>
                         <Typography variant="body1" color="text.secondary">{comment}</Typography>
                     </CardContent>
                 </CardActionArea>

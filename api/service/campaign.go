@@ -61,11 +61,11 @@ func (s *CampaignService) Delete(id int) error {
 }
 
 func (s *CampaignService) Get(id int) (*model.Campaign, error) {
-	return s.r.Get(id)
+	return s.r.PreloadedGet(id)
 }
 
 func (s *CampaignService) List() ([]model.Campaign, error) {
-	return s.r.List()
+	return s.r.PreloadedList()
 }
 
 func getCampaignS3Key(extension string) string {

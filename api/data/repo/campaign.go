@@ -1,8 +1,10 @@
 package repo
 
 import (
+	"errors"
 	"github.com/afiyet/afiytet/api/data/model"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type CampaignRepository struct {
@@ -17,4 +19,30 @@ func NewCampaignRepository(db *gorm.DB) CampaignRepository {
 	}
 
 	return cr
+}
+
+func (cr CampaignRepository) PreloadedList() ([]model.Campaign, error) {
+	var rs []model.Campaign
+	err := cr.db.Preload("Restaurant").Preload(clause.Associations).Find(&rs).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return rs, nil
+}
+
+func (cr CampaignRepository) PreloadedGet(id int) (*model.Campaign, error) {
+	var c model.Campaign
+	err := cr.db.Preload("Restaurant").Preload(clause.Associations).Where("restaurant_id", id).Find(&c).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	if c.ID == 0 {
+		return nil, errors.New("record not found")
+	}
+
+	return &c, nil
 }

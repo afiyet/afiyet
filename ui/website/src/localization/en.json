@@ -39,7 +39,8 @@
             "DISH_INGREDIENTS": "Dish Ingredients",
             "DISH_PRICE": "Dish Price",
             "CANCEL_BUTTON": "Cancel",
-            "ADD_BUTTON": "Add"
+            "ADD_BUTTON": "Add",
+            "UPLOAD_IMAGE_BUTTON": "Upload Image"
         }
     },
     "TABLES_PAGE": {
@@ -75,11 +76,14 @@
         "ADDRESS": "Restaurant Address",
         "CATEGORY": "Restaurant Category",
         "LOCATION": "Restaurant Location",
-        "PASSWORD": "Restaurant Password",
+        "CHANGE_PASSWORD": "Change Password",
         "MAIL": "Restaurant email",
         "PICTURE": "Photo",
         "LATITUDE": "Latitude",
-        "LONGITUDE": "Longitude"
+        "LONGITUDE": "Longitude",
+        "UPDATE_BUTTON": "Update",
+        "RESTAURANT_PICTURE": "Restaurant Picture",
+        "CAMPAIGN_PICTURE": "Campaign Picture"
     },
     "SNACKBAR": {
         "LOCATION_ERROR": "Location Info Error!",

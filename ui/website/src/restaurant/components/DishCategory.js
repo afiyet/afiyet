@@ -133,7 +133,7 @@ const DishCategory = (props) => {
 						startIcon={<ImageIcon />}
 						sx={{ marginRight: "1rem", marginTop: "1rem" }}
 					>
-						Upload Image
+						{t("MENU_EDIT_PAGE.DISH_DIALOG.UPLOAD_IMAGE_BUTTON")}
 						<input id={id} type="file" accept="image/png, image/gif, image/jpeg" hidden onChange={handlePicture} />
 					</Button>
 				</DialogContent>

@@ -1,8 +1,13 @@
 import { useSelector } from 'react-redux';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useId } from "react";
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import MapLeaflet from './components/main/MapLeaflet';
+import MapLeaflet from './components/mainPage/MapLeaflet';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import { toBase64 } from '../util';
+import { getRestaurantInfo, updateRestaurantInfo } from '../endpoints';
+import { RestaurantActions } from '../actions';
+import {postCampaign} from "../endpoints/mainPage/mainPageEndpoints";
 
 const RestaurantMain = () => {
   /**
@@ -28,8 +33,11 @@ const RestaurantMain = () => {
   const [password, setPassword] = useState("");
   const [mail, setMail] = useState("");
   const [picture, setPicture] = useState("");
+  const [campaignPicture, setCampaignPicture] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
+  const id = useId();
+  const [pictureBase64, setPictureBase64] = useState("");
 
   function handleRestaurantStateChange() {
     setName(restaurantState.name);
@@ -46,6 +54,60 @@ const RestaurantMain = () => {
     handleRestaurantStateChange();
   }, [restaurantState])
 
+  async function handlePicture() {
+    let file = document.getElementById(id).files[0];
+    const b64 = await toBase64(file);
+    setPictureBase64(b64);
+  }
+
+  async function handleCampaignPicture() {
+    let file = document.getElementById(id+"campaign").files[0];
+    const b64 = await toBase64(file);
+    setCampaignPicture(b64);
+  }
+
+  function handleClickUpdate() {
+    let payload = {
+      name: name,
+      address: address,
+      category: category,
+      //password: "",
+      mail: mail,
+      picture: pictureBase64 || picture,
+      latitude: latitude,
+      longitude: longitude
+    }
+
+    let campaignPayload = {
+      restaurantId:restaurantState.restaurantId.toString(),
+      picture: campaignPicture,
+    };
+    console.log("umut", {campaignPayload})
+
+    postCampaign(campaignPayload)
+        .then(res => {
+          console.log("postCampaign: ", res)
+          setCampaignPicture(res.data.picture)
+        })
+        .catch(err => console.log("postCampaign: ", err))
+
+    updateRestaurantInfo(restaurantState.restaurantId, payload)
+      .then((res) => {
+        //snackbar
+        getRestaurantInfo(restaurantState.restaurantId)
+          .then((res) => {
+            console.log(res);
+            RestaurantActions.setRestaurant(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+      })
+      .catch((err) => {
+        console.log(err);
+        //snackbar
+      })
+  }
 
   return (
     <Box style={styles.container}>
@@ -55,6 +117,40 @@ const RestaurantMain = () => {
           <Box style={styles.imgAndTextFields}>
             <Box>
               <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <Box style={styles.imageBox}>
+                    <Typography style={styles.pageTitle} gutterBottom variant="button">{t("MAIN_PAGE.RESTAURANT_PICTURE")}</Typography>
+                    <Button
+                      component="label"
+                      variant="text"
+                      style={{ minHeight: 350 }}
+                    >
+                      {(picture !== "" || pictureBase64 !== "") ?
+                        <img height={350} width={"100%"} src={pictureBase64 || picture} style={styles.t} />
+                        :
+                        <AddAPhotoIcon style={styles.t} sx={{ margin: 0 }} />
+                      }
+                      <input id={id} type="file" accept="image/png, image/gif, image/jpeg" hidden onChange={handlePicture} />
+                    </Button>
+                  </Box>
+                </Grid>
+                <Grid item xs={6}>
+                  <Box style={styles.imageBox}>
+                    <Typography style={styles.pageTitle} gutterBottom variant="button">{t("MAIN_PAGE.CAMPAIGN_PICTURE")}</Typography>
+                    <Button
+                        component="label"
+                        variant="text"
+                        style={{ minHeight: 350 }}
+                    >
+                      {(campaignPicture !== "") ?
+                          <img height={350} width={"100%"} src={campaignPicture} style={styles.t} />
+                          :
+                          <AddAPhotoIcon style={styles.t} sx={{ margin: 0 }} />
+                      }
+                      <input id={id+"campaign"} type="file" accept="image/png, image/gif, image/jpeg" hidden onChange={handleCampaignPicture} />
+                    </Button>
+                  </Box>
+                </Grid>
                 <Grid item xs={3}>
                   <TextField
                     fullWidth
@@ -87,14 +183,14 @@ const RestaurantMain = () => {
                   />
                 </Grid>
                 <Grid item xs={3}>
-                  <TextField
+                  <Button
                     fullWidth
-                    id="outlined-basic"
-                    label={t("MAIN_PAGE.PASSWORD")}
-                    variant="outlined"
-                    value={password}
-                    onChange={(e) => { setPassword(e.target.value) }}
-                  />
+                    size="large"
+                    variant="contained"
+                    style={{ height: "100%" }}
+                  >
+                    {t("MAIN_PAGE.CHANGE_PASSWORD")}
+                  </Button>
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
@@ -106,42 +202,34 @@ const RestaurantMain = () => {
                     onChange={(e) => { setAddress(e.target.value) }}
                   />
                 </Grid>
-                <Grid item xs={12}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                      <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                          <TextField
-                            fullWidth
-                            id="outlined-basic"
-                            label={t("MAIN_PAGE.LATITUDE")}
-                            variant="outlined"
-                            value={latitude}
-                            onChange={(e) => { setLatitude(e.target.value) }}
-                          />
-                        </Grid>
-                        <Grid item xs={12}>
-                          <TextField
-                            fullWidth
-                            id="outlined-basic"
-                            label={t("MAIN_PAGE.LONGITUDE")}
-                            variant="outlined"
-                            value={longitude}
-                            onChange={(e) => { setLongitude(e.target.value) }}
-                          />
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Button>
-                        <img src='https://images.deliveryhero.io/image/fd-tr/LH/wltj-hero.jpg?width=1600&height=400&quality=45' width={"100%"} />
-                      </Button>
-                    </Grid>
-                  </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    fullWidth
+                    id="outlined-basic"
+                    label={t("MAIN_PAGE.LATITUDE")}
+                    variant="outlined"
+                    value={latitude}
+                    onChange={(e) => { setLatitude(e.target.value) }}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    fullWidth
+                    id="outlined-basic"
+                    label={t("MAIN_PAGE.LONGITUDE")}
+                    variant="outlined"
+                    value={longitude}
+                    onChange={(e) => { setLongitude(e.target.value) }}
+                  />
                 </Grid>
                 <Grid item xs={12}>
-                  <Button variant='contained' fullWidth>
-                    Update
+                  <Button
+                    variant='contained'
+                    fullWidth
+                    style={{ height: "100%" }}
+                    onClick={handleClickUpdate}
+                  >
+                    {t("MAIN_PAGE.UPDATE_BUTTON")}
                   </Button>
                 </Grid>
               </Grid>
@@ -202,6 +290,13 @@ const styles = {
   },
   imgAndTextFields: {
     paddingBottom: 20
+  },
+  imageBox: {
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: '#d82227',
+    borderRadius: '1vh',
+    padding: 20,
   }
 
 };

@@ -101,11 +101,12 @@ const EditMenu = () => {
 				<Box style={styles.menuContainer}>
 					<Box style={styles.menu}>
 						<Box style={styles.menuHeader}>
-							<Typography variant="h3" gutterBottom style={styles.menuTypography}>{t("MENU_EDIT_PAGE.TITLE")}</Typography>
+							<Typography variant="h3" style={styles.menuTypography}>{t("MENU_EDIT_PAGE.TITLE")}</Typography>
 							<Button
 								variant="contained"
 								className="menu-add-button"
 								onClick={handleCategoryDialogOpen}
+								style={{height: "100%"}}
 							>
 								{t("MENU_EDIT_PAGE.ADD_CATEGORY_BUTTON")}
 							</Button>
@@ -154,9 +155,10 @@ let styles = {
 	},
 	menuHeader: {
 		display: 'flex',
-		marginLeft: '1.3vw',
-		marginTtop: '1.3vw',
-		gap: '58vw',
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
+		margin: "1vh"
 	},
 	menuBody: {
 		display: 'flex',

@@ -39,7 +39,8 @@
             "DISH_INGREDIENTS": "Yemek İçeriği",
             "DISH_PRICE": "Fiyat Bilgisi",
             "CANCEL_BUTTON": "İptal",
-            "ADD_BUTTON": "Ekle"
+            "ADD_BUTTON": "Ekle",
+            "UPLOAD_IMAGE_BUTTON": "Fotoğraf Yükle"
         }
     },
     "TABLES_PAGE": {
@@ -75,11 +76,14 @@
         "ADDRESS": "Restoran Adresi",
         "CATEGORY": "Restoran Kategorisi",
         "LOCATION": "Restoran Konumu",
-        "PASSWORD": "Restoran Şifresi",
+        "CHANGE_PASSWORD": "Şİfre Değİştİr",
         "MAIL": "Restoran e-postası",
         "PICTURE": "Fotoğraf",
         "LATITUDE": "Enlem",
-        "LONGITUDE": "Boylam"
+        "LONGITUDE": "Boylam",
+        "UPDATE_BUTTON": "Güncelle",
+        "RESTAURANT_PICTURE": "Restoran Fotoğrafı",
+        "CAMPAIGN_PICTURE": "Kampanya Fotoğrafı"
     },
     "SNACKBAR": {
         "LOCATION_ERROR": "Konum Bilgisi Alınamadı!",
