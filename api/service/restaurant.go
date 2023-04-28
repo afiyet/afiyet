@@ -23,16 +23,18 @@ func NewRestaurantService(db *gorm.DB, aws *AmazonService) *RestaurantService {
 	}
 }
 
-func (s *RestaurantService) Add(r model.Restaurant, extension string) (*model.Restaurant, error) {
-	s3key := getRestaurantS3Key(r, extension)
-	reader := strings.NewReader(r.Picture)
+func (s *RestaurantService) Add(r model.Restaurant, hasImage bool, extension string) (*model.Restaurant, error) {
+	if hasImage {
+		s3key := getRestaurantS3Key(r, extension)
+		reader := strings.NewReader(r.Picture)
 
-	err := s.aws.Upload(s3key, reader)
-	if err != nil {
-		return nil, fmt.Errorf("s3 upload: %w", err)
+		err := s.aws.Upload(s3key, reader)
+		if err != nil {
+			return nil, fmt.Errorf("s3 upload: %w", err)
+		}
+
+		r.Picture = CloudFrontUrl + "/" + s3key
 	}
-
-	r.Picture = CloudFrontUrl + "/" + s3key
 
 	return s.r.Add(r)
 }
