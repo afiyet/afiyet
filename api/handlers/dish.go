@@ -15,6 +15,8 @@ type DishHandler struct {
 }
 
 func (h *DishHandler) Add(c echo.Context) error {
+	var hasImage bool
+	var extension string
 	var dbind model.Dish
 
 	err := (&echo.DefaultBinder{}).BindBody(c, &dbind)
@@ -22,13 +24,15 @@ func (h *DishHandler) Add(c echo.Context) error {
 		return err
 	}
 
-	base64, extension, err := parseRawBase64(dbind.Picture)
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
+	if dbind.Picture != "" {
+		hasImage = true
+		dbind.Picture, extension, err = parseRawBase64(dbind.Picture)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, err.Error())
+		}
 	}
-	dbind.Picture = base64
 
-	d, err := h.s.Add(dbind, extension)
+	d, err := h.s.Add(dbind, hasImage, extension)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}

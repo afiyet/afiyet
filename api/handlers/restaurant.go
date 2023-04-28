@@ -17,19 +17,24 @@ type RestaurantHandler struct {
 }
 
 func (h *RestaurantHandler) Add(c echo.Context) error {
+	var hasImage bool
+	var extension string
+
 	var rbind model.Restaurant
 	err := (&echo.DefaultBinder{}).BindBody(c, &rbind)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	b64, extension, err := parseRawBase64(rbind.Picture)
-	if err != nil {
-		return err
+	if rbind.Picture != "" {
+		hasImage = true
+		rbind.Picture, extension, err = parseRawBase64(rbind.Picture)
+		if err != nil {
+			return err
+		}
 	}
 
-	rbind.Picture = b64
-	r, err := h.s.Add(rbind, extension)
+	r, err := h.s.Add(rbind, hasImage, extension)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -98,7 +103,7 @@ func (h *RestaurantHandler) Update(c echo.Context) error {
 	rbind.ID = uint(id)
 
 	// If new base64 have sent
-	if !strings.Contains(rbind.Picture, service.CloudFrontUrl) {
+	if !strings.Contains(rbind.Picture, service.CloudFrontUrl) || rbind.Picture != "" {
 		updateImage = true
 
 		rbind.Picture, extension, err = parseRawBase64(rbind.Picture)
