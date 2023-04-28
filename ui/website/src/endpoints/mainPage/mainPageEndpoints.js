@@ -7,7 +7,3 @@ export function updateRestaurantInfo(restaurantId, payload) {
 export function getRestaurantInfo(restaurantId) {
     return axiosClient.get("/restaurants/" + restaurantId);
 };
-
-export function postCampaign(payload) {
-    return axiosClient.post("/campaigns",payload);
-};

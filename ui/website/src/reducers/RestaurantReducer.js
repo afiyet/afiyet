@@ -9,7 +9,8 @@ const initialState = {
     mail: "",
     picture: "",
     latitude: "",
-    longitude: ""
+    longitude: "",
+    campaignPicture: "",
 };
 
 const RestaurantReducer = (state = initialState, action) => {
@@ -25,7 +26,8 @@ const RestaurantReducer = (state = initialState, action) => {
                 mail: action.data.mail,
                 picture: action.data.picture,
                 latitude: action.data.Latitude,
-                longitude: action.data.Longitude
+                longitude: action.data.Longitude,
+                campaignPicture: action.data.campaignPicture
             }
         default:
             return { ...state };

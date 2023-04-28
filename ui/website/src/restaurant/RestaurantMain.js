@@ -7,7 +7,6 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { toBase64 } from '../util';
 import { getRestaurantInfo, updateRestaurantInfo } from '../endpoints';
 import { RestaurantActions } from '../actions';
-import {postCampaign} from "../endpoints/mainPage/mainPageEndpoints";
 
 const RestaurantMain = () => {
   /**
@@ -38,6 +37,7 @@ const RestaurantMain = () => {
   const [longitude, setLongitude] = useState("");
   const id = useId();
   const [pictureBase64, setPictureBase64] = useState("");
+  const [campaignPictureBase64, setCampaignPictureBase64] = useState("");
 
   function handleRestaurantStateChange() {
     setName(restaurantState.name);
@@ -48,10 +48,12 @@ const RestaurantMain = () => {
     setPicture(restaurantState.picture);
     setLatitude(restaurantState.latitude);
     setLongitude(restaurantState.longitude);
+    setCampaignPicture(restaurantState.campaignPicture);
   }
 
   useEffect(() => {
     handleRestaurantStateChange();
+    console.log(restaurantState);
   }, [restaurantState])
 
   async function handlePicture() {
@@ -63,7 +65,7 @@ const RestaurantMain = () => {
   async function handleCampaignPicture() {
     let file = document.getElementById(id+"campaign").files[0];
     const b64 = await toBase64(file);
-    setCampaignPicture(b64);
+    setCampaignPictureBase64(b64);
   }
 
   function handleClickUpdate() {
@@ -75,21 +77,9 @@ const RestaurantMain = () => {
       mail: mail,
       picture: pictureBase64 || picture,
       latitude: latitude,
-      longitude: longitude
+      longitude: longitude,
+      campaignPicture: campaignPictureBase64 || picture
     }
-
-    let campaignPayload = {
-      restaurantId:restaurantState.restaurantId.toString(),
-      picture: campaignPicture,
-    };
-    console.log("umut", {campaignPayload})
-
-    postCampaign(campaignPayload)
-        .then(res => {
-          console.log("postCampaign: ", res)
-          setCampaignPicture(res.data.picture)
-        })
-        .catch(err => console.log("postCampaign: ", err))
 
     updateRestaurantInfo(restaurantState.restaurantId, payload)
       .then((res) => {
@@ -125,7 +115,7 @@ const RestaurantMain = () => {
                       variant="text"
                       style={{ minHeight: 350 }}
                     >
-                      {(picture !== "" || pictureBase64 !== "") ?
+                      {((picture !== "" && picture != null) || (pictureBase64 !== "" && pictureBase64 != null)) ?
                         <img height={350} width={"100%"} src={pictureBase64 || picture} style={styles.t} />
                         :
                         <AddAPhotoIcon style={styles.t} sx={{ margin: 0 }} />
@@ -142,8 +132,8 @@ const RestaurantMain = () => {
                         variant="text"
                         style={{ minHeight: 350 }}
                     >
-                      {(campaignPicture !== "") ?
-                          <img height={350} width={"100%"} src={campaignPicture} style={styles.t} />
+                      {((campaignPicture !== "" && campaignPicture != null) || (campaignPictureBase64 !== "" && campaignPictureBase64 != null)) ?
+                          <img height={350} width={"100%"} src={campaignPictureBase64 || campaignPicture} style={styles.t} />
                           :
                           <AddAPhotoIcon style={styles.t} sx={{ margin: 0 }} />
                       }
