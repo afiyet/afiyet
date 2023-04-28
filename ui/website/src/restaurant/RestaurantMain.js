@@ -7,6 +7,7 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { toBase64 } from '../util';
 import { getRestaurantInfo, updateRestaurantInfo } from '../endpoints';
 import { RestaurantActions } from '../actions';
+import {postCampaign} from "../endpoints/mainPage/mainPageEndpoints";
 
 const RestaurantMain = () => {
   /**
@@ -32,6 +33,7 @@ const RestaurantMain = () => {
   const [password, setPassword] = useState("");
   const [mail, setMail] = useState("");
   const [picture, setPicture] = useState("");
+  const [campaignPicture, setCampaignPicture] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
   const id = useId();
@@ -58,6 +60,12 @@ const RestaurantMain = () => {
     setPictureBase64(b64);
   }
 
+  async function handleCampaignPicture() {
+    let file = document.getElementById(id+"campaign").files[0];
+    const b64 = await toBase64(file);
+    setCampaignPicture(b64);
+  }
+
   function handleClickUpdate() {
     let payload = {
       name: name,
@@ -68,7 +76,20 @@ const RestaurantMain = () => {
       picture: pictureBase64 || picture,
       latitude: latitude,
       longitude: longitude
+    }
+
+    let campaignPayload = {
+      restaurantId:restaurantState.restaurantId.toString(),
+      picture: campaignPicture,
     };
+    console.log("umut", {campaignPayload})
+
+    postCampaign(campaignPayload)
+        .then(res => {
+          console.log("postCampaign: ", res)
+          setCampaignPicture(res.data.picture)
+        })
+        .catch(err => console.log("postCampaign: ", err))
 
     updateRestaurantInfo(restaurantState.restaurantId, payload)
       .then((res) => {
@@ -116,8 +137,17 @@ const RestaurantMain = () => {
                 <Grid item xs={6}>
                   <Box style={styles.imageBox}>
                     <Typography style={styles.pageTitle} gutterBottom variant="button">{t("MAIN_PAGE.CAMPAIGN_PICTURE")}</Typography>
-                    <Button>
-                      <img src='https://iaaspr.tmgrup.com.tr/b1da05/0/0/0/0/0/0?u=https://iaspr.tmgrup.com.tr/2022/09/27/beyti-kebabi-nasil-yapilir-beyti-kebabi-tarifi-malzemeleri-yapilisi-ve-puf-noktalari-nedir-1664266814597.jpeg&mw=700' width={"100%"} height={350} />
+                    <Button
+                        component="label"
+                        variant="text"
+                        style={{ minHeight: 350 }}
+                    >
+                      {(campaignPicture !== "") ?
+                          <img height={350} width={"100%"} src={campaignPicture} style={styles.t} />
+                          :
+                          <AddAPhotoIcon style={styles.t} sx={{ margin: 0 }} />
+                      }
+                      <input id={id+"campaign"} type="file" accept="image/png, image/gif, image/jpeg" hidden onChange={handleCampaignPicture} />
                     </Button>
                   </Box>
                 </Grid>

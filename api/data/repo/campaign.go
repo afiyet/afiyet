@@ -1,6 +1,7 @@
 package repo
 
 import (
+	"errors"
 	"github.com/afiyet/afiytet/api/data/model"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -37,6 +38,10 @@ func (cr CampaignRepository) PreloadedGet(id int) (*model.Campaign, error) {
 
 	if err != nil {
 		return nil, err
+	}
+
+	if c.ID == 0 {
+		return nil, errors.New("record not found")
 	}
 
 	return &c, nil

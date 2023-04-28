@@ -2,26 +2,37 @@ package service
 
 import (
 	"errors"
-	"strings"
-
+	"fmt"
 	"github.com/afiyet/afiytet/api/data/model"
 	"github.com/afiyet/afiytet/api/data/repo"
+	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
+	"strings"
 )
 
 type RestaurantService struct {
-	r repo.RestaurantRepository
+	r   repo.RestaurantRepository
+	aws *AmazonService
 }
 
-func NewRestaurantService(db *gorm.DB) *RestaurantService {
-	return &RestaurantService{r: repo.NewRestaurantRepository(db)}
-}
-
-func (s *RestaurantService) Add(r model.Restaurant) (*model.Restaurant, error) {
-	if strings.Contains(r.Picture, "http") {
-		return nil, errors.New("picture url should not contain protocol (http/https) give relative url")
+func NewRestaurantService(db *gorm.DB, aws *AmazonService) *RestaurantService {
+	return &RestaurantService{
+		r:   repo.NewRestaurantRepository(db),
+		aws: aws,
 	}
+}
+
+func (s *RestaurantService) Add(r model.Restaurant, extension string) (*model.Restaurant, error) {
+	s3key := getRestaurantS3Key(r, extension)
+	reader := strings.NewReader(r.Picture)
+
+	err := s.aws.Upload(s3key, reader)
+	if err != nil {
+		return nil, fmt.Errorf("s3 upload: %w", err)
+	}
+
+	r.Picture = CloudFrontUrl + "/" + s3key
 
 	return s.r.Add(r)
 }
@@ -38,7 +49,18 @@ func (s *RestaurantService) List() ([]model.Restaurant, error) {
 	return s.r.List()
 }
 
-func (s *RestaurantService) Update(r model.Restaurant) (*model.Restaurant, error) {
+func (s *RestaurantService) Update(r model.Restaurant, updateImage bool, extension string) (*model.Restaurant, error) {
+	if updateImage {
+		s3key := getRestaurantS3Key(r, extension)
+		reader := strings.NewReader(r.Picture)
+
+		err := s.aws.Upload(s3key, reader)
+		if err != nil {
+			return nil, fmt.Errorf("s3 upload: %w", err)
+		}
+
+		r.Picture = CloudFrontUrl + "/" + s3key
+	}
 	return s.r.Update(r)
 }
 
@@ -95,4 +117,8 @@ func (s *RestaurantService) Login(r model.Restaurant) (*model.Restaurant, error)
 
 func (s *RestaurantService) Search(str string) ([]model.LocationQuery, error) {
 	return s.r.Search(str)
+}
+
+func getRestaurantS3Key(d model.Restaurant, extension string) string {
+	return fmt.Sprintf("restaurant/%s-%s.%s", d.Name, uuid.NewString(), extension)
 }

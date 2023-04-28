@@ -22,7 +22,7 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) error {
 		s: service.NewRatingService(db),
 	}
 	restaurantHandler := RestaurantHandler{
-		s: service.NewRestaurantService(db),
+		s: service.NewRestaurantService(db, aws),
 	}
 	tableHandler := TableHandler{
 		s: service.NewTableService(db),

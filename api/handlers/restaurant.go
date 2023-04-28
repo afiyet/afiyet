@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/afiyet/afiytet/api/service"
 
@@ -22,7 +23,13 @@ func (h *RestaurantHandler) Add(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	r, err := h.s.Add(rbind)
+	b64, extension, err := parseRawBase64(rbind.Picture)
+	if err != nil {
+		return err
+	}
+
+	rbind.Picture = b64
+	r, err := h.s.Add(rbind, extension)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -73,6 +80,9 @@ func (h *RestaurantHandler) List(c echo.Context) error {
 }
 
 func (h *RestaurantHandler) Update(c echo.Context) error {
+	var updateImage bool
+	var extension string
+
 	idStr := c.Param("id")
 	id, err := strconv.Atoi(idStr)
 
@@ -87,6 +97,16 @@ func (h *RestaurantHandler) Update(c echo.Context) error {
 	}
 	rbind.ID = uint(id)
 
+	// If new base64 have sent
+	if !strings.Contains(rbind.Picture, service.CloudFrontUrl) {
+		updateImage = true
+
+		rbind.Picture, extension, err = parseRawBase64(rbind.Picture)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, err.Error())
+		}
+	}
+
 	// TODO(umutgercek) change wen adding, password changing feature
 	old, err := h.s.Get(id)
 	if err != nil {
@@ -95,7 +115,7 @@ func (h *RestaurantHandler) Update(c echo.Context) error {
 	}
 	rbind.Password = old.Password
 
-	r, err := h.s.Update(rbind)
+	r, err := h.s.Update(rbind, updateImage, extension)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}

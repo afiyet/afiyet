@@ -100,6 +100,7 @@ func (h *DishHandler) List(c echo.Context) error {
 func (h *DishHandler) Update(c echo.Context) error {
 	var updateImage bool
 	var extension string
+
 	idStr := c.Param("id")
 	id, err := strconv.Atoi(idStr)
 
