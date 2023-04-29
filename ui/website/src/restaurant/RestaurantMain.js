@@ -19,6 +19,7 @@ const RestaurantMain = () => {
     password: "",
     mail: "",
     picture: "",
+    campaignPicture: "",
     latitude: "",
     longitude: ""
    * 
