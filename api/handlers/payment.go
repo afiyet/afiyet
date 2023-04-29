@@ -22,10 +22,19 @@ type PaymentHandler struct {
 }
 
 type paymentRequest struct {
-	BasketItems  []model.Dish `json:"basketItems"`
+	BasketItems  []basketItem `json:"basketItems"`
 	BuyerID      int          `json:"buyerID"`
 	TableID      string       `json:"tableID"`
 	RestaurantID string       `json:"restaurantID"`
+}
+
+type basketItem struct {
+	ID           uint
+	Name         string
+	Category     string
+	Price        float32
+	Counter      uint
+	RestaurantId string
 }
 
 type paymentDish struct {
@@ -64,13 +73,18 @@ func (h *PaymentHandler) CreatePaymentWithForm(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
+	fmt.Println(rbind.BasketItems)
+
 	var orderDishes []model.OrderDish
 
 	for i := 0; i < len(rbind.BasketItems); i++ {
 		temp := model.OrderDish{
 			DishId: strconv.Itoa(int(rbind.BasketItems[i].ID)),
 		}
-		orderDishes = append(orderDishes, temp)
+		for j := 0; j < int(rbind.BasketItems[i].Counter); j++ {
+
+			orderDishes = append(orderDishes, temp)
+		}
 	}
 
 	tempOrder := model.Order{
@@ -181,7 +195,7 @@ func (h *PaymentHandler) PaymentCallBackURL(c echo.Context) error {
 	return c.JSON(http.StatusOK, nil)
 }
 
-func prepareDishes(dishes []model.Dish) string {
+func prepareDishes(dishes []basketItem) string {
 	finalDishes := "["
 
 	for i := 0; i < len(dishes); i++ {
@@ -189,13 +203,17 @@ func prepareDishes(dishes []model.Dish) string {
 		//and also math library pretends like float 32 doesn't exist which we use so on top of every thing we have to cast them
 		//to float 64 so we can finally have this abomination of a line same thing is present in getPrices Function
 		price := fmt.Sprintf("%f", math.Ceil(float64(dishes[i].Price*100))/100)
-		fmt.Printf("dishid: %d\n", dishes[i].ID)
+		fmt.Println(dishes[i].Counter)
 
-		finalDishes += fmt.Sprintf("{%q:%q,", "id", fmt.Sprintf("%d", dishes[i].ID)) +
-			fmt.Sprintf("%q:%q,", "name", dishes[i].Name) +
-			fmt.Sprintf("%q:%q,", "category1", dishes[i].Category) +
-			fmt.Sprintf("%q:%q,", "itemType", "VIRTUAL") +
-			fmt.Sprintf("%q:%q},", "price", price)
+		for j := 0; j < int(dishes[i].Counter); j++ {
+			fmt.Printf("dishid: %d\n", dishes[i].ID)
+
+			finalDishes += fmt.Sprintf("{%q:%q,", "id", fmt.Sprintf("%d", dishes[i].ID)) +
+				fmt.Sprintf("%q:%q,", "name", dishes[i].Name) +
+				fmt.Sprintf("%q:%q,", "category1", dishes[i].Category) +
+				fmt.Sprintf("%q:%q,", "itemType", "VIRTUAL") +
+				fmt.Sprintf("%q:%q},", "price", price)
+		}
 	}
 	finalDishes = strings.Trim(finalDishes, ",")
 	finalDishes += "]"
@@ -203,11 +221,14 @@ func prepareDishes(dishes []model.Dish) string {
 	return finalDishes
 }
 
-func getPrice(dishes []model.Dish) string {
+func getPrice(dishes []basketItem) string {
 	var price float64 = 0.0
 
 	for i := 0; i < len(dishes); i++ {
-		price = price + math.Ceil(float64(dishes[i].Price*100))/100
+		for j := 0; j < int(dishes[i].Counter); j++ {
+
+			price = price + math.Ceil(float64(dishes[i].Price*100))/100
+		}
 	}
 
 	return fmt.Sprintf("%f", price)
