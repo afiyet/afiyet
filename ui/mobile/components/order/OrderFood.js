@@ -27,7 +27,6 @@ function OrderFood(props) {
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);
   const {t, i18n} = useTranslation();
-
   return (
     <View
       style={styles.container}
