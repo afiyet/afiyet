@@ -80,6 +80,7 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) error {
 
 	e.GET("/restaurants/:id/orders", orderHandler.GetByRestaurantId)
 	e.DELETE("/restaurants/orders/:id", orderHandler.DeleteCascade)
+	e.DELETE("/restaurants/tables/orders/:id", orderHandler.DeleteCascadeByTableId)
 	e.POST("/restaurants/orders", orderHandler.Add)
 
 	e.GET("/restaurants/:id/tables", tableHandler.GetByRestaurant)
