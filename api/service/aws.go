@@ -31,7 +31,7 @@ func NewAmazonService() (*AmazonService, error) {
 	}, nil
 }
 
-func (a AmazonService) Upload(name string, reader io.Reader) error {
+func (a AmazonService) S3Upload(name string, reader io.Reader) error {
 	ctx, cancel := context.WithTimeout(context.Background(), maxRequestTime)
 	defer cancel()
 

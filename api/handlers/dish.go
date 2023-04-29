@@ -7,7 +7,6 @@ import (
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"strconv"
-	"strings"
 )
 
 type DishHandler struct {
@@ -15,8 +14,6 @@ type DishHandler struct {
 }
 
 func (h *DishHandler) Add(c echo.Context) error {
-	var hasImage bool
-	var extension string
 	var dbind model.Dish
 
 	err := (&echo.DefaultBinder{}).BindBody(c, &dbind)
@@ -24,15 +21,7 @@ func (h *DishHandler) Add(c echo.Context) error {
 		return err
 	}
 
-	if dbind.Picture != "" {
-		hasImage = true
-		dbind.Picture, extension, err = parseRawBase64(dbind.Picture)
-		if err != nil {
-			return c.JSON(http.StatusBadRequest, err.Error())
-		}
-	}
-
-	d, err := h.s.Add(dbind, hasImage, extension)
+	d, err := h.s.Add(dbind)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -102,9 +91,6 @@ func (h *DishHandler) List(c echo.Context) error {
 }
 
 func (h *DishHandler) Update(c echo.Context) error {
-	var updateImage bool
-	var extension string
-
 	idStr := c.Param("id")
 	id, err := strconv.Atoi(idStr)
 
@@ -119,17 +105,7 @@ func (h *DishHandler) Update(c echo.Context) error {
 	}
 	dbind.ID = uint(id)
 
-	// If new base64 have sent
-	if !strings.Contains(dbind.Picture, service.CloudFrontUrl) {
-		updateImage = true
-
-		dbind.Picture, extension, err = parseRawBase64(dbind.Picture)
-		if err != nil {
-			return c.JSON(http.StatusBadRequest, err.Error())
-		}
-	}
-
-	d, err := h.s.Update(dbind, updateImage, extension)
+	d, err := h.s.Update(dbind)
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
