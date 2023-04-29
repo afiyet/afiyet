@@ -29,3 +29,7 @@ func (s *OrderDishService) List() ([]model.OrderDish, error) {
 func (s *OrderDishService) Delete(id int) error {
 	return s.r.Delete(id)
 }
+
+func (s *OrderDishService) DeleteByOrderID(id int) error {
+	return s.r.DeleteByOrderID(id)
+}

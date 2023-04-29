@@ -2,9 +2,10 @@ package handlers
 
 import (
 	"fmt"
-	"github.com/afiyet/afiytet/api/service"
 	"net/http"
 	"strconv"
+
+	"github.com/afiyet/afiytet/api/service"
 
 	"github.com/afiyet/afiytet/api/data/model"
 	"github.com/labstack/echo/v4"
@@ -12,6 +13,7 @@ import (
 
 type OrderHandler struct {
 	s *service.OrderService
+	o *service.OrderDishService
 }
 
 func (h *OrderHandler) Add(c echo.Context) error {
@@ -68,7 +70,28 @@ func (h *OrderHandler) Delete(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, "Restaurant successfully Deleted")
+	return c.JSON(http.StatusOK, "Order successfully Deleted")
+}
+
+func (h *OrderHandler) DeleteCascade(c echo.Context) error {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", idStr))
+	}
+
+	err = h.s.Delete(id)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	err = h.o.DeleteByOrderID(id)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, "Order successfully Deleted")
 }
 
 func (h *OrderHandler) GetByTableID(c echo.Context) error {

@@ -1,7 +1,10 @@
 package handlers
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"math"
 	"net/http"
 	"strconv"
@@ -49,6 +52,10 @@ type paymentResult struct {
 	request string
 }
 
+type paymentToken struct {
+	Token string `form:"token"`
+}
+
 func (h *PaymentHandler) CreatePaymentWithForm(c echo.Context) error {
 
 	var rbind paymentRequest
@@ -67,7 +74,6 @@ func (h *PaymentHandler) CreatePaymentWithForm(c echo.Context) error {
 	}
 
 	tempOrder := model.Order{
-		OrderDishes:  orderDishes,
 		TableId:      rbind.TableID,
 		RestaurantId: rbind.RestaurantID,
 	}
@@ -133,6 +139,45 @@ func (h *PaymentHandler) SetPaymentResult(c echo.Context) error {
 }
 
 func (h *PaymentHandler) PaymentCallBackURL(c echo.Context) error {
+	var token paymentToken
+	fmt.Printf("Before token bind\n")
+	err := (&echo.DefaultBinder{}).Bind(&token, c)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	fmt.Printf("After token bind: ")
+	fmt.Println(token)
+
+	body := []byte(`{"token":"` + token.Token + `"}`)
+	url := "https://reot3nxkw2g4yofbhaiz4s5v7i0obstg.lambda-url.eu-central-1.on.aws/"
+
+	fmt.Printf("Before Awspost")
+	fmt.Println(string(body))
+
+	var awsResponse map[string]interface{}
+
+	//TODO cast the resp to map[string string] then compare to "paymentStatus" = "SUCCESS"
+	awsRequest, err := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(body))
+	awsRequest.Header.Add("Content-type", "application/json")
+	client := &http.Client{}
+
+	res, err := client.Do(awsRequest)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("After Aws Post\n")
+
+	body, err = ioutil.ReadAll(res.Body)
+
+	defer res.Body.Close()
+	json.Unmarshal([]byte(body), &awsResponse)
+
+	fmt.Printf("After response unmarshal")
+
+	status := awsResponse["status"]
+	fmt.Println(status, string(body))
+
 	return c.JSON(http.StatusOK, nil)
 }
 
@@ -142,7 +187,7 @@ func prepareDishes(dishes []model.Dish) string {
 	for i := 0; i < len(dishes); i++ {
 		//this mess is because floating points suck and we have to round them down to 2 precision
 		//and also math library pretends like float 32 doesn't exist which we use so on top of every thing we have to cast them
-		//to float 64 so we can finally have this abomination of a line same thin is present in getPrices Function
+		//to float 64 so we can finally have this abomination of a line same thing is present in getPrices Function
 		price := fmt.Sprintf("%f", math.Ceil(float64(dishes[i].Price*100))/100)
 		fmt.Printf("dishid: %d\n", dishes[i].ID)
 

@@ -20,7 +20,7 @@ func NewOrderRepository(db *gorm.DB) OrderRepository {
 
 func (or OrderRepository) GetByTableID(id int) ([]model.Order, error) {
 	var rs []model.Order
-	err := or.db.Where("table_id = ?", id).Find(&rs).Error
+	err := or.db.Preload("Dishes").Where("table_id = ?", id).Find(&rs).Error
 
 	if err != nil {
 		return nil, err
@@ -31,7 +31,7 @@ func (or OrderRepository) GetByTableID(id int) ([]model.Order, error) {
 
 func (or OrderRepository) GetByRestaurantId(id int) ([]model.Order, error) {
 	var rs []model.Order
-	err := or.db.Where("restaurant_id = ?", id).Find(&rs).Error
+	err := or.db.Preload("Dishes").Where("restaurant_id = ?", id).Find(&rs).Error
 
 	if err != nil {
 		return nil, err
