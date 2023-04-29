@@ -29,6 +29,7 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) error {
 	}
 	orderHandler := OrderHandler{
 		s: service.NewOrderService(db),
+		o: service.NewOrderDishService(db),
 	}
 	locationHandler := LocationHandler{
 		s: service.NewLocationService(db),
@@ -36,7 +37,7 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) error {
 	PaymentHandler := PaymentHandler{
 		orderService:     orderHandler.s,
 		userService:      userHandler.s,
-		orderDishService: service.NewOrderDishService(db),
+		orderDishService: orderHandler.o,
 	}
 
 	campaignHandler := CampaignHandler{
@@ -78,6 +79,7 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) error {
 	e.GET("/restaurants/:id/ratings/get-average", restaurantHandler.GetRestaurantAverageRating)
 
 	e.GET("/restaurants/:id/orders", orderHandler.GetByRestaurantId)
+	e.DELETE("/restaurants/orders/:id", orderHandler.DeleteCascade)
 	e.POST("/restaurants/orders", orderHandler.Add)
 
 	e.GET("/restaurants/:id/tables", tableHandler.GetByRestaurant)

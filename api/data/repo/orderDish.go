@@ -18,3 +18,11 @@ func NewOrderDishRepository(db *gorm.DB) OrderDishRepository {
 
 	return odr
 }
+
+func (o *OrderDishRepository) DeleteByOrderID(id int) error {
+	err := o.db.Delete(&model.OrderDish{}, "order_id = ?", id).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
