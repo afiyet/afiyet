@@ -40,10 +40,6 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) error {
 		orderDishService: orderHandler.o,
 	}
 
-	campaignHandler := CampaignHandler{
-		s: service.NewCampaignService(db, aws),
-	}
-
 	e.POST("/users", userHandler.Add)
 	e.DELETE("/users/:id", userHandler.Delete)
 	e.GET("/users/:id", userHandler.Get)
@@ -80,6 +76,7 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) error {
 
 	e.GET("/restaurants/:id/orders", orderHandler.GetByRestaurantId)
 	e.DELETE("/restaurants/orders/:id", orderHandler.DeleteCascade)
+	e.DELETE("/restaurants/tables/orders/:id", orderHandler.DeleteCascadeByTableId)
 	e.POST("/restaurants/orders", orderHandler.Add)
 
 	e.GET("/restaurants/:id/tables", tableHandler.GetByRestaurant)
@@ -94,12 +91,6 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) error {
 	e.POST("/restaurants/orderPayment", PaymentHandler.CreatePaymentWithForm)
 	e.POST("/restaurants/setOrderResult", PaymentHandler.SetPaymentResult)
 	e.POST("/restaurants/orderCallback", PaymentHandler.PaymentCallBackURL)
-
-	e.POST("/campaigns", campaignHandler.Add)
-	e.DELETE("/campaigns/:id", campaignHandler.Delete)
-	e.GET("/campaigns/:id", campaignHandler.Get)
-	e.GET("/campaigns", campaignHandler.List)
-	e.PUT("/campaigns/:id", campaignHandler.Update)
 
 	return nil
 }

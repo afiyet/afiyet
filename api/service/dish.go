@@ -6,7 +6,6 @@ import (
 	"github.com/afiyet/afiytet/api/data/repo"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
-	"strings"
 )
 
 type DishService struct {
@@ -18,17 +17,13 @@ func NewDishService(db *gorm.DB, aws *AmazonService) *DishService {
 	return &DishService{r: repo.NewDishRepository(db), aws: aws}
 }
 
-func (s *DishService) Add(d model.Dish, hasImage bool, extension string) (*model.Dish, error) {
-	if hasImage {
-		s3key := getDishS3Key(d, extension)
-		reader := strings.NewReader(d.Picture)
-
-		err := s.aws.Upload(s3key, reader)
+func (s *DishService) Add(d model.Dish) (*model.Dish, error) {
+	if shouldUploadImage(d.Picture) {
+		url, err := uploadImage(s.aws, d.Picture, dishPicturePrefix(d))
 		if err != nil {
-			return nil, fmt.Errorf("s3 upload: %w", err)
+			return nil, fmt.Errorf("dish picture add: %w", err)
 		}
-
-		d.Picture = CloudFrontUrl + "/" + s3key
+		d.Picture = url
 	}
 
 	dish, err := s.r.Add(d)
@@ -55,21 +50,24 @@ func (s *DishService) List() ([]model.Dish, error) {
 	return s.r.List()
 }
 
-func (s *DishService) Update(d model.Dish, updateImage bool, extension string) (*model.Dish, error) {
-	if updateImage {
-		s3key := getDishS3Key(d, extension)
-		reader := strings.NewReader(d.Picture)
-
-		err := s.aws.Upload(s3key, reader)
+func (s *DishService) Update(d model.Dish) (*model.Dish, error) {
+	if shouldUploadImage(d.Picture) {
+		prefix, err := getS3PrefixFromUrl(d.Picture)
 		if err != nil {
-			return nil, fmt.Errorf("s3 upload: %w", err)
+			prefix = dishPicturePrefix(d)
 		}
 
-		d.Picture = CloudFrontUrl + "/" + s3key
+		url, err := uploadImage(s.aws, d.Picture, prefix)
+		if err != nil {
+			return nil, fmt.Errorf("dish picture update: %w", err)
+		}
+
+		d.Picture = url
 	}
+
 	return s.r.Update(d)
 }
 
-func getDishS3Key(d model.Dish, extension string) string {
-	return fmt.Sprintf("dish/%s-%s.%s", d.Name, uuid.NewString(), extension)
+func dishPicturePrefix(d model.Dish) string {
+	return fmt.Sprintf("dish/%s-%s", d.Name, uuid.NewString())
 }

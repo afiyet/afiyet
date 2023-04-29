@@ -39,3 +39,21 @@ func (or OrderRepository) GetByRestaurantId(id int) ([]model.Order, error) {
 
 	return rs, nil
 }
+
+func (or OrderRepository) DeleteByTableId(id int) ([]model.Order, error) {
+
+	var rs []model.Order
+	err := or.db.Where("table_id = ?", id).Find(&rs).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	err = or.db.Delete(&model.Order{}, "table_id = ?", id).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return rs, err
+}

@@ -19,6 +19,7 @@ const RestaurantMain = () => {
     password: "",
     mail: "",
     picture: "",
+    campaignPicture: "",
     latitude: "",
     longitude: ""
    * 
@@ -79,7 +80,7 @@ const RestaurantMain = () => {
       picture: pictureBase64 || picture,
       latitude: latitude,
       longitude: longitude,
-      //campaignPicture: campaignPictureBase64 || picture
+      campaignPicture: campaignPictureBase64 || picture
     }
 
     updateRestaurantInfo(restaurantState.restaurantId, payload)

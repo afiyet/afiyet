@@ -2,11 +2,9 @@ package handlers
 
 import (
 	"fmt"
+	"github.com/afiyet/afiytet/api/service"
 	"net/http"
 	"strconv"
-	"strings"
-
-	"github.com/afiyet/afiytet/api/service"
 
 	"github.com/afiyet/afiytet/api/data/model"
 	"github.com/labstack/echo/v4"
@@ -17,24 +15,13 @@ type RestaurantHandler struct {
 }
 
 func (h *RestaurantHandler) Add(c echo.Context) error {
-	var hasImage bool
-	var extension string
-
 	var rbind model.Restaurant
 	err := (&echo.DefaultBinder{}).BindBody(c, &rbind)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	if rbind.Picture != "" {
-		hasImage = true
-		rbind.Picture, extension, err = parseRawBase64(rbind.Picture)
-		if err != nil {
-			return err
-		}
-	}
-
-	r, err := h.s.Add(rbind, hasImage, extension)
+	r, err := h.s.Add(rbind)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -85,9 +72,6 @@ func (h *RestaurantHandler) List(c echo.Context) error {
 }
 
 func (h *RestaurantHandler) Update(c echo.Context) error {
-	var updateImage bool
-	var extension string
-
 	idStr := c.Param("id")
 	id, err := strconv.Atoi(idStr)
 
@@ -102,16 +86,6 @@ func (h *RestaurantHandler) Update(c echo.Context) error {
 	}
 	rbind.ID = uint(id)
 
-	// If new base64 have sent
-	if !strings.Contains(rbind.Picture, service.CloudFrontUrl) || rbind.Picture != "" {
-		updateImage = true
-
-		rbind.Picture, extension, err = parseRawBase64(rbind.Picture)
-		if err != nil {
-			return c.JSON(http.StatusBadRequest, err.Error())
-		}
-	}
-
 	// TODO(umutgercek) change wen adding, password changing feature
 	old, err := h.s.Get(id)
 	if err != nil {
@@ -120,7 +94,7 @@ func (h *RestaurantHandler) Update(c echo.Context) error {
 	}
 	rbind.Password = old.Password
 
-	r, err := h.s.Update(rbind, updateImage, extension)
+	r, err := h.s.Update(rbind)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}

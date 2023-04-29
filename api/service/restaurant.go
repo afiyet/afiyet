@@ -8,7 +8,6 @@ import (
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
-	"strings"
 )
 
 type RestaurantService struct {
@@ -23,17 +22,22 @@ func NewRestaurantService(db *gorm.DB, aws *AmazonService) *RestaurantService {
 	}
 }
 
-func (s *RestaurantService) Add(r model.Restaurant, hasImage bool, extension string) (*model.Restaurant, error) {
-	if hasImage {
-		s3key := getRestaurantS3Key(r, extension)
-		reader := strings.NewReader(r.Picture)
-
-		err := s.aws.Upload(s3key, reader)
+func (s *RestaurantService) Add(r model.Restaurant) (*model.Restaurant, error) {
+	if shouldUploadImage(r.Picture) {
+		url, err := uploadImage(s.aws, r.Picture, restaurantPicturePrefix(r))
 		if err != nil {
-			return nil, fmt.Errorf("s3 upload: %w", err)
+			return nil, fmt.Errorf("restaurant picture add: %w", err)
 		}
+		r.Picture = url
+	}
 
-		r.Picture = CloudFrontUrl + "/" + s3key
+	if shouldUploadImage(r.CampaignPicture) {
+		url, err := uploadImage(s.aws, r.CampaignPicture, campaignPicturePrefix(r))
+		if err != nil {
+			return nil, fmt.Errorf("campaign picture add: %w", err)
+		}
+		r.CampaignPicture = url
+
 	}
 
 	return s.r.Add(r)
@@ -51,18 +55,35 @@ func (s *RestaurantService) List() ([]model.Restaurant, error) {
 	return s.r.List()
 }
 
-func (s *RestaurantService) Update(r model.Restaurant, updateImage bool, extension string) (*model.Restaurant, error) {
-	if updateImage {
-		s3key := getRestaurantS3Key(r, extension)
-		reader := strings.NewReader(r.Picture)
-
-		err := s.aws.Upload(s3key, reader)
+func (s *RestaurantService) Update(r model.Restaurant) (*model.Restaurant, error) {
+	if shouldUploadImage(r.Picture) {
+		prefix, err := getS3PrefixFromUrl(r.Picture)
 		if err != nil {
-			return nil, fmt.Errorf("s3 upload: %w", err)
+			prefix = restaurantPicturePrefix(r)
 		}
 
-		r.Picture = CloudFrontUrl + "/" + s3key
+		url, err := uploadImage(s.aws, r.Picture, prefix)
+		if err != nil {
+			return nil, fmt.Errorf("restaurant picture update: %w", err)
+		}
+
+		r.Picture = url
 	}
+
+	if shouldUploadImage(r.CampaignPicture) {
+		prefix, err := getS3PrefixFromUrl(r.CampaignPicture)
+		if err != nil {
+			prefix = campaignPicturePrefix(r)
+		}
+
+		url, err := uploadImage(s.aws, r.CampaignPicture, prefix)
+		if err != nil {
+			return nil, fmt.Errorf("campaign picture update: %w", err)
+		}
+
+		r.CampaignPicture = url
+	}
+
 	return s.r.Update(r)
 }
 
@@ -121,6 +142,10 @@ func (s *RestaurantService) Search(str string) ([]model.LocationQuery, error) {
 	return s.r.Search(str)
 }
 
-func getRestaurantS3Key(d model.Restaurant, extension string) string {
-	return fmt.Sprintf("restaurant/%s-%s.%s", d.Name, uuid.NewString(), extension)
+func restaurantPicturePrefix(res model.Restaurant) string {
+	return fmt.Sprintf("restaurant/%s-%s", res.Name, uuid.NewString())
+}
+
+func campaignPicturePrefix(res model.Restaurant) string {
+	return fmt.Sprintf("campaign/%s-%s", res.Name, uuid.NewString())
 }

@@ -11,19 +11,18 @@ import (
 )
 
 type OrderDishHandler struct {
-	// TODO(umutcil) ?
-	s *service.DishService
+	s *service.OrderDishService
 }
 
 func (h *OrderDishHandler) Add(c echo.Context) error {
-	var dbind model.Dish
+	var dbind model.OrderDish
 
 	err := (&echo.DefaultBinder{}).BindBody(c, &dbind)
 	if err != nil {
 		return err
 	}
 
-	d, err := h.s.Add(dbind, false, "") // TODO(umutcil)
+	d, err := h.s.Add(dbind)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -70,28 +69,4 @@ func (h *OrderDishHandler) List(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, ds)
-}
-
-func (h *OrderDishHandler) Update(c echo.Context) error {
-	idStr := c.Param("id")
-	id, err := strconv.Atoi(idStr)
-
-	if err != nil {
-		return err
-	}
-
-	var dbind model.Dish
-	err = (&echo.DefaultBinder{}).BindBody(c, &dbind)
-	if err != nil {
-		return err
-	}
-	dbind.ID = uint(id)
-
-	d, err := h.s.Update(dbind, false, "") // TOOD(umutcil)
-
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
-	}
-
-	return c.JSON(http.StatusOK, d)
 }
