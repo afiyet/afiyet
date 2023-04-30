@@ -43,6 +43,10 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) error {
 		s: service.NewCampaignService(db, aws),
 	}
 
+	PasswordHandler := PasswordHandler{
+		s: service.NewPasswordService(db),
+	}
+
 	e.POST("/users", userHandler.Add)
 	e.DELETE("/users/:id", userHandler.Delete)
 	e.GET("/users/:id", userHandler.Get)
@@ -98,6 +102,9 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) error {
 	e.GET("/campaigns/:id", campaignHandler.Get)
 	e.GET("/campaigns", campaignHandler.List)
 	e.PUT("/campaigns/:id", campaignHandler.Update)
+
+	e.GET("/password/email/:email", PasswordHandler.PostToMailService)
+	e.GET("/password/change/:password", PasswordHandler.ChangePassword)
 
 	return nil
 }
