@@ -12,6 +12,9 @@ import (
 	"os"
 )
 
+// CommitSHA is set in compilation
+var CommitSHA string
+
 func main() {
 	err := godotenv.Load()
 
@@ -58,7 +61,7 @@ func NewApp(connstr string) (*App, error) {
 		AllowOrigins: []string{"*"},
 	}))
 
-	if err = handlers.Bootstrap(db, e); err != nil {
+	if err = handlers.Bootstrap(db, e, CommitSHA); err != nil {
 		return nil, err
 	}
 
