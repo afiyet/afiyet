@@ -20,24 +20,29 @@ const FoodCard = (props) => {
                 setSelectedMenuItem(item);
                 setIsBottomSheetOpen(true);
             }}
-            //disabled={(orderState.tableId === undefined || orderState.tableId === "") ? true : false}
+        //disabled={(orderState.tableId === undefined || orderState.tableId === "") ? true : false}
         >
             <View>
-                <Image
-                    source={{
-                        uri: item.picture,
-                        resizeMode: "contain"
-                    }}
-                    style={styles.image}
-                />
+                {
+                    (item.picture != "") ?
+                        <Image
+                            source={{
+                                uri: item.picture,
+                                resizeMode: "contain"
+                            }}
+                            style={styles.image}
+                        />
+                        :
+                        null
+                }
             </View>
-            <View style={styles.detailsContainer}>
+            <View style={ (item.picture != "") ? styles.detailsContainer : {marginHorizontal: 15}}>
                 <View>
                     <Text numberOfLines={2} ellipsizeMode={"tail"} style={styles.titleText}>
                         {item.name}
                     </Text>
                     <Text numberOfLines={2} ellipsizeMode={"tail"} style={styles.descriptionText}>
-                        {(item.ingredients !== null) ? item.ingredients.toString() : ""}
+                        {(item.ingredients !== null) ? item.ingredients.join(", ") : ""}
                     </Text>
                 </View>
                 <View style={styles.footerContainer}>
@@ -57,6 +62,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         elevation: 2,
         backgroundColor: '#F8F7F7',
+        height: 112,
     },
     image: {
         height: 100,
@@ -89,7 +95,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        
+
     },
 });
 

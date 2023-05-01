@@ -47,7 +47,8 @@ const HomeScreen = () => {
             Latitude: item.Latitude,
             Longitude: item.Longitude,
             AvgPoint: item.AvgPoint,
-            CommentCount: item.CommentCount
+            CommentCount: item.CommentCount,
+            Picture: item.Picture
           });
         });
         setRestaurants(tempRestaurantList);
@@ -149,6 +150,7 @@ const HomeScreen = () => {
                   category={item.Category}
                   avgPoint={item.AvgPoint}
                   commentCount={item.CommentCount}
+                  picture={item.Picture}
                   key={item.ID}
                 />
               );
@@ -162,6 +164,7 @@ const HomeScreen = () => {
                 category={item.Category}
                 avgPoint={item.AvgPoint}
                 commentCount={item.CommentCount}
+                picture={item.Picture}
                 key={item.ID}
               />
             );

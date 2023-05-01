@@ -11,7 +11,8 @@ const RestaurantMediumCard = (props) => {
         address,
         category,
         avgPoint,
-        commentCount
+        commentCount,
+        picture
     } = props;
 
     const navigation = useNavigation();
@@ -26,24 +27,31 @@ const RestaurantMediumCard = (props) => {
     }
 
     return (
-        <TouchableOpacity 
+        <TouchableOpacity
             style={styles.container}
             activeOpacity={0.7}
-            onPress={() => {goToRestaurantPage(ID)}}
-            >
+            onPress={() => { goToRestaurantPage(ID) }}
+        >
             <View>
-                <Image
-                    source={{ uri: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" }}
-                    resizeMode="contain"
-                    style={styles.posterStyle}
-                />
+                {
+                    (picture != "") ?
+                        <Image
+                            source={{
+                                uri: picture,
+                                resizeMode: "contain"
+                            }}
+                            style={styles.posterStyle}
+                        />
+                        :
+                        null
+                }
             </View>
             <View style={styles.labelContainer}>
                 <View style={styles.nameAndRating}>
                     <Text ellipsizeMode={"tail"} numberOfLines={3} style={styles.titleText}>{name}</Text>
                     <View style={styles.rowAndCenter}>
                         <FontAwesome name="star" size={20} color={"#F53920"} />
-                        <Text style={styles.ratingText}>{avgPoint.toString().substr(0,3)}</Text>
+                        <Text style={styles.ratingText}>{avgPoint.toString().substr(0, 3)}</Text>
                         <Text style={styles.reviewsText}>({commentCount})</Text>
                     </View>
                 </View>
@@ -65,6 +73,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         backgroundColor: '#FFFFFF',
         marginTop: 8,
+        height: 110,
     },
     posterStyle: {
         width: 100,
