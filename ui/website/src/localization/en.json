@@ -26,6 +26,7 @@
         "PRICE": "Price",
         "INGREDIENTS": "Ingredients",
         "DELETE_DISH_BUTTON": "Delete Dish",
+        "DISABLE_DISH_BUTTON": "Toggle Orderability",
         "UPDATE_DISH_BUTTON": "Update Dish",
         "DELETE_CATEGORY_BUTTON": "Delete Category",
         "CATEGORY_DIALOG": {

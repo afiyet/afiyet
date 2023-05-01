@@ -53,7 +53,8 @@ const MenuReducer = (state = initialState, action) => {
                                 ingredients: action.data.ingredients,
                                 picture: action.data.picture,
                                 price: action.data.price,
-                                ID: action.data.ID
+                                ID: action.data.ID,
+                                IsDisabled: action.data.IsDisabled
                             }
                         ]
                     }
@@ -78,21 +79,47 @@ const MenuReducer = (state = initialState, action) => {
                         return item.ID !== action.data.ID
                     })
 
-                   category.categoryItems = newCategoryItemsAfterDeletion;
+                    category.categoryItems = newCategoryItemsAfterDeletion;
                 }
             });
             return {
                 ...newStateAfterDeletion
             }
-        case MenuActions.types.DELETE_CATEGORY: 
-            let newCategoryListAfterDeletion = {...state}
+        case MenuActions.types.DELETE_CATEGORY:
+            let newCategoryListAfterDeletion = { ...state }
 
             newCategoryListAfterDeletion.menu = newCategoryListAfterDeletion.menu.filter((item, index) => {
                 return item.categoryName !== action.data.categoryName
             })
 
-            return{
+            return {
                 ...newCategoryListAfterDeletion
+            }
+        case MenuActions.types.UPDATE_MENU_ITEM:
+            let newUpdatedState = Object.assign({}, state);
+            let wantedCategoryList = newUpdatedState.menu.find((category) => (category.categoryName === action.data.categoryName));
+
+            if (wantedCategoryList !== null && wantedCategoryList !== undefined) {
+
+                wantedCategoryList.categoryItems.map((menuItem, index) => {
+                    if (menuItem.ID === action.data.ID) {
+                        wantedCategoryList.categoryItems.splice(index, 1, {
+                            restaurantId: action.data.restaurantId,
+                            name: action.data.name,
+                            ingredients: action.data.ingredients,
+                            picture: action.data.picture,
+                            price: action.data.price,
+                            ID: action.data.ID,
+                            IsDisabled: action.data.IsDisabled
+                        });
+                    }
+                });
+                return {
+                    ...newUpdatedState
+                }
+            }
+            return {
+                ...state
             }
         default:
             return { ...state };

@@ -26,6 +26,7 @@
         "PRICE": "Fiyatı",
         "INGREDIENTS": "İçindekiler",
         "DELETE_DISH_BUTTON": "Yemeği Sil",
+        "DISABLE_DISH_BUTTON": "Sipariş Edilebilirliği Değiştir",
         "UPDATE_DISH_BUTTON": "Yemeği Güncelle",
         "DELETE_CATEGORY_BUTTON": "Kategoriyi Sil",
         "CATEGORY_DIALOG": {

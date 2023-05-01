@@ -163,6 +163,7 @@ const DishCategory = (props) => {
 						<Button
 							variant="contained"
 							onClick={handleMenuDialogOpen}
+							style={{height: "100%"}}
 						>
 							{t("MENU_EDIT_PAGE.ADD_DISH_BUTTON")}
 						</Button>
@@ -182,6 +183,7 @@ const DishCategory = (props) => {
 									fetchMenu={fetchMenu}
 									categoryName={categoryName}
 									picture={item.picture}
+									IsDisabled={item.IsDisabled}
 								/>
 							</Box>
 						);
@@ -205,13 +207,14 @@ let styles = {
 		margin: 10
 	},
 	categoryHeader: {
-		width: '65wv',
 		display: 'flex',
-		gap: '50.2vw'
+		justifyContent: "space-between",
 	},
 	categoryUtility: {
 		display: 'flex',
-		gap: '1vw'
+		justifyContent: "center",
+		alignItems: "center",
+		gap: "0.3vw"
 	},
 	categoryBody: {
 		display: 'flex',
