@@ -38,7 +38,12 @@ func main() {
 	if p == "" {
 		p = "8000"
 	}
-	app.e.Logger.Fatal(app.e.Start(":" + p))
+
+	if os.Getenv("SSL_ENABLED") == "true" {
+		app.e.Logger.Fatal(app.e.StartTLS(":"+p, os.Getenv("SSL_CERT_PATH"), os.Getenv("SSL_PRIVATE_PATH")))
+	} else {
+		app.e.Logger.Fatal(app.e.Start(":" + p))
+	}
 }
 
 type App struct {
