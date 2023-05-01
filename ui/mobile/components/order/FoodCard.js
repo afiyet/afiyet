@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -11,9 +11,6 @@ const FoodCard = (props) => {
     } = props;
 
     const orderState = useSelector(state => state.orderState);
-    useEffect(() => {
-        console.log(item);
-    }, []);
 
     return (
         <TouchableOpacity

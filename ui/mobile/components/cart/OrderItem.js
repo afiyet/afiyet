@@ -38,11 +38,18 @@ export default function OrderItem(props) {
             >
                 <View style={styles.container}>
                     <View style={styles.leftContainer}>
-                        <Image
-                            source={{ uri: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" }}
-                            resizeMode="contain"
-                            style={styles.image}
-                        />
+                        {
+                            (item.picture != "") ?
+                                <Image
+                                    source={{
+                                        uri: item.picture,
+                                        resizeMode: "contain"
+                                    }}
+                                    style={styles.image}
+                                />
+                                :
+                                null
+                        }
                         <View style={styles.textView}>
                             <Text ellipsizeMode='tail' numberOfLines={2} style={styles.text}>{item.name}</Text>
                             <Text style={styles.text}>{item.price} TL</Text>
@@ -70,6 +77,7 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginRight: 20,
         paddingRight: 20,
+        height: 100,
     },
     leftContainer: {
         display: "flex",
