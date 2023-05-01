@@ -89,7 +89,7 @@ const TestOrder = (props) => {
 
     useEffect(() => {
         console.log(route);
-
+        setIsBottomSheetOpen(false);
         setWaiting(true);
 
         dispatch(OrderActions.setBarcodeParams({
@@ -142,11 +142,18 @@ const TestOrder = (props) => {
             {(!waiting) ?
                 <View style={{ height: "100%" }}>
                     <View style={{ height: "100%", backgroundColor: Colors.SECONDARY_WHITE, }}>
-                        <Image
-                            source={{ uri: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" }}
-                            resizeMode="stretch"
-                            style={styles.backgroundImage}
-                        />
+                        {
+                            (restaurant.Picture != "") ?
+                                <Image
+                                    source={{
+                                        uri: restaurant.Picture,
+                                        resizeMode: "stretch"
+                                    }}
+                                    style={styles.backgroundImage}
+                                />
+                                :
+                                null
+                        }
                         <ScrollView>
                             <View style={styles.mainContainer}>
                                 <View style={styles.titleContainer}>
@@ -165,7 +172,7 @@ const TestOrder = (props) => {
                                             size={18}
                                             color={"#D82227"}
                                         />
-                                        <Text style={styles.ratingText}>{restaurant.AvgPoint.toString().substr(0,3)}</Text>
+                                        <Text style={styles.ratingText}>{restaurant.AvgPoint.toString().substr(0, 3)}</Text>
                                         <Text style={styles.reviewsText}>({restaurant.CommentCount} {t("ORDER_SCREEN.REVIEWS")})</Text>
                                     </TouchableOpacity>
                                     <View style={styles.deliveryDetailsContainer}>

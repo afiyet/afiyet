@@ -102,7 +102,7 @@ const Dish = (props) => {
                                 category: categoryName,
                                 ingredients: ingredientsTextFieldValue.split(",").map((item) => (item.trim())),
                                 price: Number(priceTextFieldValue),
-                                picture: pictureBase64,
+                                picture: pictureBase64 || picture,
                                 IsDisabled: !IsDisabled
                             })
                                 .then((res) => {
@@ -148,7 +148,7 @@ const Dish = (props) => {
                 </Tooltip>
                 <Tooltip title={t("MENU_EDIT_PAGE.UPDATE_DISH_BUTTON")}>
                     <IconButton
-                        aria-label="delete"
+                        aria-label="updateMenu"
                         onClick={() => {
                             updateMenuItem(ID, {
                                 restaurantId: "" + restaurantId,
@@ -156,7 +156,8 @@ const Dish = (props) => {
                                 category: categoryName,
                                 ingredients: ingredientsTextFieldValue.split(",").map((item) => (item.trim())),
                                 price: Number(priceTextFieldValue),
-                                picture: pictureBase64
+                                picture: pictureBase64 || picture,
+                                IsDisabled: IsDisabled
                             })
                                 .then((res) => {
                                     dispatch(MenuActions.updateMenuItem({
