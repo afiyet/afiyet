@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import CommentsPage from "./restaurant/CommentsPage";
 import OrdersPage from "./restaurant/OrdersPage";
+import RestaurantSignUp from "./restaurant/RestaurantSignUp";
 
 function Main() {
 
@@ -31,6 +32,9 @@ function Main() {
             {
                 (!restaurant.restaurantId) ?
                     <Switch>
+                        <Route path="/signup">
+                            <RestaurantSignUp />
+                        </Route>
                         <Route path="/">
                             <RestaurantLogin />
                         </Route>

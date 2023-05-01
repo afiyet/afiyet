@@ -2,7 +2,8 @@
     "LOGIN": {
         "EMAIL": "E-mail",
         "PASSWORD": "Password",
-        "LOGIN_BUTTON": "Login"
+        "LOGIN_BUTTON": "Login",
+        "SIGNUP_BUTTON": "Sign up"
     },
     "APPBAR": {
         "MENU_EDIT": "Edit Menu",
@@ -25,6 +26,7 @@
         "PRICE": "Price",
         "INGREDIENTS": "Ingredients",
         "DELETE_DISH_BUTTON": "Delete Dish",
+        "DISABLE_DISH_BUTTON": "Toggle Orderability",
         "UPDATE_DISH_BUTTON": "Update Dish",
         "DELETE_CATEGORY_BUTTON": "Delete Category",
         "CATEGORY_DIALOG": {
@@ -96,5 +98,20 @@
         "TABLE_DELETE_ERROR": "Table deletion error!",
         "TABLE_UPDATE_SUCCESS": "Table name updated successfully!",
         "TABLE_UPDATE_ERROR": "Table name update error!"
+    },
+    "SIGNUP_PAGE": {
+        "TITLE": "Sign Up",
+        "NAME": "Restaurant Name",
+        "ADDRESS": "Restaurant Address",
+        "CATEGORY": "Restaurant Category",
+        "LOCATION": "Restaurant Location",
+        "PASSWORD": "Password",
+        "MAIL": "Restaurant email",
+        "PICTURE": "Photo",
+        "LATITUDE": "Latitude",
+        "LONGITUDE": "Longitude",
+        "SIGNUP_BUTTON": "Sign Up",
+        "RESTAURANT_PICTURE": "Restaurant Picture",
+        "CAMPAIGN_PICTURE": "Campaign Picture"
     }
 }

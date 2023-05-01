@@ -5,7 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Checkbox from '@mui/material/Checkbox';
 import SyncIcon from '@mui/icons-material/Sync';
 import { deleteMenuItem, updateMenuItem } from '../../endpoints';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { MenuActions } from '../../actions';
 import { useEffect, useId, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,6 +13,8 @@ import Tooltip from '@mui/material/Tooltip';
 import { Button } from '@mui/material';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { toBase64 } from '../../util';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const Dish = (props) => {
 
@@ -24,7 +26,8 @@ const Dish = (props) => {
         ID,
         fetchMenu,
         categoryName,
-        picture
+        picture,
+        IsDisabled
     } = props;
 
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -35,7 +38,6 @@ const Dish = (props) => {
         setFoodNameTextFieldValue(name);
         setPriceTextFieldValue(price);
         setIngredientsTextFieldValue(ingredients.toString());
-        console.log(picture)
     }, []);
 
     const id = useId();
@@ -58,7 +60,7 @@ const Dish = (props) => {
                 style={styles.t}
                 sx={{ margin: 0, maxWidth: 60, maxHeight: 60 }}
             >
-                {(picture !== "") ?
+                {((picture !== "" && picture != null) || (pictureBase64 !== "" && pictureBase64 != null)) ?
                     <img height={60} width={60} src={pictureBase64 || picture} style={styles.t} />
                     :
                     <AddAPhotoIcon style={styles.t} sx={{ margin: 0 }}
@@ -72,13 +74,13 @@ const Dish = (props) => {
                 variant="outlined"
                 style={styles.dishName}
                 value={foodNameTextFieldValue}
-                onChange={(event) => {  setFoodNameTextFieldValue(event.target.value);  }}
+                onChange={(event) => { setFoodNameTextFieldValue(event.target.value); }}
             />
             <TextField
                 id="outlined-multiline-flexible"
                 label={t("MENU_EDIT_PAGE.PRICE")}
                 value={priceTextFieldValue}
-                onChange={(event) => {  setPriceTextFieldValue(event.target.value);  }}
+                onChange={(event) => { setPriceTextFieldValue(event.target.value); }}
             />
             <TextField
                 id="outlined-multiline-flexible"
@@ -87,14 +89,47 @@ const Dish = (props) => {
                 fullWidth
                 inputProps={{ maxLength: 199 }}
                 value={ingredientsTextFieldValue}
-                onChange={(event) => {  setIngredientsTextFieldValue(event.target.value);  }}
+                onChange={(event) => { setIngredientsTextFieldValue(event.target.value); }}
             />
-            {/* <Checkbox {...label} defaultChecked /> */}
-            <Tooltip title={t("MENU_EDIT_PAGE.DELETE_DISH_BUTTON")}>
-                <IconButton
-                    aria-label="delete"
-                    onClick={() => {
-                        deleteMenuItem(ID)
+            <Box style={styles.buttons}>
+                <Tooltip title={t("MENU_EDIT_PAGE.DISABLE_DISH_BUTTON")}>
+                    <IconButton
+                        aria-label="disableDish"
+                        onClick={() => {
+                            updateMenuItem(ID, {
+                                restaurantId: "" + restaurantId,
+                                name: foodNameTextFieldValue,
+                                category: categoryName,
+                                ingredients: ingredientsTextFieldValue.split(",").map((item) => (item.trim())),
+                                price: Number(priceTextFieldValue),
+                                picture: pictureBase64,
+                                IsDisabled: !IsDisabled
+                            })
+                                .then((res) => {
+                                    dispatch(MenuActions.updateMenuItem({
+                                        restaurantId: restaurantId,
+                                        name: name,
+                                        price: price,
+                                        ingredients: ingredients,
+                                        ID: ID,
+                                        categoryName: categoryName,
+                                        picture: picture,
+                                        IsDisabled: !IsDisabled
+                                    }));
+                                })
+                                .catch((err) => {
+                                    console.log(err);
+                                })
+                        }}
+                    >
+                        {IsDisabled ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title={t("MENU_EDIT_PAGE.DELETE_DISH_BUTTON")}>
+                    <IconButton
+                        aria-label="delete"
+                        onClick={() => {
+                            deleteMenuItem(ID)
                                 .then((res) => {
                                     console.log(res);
                                     dispatch(MenuActions.deleteMenuItem({
@@ -105,42 +140,45 @@ const Dish = (props) => {
                                 })
                                 .catch((err) => {
 
+                                })
+                        }}
+                    >
+                        <DeleteIcon />
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title={t("MENU_EDIT_PAGE.UPDATE_DISH_BUTTON")}>
+                    <IconButton
+                        aria-label="delete"
+                        onClick={() => {
+                            updateMenuItem(ID, {
+                                restaurantId: "" + restaurantId,
+                                name: foodNameTextFieldValue,
+                                category: categoryName,
+                                ingredients: ingredientsTextFieldValue.split(",").map((item) => (item.trim())),
+                                price: Number(priceTextFieldValue),
+                                picture: pictureBase64
                             })
-                    }}
-                >
-                    <DeleteIcon />
-                </IconButton>
-            </Tooltip>
-
-            <Tooltip title={t("MENU_EDIT_PAGE.UPDATE_DISH_BUTTON")}>
-                <IconButton
-                    aria-label="delete"
-                    onClick={() => {
-                        updateMenuItem(ID, {
-                            restaurantId: "" + restaurantId,
-                            name: foodNameTextFieldValue,
-                            category: categoryName,
-                            ingredients: ingredientsTextFieldValue.split(","),
-                            price: Number(priceTextFieldValue),
-                            picture: pictureBase64
-                        })
-                            .then((res) => {
-                                dispatch(MenuActions.deleteMenuItem({
-                                    ID: ID,
-                                    category: categoryName
-                                }));
-                                fetchMenu();
-                            })
-                            .catch((err) => {
-                                console.log(err);
-                            })
-                    }}
-                >
-                    <SyncIcon />
-                </IconButton>
-            </Tooltip>
-
-
+                                .then((res) => {
+                                    dispatch(MenuActions.updateMenuItem({
+                                        restaurantId: restaurantId,
+                                        name: foodNameTextFieldValue || name,
+                                        price: priceTextFieldValue || price,
+                                        ingredients: ingredientsTextFieldValue.split(",") || ingredients,
+                                        ID: ID,
+                                        categoryName: categoryName,
+                                        picture: pictureBase64 || picture,
+                                        IsDisabled: IsDisabled
+                                    }));
+                                })
+                                .catch((err) => {
+                                    console.log(err);
+                                })
+                        }}
+                    >
+                        <SyncIcon />
+                    </IconButton>
+                </Tooltip>
+            </Box>
         </Box>
     );
 }
@@ -150,7 +188,7 @@ let styles = {
         display: 'flex',
         marginTop: '0.5vw',
         marginBottom: '0.5vw',
-        gap: '1.3vw'
+        gap: '1vw'
     },
     dishName: { width: "17vw" },
     iconButtonPicture: {
@@ -159,6 +197,12 @@ let styles = {
     },
     t: {
         margin: 0
+    },
+    buttons: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: "0.3vw"
     }
 };
 
