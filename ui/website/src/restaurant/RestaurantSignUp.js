@@ -2,11 +2,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState, useId } from "react";
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import MapLeaflet from './components/mainPage/MapLeaflet';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { toBase64 } from '../util';
-import { getRestaurantInfo, updateRestaurantInfo } from '../endpoints';
-import { RestaurantActions } from '../actions';
+import { signup } from '../endpoints';
 
 const RestaurantSignUp = () => {
   /**
@@ -25,9 +23,7 @@ const RestaurantSignUp = () => {
    * 
    */
 
-  const restaurantState = useSelector(state => state.restaurantState);
   const { t, i18n } = useTranslation();
-  const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [category, setCategory] = useState("");
@@ -54,12 +50,12 @@ const RestaurantSignUp = () => {
     setCampaignPictureBase64(b64);
   }
 
-  function handleClickUpdate() {
+  function handleClickSignUp() {
     let payload = {
       name: name,
       address: address,
       category: category,
-      //password: "",
+      password: password,
       mail: mail,
       picture: pictureBase64 || picture,
       latitude: latitude,
@@ -67,21 +63,13 @@ const RestaurantSignUp = () => {
       campaignPicture: campaignPictureBase64 || campaignPicture
     }
 
-    updateRestaurantInfo(restaurantState.restaurantId, payload)
-      .then((res) => {
-        //snackbar
-        getRestaurantInfo(restaurantState.restaurantId)
-          .then((res) => {
-            dispatch(RestaurantActions.setRestaurant(res.data));
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-      })
-      .catch((err) => {
+    signup(payload)
+    .then((res) => {
+
+    })
+    .catch((err) => {
         console.log(err);
-        //snackbar
-      })
+    })
   }
 
   return (
@@ -201,7 +189,7 @@ const RestaurantSignUp = () => {
                     variant='contained'
                     fullWidth
                     style={{ height: "100%" }}
-                    onClick={handleClickUpdate}
+                    onClick={handleClickSignUp}
                   >
                     {t("SIGNUP_PAGE.SIGNUP_BUTTON")}
                   </Button>
@@ -209,21 +197,7 @@ const RestaurantSignUp = () => {
               </Grid>
             </Box>
           </Box>
-
-          <Box>
-            {
-              (restaurantState.latitude !== "" || restaurantState.latitude !== "") ?
-                <MapLeaflet
-                  latitude={restaurantState.latitude}
-                  longitude={restaurantState.longitude}
-                />
-                :
-                null
-            }
-          </Box>
         </Box>
-
-
       </Box>
     </Box>
   );
