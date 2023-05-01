@@ -11,16 +11,19 @@ const FoodCard = (props) => {
     } = props;
 
     const orderState = useSelector(state => state.orderState);
+    useEffect(() => {
+        console.log(item);
+    }, []);
 
     return (
         <TouchableOpacity
-            style={styles.container}
+            style={[styles.container, (item.IsDisabled) ? {backgroundColor: "#B3B3B3"} : {}]}
             activeOpacity={0.5}
             onPress={() => {
                 setSelectedMenuItem(item);
                 setIsBottomSheetOpen(true);
             }}
-        //disabled={(orderState.tableId === undefined || orderState.tableId === "") ? true : false}
+        //disabled={(orderState.tableId === undefined || orderState.tableId === "") || item.IsDisabled ? true : false}
         >
             <View>
                 {
