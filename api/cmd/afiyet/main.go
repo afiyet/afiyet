@@ -40,6 +40,10 @@ func main() {
 	}
 
 	if os.Getenv("IS_PROD") == "true" {
+		go func(c *echo.Echo) {
+			app.e.Logger.Fatal(app.e.Start(":80"))
+		}(app.e)
+
 		app.e.Logger.Fatal(app.e.StartTLS(":"+p, os.Getenv("SSL_CERT_PATH"), os.Getenv("SSL_PRIVATE_PATH")))
 	} else {
 		app.e.Logger.Fatal(app.e.Start(":" + p))
