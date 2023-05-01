@@ -2,7 +2,8 @@
     "LOGIN": {
         "EMAIL": "E-posta",
         "PASSWORD": "Şifre",
-        "LOGIN_BUTTON": "Giriş Yap"
+        "LOGIN_BUTTON": "Giriş Yap",
+        "SIGNUP_BUTTON": "Kayıt Ol"
     },
     "APPBAR": {
         "MENU_EDIT": "Menü Düzenleme",
@@ -96,5 +97,20 @@
         "TABLE_DELETE_ERROR": "Masa silinemedi!",
         "TABLE_UPDATE_SUCCESS": "Masa adı başarıyla değiştirildi!",
         "TABLE_UPDATE_ERROR": "Masa adı değiştirilemedi!"
+    },
+    "SIGNUP_PAGE": {
+        "TITLE": "Kayıt Ol",
+        "NAME": "Restoran Adı",
+        "ADDRESS": "Restoran Adresi",
+        "CATEGORY": "Restoran Kategorisi",
+        "LOCATION": "Restoran Konumu",
+        "PASSWORD": "Şifre",
+        "MAIL": "Restoran e-postası",
+        "PICTURE": "Fotoğraf",
+        "LATITUDE": "Enlem",
+        "LONGITUDE": "Boylam",
+        "SIGNUP_BUTTON": "Kayıt Ol",
+        "RESTAURANT_PICTURE": "Restoran Fotoğrafı",
+        "CAMPAIGN_PICTURE": "Kampanya Fotoğrafı"
     }
 }
