@@ -68,14 +68,14 @@ func NewApp(connstr string) (*App, error) {
 	e := echo.New()
 	if os.Getenv("IS_PROD") == "true" {
 		e.Pre(middleware.HTTPSRedirect())
-		e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-			AllowOrigins: []string{"www.afiyet.site", "afiyet.site"},
-		}))
-	} else {
-		e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-			AllowOrigins: []string{"*"},
-		}))
+		//e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		//	AllowOrigins: []string{"www.afiyet.site", "afiyet.site"},
+		//}))
 	}
+
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+	}))
 
 	if err = handlers.Bootstrap(db, e, CommitSHA); err != nil {
 		return nil, err
