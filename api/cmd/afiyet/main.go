@@ -38,7 +38,12 @@ func main() {
 	if p == "" {
 		p = "8000"
 	}
-	app.e.Logger.Fatal(app.e.Start(":" + p))
+
+	if os.Getenv("IS_PROD") == "true" {
+		app.e.Logger.Fatal(app.e.StartTLS(":"+p, os.Getenv("SSL_CERT_PATH"), os.Getenv("SSL_PRIVATE_PATH")))
+	} else {
+		app.e.Logger.Fatal(app.e.Start(":" + p))
+	}
 }
 
 type App struct {
@@ -57,9 +62,16 @@ func NewApp(connstr string) (*App, error) {
 	}
 
 	e := echo.New()
-	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"*"},
-	}))
+	if os.Getenv("IS_PROD") == "true" {
+		e.Pre(middleware.HTTPSRedirect())
+		e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+			AllowOrigins: []string{"www.afiyet.site", "afiyet.site"},
+		}))
+	} else {
+		e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+			AllowOrigins: []string{"*"},
+		}))
+	}
 
 	if err = handlers.Bootstrap(db, e, CommitSHA); err != nil {
 		return nil, err
