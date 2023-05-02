@@ -4,10 +4,11 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions } from 'rea
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import getDistanceFromLatLonInKm from './DistanceCalculations';
 const windowDimensions = Dimensions.get('window');
 const screenDimensions = Dimensions.get('screen');
+import { useNavigation } from '@react-navigation/native';
 
 const Campaign = (props) => {
 
@@ -16,15 +17,25 @@ const Campaign = (props) => {
         index
     } = props;
 
-    const dispatch = useDispatch();
+    const navigation = useNavigation();
     const userLocation = useSelector(state => state.locationState);
     let distance = getDistanceFromLatLonInKm(Number(userLocation.latitude), Number(userLocation.longitude), Number(item.Latitude), Number(item.Longitude));
-    
+
+    function goToRestaurantPage(restaurantId) {
+        navigation.navigate("ScannerAndOrderParent", {
+            screen: "Order",
+            params: {
+                rID: restaurantId
+            }
+        });
+    }
+
     return (
         (distance < 4) ?
             <TouchableOpacity
                 style={styles.container}
                 activeOpacity={0.8}
+                onPress={() => { goToRestaurantPage(item.ID); }}
             >
                 {
                     (item.campaignPicture != "") ?
