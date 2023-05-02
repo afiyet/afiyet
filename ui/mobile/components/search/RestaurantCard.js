@@ -4,15 +4,16 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
-function RestaurantCard (props) {
-    
+function RestaurantCard(props) {
+
     const {
         ID,
         name,
         address,
         category,
         avgPoint,
-        commentCount
+        commentCount,
+        picture
     } = props;
 
     const navigation = useNavigation();
@@ -23,18 +24,31 @@ function RestaurantCard (props) {
             activeOpacity={0.8}
             onPress={() => {
                 navigation.navigate("ScannerAndOrderParent", {
-                screen: "Order",
-                params: {
-                  rID: ID
-                }
-              });}}>
-            <Image
+                    screen: "Order",
+                    params: {
+                        rID: ID
+                    }
+                });
+            }}>
+            {
+                (picture != "") ?
+                    <Image
+                        source={{
+                            uri: picture,
+                        }}
+                        resizeMode={"contain"}
+                        style={styles.posterStyle}
+                    />
+                    :
+                    null
+            }
+           {/*  <Image
                 source={{
                     uri: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
-                    resizeMode: "contain"
                 }}
+                resizeMode={"cover"}
                 style={styles.posterStyle}
-            />
+            /> */}
             <View style={{}}>
                 <View style={styles.nameAndRating}>
                     <Text style={styles.titleText}>{name}</Text>

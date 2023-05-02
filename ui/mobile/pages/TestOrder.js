@@ -147,8 +147,8 @@ const TestOrder = (props) => {
                                 <Image
                                     source={{
                                         uri: restaurant.Picture,
-                                        resizeMode: "stretch"
                                     }}
+                                    resizeMode={"cover"}
                                     style={styles.backgroundImage}
                                 />
                                 :

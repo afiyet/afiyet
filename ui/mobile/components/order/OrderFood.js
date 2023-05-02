@@ -36,8 +36,8 @@ function OrderFood(props) {
           <Image
             source={{
               uri: selectedMenuItem.picture,
-              resizeMode: "cover"
             }}
+            resizeMode={"stretch"}
             style={styles.posterStyle}
           />
           :
@@ -51,7 +51,7 @@ function OrderFood(props) {
           </View>
         </View>
         <View style={styles.footerContainer}>
-          <Text style={styles.ingredientsText}>{selectedMenuItem.ingredients}</Text>
+          <Text style={styles.ingredientsText}>{selectedMenuItem.ingredients.join(", ")}</Text>
         </View>
 
         <View style={{
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   },
   posterStyle: {
     width: "97%",
-    height: "60%",
+    height: "55%",
     borderRadius: 10,
     margin: 5,
   },

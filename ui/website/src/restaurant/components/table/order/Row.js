@@ -12,6 +12,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { Button } from '@mui/material';
 import { deleteOrder } from '../../../../endpoints';
+import { useTranslation } from 'react-i18next';
 
 export default function Row(props) {
     const {
@@ -19,23 +20,25 @@ export default function Row(props) {
         fetchOrders
     } = props;
 
+    const { t, i18n } = useTranslation();
 
-    function handleClickCompleteOrder () {
+    function handleClickCompleteOrder() {
         deleteOrder(order.orderId)
-        .then((res) => {
-            fetchOrders();
-        })
-        .catch((err) => {console.log(err);})
+            .then((res) => {
+                fetchOrders();
+            })
+            .catch((err) => { console.log(err); })
     }
 
     return (
         <React.Fragment>
             <TableRow>
                 <TableCell component="th" scope="row" align="left">
-                <Typography variant="h6" component="div">
-                    Sipariş {order.orderId}
-                </Typography>
-                    
+                    <Typography variant="h6" component="div">
+                        <Box style={{ fontWeight: "bold" }}>
+                            {t("REVIEWS_PAGE.TABLE_ORDER")} {order.orderId}
+                        </Box>
+                    </Typography>
                 </TableCell>
                 <TableCell align="right">
                     <Button
@@ -44,7 +47,7 @@ export default function Row(props) {
                         style={{ height: "100%" }}
                         onClick={handleClickCompleteOrder}
                     >
-                        Teslim Edildi
+                        {t("REVIEWS_PAGE.ORDER_COMPLETED_BUTTON")}
                     </Button>
                 </TableCell>
             </TableRow>
@@ -54,9 +57,27 @@ export default function Row(props) {
                         <Table size="small" aria-label="purchases">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Yemek</TableCell>
-                                    <TableCell align="right">Adet</TableCell>
-                                    <TableCell align="right">Toplam (TL)</TableCell>
+                                    <TableCell>
+                                        <Typography variant="h6" >
+                                            <Box style={{ fontWeight: "bold" }}>
+                                                {t("REVIEWS_PAGE.FOOD")}
+                                            </Box>
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        <Typography variant="h6" >
+                                            <Box style={{ fontWeight: "bold" }}>
+                                                {t("REVIEWS_PAGE.AMOUNT")}
+                                            </Box>
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        <Typography variant="h6" >
+                                            <Box style={{ fontWeight: "bold" }}>
+                                                {t("REVIEWS_PAGE.TOTAL")}
+                                            </Box>
+                                        </Typography>
+                                    </TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>

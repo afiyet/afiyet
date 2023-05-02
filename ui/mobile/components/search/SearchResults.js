@@ -30,6 +30,7 @@ export default function SearchResults(props) {
                             category={item.Category}
                             avgPoint={item.AvgPoint}
                             commentCount={item.CommentCount}
+                            picture={item.Picture}
                         />
                     );
                 })}

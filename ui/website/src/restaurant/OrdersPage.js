@@ -104,7 +104,7 @@ export default function OrdersPage() {
                         ordersSeperatedTables.map((table, index) => {
                             if (table.tableName.includes(search)) {
                                 return (
-                                    <Box style={{ marginBottom: 10 }} key={index + table.tableId}>
+                                    <Box style={{ marginBottom: 20 }} key={index + table.tableId}>
                                         <CollapsibleTable
                                             key={table.tableId}
                                             tableOrders={table.orders}
@@ -158,8 +158,7 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         backgroundColor: '#d82227',
-        marginTop: '1vh',
+        marginTop: '2vh',
         borderRadius: '1vh',
-        padding: 20,
     },
 };

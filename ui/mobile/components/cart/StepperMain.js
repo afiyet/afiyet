@@ -22,12 +22,13 @@ export default function StepperMain() {
   const orderState = useSelector(state => state.orderState);
   const userState = useSelector(state => state.userState);
   const [totalPrice, setTotalPrice] = useState(0);
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
+  const [iyzicoVisible, setIyzicoVisible] = useState(true);
 
   useEffect(() => {
-    
+
     let total = 0;
-    
+
     orderState.orderedItems.map((item, index) => {
       total += item.price * item.counter;
     });
@@ -68,7 +69,7 @@ export default function StepperMain() {
 
     let payload = {
       buyerID: userState.userId,
-      restaurantID: ""+orderState.restaurantId,
+      restaurantID: "" + orderState.restaurantId,
       tableID: orderState.tableId,
       basketItems: orderState.orderedItems
     }
@@ -78,6 +79,7 @@ export default function StepperMain() {
 
     initializePayment(payload)
       .then((res) => {
+        setIyzicoVisible(true);
         console.log("initialize payment: ");
         console.log(res);
         getWebViewUrlFromAWS(res.data)
@@ -104,6 +106,7 @@ export default function StepperMain() {
           completePayment(res)
             .then((res) => {
               console.log(res);
+              setIyzicoVisible(false);
             })
             .catch((err) => {
               console.log(err);
@@ -178,13 +181,18 @@ export default function StepperMain() {
         >
           <Text style={styles.textHeader}>{t("CART_SCREEN.PAYMENT")}</Text>
           <View style={styles.iyzicoContainer}>
-            <WebView
-              style={{ height: 400, width: 420, resizeMode: 'contain', flex: 1 }}
-              source={{ uri: webViewURL }}
-              /* scalesPageToFit={false}
-              scrollEnabled={true} */
-              onNavigationStateChange={handleChange}
-            />
+            {
+              (iyzicoVisible) ?
+                <WebView
+                  style={{ height: 400, width: 420, resizeMode: 'contain', flex: 1 }}
+                  source={{ uri: webViewURL }}
+                  /* scalesPageToFit={false}
+                  scrollEnabled={true} */
+                  onNavigationStateChange={handleChange}
+                />
+                :
+                null
+            }
           </View>
         </ProgressStep>
       </ProgressSteps>

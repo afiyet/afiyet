@@ -8,6 +8,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Row from './Row';
+import { useTranslation } from 'react-i18next';
+import { Box } from '@mui/material';
 
 export default function CollapsibleTable(props) {
 
@@ -18,6 +20,7 @@ export default function CollapsibleTable(props) {
     } = props;
 
     const [tableTotal, setTableTotal] = useState(0);
+    const { t, i18n } = useTranslation();
 
     useEffect(() => {
         let total = 0;
@@ -37,21 +40,23 @@ export default function CollapsibleTable(props) {
                     <TableRow>
                         <TableCell colSpan={2}>
                             <Typography variant="h5" gutterBottom component="div">
-                                {tableName} Sipariş
+                                <Box style={{ fontWeight: "bold" }}>
+                                    {tableName} {t("REVIEWS_PAGE.TABLE_ORDERS")}
+                                </Box>
                             </Typography>
                         </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {tableOrders.map((order, index) => (
-                        <Row 
+                        <Row
                             order={order}
                             key={index}
                             fetchOrders={fetchOrders}
                         />
                     ))}
                     <TableRow>
-                        <TableCell>Masa Toplamı (TL)</TableCell>
+                        <TableCell>{t("REVIEWS_PAGE.TABLE_TOTAL")}</TableCell>
                         <TableCell align="right">
                             {tableTotal}
                         </TableCell>

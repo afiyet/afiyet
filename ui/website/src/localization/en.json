@@ -67,7 +67,14 @@
         }
     },
     "REVIEWS_PAGE": {
-        "TITLE": "Reviews"
+        "TITLE": "Reviews",
+        "ORDER_COMPLETED_BUTTON": "Order Completed",
+        "TABLE_ORDERS": "Orders",
+        "TABLE_ORDER": "Order",
+        "FOOD": "Food",
+        "AMOUNT": "Amount",
+        "TOTAL": "Total (TL)",
+        "TABLE_TOTAL": "Table Total (TL)"
     },
     "ORDERS_PAGE": {
         "TITLE": "Orders"

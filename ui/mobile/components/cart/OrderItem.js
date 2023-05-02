@@ -43,8 +43,8 @@ export default function OrderItem(props) {
                                 <Image
                                     source={{
                                         uri: item.picture,
-                                        resizeMode: "contain"
                                     }}
+                                    resizeMode={"cover"}
                                     style={styles.image}
                                 />
                                 :
