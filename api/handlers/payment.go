@@ -112,7 +112,7 @@ func (h *PaymentHandler) CreatePaymentWithForm(c echo.Context) error {
 
 	resp := fmt.Sprintf("{") +
 		fmt.Sprintf("%q:%q,", "conversationId", strconv.FormatUint(uint64(order.ID), 10)) +
-		fmt.Sprintf("%q:%q,", "callbackUrl", "http://52.57.220.100/restaurants/orderCallback") +
+		fmt.Sprintf("%q:%q,", "callbackUrl", "https://52.57.220.100/restaurants/orderCallback") +
 		fmt.Sprintf("%q:%q,", "price", getPrice(rbind.BasketItems)) +
 		fmt.Sprintf("%q:%q,", "paidPrice", getPrice(rbind.BasketItems)) +
 		fmt.Sprintf("%q:%q,", "currency", "TRY") +
