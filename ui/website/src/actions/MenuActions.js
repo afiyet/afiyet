@@ -3,7 +3,8 @@ const types = {
     ADD_CATEGORY: "ADD_CATEGORY",
     CLEAR_MENU_CACHE: "CLEAR_MENU_CACHE",
     DELETE_MENU_ITEM: "DELETE_MENU_ITEM",
-    DELETE_CATEGORY: "DELETE_CATEGORY"
+    DELETE_CATEGORY: "DELETE_CATEGORY",
+    UPDATE_MENU_ITEM: "UPDATE_MENU_ITEM"
 }
 
 const addMenuItem = (value) => {
@@ -40,6 +41,12 @@ const deleteCategory = (value) => {
     }
 }
 
+const updateMenuItem = (value) => {
+    return {
+        type: types.UPDATE_MENU_ITEM,
+        data: value
+    }
+}
 
 export default {
     types,
@@ -47,5 +54,6 @@ export default {
     addCategory,
     clearMenuCache,
     deleteMenuItem,
-    deleteCategory
+    deleteCategory,
+    updateMenuItem
 };

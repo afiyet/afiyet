@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     // marginTop: 5,
     fontWeight: "bold",
-    width: CARD_WIDTH * 0.75
+    width: CARD_WIDTH * 0.70
   },
   cardDescription: {
     fontSize: 12,

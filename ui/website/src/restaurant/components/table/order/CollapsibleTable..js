@@ -6,22 +6,24 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
 import Row from './Row';
 
 export default function CollapsibleTable(props) {
 
     const {
-        rows,
-        tableName
+        tableOrders,
+        tableName,
+        fetchOrders
     } = props;
 
     const [tableTotal, setTableTotal] = useState(0);
 
     useEffect(() => {
         let total = 0;
-        rows.map((row) => {
-            row.order.map((x) => {
-                total += x.amount * x.unitPrice;
+        tableOrders.map((order) => {
+            order.dishes.map((x) => {
+                total += x.counter * x.price;
             });
         });
         setTableTotal(total);
@@ -33,19 +35,24 @@ export default function CollapsibleTable(props) {
             <Table aria-label="collapsible table">
                 <TableHead>
                     <TableRow>
-                        <TableCell>{tableName}</TableCell>
-                        <TableCell>Müşteriler</TableCell>
-                        <TableCell />
-                        <TableCell align="right">Toplam (TL)</TableCell>
+                        <TableCell colSpan={2}>
+                            <Typography variant="h5" gutterBottom component="div">
+                                {tableName} Sipariş
+                            </Typography>
+                        </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <Row key={row.name} row={row} />
+                    {tableOrders.map((order, index) => (
+                        <Row 
+                            order={order}
+                            key={index}
+                            fetchOrders={fetchOrders}
+                        />
                     ))}
                     <TableRow>
                         <TableCell>Masa Toplamı (TL)</TableCell>
-                        <TableCell colSpan={4} align="right">
+                        <TableCell align="right">
                             {tableTotal}
                         </TableCell>
                     </TableRow>

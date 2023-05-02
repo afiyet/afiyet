@@ -26,19 +26,23 @@ function OrderFood(props) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);
-  const {t, i18n} = useTranslation();
-
+  const { t, i18n } = useTranslation();
   return (
     <View
       style={styles.container}
     >
-      <Image
-        source={{
-          uri: selectedMenuItem.picture,
-          resizeMode: "cover"
-        }}
-        style={styles.posterStyle}
-      />
+      {
+        (selectedMenuItem.picture != "") ?
+          <Image
+            source={{
+              uri: selectedMenuItem.picture,
+              resizeMode: "cover"
+            }}
+            style={styles.posterStyle}
+          />
+          :
+          null
+      }
       <View style={{ flex: 1 }}>
         <View style={styles.nameAndRating}>
           <Text style={styles.titleText}>{selectedMenuItem.name}</Text>

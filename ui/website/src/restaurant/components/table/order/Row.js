@@ -10,75 +10,67 @@ import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { Button } from '@mui/material';
+import { deleteOrder } from '../../../../endpoints';
 
 export default function Row(props) {
     const {
-        row
+        order,
+        fetchOrders
     } = props;
 
-    const [open, setOpen] = useState(false);
-    const [customerTotal, setCustomerTotal] = useState(0);
 
-    useEffect(() => {
-        let total = 0;
-        row.order.map((x) => {
-            total += x.amount * x.unitPrice;
-        });
-        setCustomerTotal(total);
-    }, []);
+    function handleClickCompleteOrder () {
+        deleteOrder(order.orderId)
+        .then((res) => {
+            fetchOrders();
+        })
+        .catch((err) => {console.log(err);})
+    }
 
     return (
         <React.Fragment>
-            <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
-                <TableCell>
-                    <IconButton
-                        aria-label="expand row"
-                        size="small"
-                        onClick={() => setOpen(!open)}
-                    >
-                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                    </IconButton>
-                </TableCell>
+            <TableRow>
                 <TableCell component="th" scope="row" align="left">
-                    {row.userName}
+                <Typography variant="h6" component="div">
+                    Sipariş {order.orderId}
+                </Typography>
+                    
                 </TableCell>
-                <TableCell colSpan={2} align="right">
-                    {customerTotal}
+                <TableCell align="right">
+                    <Button
+                        size="large"
+                        variant="contained"
+                        style={{ height: "100%" }}
+                        onClick={handleClickCompleteOrder}
+                    >
+                        Teslim Edildi
+                    </Button>
                 </TableCell>
             </TableRow>
             <TableRow>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                    <Collapse in={open} timeout="auto" unmountOnExit>
-                        <Box sx={{ margin: 1 }}>
-                            <Typography variant="h6" gutterBottom component="div">
-                                {row.userName} Sipariş
-                            </Typography>
-                            <Table size="small" aria-label="purchases">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Tarih</TableCell>
-                                        <TableCell>Yemek</TableCell>
-                                        <TableCell align="right">Adet</TableCell>
-                                        <TableCell align="right">Toplam (TL)</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {row.order.map((orderRow) => (
-                                        <TableRow key={orderRow.date}>
-                                            <TableCell component="th" scope="row">
-                                                {orderRow.date}
-                                            </TableCell>
-                                            <TableCell>{orderRow.foodName}</TableCell>
-                                            <TableCell align="right">{orderRow.amount}</TableCell>
-                                            <TableCell align="right">
-                                                {orderRow.amount * orderRow.unitPrice}
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </Box>
-                    </Collapse>
+                <TableCell style={{ padding: 0 }} colSpan={3}>
+                    <Box sx={{ margin: 0 }}>
+                        <Table size="small" aria-label="purchases">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Yemek</TableCell>
+                                    <TableCell align="right">Adet</TableCell>
+                                    <TableCell align="right">Toplam (TL)</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {order.dishes.map((dish, index) => {
+                                    return (
+                                        <TableRow key={index}>
+                                            <TableCell>{dish.name}</TableCell>
+                                            <TableCell align="right">{dish.counter}</TableCell>
+                                            <TableCell align="right">{dish.counter * dish.price}</TableCell>
+                                        </TableRow>);
+                                })}
+                            </TableBody>
+                        </Table>
+                    </Box>
                 </TableCell>
             </TableRow>
         </React.Fragment>

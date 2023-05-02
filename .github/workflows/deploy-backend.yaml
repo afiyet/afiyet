@@ -32,6 +32,6 @@ jobs:
         run: |
           cd api/cmd/afiyet
           go mod tidy
-          GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o main
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags="-X main.CommitSHA=$(git rev-parse HEAD)" -o main
           scp main $USER@$HOST:/home/ubuntu/app/new
           ssh $USER@$HOST /home/ubuntu/app/deploy.sh

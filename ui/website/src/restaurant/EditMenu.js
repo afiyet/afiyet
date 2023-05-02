@@ -53,8 +53,8 @@ const EditMenu = () => {
 				ingredients: menuItem.ingredients,
 				picture: menuItem.picture,
 				price: menuItem.price,
-				ID: menuItem.ID
-				//dishes: action.data.dishes
+				ID: menuItem.ID,
+				IsDisabled: menuItem.IsDisabled
 			}));
 		});
 	}
@@ -162,7 +162,6 @@ let styles = {
 	},
 	menuBody: {
 		display: 'flex',
-		alignItems: 'center',
 		flexDirection: 'column'
 	},
 	menuTypography: { fontFamily: "monospace", color: "#fff" },

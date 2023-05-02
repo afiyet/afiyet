@@ -51,7 +51,9 @@ const OrderReducer = (state = initialState, action) => {
                         name: action.data.addedItem.name,
                         category: action.data.addedItem.category,
                         price: action.data.addedItem.price,
-                        counter: action.data.amountToAdd
+                        counter: action.data.amountToAdd,
+                        restaurantId: action.data.addedItem.restaurantId,
+                        picture: action.data.addedItem.picture
                     }
                 );
             }
@@ -76,7 +78,7 @@ const OrderReducer = (state = initialState, action) => {
                     item.counter = item.counter + 1
                 }
             });
-            console.log("aaa");
+            //console.log("aaa");
             return {
                 ...state
             };

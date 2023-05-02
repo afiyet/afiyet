@@ -3,10 +3,13 @@ package handlers
 import (
 	"github.com/afiyet/afiytet/api/service"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"gorm.io/gorm"
+	"net/http"
+	"os"
 )
 
-func Bootstrap(db *gorm.DB, e *echo.Echo) error {
+func Bootstrap(db *gorm.DB, e *echo.Echo, sha string) error {
 	aws, err := service.NewAmazonService()
 	if err != nil {
 		return err
@@ -38,10 +41,6 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) error {
 		orderService:     orderHandler.s,
 		userService:      userHandler.s,
 		orderDishService: orderHandler.o,
-	}
-
-	campaignHandler := CampaignHandler{
-		s: service.NewCampaignService(db, aws),
 	}
 
 	e.POST("/users", userHandler.Add)
@@ -96,11 +95,24 @@ func Bootstrap(db *gorm.DB, e *echo.Echo) error {
 	e.POST("/restaurants/setOrderResult", PaymentHandler.SetPaymentResult)
 	e.POST("/restaurants/orderCallback", PaymentHandler.PaymentCallBackURL)
 
-	e.POST("/campaigns", campaignHandler.Add)
-	e.DELETE("/campaigns/:id", campaignHandler.Delete)
-	e.GET("/campaigns/:id", campaignHandler.Get)
-	e.GET("/campaigns", campaignHandler.List)
-	e.PUT("/campaigns/:id", campaignHandler.Update)
+	// Ops
+
+	e.GET("/ping", func(c echo.Context) error {
+		return c.String(http.StatusOK, "pong")
+	})
+
+	// authn
+	g := e.Group("")
+	g.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
+		if username == os.Getenv("BASIC_AUTH_USERNAME") && password == os.Getenv("BASIC_AUTH_PASSWORD") {
+			return true, nil
+		}
+		return false, nil
+	}))
+
+	g.GET("/sha", func(c echo.Context) error {
+		return c.String(http.StatusOK, sha)
+	})
 
 	return nil
 }

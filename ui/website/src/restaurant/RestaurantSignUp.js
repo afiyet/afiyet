@@ -2,13 +2,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState, useId } from "react";
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import MapLeaflet from './components/mainPage/MapLeaflet';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { toBase64 } from '../util';
-import { getRestaurantInfo, updateRestaurantInfo } from '../endpoints';
-import { RestaurantActions } from '../actions';
+import { signup } from '../endpoints';
 
-const RestaurantMain = () => {
+const RestaurantSignUp = () => {
   /**
    * 
    * restaurantId: "",
@@ -25,9 +23,7 @@ const RestaurantMain = () => {
    * 
    */
 
-  const restaurantState = useSelector(state => state.restaurantState);
   const { t, i18n } = useTranslation();
-  const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [category, setCategory] = useState("");
@@ -41,23 +37,7 @@ const RestaurantMain = () => {
   const [pictureBase64, setPictureBase64] = useState("");
   const [campaignPictureBase64, setCampaignPictureBase64] = useState("");
 
-  function handleRestaurantStateChange() {
-    setName(restaurantState.name);
-    setAddress(restaurantState.address);
-    setCategory(restaurantState.category);
-    setPassword(restaurantState.password);
-    setMail(restaurantState.mail);
-    setPicture(restaurantState.picture);
-    setLatitude(restaurantState.latitude);
-    setLongitude(restaurantState.longitude);
-    setCampaignPicture(restaurantState.campaignPicture);
-  }
-
-  useEffect(() => {
-    handleRestaurantStateChange();
-    console.log(restaurantState);
-  }, [restaurantState])
-
+  
   async function handlePicture() {
     let file = document.getElementById(id).files[0];
     const b64 = await toBase64(file);
@@ -70,12 +50,12 @@ const RestaurantMain = () => {
     setCampaignPictureBase64(b64);
   }
 
-  function handleClickUpdate() {
+  function handleClickSignUp() {
     let payload = {
       name: name,
       address: address,
       category: category,
-      //password: "",
+      password: password,
       mail: mail,
       picture: pictureBase64 || picture,
       latitude: latitude,
@@ -83,34 +63,26 @@ const RestaurantMain = () => {
       campaignPicture: campaignPictureBase64 || campaignPicture
     }
 
-    updateRestaurantInfo(restaurantState.restaurantId, payload)
-      .then((res) => {
-        //snackbar
-        getRestaurantInfo(restaurantState.restaurantId)
-          .then((res) => {
-            dispatch(RestaurantActions.setRestaurant(res.data));
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-      })
-      .catch((err) => {
+    signup(payload)
+    .then((res) => {
+
+    })
+    .catch((err) => {
         console.log(err);
-        //snackbar
-      })
+    })
   }
 
   return (
     <Box style={styles.container}>
       <Box style={styles.contentContainer}>
-        <Typography style={styles.pageTitle} gutterBottom variant="h3">{t("MAIN_PAGE.TITLE")}</Typography>
+        <Typography style={styles.pageTitle} gutterBottom variant="h3">{t("SIGNUP_PAGE.TITLE")}</Typography>
         <Box style={styles.restaurantInfoTextFieldContainer}>
           <Box style={styles.imgAndTextFields}>
             <Box>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <Box style={styles.imageBox}>
-                    <Typography style={styles.pageTitle} gutterBottom variant="button">{t("MAIN_PAGE.RESTAURANT_PICTURE")}</Typography>
+                    <Typography style={styles.pageTitle} gutterBottom variant="button">{t("SIGNUP_PAGE.RESTAURANT_PICTURE")}</Typography>
                     <Button
                       component="label"
                       variant="text"
@@ -127,7 +99,7 @@ const RestaurantMain = () => {
                 </Grid>
                 <Grid item xs={6}>
                   <Box style={styles.imageBox}>
-                    <Typography style={styles.pageTitle} gutterBottom variant="button">{t("MAIN_PAGE.CAMPAIGN_PICTURE")}</Typography>
+                    <Typography style={styles.pageTitle} gutterBottom variant="button">{t("SIGNUP_PAGE.CAMPAIGN_PICTURE")}</Typography>
                     <Button
                         component="label"
                         variant="text"
@@ -146,7 +118,7 @@ const RestaurantMain = () => {
                   <TextField
                     fullWidth
                     id="outlined-basic"
-                    label={t("MAIN_PAGE.NAME")}
+                    label={t("SIGNUP_PAGE.NAME")}
                     variant="outlined"
                     value={name}
                     onChange={(e) => { setName(e.target.value) }}
@@ -156,7 +128,7 @@ const RestaurantMain = () => {
                   <TextField
                     fullWidth
                     id="outlined-basic"
-                    label={t("MAIN_PAGE.CATEGORY")}
+                    label={t("SIGNUP_PAGE.CATEGORY")}
                     variant="outlined"
                     value={category}
                     onChange={(e) => { setCategory(e.target.value) }}
@@ -166,28 +138,27 @@ const RestaurantMain = () => {
                   <TextField
                     fullWidth
                     id="outlined-basic"
-                    label={t("MAIN_PAGE.MAIL")}
+                    label={t("SIGNUP_PAGE.MAIL")}
                     variant="outlined"
                     value={mail}
                     onChange={(e) => { setMail(e.target.value) }}
-                    disabled
                   />
                 </Grid>
                 <Grid item xs={3}>
-                  <Button
+                <TextField
                     fullWidth
-                    size="large"
-                    variant="contained"
-                    style={{ height: "100%" }}
-                  >
-                    {t("MAIN_PAGE.CHANGE_PASSWORD")}
-                  </Button>
+                    id="outlined-basic"
+                    label={t("SIGNUP_PAGE.PASSWORD")}
+                    variant="outlined"
+                    value={address}
+                    onChange={(e) => { setPassword(e.target.value) }}
+                  />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     fullWidth
                     id="outlined-basic"
-                    label={t("MAIN_PAGE.ADDRESS")}
+                    label={t("SIGNUP_PAGE.ADDRESS")}
                     variant="outlined"
                     value={address}
                     onChange={(e) => { setAddress(e.target.value) }}
@@ -197,7 +168,7 @@ const RestaurantMain = () => {
                   <TextField
                     fullWidth
                     id="outlined-basic"
-                    label={t("MAIN_PAGE.LATITUDE")}
+                    label={t("SIGNUP_PAGE.LATITUDE")}
                     variant="outlined"
                     value={latitude}
                     onChange={(e) => { setLatitude(e.target.value) }}
@@ -207,7 +178,7 @@ const RestaurantMain = () => {
                   <TextField
                     fullWidth
                     id="outlined-basic"
-                    label={t("MAIN_PAGE.LONGITUDE")}
+                    label={t("SIGNUP_PAGE.LONGITUDE")}
                     variant="outlined"
                     value={longitude}
                     onChange={(e) => { setLongitude(e.target.value) }}
@@ -218,35 +189,21 @@ const RestaurantMain = () => {
                     variant='contained'
                     fullWidth
                     style={{ height: "100%" }}
-                    onClick={handleClickUpdate}
+                    onClick={handleClickSignUp}
                   >
-                    {t("MAIN_PAGE.UPDATE_BUTTON")}
+                    {t("SIGNUP_PAGE.SIGNUP_BUTTON")}
                   </Button>
                 </Grid>
               </Grid>
             </Box>
           </Box>
-
-          <Box>
-            {
-              (restaurantState.latitude !== "" || restaurantState.latitude !== "") ?
-                <MapLeaflet
-                  latitude={restaurantState.latitude}
-                  longitude={restaurantState.longitude}
-                />
-                :
-                null
-            }
-          </Box>
         </Box>
-
-
       </Box>
     </Box>
   );
 }
 
-export default RestaurantMain;
+export default RestaurantSignUp;
 
 const styles = {
   container: {

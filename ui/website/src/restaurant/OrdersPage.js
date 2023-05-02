@@ -1,45 +1,88 @@
-import { Box, Typography, Button, ButtonGroup, TextField } from '@mui/material';
+import { Box, Typography, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CollapsibleTable from './components/table/order/CollapsibleTable.';
+import { getRestaurantOrders, getTables } from '../endpoints';
+import { useSelector } from "react-redux";
 
 export default function OrdersPage() {
 
     const { t, i18n } = useTranslation();
     const [search, setSearch] = useState("");
+    const [ordersSeperatedTables, setOrdersSeperatedTables] = useState([]);
+    const restaurantId = useSelector(state => state.restaurantState.restaurantId);
 
     useEffect(() => {
-        //SİPARİŞLERİ ALAN ENDPOINT
-    });
+        fetchOrders();
+    }, []);
 
-    function createData(userName) {
-        return {
-            userName,
-            order: [
-                {
-                    date: "2020-01-05",
-                    foodName: "Kebap",
-                    amount: 3,
-                    unitPrice: 30
-                },
-                {
-                    date: "2020-01-02",
-                    foodName: "Döner",
-                    amount: 1,
-                    unitPrice: 20
-                }
-            ]
-        };
+    function fetchOrders() {
+        let reconstructedData = [];
+        let existingTableIds = [];
+
+        getTables(restaurantId)
+            .then((res) => {
+                res.data.map((table) => {
+                    existingTableIds.push(table.ID);
+                    let found = reconstructedData.find((item) => (item.tableId === table.ID));
+
+                    if (found === null || found === undefined) {
+                        reconstructedData.push({
+                            tableId: table.ID,
+                            tableName: table.name,
+                            orders: []
+                        });
+                    }
+                });
+
+                getRestaurantOrders(restaurantId)
+                    .then((res) => {
+                        existingTableIds.map((tableId) => { //masalar kadar dönüyor
+                            let resOrdersFilteredByTableId = res.data.filter((item) => (item.tabelId == tableId)) //orderları masaIdye göre filter
+
+                            resOrdersFilteredByTableId.map((order) => {
+                                let dishesWithCount = [];
+                                let indexesToBeSkipped = [];
+                                for (let i = 0; i < order.dishes.length; i++) {
+                                    if (!dishesWithCount.some((item) => (item.ID === order.dishes[i].ID))) {
+                                        dishesWithCount.push({
+                                            ID: order.dishes[i].ID,
+                                            restaurantId: order.dishes[i].restaurantId,
+                                            name: order.dishes[i].name,
+                                            category: order.dishes[i].category,
+                                            ingredients: order.dishes[i].ingredients,
+                                            price: order.dishes[i].price,
+                                            counter: 0,
+                                        });
+                                    }
+                                    for (let k = 0; k < order.dishes.length; k++) {
+                                        if (!indexesToBeSkipped.includes(k)) {
+                                            if (order.dishes[i].ID === order.dishes[k].ID) {
+                                                let found = dishesWithCount.find((item) => (item.ID === order.dishes[i].ID))
+                                                found.counter += 1;
+                                                indexesToBeSkipped.push(k);
+                                            }
+                                        }
+                                    }
+                                }
+                                order.dishes = dishesWithCount;
+
+                                let table = reconstructedData.find((dataObj) => (dataObj.tableId == tableId));
+                                table.orders.push({
+                                    orderId: order.ID,
+                                    dishes: order.dishes
+                                });
+                            });
+                        });
+
+                        console.log(reconstructedData);
+                        setOrdersSeperatedTables(reconstructedData);
+                    })
+                    .catch((err) => { console.log(err) })
+                console.log(reconstructedData);
+            })
+            .catch((err) => { console.log(err) })
     }
-
-    const rows = [
-        createData("Müşteri Adı 1"),
-        createData("Müşteri Adı 2"),
-        createData("Müşteri Adı 3"),
-        createData("Müşteri Adı 4"),
-        createData("Müşteri Adı 5")
-    ];
-
 
     return (
         <Box style={styles.container}>
@@ -57,17 +100,23 @@ export default function OrdersPage() {
                     </Box>
                 </Box>
                 <Box style={styles.collapsibleTableContainer}>
-                    <CollapsibleTable
-                        rows={rows}
-                        tableName={"dummy masa adı"}
-                    />
-                </Box>
+                    {
+                        ordersSeperatedTables.map((table, index) => {
+                            if (table.tableName.includes(search)) {
+                                return (
+                                    <Box style={{ marginBottom: 10 }} key={index + table.tableId}>
+                                        <CollapsibleTable
+                                            key={table.tableId}
+                                            tableOrders={table.orders}
+                                            tableName={table.tableName}
+                                            fetchOrders={fetchOrders}
+                                        />
+                                    </Box>
+                                );
+                            }
 
-                <Box style={styles.collapsibleTableContainer}>
-                    <CollapsibleTable
-                        rows={rows}
-                        tableName={"dummy masa adı"}
-                    />
+                        })
+                    }
                 </Box>
             </Box>
         </Box>
