@@ -67,7 +67,14 @@
         }
     },
     "REVIEWS_PAGE": {
-        "TITLE": "Yorumlar"
+        "TITLE": "Yorumlar",
+        "ORDER_COMPLETED_BUTTON": "Teslim Edildi",
+        "TABLE_ORDERS": "Siparişleri",
+        "TABLE_ORDER": "Sipariş",
+        "FOOD": "Yemek",
+        "AMOUNT": "Adet",
+        "TOTAL": "Toplam (TL)",
+        "TABLE_TOTAL": "Masa Toplamı (TL)"
     },
     "ORDERS_PAGE": {
         "TITLE": "Siparişler"
