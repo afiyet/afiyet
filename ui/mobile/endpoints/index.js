@@ -3,7 +3,7 @@ import { login, signUp } from "./auth/authEndpoints";
 import { getSearchResults } from "./search/searchEndpoints";
 import { initializePayment, getWebViewUrlFromAWS, getPaymentResult, completePayment } from "./cart/cartEndpoints";
 import { getRestaurantComments, addCommentToRestaurant } from "./comment/commentEndpoints";
-import { getRestaurant, getRestaurants, getRestaurantMenu } from "./order/orderEndpoints";
+import { getRestaurant, getRestaurants, getRestaurantMenu, getRestaurantsWithCampaignPicture } from "./order/orderEndpoints";
 
 export {
     getMarkers,
@@ -18,5 +18,6 @@ export {
     getRestaurant, 
     getRestaurants, 
     getRestaurantMenu,
-    addCommentToRestaurant
+    addCommentToRestaurant,
+    getRestaurantsWithCampaignPicture
 };

@@ -1,42 +1,46 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
+import getDistanceFromLatLonInKm from './DistanceCalculations';
+const windowDimensions = Dimensions.get('window');
+const screenDimensions = Dimensions.get('screen');
 
+const Campaign = (props) => {
 
-const Campaign = ({
-    id,
-    name,
-    tags,
-    distance,
-    time,
-    navigate,
-    index
-}) => {
+    const {
+        item,
+        index
+    } = props;
+
     const dispatch = useDispatch();
-
-
-    const bannerList = [
-        require("../../assets/banners/subwayBanner.png"),
-        require("../../assets/banners/burgermakeBanner.png"),
-        require("../../assets/banners/dominosBanner.png"),
-        require("../../assets/banners/littleBanner.png")
-    ];
-
+    const userLocation = useSelector(state => state.locationState);
+    let distance = getDistanceFromLatLonInKm(Number(userLocation.latitude), Number(userLocation.longitude), Number(item.Latitude), Number(item.Longitude));
+    
     return (
-        <TouchableOpacity
-            style={styles.container}
-            activeOpacity={0.8}
-        >
-            <Image
-                source={bannerList[index%4]}
-                resizeMode="contain"
-                style={styles.posterStyle}
-            />
-        </TouchableOpacity>
+        (distance < 4) ?
+            <TouchableOpacity
+                style={styles.container}
+                activeOpacity={0.8}
+            >
+                {
+                    (item.campaignPicture != "") ?
+                        <Image
+                            source={{
+                                uri: item.campaignPicture,
+                            }}
+                            resizeMode={"contain"}
+                            style={styles.posterStyle}
+                        />
+                        :
+                        null
+                }
+            </TouchableOpacity>
+            :
+            null
     );
 };
 
@@ -48,10 +52,13 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         elevation: 3,
         marginBottom: 5,
+        width: screenDimensions.width - 10,
+        alignItems: "center",
+        marginHorizontal: 10
     },
     posterStyle: {
-        width: 1920 * 0.15,
-        height: 1080 * 0.15,
+        width: screenDimensions.width - 20,
+        height: screenDimensions.height * 0.25,
         borderRadius: 10,
         margin: 5,
     },

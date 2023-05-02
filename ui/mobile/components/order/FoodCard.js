@@ -28,8 +28,8 @@ const FoodCard = (props) => {
                         <Image
                             source={{
                                 uri: item.picture,
-                                resizeMode: "contain"
                             }}
+                            resizeMode={"cover"}
                             style={styles.image}
                         />
                         :

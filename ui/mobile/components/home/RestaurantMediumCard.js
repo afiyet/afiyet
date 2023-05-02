@@ -38,8 +38,8 @@ const RestaurantMediumCard = (props) => {
                         <Image
                             source={{
                                 uri: picture,
-                                resizeMode: "contain"
                             }}
+                            resizeMode={"cover"}
                             style={styles.posterStyle}
                         />
                         :

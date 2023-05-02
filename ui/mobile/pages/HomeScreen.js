@@ -16,7 +16,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import Separator from '../components/home/Seperator';
 import RestaurantMediumCard from '../components/home/RestaurantMediumCard';
 import Campaign from '../components/home/Campaign';
-import { getRestaurants } from '../endpoints';
+import { getRestaurants, getRestaurantsWithCampaignPicture } from '../endpoints';
 import { useSelector } from 'react-redux';
 import getDistanceFromLatLonInKm from '../components/home/DistanceCalculations';
 import { useTranslation } from 'react-i18next';
@@ -31,7 +31,7 @@ const { width, height } = Dimensions.get("window");
 const HomeScreen = () => {
 
   const userLocation = useSelector(state => state.locationState);
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     getRestaurants()
@@ -56,11 +56,21 @@ const HomeScreen = () => {
       .catch((err) => {
         console.log(err);
       })
+
+    getRestaurantsWithCampaignPicture()
+      .then((res) => {
+        setCampaign(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }, []);
 
   const [restaurants, setRestaurants] = useState([]);
   const [activeSortItem, setActiveSortItem] = useState('featured');
   const navigation = useNavigation();
+  const [campaign, setCampaign] = useState([]);
 
   return (
     <View style={styles.container}>
@@ -99,23 +109,29 @@ const HomeScreen = () => {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.horizontalListContainer}>
-          <FlatList
-            data={restaurants}
-            keyExtractor={item => item.ID}
+          <ScrollView
             horizontal
-            ListHeaderComponent={() => <Separator width={20} />}
-            ListFooterComponent={() => <Separator width={20} />}
-            ItemSeparatorComponent={() => <Separator width={10} />}
+            pagingEnabled
+            scrollEventThrottle={1}
             showsHorizontalScrollIndicator={false}
-            renderItem={({ item, index }) => (
-              <Campaign
-                key={item.ID}
-                index={index}
-                {...item}
-
-              />
-            )}
-          />
+            snapToAlignment="center"
+            disableIntervalMomentum={true}
+          >
+            {
+              campaign.map((item, index) => {
+                let distance = getDistanceFromLatLonInKm(Number(userLocation.latitude), Number(userLocation.longitude), Number(item.Latitude), Number(item.Longitude));
+                if (distance < 4 && item.campaignPicture != "") {
+                  return (
+                    <Campaign
+                      key={item.ID}
+                      index={index}
+                      item={item}
+                    />
+                  );
+                }
+              })
+            }
+          </ScrollView>
         </View>
         <View style={styles.sortListContainer}>
           {/* <TouchableOpacity

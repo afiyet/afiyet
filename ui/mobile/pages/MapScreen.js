@@ -187,8 +187,8 @@ const MapScreen = () => {
                       <Image
                         source={{
                           uri: marker.picture,
-                          resizeMode: "stretch"
                         }}
+                        resizeMode={"cover"}
                         style={{height: 100, width:"100%"}}
                       />
                       :

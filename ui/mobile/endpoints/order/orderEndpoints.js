@@ -11,3 +11,7 @@ export function getRestaurants() {
 export function getRestaurant(restaurantId) {
     return axiosClient.get("/locations/" + restaurantId);
 };
+
+export function getRestaurantsWithCampaignPicture() {
+    return axiosClient.get("/restaurants");
+}

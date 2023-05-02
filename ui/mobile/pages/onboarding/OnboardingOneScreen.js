@@ -85,11 +85,11 @@ const OnboardingScreen = () => {
                         backgroundColor: '#d82227',
                         image: <Image
                             style={{
-                                resizeMode: 'contain',
                                 height: 300,
                                 width: 400,
                                 marginTop: -50,
                             }}
+                            resizeMode={'contain'}
                             source={require("../../assets/onboarding/undraw_map.png")} />,
                         title: t("ONBOARDING_1_TITLE"),
                         subtitle: t("ONBOARDING_1_TEXT"),
@@ -98,11 +98,11 @@ const OnboardingScreen = () => {
                         backgroundColor: '#d82227',
                         image: <Image
                             style={{
-                                resizeMode: 'contain',
                                 height: 300,
                                 width: 400,
                                 marginTop: -50,
                             }}
+                            resizeMode={'contain'}
                             source={require("../../assets/onboarding/undraw_review.png")} />,
                         title: t("ONBOARDING_2_TITLE"),
                         subtitle: t("ONBOARDING_2_TEXT"),
@@ -111,11 +111,11 @@ const OnboardingScreen = () => {
                         backgroundColor: '#d82227',
                         image: <Image
                             style={{
-                                resizeMode: 'contain',
                                 height: 300,
                                 width: 400,
                                 marginTop: -50,
                             }}
+                            resizeMode={'contain'}
                             source={require("../../assets/onboarding/undraw_online_groceries.png")} />,
                         title: t("ONBOARDING_3_TITLE"),
                         subtitle: t("ONBOARDING_3_TEXT"),
@@ -124,11 +124,11 @@ const OnboardingScreen = () => {
                         backgroundColor: '#d82227',
                         image: <Image
                             style={{
-                                resizeMode: 'contain',
                                 height: 300,
                                 width: 400,
                                 marginTop: -50,
                             }}
+                            resizeMode={'contain'}
                             source={require("../../assets/onboarding/undraw_Mobile_pay.png")} />,
                         title: t("ONBOARDING_4_TITLE"),
                         subtitle: t("ONBOARDING_4_TEXT"),
@@ -137,11 +137,11 @@ const OnboardingScreen = () => {
                         backgroundColor: '#d82227',
                         image: <Image
                             style={{
-                                resizeMode: 'contain',
                                 height: 300,
                                 width: 400,
                                 marginTop: -50,
                             }}
+                            resizeMode={'contain'}
                             source={require("../../assets/onboarding/undraw_Eating_together.png")} />,
                         title: t("ONBOARDING_5_TITLE"),
                         subtitle: t("ONBOARDING_5_TEXT"),
