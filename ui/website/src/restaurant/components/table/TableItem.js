@@ -39,14 +39,10 @@ export default function TableItem(props) {
                     </Box>
                     <Box style={styles.nameAndChip}>
                         <Typography gutterBottom noWrap={true} variant="h5">{item.name}</Typography>
-                        <Chip label="primary" color="primary" />
                     </Box>
                 </CardContent>
                 <CardActions>
                     <Box style={styles.iconButtonContainer}>
-                        <TableItemOrder
-                            item={item}
-                        />
                         <TableItemQR
                             item={item}
                             qrRef={qrRef}
