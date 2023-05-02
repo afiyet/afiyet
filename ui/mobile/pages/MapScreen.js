@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Platform, Text, View, StyleSheet, Dimensions, Animated, TouchableOpacity } from 'react-native';
+import { Platform, Text, View, StyleSheet, Dimensions, Animated, TouchableOpacity, Image } from 'react-native';
 
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { getMarkers } from '../endpoints';
@@ -20,7 +20,7 @@ const MapScreen = () => {
   const [hasPermission, setHasPermission] = useState(false);
   const deviceLocation = useSelector(state => state.locationState);
   const navigation = useNavigation();
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     setLocation({
@@ -44,6 +44,7 @@ const MapScreen = () => {
               category: element.Category,
               commentCount: element.CommentCount,
               restaurantId: element.ID,
+              picture: element.Picture,
               coordinates: {
                 latitude: element.Latitude,
                 longitude: element.Longitude,
@@ -181,6 +182,18 @@ const MapScreen = () => {
                   </View>
                   <Text numberOfLines={1} style={styles.cardDescription}>{marker.category}</Text>
                   <Text numberOfLines={1} style={styles.cardDescription}>{marker.address}</Text>
+                  {
+                    (marker.picture != "") ?
+                      <Image
+                        source={{
+                          uri: marker.picture,
+                          resizeMode: "stretch"
+                        }}
+                        style={{height: 100, width:"100%"}}
+                      />
+                      :
+                      <View style={{height: 100, width:"100%"}}></View>
+                  }
                   <View style={styles.button}>
                     <TouchableOpacity
                       onPress={() => {
@@ -254,6 +267,9 @@ const styles = StyleSheet.create({
   textContent: {
     flex: 2,
     padding: 10,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-evenly"
   },
   cardtitle: {
     fontSize: 12,
