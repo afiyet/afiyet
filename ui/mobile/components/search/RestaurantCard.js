@@ -42,7 +42,7 @@ function RestaurantCard(props) {
                     :
                     null
             }
-            <View style={{}}>
+            <View style={(picture == "") ? {height: 100, display: "flex", flexDirection: "column", justifyContent: "space-evenly"} : {}}>
                 <View style={styles.nameAndRating}>
                     <Text style={styles.titleText}>{name}</Text>
                     <View style={styles.rowAndCenter}>
