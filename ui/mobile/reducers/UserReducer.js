@@ -17,8 +17,15 @@ const UserReducer = (state = initialState, action) => {
                 surname: action.data.surname,
                 mail: action.data.mail
             }
+        case UserActions.types.RESET:
+            return {
+                userId: "",
+                name: "",
+                surname: "",
+                mail: "",
+            }
         default:
-            return {...state};
+            return { ...state };
     }
 };
 

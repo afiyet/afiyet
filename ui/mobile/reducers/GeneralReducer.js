@@ -17,8 +17,13 @@ const GeneralReducer = (state = initialState, action) => {
                 ...state,
                 isLoggedIn: action.data
             };
+        case GeneralActions.types.RESET:
+            return {
+                onboarded: true,
+                isLoggedIn: false,
+            }
         default:
-            return {...state};
+            return { ...state };
     }
 };
 

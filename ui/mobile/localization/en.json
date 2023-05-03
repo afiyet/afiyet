@@ -81,5 +81,12 @@
         "BOTTOM_SHEET_TITLE": "Share your experience!",
         "TEXT_INPUT_PLACEHOLDER": "Your comment...",
         "SEND_BUTTON": "Send"
+    },
+
+    "PROFILE_SCREEN": {
+        "CHANGE_PASSWORD": "Change Password",
+        "CHANGE_LANGUAGE": "Change Language",
+        "SUPPORT": "Support",
+        "LOGOUT": "Log out"
     }
 }

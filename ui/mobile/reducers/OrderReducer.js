@@ -26,14 +26,14 @@ const OrderReducer = (state = initialState, action) => {
             }
         case OrderActions.types.ADD_TO_CART:
 
-            let newStateAfterAddToCart = {...state};
+            let newStateAfterAddToCart = { ...state };
 
             let isExist = newStateAfterAddToCart.orderedItems.find((item, index) => {
                 return item.id === action.data.addedItem.ID;
             });
 
             if (isExist !== undefined) {
-               
+
                 isExist = {
                     ...isExist,
                     counter: isExist.counter + action.data.amountToAdd
@@ -42,19 +42,19 @@ const OrderReducer = (state = initialState, action) => {
                 newStateAfterAddToCart.orderedItems.map((item, index) => {
                     if (item.id === action.data.addedItem.ID) {
                         newStateAfterAddToCart.orderedItems.push(isExist);
-                        newStateAfterAddToCart.orderedItems.splice(index,1);
+                        newStateAfterAddToCart.orderedItems.splice(index, 1);
                     }
                 });
             } else {
                 newStateAfterAddToCart.orderedItems.push({
-                        id: action.data.addedItem.ID,
-                        name: action.data.addedItem.name,
-                        category: action.data.addedItem.category,
-                        price: action.data.addedItem.price,
-                        counter: action.data.amountToAdd,
-                        restaurantId: action.data.addedItem.restaurantId,
-                        picture: action.data.addedItem.picture
-                    }
+                    id: action.data.addedItem.ID,
+                    name: action.data.addedItem.name,
+                    category: action.data.addedItem.category,
+                    price: action.data.addedItem.price,
+                    counter: action.data.amountToAdd,
+                    restaurantId: action.data.addedItem.restaurantId,
+                    picture: action.data.addedItem.picture
+                }
                 );
             }
 
@@ -64,9 +64,9 @@ const OrderReducer = (state = initialState, action) => {
         case OrderActions.types.REMOVE_FROM_CARD:
             state.orderedItems.map((item, index) => {
                 if (item.id === action.data) {
-                    state.orderedItems.splice(index,1);
+                    state.orderedItems.splice(index, 1);
                 }
-            });    
+            });
             console.log("remove");
             return {
                 ...state
@@ -89,14 +89,20 @@ const OrderReducer = (state = initialState, action) => {
                     if (item.counter > 1) {
                         item.counter = item.counter - 1
                     } else {
-                        state.orderedItems.splice(index,1);
+                        state.orderedItems.splice(index, 1);
                     }
                 }
             });
 
-            return{
+            return {
                 ...state
             };
+        case OrderActions.types.RESET:
+            return {
+                restaurantId: "",
+                tableId: "",
+                orderedItems: []
+            }
         default:
             return { ...state };
     }

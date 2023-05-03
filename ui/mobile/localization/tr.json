@@ -81,5 +81,12 @@
         "BOTTOM_SHEET_TITLE": "Deneyiminizi paylaşın!",
         "TEXT_INPUT_PLACEHOLDER": "Yorumunuz...",
         "SEND_BUTTON": "Gönder"
+    },
+
+    "PROFILE_SCREEN": {
+        "CHANGE_PASSWORD": "Şifre Değiştir",
+        "CHANGE_LANGUAGE": "Dil Değiştir",
+        "SUPPORT": "Destek",
+        "LOGOUT": "Çıkış Yap"
     }
 }
