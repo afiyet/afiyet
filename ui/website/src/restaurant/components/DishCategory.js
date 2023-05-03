@@ -42,6 +42,7 @@ const DishCategory = (props) => {
 		setInredientsTextFieldValue("");
 		setPriceTextFieldValue("");
 		setMenuDialogOpen(false);
+		setPictureBase64("");
 	}
 
 	function handleMenuDialogOpen() {
