@@ -14,7 +14,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
 import CategoryListItem from '../components/order/CategoryListItem';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute, useIsFocused } from '@react-navigation/native';
 import { getRestaurantMenu, getRestaurant } from '../endpoints';
 import { OrderActions } from '../actions';
 import FoodCard from '../components/order/FoodCard';
@@ -85,9 +85,58 @@ const TestOrder = (props) => {
     const [selectedMenuItem, setSelectedMenuItem] = useState({});
     const [waiting, setWaiting] = useState(true);
     const { t, i18n } = useTranslation();
-
+    const [initialFetchComplete, setInitialFetchComplete] = useState(false);
+    const isFocused = useIsFocused();
+    const [intervalID, setIntervalID] = useState(0);
 
     useEffect(() => {
+        fetchMenu();
+    }, [route]);
+
+    useEffect(() => {
+        if (initialFetchComplete) {
+            if (isFocused) {
+                setIntervalID(setInterval(fetchNewMenu, 10000));
+            }
+            else {
+                clearInterval(intervalID);
+            }
+        }
+    }, [initialFetchComplete, isFocused]);
+
+
+    function detectChangeInMenu(newMenu) {
+        return newMenu.filter(newDish => {
+
+            let found = menu.find((dish) => (dish.ID === newDish.ID));
+
+            if (newDish.ID === found.ID) {
+                if (new Date(newDish.updatedAt) > new Date(found.updatedAt)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+    }
+
+    function fetchNewMenu() {
+        console.log(initialFetchComplete);
+        if (initialFetchComplete) {
+            let newMenu = [];
+            getRestaurantMenu(route.params.rID)
+                .then((res) => {
+                    newMenu = res.data;
+
+                    console.log(detectChangeInMenu(newMenu));
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
+    }
+
+    function fetchMenu() {
         console.log(route);
         setIsBottomSheetOpen(false);
         setWaiting(true);
@@ -100,19 +149,11 @@ const TestOrder = (props) => {
         setBottomNavLabel("Order");
         getRestaurantMenu(route.params.rID)
             .then((res) => {
-                let tempData = [];
-                let charCount = 0;
+                console.log(res.data);
                 let tempSections = [];
-
                 res.data.map((item, index) => {
-                    if (!tempData.find((sItem) => { return sItem.title === item.category })) {
-                        charCount += item.category.length;
+                    if (!tempSections.find((sItem) => { return sItem === item.category })) {
                         tempSections.push(item.category);
-                        tempData.push({
-                            title: item.category,
-                            data: []
-                        });
-
                     }
                 });
                 setSelectedCategory(tempSections[0]);
@@ -126,15 +167,15 @@ const TestOrder = (props) => {
                     .catch((err) => {
                         console.log(err)
                     })
-
+                setInitialFetchComplete(true);
                 setTimeout(() => { setWaiting(false); }, 1000);
             })
             .catch((err) => {
                 console.log(err);
                 setMenu([]);
+                setInitialFetchComplete(false);
             })
-    }, [route]);
-
+    }
 
     return (
         <View style={styles.container}>
