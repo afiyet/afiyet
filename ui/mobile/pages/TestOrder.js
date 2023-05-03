@@ -8,19 +8,26 @@ import {
     ScrollView,
     FlatList,
     ActivityIndicator,
-    TouchableOpacity
+    TouchableOpacity,
+    Modal,
+    Pressable,
+    Dimensions
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
 import CategoryListItem from '../components/order/CategoryListItem';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute, useIsFocused } from '@react-navigation/native';
 import { getRestaurantMenu, getRestaurant } from '../endpoints';
 import { OrderActions } from '../actions';
 import FoodCard from '../components/order/FoodCard';
 import OrderBottomSheet from '../components/order/OrderBottomSheet';
 import getDistanceFromLatLonInKm from '../components/home/DistanceCalculations';
 import { useTranslation } from 'react-i18next';
+import useInterval from '../customHooks/UseInterval';
+
+const windowDimensions = Dimensions.get('window');
+const screenDimensions = Dimensions.get('screen');
 
 const ListHeader = () => (
     <View
@@ -64,14 +71,6 @@ const TestOrder = (props) => {
         setBottomNavLabel,
     } = props;
 
-    useEffect(() => {
-        setBottomNavLabel("Order");
-    }, []);
-
-    useEffect(() => {
-        console.log(orderState);
-    }, [orderState]);
-
     const [restaurant, setRestaurant] = useState({});
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [sections, setSections] = useState([]);
@@ -79,15 +78,65 @@ const TestOrder = (props) => {
     const navigation = useNavigation();
     const route = useRoute();
     const dispatch = useDispatch();
-    const orderState = useSelector(state => state.orderState);
     const userLocation = useSelector(state => state.locationState);
     const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
     const [selectedMenuItem, setSelectedMenuItem] = useState({});
     const [waiting, setWaiting] = useState(true);
     const { t, i18n } = useTranslation();
-
+    const [initialFetchComplete, setInitialFetchComplete] = useState(false);
+    const isFocused = useIsFocused();
+    const [modalVisible, setModalVisible] = useState(false);
 
     useEffect(() => {
+        fetchMenu();
+    }, [route]);
+
+
+    useInterval(fetchNewMenu, (isFocused && !modalVisible) ? 30000 : null);
+
+    function detectChangeInMenu(newMenu) {
+        return newMenu.filter(newDish => {
+
+            let found = null;
+            found = menu.find((dish) => (dish.ID === newDish.ID));
+
+            //if dish did not exist before
+            if (found === null || found === undefined) {
+                return true;
+            } 
+
+            //if dish exists but updated
+            if (newDish.ID === found.ID) {
+                if (new Date(newDish.updatedAt) > new Date(found.updatedAt)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+    }
+
+    function fetchNewMenu() {
+        console.log(initialFetchComplete);
+        if (initialFetchComplete) {
+            let newMenu = [];
+            getRestaurantMenu(route.params.rID)
+                .then((res) => {
+                    newMenu = res.data;
+
+                    let changedDishes = detectChangeInMenu(newMenu);
+                    if (changedDishes.length > 0) {
+                        setModalVisible(true);
+                    }
+                    console.log(changedDishes);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
+    }
+
+    function fetchMenu() {
         console.log(route);
         setIsBottomSheetOpen(false);
         setWaiting(true);
@@ -100,19 +149,11 @@ const TestOrder = (props) => {
         setBottomNavLabel("Order");
         getRestaurantMenu(route.params.rID)
             .then((res) => {
-                let tempData = [];
-                let charCount = 0;
+                console.log(res.data);
                 let tempSections = [];
-
                 res.data.map((item, index) => {
-                    if (!tempData.find((sItem) => { return sItem.title === item.category })) {
-                        charCount += item.category.length;
+                    if (!tempSections.find((sItem) => { return sItem === item.category })) {
                         tempSections.push(item.category);
-                        tempData.push({
-                            title: item.category,
-                            data: []
-                        });
-
                     }
                 });
                 setSelectedCategory(tempSections[0]);
@@ -126,15 +167,15 @@ const TestOrder = (props) => {
                     .catch((err) => {
                         console.log(err)
                     })
-
+                setInitialFetchComplete(true);
                 setTimeout(() => { setWaiting(false); }, 1000);
             })
             .catch((err) => {
                 console.log(err);
                 setMenu([]);
+                setInitialFetchComplete(false);
             })
-    }, [route]);
-
+    }
 
     return (
         <View style={styles.container}>
@@ -224,6 +265,25 @@ const TestOrder = (props) => {
                         setIsBottomSheetOpen={setIsBottomSheetOpen}
                         selectedMenuItem={selectedMenuItem}
                     />
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={modalVisible}
+                    >
+                        <View style={styles.centeredView}>
+                            <View style={styles.modalView}>
+                                <Text style={styles.modalText}>Restoran Menüde Değişiklik Yaptı</Text>
+                                <Pressable
+                                    style={[styles.button, styles.buttonClose]}
+                                    onPress={() => {
+                                        setModalVisible(!modalVisible)
+                                        fetchMenu();
+                                    }}>
+                                    <Text style={styles.textStyle}>Yeni Menüyü Gör</Text>
+                                </Pressable>
+                            </View>
+                        </View>
+                    </Modal>
                 </View>
                 :
                 <ActivityIndicator animating={waiting} size={"large"} color={"#d82227"} />
@@ -370,7 +430,50 @@ const styles = StyleSheet.create({
         fontSize: 13,
         lineHeight: 13 * 1.4,
         color: Colors.DEFAULT_GREY,
-    }
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 22,
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 35,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+        width: screenDimensions.width * 0.8,
+    },
+    button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+    },
+    buttonClose: {
+        backgroundColor: '#D82227',
+        width: "100%"
+    },
+    textStyle: {
+        color: 'white',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontSize: 18
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 18
+    },
 });
 
 export default TestOrder;
