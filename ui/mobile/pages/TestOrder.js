@@ -95,6 +95,14 @@ const TestOrder = (props) => {
     useInterval(fetchNewMenu, (isFocused && !modalVisible) ? 30000 : null);
 
     function detectChangeInMenu(newMenu) {
+
+        //if exist before but deleted after
+        if (newMenu.length < menu.length) {
+            return menu.filter(dish => {
+                return !newMenu.some(newDish => (newDish.ID === dish.ID));
+            })
+        }
+
         return newMenu.filter(newDish => {
 
             let found = null;
