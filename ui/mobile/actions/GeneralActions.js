@@ -1,6 +1,7 @@
 const types = {
     SET_ONBOARDED: "SET_ONBOARDED",
-    IS_LOGGED_IN: "IS_LOGGED_IN"
+    IS_LOGGED_IN: "IS_LOGGED_IN",
+    RESET: "RESET"
 }
 
 const setOnboarded = (value) => {
@@ -17,8 +18,16 @@ const setIsLoggedIn = (value) => {
     }
 };
 
+const setReset = (value) => {
+    return {
+        type: types.RESET,
+        data: value
+    }
+};
+
 export default {
     types,
     setOnboarded,
-    setIsLoggedIn
+    setIsLoggedIn,
+    setReset
 };

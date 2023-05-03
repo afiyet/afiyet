@@ -61,7 +61,7 @@ function Main() {
       let {coords} = await Location.getCurrentPositionAsync({accuracy: 5});
       dispatch(LocationActions.setDeviceLocation(coords));
     })();
-  }, []);
+  }, [isLoggedIn]);
 
   return (
     <>

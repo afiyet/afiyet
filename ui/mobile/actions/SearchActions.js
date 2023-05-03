@@ -1,6 +1,7 @@
 const types = {
     ADD_TO_RECENTLY_SEARCHED: "ADD_TO_RECENTLY_SEARCHED",
-    REMOVE_FROM_RECENTLY_SEARCHED: "REMOVE_FROM_RECENTLY_SEARCHED" 
+    REMOVE_FROM_RECENTLY_SEARCHED: "REMOVE_FROM_RECENTLY_SEARCHED",
+    RESET: "RESET"
 }
 
 const addToRecentlySearched = (value) => {
@@ -17,9 +18,17 @@ const removeFromRecentlySearched = (value) => {
     }
 };
 
+const setReset = (value) => {
+    return {
+        type: types.RESET,
+        data: value
+    }
+};
+
 
 export default {
     types,
     addToRecentlySearched,
-    removeFromRecentlySearched
+    removeFromRecentlySearched,
+    setReset
 };

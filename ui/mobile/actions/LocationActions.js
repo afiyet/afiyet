@@ -1,5 +1,6 @@
 const types = {
-    SET_DEVICE_LOCATION: "SET_DEVICE_LOCATION"
+    SET_DEVICE_LOCATION: "SET_DEVICE_LOCATION",
+    RESET: "RESET"
 }
 
 const setDeviceLocation = (value) => {
@@ -9,8 +10,16 @@ const setDeviceLocation = (value) => {
     }
 };
 
+const setReset = (value) => {
+    return {
+        type: types.RESET,
+        data: value
+    }
+};
+
 
 export default {
     types,
-    setDeviceLocation
+    setDeviceLocation,
+    setReset
 };

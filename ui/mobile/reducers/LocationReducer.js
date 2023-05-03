@@ -15,6 +15,12 @@ const LocationReducer = (state = initialState, action) => {
                 latitude: action.data.latitude,
                 altitude: action.data.altitude
             }
+        case LocationActions.types.RESET:
+            return {
+                longitude: "",
+                latitude: "",
+                altitude: "",
+            }
         default:
             return { ...state };
     }

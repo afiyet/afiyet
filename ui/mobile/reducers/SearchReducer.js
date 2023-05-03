@@ -19,6 +19,10 @@ const SearchReducer = (state = initialState, action) => {
             return {
                 ...state
             }
+        case SearchActions.types.RESET:
+            return {
+                recentlySearched: [],
+            }
         default:
             return { ...state };
     }
