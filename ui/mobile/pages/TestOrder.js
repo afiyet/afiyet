@@ -280,14 +280,14 @@ const TestOrder = (props) => {
                     >
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
-                                <Text style={styles.modalText}>Restoran Menüde Değişiklik Yaptı</Text>
+                                <Text style={styles.modalText}>{t("ORDER_SCREEN.MENU_CHANGED")}</Text>
                                 <Pressable
                                     style={[styles.button, styles.buttonClose]}
                                     onPress={() => {
                                         setModalVisible(!modalVisible)
                                         fetchMenu();
                                     }}>
-                                    <Text style={styles.textStyle}>Yeni Menüyü Gör</Text>
+                                    <Text style={styles.textStyle}>{t("ORDER_SCREEN.SEE_NEW_MENU")}</Text>
                                 </Pressable>
                             </View>
                         </View>

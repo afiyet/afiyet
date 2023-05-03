@@ -64,7 +64,9 @@
 
     "ORDER_SCREEN": {
         "REVIEWS": "İnceleme",
-        "ADD_TO_CART": "Sepete Ekle"
+        "ADD_TO_CART": "Sepete Ekle",
+        "SEE_NEW_MENU": "Yeni Menüyü Gör",
+        "MENU_CHANGED": "Restoran Menüde Değişiklik Yaptı"
     },
 
     "CART_SCREEN": {

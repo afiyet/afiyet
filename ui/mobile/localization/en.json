@@ -64,7 +64,9 @@
 
     "ORDER_SCREEN": {
         "REVIEWS": "Reviews",
-        "ADD_TO_CART": "Add To Cart"
+        "ADD_TO_CART": "Add To Cart",
+        "SEE_NEW_MENU": "See New Menu",
+        "MENU_CHANGED": "Restaurant Changed The Menu"
     },
 
     "CART_SCREEN": {
