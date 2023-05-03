@@ -5,7 +5,8 @@ const types = {
     REMOVE_FROM_CARD: "REMOVE_FROM_CARD",
     INCREASE_COUNT_OF_ORDERED_ITEM: "INCREASE_COUNT_OF_ORDERED_ITEM",
     DECREASE_COUNT_OF_ORDERED_ITEM: "DECREASE_COUNT_OF_ORDERED_ITEM",
-    RESET: "RESET"
+    RESET: "RESET",
+    UPDATE_PRICE: "UPDATE_PRICE"
 }
 
 const setBarcodeParams = (value) => {
@@ -50,6 +51,12 @@ const setReset = (value) => {
     }
 }
 
+const updatePrice = (value) => {
+    return {
+        type: types.UPDATE_PRICE,
+        data: value
+    }
+}
 
 export default {
     types,
@@ -58,5 +65,6 @@ export default {
     removeFromCart,
     decreaseCountOfOrderedItem,
     increaseCountOfOrderedItem,
-    setReset
+    setReset,
+    updatePrice
 };

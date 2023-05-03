@@ -176,7 +176,7 @@ const TestOrder = (props) => {
                         console.log(err)
                     })
                 setInitialFetchComplete(true);
-                setTimeout(() => { setWaiting(false); }, 1000);
+                setTimeout(() => { setWaiting(false); }, 2000);
             })
             .catch((err) => {
                 console.log(err);
@@ -221,7 +221,7 @@ const TestOrder = (props) => {
                                             size={18}
                                             color={"#D82227"}
                                         />
-                                        <Text style={styles.ratingText}>{restaurant.AvgPoint.toString().substr(0, 3)}</Text>
+                                        <Text style={styles.ratingText}>{restaurant.AvgPoint}</Text>
                                         <Text style={styles.reviewsText}>({restaurant.CommentCount} {t("ORDER_SCREEN.REVIEWS")})</Text>
                                     </TouchableOpacity>
                                     <View style={styles.deliveryDetailsContainer}>

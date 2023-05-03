@@ -75,7 +75,12 @@
         "TOTAL": "Total",
         "CONFIRM_ORDER": "Confirm Order",
         "RETURN_TO_CART": "Return to Cart",
-        "PLACE_ORDER": "Place Order"
+        "PLACE_ORDER": "Place Order",
+        "CONTROL_CART": "Check Cart Status",
+        "MODAL_CLOSE": "Close",
+        "SOLD_OUT_ITEMS": "Sold out items: ",
+        "PRICE_CHANGED_ITEMS": "Price changed items: ",
+        "MODAL_MESSAGE": "Your cart has been updated."
     },
 
     "COMMENT_SCREEN": {

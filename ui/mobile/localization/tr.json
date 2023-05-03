@@ -75,7 +75,12 @@
         "TOTAL": "Toplam",
         "CONFIRM_ORDER": "Sepeti Onayla",
         "RETURN_TO_CART": "Sepete Dön",
-        "PLACE_ORDER": "Tamamla"
+        "PLACE_ORDER": "Tamamla",
+        "CONTROL_CART": "Sepet Durumunu Kontrol Et",
+        "MODAL_CLOSE": "Kapat",
+        "SOLD_OUT_ITEMS": "Tükenen ürünler: ",
+        "PRICE_CHANGED_ITEMS": "Fiyatı değişen ürünler: ",
+        "MODAL_MESSAGE": "Sepetiniz otomatik olarak güncellenmiştir."
     },
 
     "COMMENT_SCREEN": {

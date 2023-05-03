@@ -1,14 +1,17 @@
-import { Text, View, StyleSheet, Button, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, Button, TouchableOpacity, ScrollView, Dimensions, Modal, Pressable } from 'react-native';
 import React from 'react';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 import OrderItem from './OrderItem';
 import BillingInfo from './BillingInfo';
 import { WebView } from 'react-native-webview';
-import { initializePayment, getWebViewUrlFromAWS, getPaymentResult, completePayment } from '../../endpoints';
+import { initializePayment, getWebViewUrlFromAWS, getPaymentResult, completePayment, getRestaurantMenu } from '../../endpoints';
 import { useState } from 'react';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { OrderActions } from '../../actions';
+import { useIsFocused } from '@react-navigation/native';
+
 
 export const themeColor = '#1e1e1e';
 export const textColor = '#ffffffdd';
@@ -24,6 +27,16 @@ export default function StepperMain() {
   const [totalPrice, setTotalPrice] = useState(0);
   const { t, i18n } = useTranslation();
   const [iyzicoVisible, setIyzicoVisible] = useState(true);
+  const [cartItemsChangedError, setCartItemsChangedError] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [soldOutMessage, setSoldOutMessage] = useState([]);
+  const [priceChangeMessage, setPriceChangeMessage] = useState([]);
+  const dispatch = useDispatch();
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    setCartItemsChangedError(true);
+  }, [isFocused]);
 
   useEffect(() => {
 
@@ -44,7 +57,10 @@ export default function StepperMain() {
   function onReturnToCartClicked() {
     setWebViewURL("");
     setToken("");
+    setCartItemsChangedError(true);
   }
+
+  
 
   function onConfirmOrderClicked() {
     /* let payload = {
@@ -67,31 +83,82 @@ export default function StepperMain() {
       ]
     } */
 
-    let payload = {
-      buyerID: userState.userId,
-      restaurantID: "" + orderState.restaurantId,
-      tableID: orderState.tableId,
-      basketItems: orderState.orderedItems
-    }
-
-    console.log("on confirm order clicked: ");
-    console.log(payload);
-
-    initializePayment(payload)
+    getRestaurantMenu(orderState.restaurantId)
       .then((res) => {
-        setIyzicoVisible(true);
-        console.log("initialize payment: ");
-        console.log(res);
-        getWebViewUrlFromAWS(res.data)
-          .then((response) => {
-            console.log("iyzico from aws:");
-            console.log(response);
-            setWebViewURL(response.data.paymentPageUrl);
-            setToken(response.data.token);
-          })
-          .catch((error) => {
-            console.log(error);
-          })
+        let soldOut = [];
+        let priceChanged = [];
+        res.data.map((dish) => {
+          let found = orderState.orderedItems.find(orderedDish => orderedDish.id === dish.ID);
+
+          if (found !== null && found !== undefined) {
+            if (dish.price !== found.price) {
+              priceChanged.push(dish);
+              setPriceChangeMessage(priceChanged);
+              setCartItemsChangedError(true);
+            } else if (dish.IsDisabled) {
+              soldOut.push(dish);
+              setSoldOutMessage(soldOut);
+              setCartItemsChangedError(true);
+            }
+          }
+
+        });
+
+        let shouldProcess;
+        if (soldOut.length > 0 || priceChanged.length > 0) {
+          setModalVisible(true);
+          shouldProcess = false;
+          setCartItemsChangedError(true);
+
+          soldOut.map((soldOutDish) => {
+            dispatch(OrderActions.removeFromCart(soldOutDish.ID));
+          });
+
+          priceChanged.map((priceChangedDish) => {
+            dispatch(OrderActions.updatePrice({
+              id: priceChangedDish.ID,
+              price: priceChangedDish.price
+            }));
+          });
+
+        } else {
+          shouldProcess = true;
+          setCartItemsChangedError(false);
+        }
+
+
+        if (shouldProcess && !cartItemsChangedError) {
+          let payload = {
+            buyerID: userState.userId,
+            restaurantID: "" + orderState.restaurantId,
+            tableID: orderState.tableId,
+            basketItems: orderState.orderedItems
+          }
+
+          console.log("on confirm order clicked: ");
+          console.log(payload);
+
+          initializePayment(payload)
+            .then((res) => {
+              setIyzicoVisible(true);
+              console.log("initialize payment: ");
+              console.log(res);
+              getWebViewUrlFromAWS(res.data)
+                .then((response) => {
+                  console.log("iyzico from aws:");
+                  console.log(response);
+                  setWebViewURL(response.data.paymentPageUrl);
+                  setToken(response.data.token);
+                })
+                .catch((error) => {
+                  console.log(error);
+                })
+
+            })
+            .catch((err) => {
+              console.log(err);
+            })
+        }
 
       })
       .catch((err) => {
@@ -149,11 +216,14 @@ export default function StepperMain() {
     <View style={{ flex: 1, marginBottom: -30 }}>
       <ProgressSteps {...progressSteps}>
         <ProgressStep label={t("CART_SCREEN.CART")}
-          nextBtnText={t("CART_SCREEN.CONFIRM_ORDER")}
-          nextBtnStyle={(orderState.orderedItems.length > 0) ? styles.firstStepNextButton : styles.firstStepNextButtonDisabled}
+          nextBtnText={(cartItemsChangedError) ? t("CART_SCREEN.CONTROL_CART") : t("CART_SCREEN.CONFIRM_ORDER")}
+          nextBtnStyle={(cartItemsChangedError) ? styles.firstStepNextButtonError :
+            (orderState.orderedItems.length > 0) ? styles.firstStepNextButton : styles.firstStepNextButtonDisabled
+          }
           nextBtnDisabled={(orderState.orderedItems.length > 0) ? false : true}
           {...firstProgressStep}
           onNext={onConfirmOrderClicked}
+          errors={cartItemsChangedError}
         >
           <View style={styles.headerWithBilling}>
             <Text style={styles.textHeader}>{t("CART_SCREEN.CART")}</Text>
@@ -172,6 +242,50 @@ export default function StepperMain() {
               })
             }
           </ScrollView>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                {
+                  (soldOutMessage.length > 0) ?
+                    <Text style={styles.modalText}>
+                      {t("CART_SCREEN.SOLD_OUT_ITEMS")}
+                      {soldOutMessage.map((soldOut) => {
+                        return soldOut.name
+                      }).join(", ")
+                      }
+                    </Text>
+                    :
+                    null
+                }
+                {
+                  (priceChangeMessage.length > 0) ?
+                    <Text style={styles.modalText}>
+                      {t("CART_SCREEN.PRICE_CHANGED_ITEMS")}
+                      {priceChangeMessage.map((priceChanged) => {
+                        return priceChanged.name
+                      }).join(", ")
+                      }
+                    </Text>
+                    :
+                    null
+                }
+                <Text style={styles.modalText}>
+                  {t("CART_SCREEN.MODAL_MESSAGE")}
+                </Text>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => {
+                    setModalVisible(!modalVisible);
+                  }}>
+                  <Text style={styles.textStyle}>{t("CART_SCREEN.MODAL_CLOSE")}</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
         </ProgressStep>
         <ProgressStep
           label={t("CART_SCREEN.PAYMENT")} {...progressStep}
@@ -222,6 +336,15 @@ const styles = StyleSheet.create({
     top: -40,
     borderRadius: 10,
   },
+  firstStepNextButtonError: {
+    backgroundColor: "#D82227",
+    width: screenDimensions.width - 40,
+    paddingVertical: 10,
+    position: "absolute",
+    left: -screenDimensions.width + 60 + 20,
+    top: -40,
+    borderRadius: 10,
+  },
   previousButton: {
     backgroundColor: themeColor,
     paddingHorizontal: 16,
@@ -262,5 +385,48 @@ const styles = StyleSheet.create({
   },
   iyzicoContainer: {
 
-  }
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    width: screenDimensions.width * 0.8,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonClose: {
+    backgroundColor: '#D82227',
+    width: "100%"
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 18
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 18
+  },
 });

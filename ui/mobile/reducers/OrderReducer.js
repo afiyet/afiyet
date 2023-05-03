@@ -103,6 +103,18 @@ const OrderReducer = (state = initialState, action) => {
                 tableId: "",
                 orderedItems: []
             }
+        case OrderActions.types.UPDATE_PRICE:
+            state.orderedItems.map((item, index) => {
+                if (item.id === action.data.id) {
+                    state.orderedItems.splice(index, 1, {
+                        ...item,
+                        price: action.data.price
+                    });
+                }
+            });
+            return {
+                ...state
+            }
         default:
             return { ...state };
     }
