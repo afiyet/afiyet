@@ -22,14 +22,22 @@ func NewPasswordService(db *gorm.DB) *PasswordService {
 
 func (s *PasswordService) ReqPasswordChange(pe model.PasswordChange) error {
 	fmt.Printf("%#v", pe)
-	if s.r.IsEmailValid(pe) {
+	valid, err := s.r.IsEmailValid(pe)
 
+	if err != nil {
+		return fmt.Errorf("email validatoin sql: %w", err)
+	}
+
+	if valid {
 		seed := strconv.Itoa(int(time.Now().UnixNano()))
 		// Create token
 		tmp, err := bcrypt.GenerateFromPassword([]byte(seed), 4)
 		token := string(tmp[:])
 
-		s.r.AddPasswordLog(pe, token)
+		err = s.r.AddPasswordLog(pe, token)
+		if err != nil {
+			return err
+		}
 
 		err = SendGmailEmail(pe.Email, token)
 
@@ -37,26 +45,27 @@ func (s *PasswordService) ReqPasswordChange(pe model.PasswordChange) error {
 			return err
 		}
 	} else {
-		return errors.New("Mail is not found")
+		return errors.New("mail is not found")
 	}
 
 	return nil
 }
 
 func (s *PasswordService) ChangePassword(pe model.PasswordTemp) error {
+	valid, err := s.r.ValidateToken(pe)
 
-	if s.r.ValidateToken(pe) {
-		s.r.ChangePassword(pe)
+	if err != nil {
+		return fmt.Errorf("validation sql: %w", err)
+	}
+
+	if valid {
+		err := s.r.ChangePassword(pe)
+		if err != nil {
+			return fmt.Errorf("password change sql: %w", err)
+		}
 	} else {
-		return errors.New("Token is invalid")
+		return errors.New("token is invalid")
 	}
 
 	return nil
-}
-
-// r, err := http.NewRequest("POST", posturl, bytes.NewBuffer(body))
-// 		if err != nil {
-// 			panic(err)
-// 		}
-
 }
