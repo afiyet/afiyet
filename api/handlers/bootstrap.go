@@ -114,31 +114,5 @@ func Bootstrap(db *gorm.DB, e *echo.Echo, sha string) error {
 		return c.String(http.StatusOK, sha)
 	})
 
-	// TODO(umutgercek) delete this, this is just for testing
-
-	// Waiting for amazon
-	//e.GET("/send-email", func(c echo.Context) error {
-	//	to := "eumutgercek@gmail.com"
-	//	msg := `<h1 style="color: red"> Hello </h1>`
-	//	err := aws.SendEmail(to, "Test Subject", msg, "Test body plain test")
-	//	if err != nil {
-	//		return c.JSON(http.StatusInternalServerError, err.Error())
-	//	}
-	//
-	//	return c.String(http.StatusOK, "ok")
-	//})
-
-	// Works
-	//e.GET("/send-email", func(c echo.Context) error {
-	//	to := "eumutgercek@gmail.com"
-	//	msg := `https://afiyet.app/foo/bar/baz`
-	//	err := service.SendGmailEmail(to, "Test Subject", msg)
-	//	if err != nil {
-	//		return c.JSON(http.StatusInternalServerError, err.Error())
-	//	}
-	//
-	//	return c.String(http.StatusOK, "ok")
-	//})
-
 	return nil
 }
