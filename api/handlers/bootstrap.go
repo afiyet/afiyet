@@ -48,10 +48,6 @@ func Bootstrap(db *gorm.DB, e *echo.Echo, sha string) error {
 		s: service.NewPasswordService(db),
 	}
 
-	PasswordHandler := PasswordHandler{
-		s: service.NewPasswordService(db),
-	}
-
 	e.POST("/users", userHandler.Add)
 	e.DELETE("/users/:id", userHandler.Delete)
 	e.GET("/users/:id", userHandler.Get)
@@ -126,7 +122,7 @@ func Bootstrap(db *gorm.DB, e *echo.Echo, sha string) error {
 		return c.String(http.StatusOK, sha)
 	})
 
-	e.GET("/password/email/:email", PasswordHandler.PostToMailService)
+	e.GET("/password/email/:email", PasswordHandler.ReqPasswordChange)
 	e.GET("/password/change/:password", PasswordHandler.ChangePassword)
 
 	return nil
