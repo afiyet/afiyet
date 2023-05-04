@@ -85,6 +85,16 @@ const RestaurantLogin = () => {
                                 {t("LOGIN.SIGNUP_BUTTON")}
                             </Button>
                         </Box>
+                        <Box style={styles.buttonContainer}>
+                            <Button
+                                fullWidth
+                                style={{ textTransform: 'none' }}
+                                onClick={() => { history.push("/forgot-password") }}
+                                variant="contained"
+                                color="secondary">
+                                {t("LOGIN.FORGOT_PASSWORD_BUTTON")}
+                            </Button>
+                        </Box>
                     </FormControl>
                 </Box>
             </Box>

@@ -1,12 +1,13 @@
 package handlers
 
 import (
+	"net/http"
+	"os"
+
 	"github.com/afiyet/afiytet/api/service"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"gorm.io/gorm"
-	"net/http"
-	"os"
 )
 
 func Bootstrap(db *gorm.DB, e *echo.Echo, sha string) error {
@@ -41,6 +42,10 @@ func Bootstrap(db *gorm.DB, e *echo.Echo, sha string) error {
 		orderService:     orderHandler.s,
 		userService:      userHandler.s,
 		orderDishService: orderHandler.o,
+	}
+
+	PasswordHandler := PasswordHandler{
+		s: service.NewPasswordService(db),
 	}
 
 	e.POST("/users", userHandler.Add)
@@ -94,6 +99,9 @@ func Bootstrap(db *gorm.DB, e *echo.Echo, sha string) error {
 	e.POST("/restaurants/orderPayment", PaymentHandler.CreatePaymentWithForm)
 	e.POST("/restaurants/setOrderResult", PaymentHandler.SetPaymentResult)
 	e.POST("/restaurants/orderCallback", PaymentHandler.PaymentCallBackURL)
+
+	e.POST("/password/forgotten/:email", PasswordHandler.ReqPasswordChange)
+	e.POST("/password/change", PasswordHandler.ChangePassword)
 
 	// Ops
 

@@ -3,7 +3,9 @@
         "EMAIL": "E-mail",
         "PASSWORD": "Password",
         "LOGIN_BUTTON": "Login",
-        "SIGNUP_BUTTON": "Sign up"
+        "SIGNUP_BUTTON": "Sign up",
+        "FORGOT_PASSWORD_BUTTON": "Forgot Password",
+        "FORGOT_PASSWORD_TITLE": "Forgot Password"
     },
     "APPBAR": {
         "MENU_EDIT": "Edit Menu",
@@ -104,7 +106,9 @@
         "TABLE_DELETE_SUCCESS": "Table deleted successfully!",
         "TABLE_DELETE_ERROR": "Table deletion error!",
         "TABLE_UPDATE_SUCCESS": "Table name updated successfully!",
-        "TABLE_UPDATE_ERROR": "Table name update error!"
+        "TABLE_UPDATE_ERROR": "Table name update error!",
+        "FORGOT_PASSWORD_SUCCESS": "Sent email",
+        "FORGOT_PASSWORD_ERROR": "Email sending error"
     },
     "SIGNUP_PAGE": {
         "TITLE": "Sign Up",
@@ -118,6 +122,9 @@
         "LATITUDE": "Latitude",
         "LONGITUDE": "Longitude",
         "SIGNUP_BUTTON": "Sign Up",
+        "FORGOT_PASSWORD_BUTTON": "Forgot password",
+        "FORGOT_PASSWORD_TITLE": "Forgot password",
+        "FORGOT_PASSWORD_DESCRIPTION": "If you can't reach your email account reach us from email",
         "RESTAURANT_PICTURE": "Restaurant Picture",
         "CAMPAIGN_PICTURE": "Campaign Picture"
     }

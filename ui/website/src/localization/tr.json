@@ -3,7 +3,9 @@
         "EMAIL": "E-posta",
         "PASSWORD": "Şifre",
         "LOGIN_BUTTON": "Giriş Yap",
-        "SIGNUP_BUTTON": "Kayıt Ol"
+        "SIGNUP_BUTTON": "Kayıt Ol",
+        "FORGOT_PASSWORD_BUTTON": "Şifremi Unuttum",
+        "FORGOT_PASSWORD_TITLE": "Şifremi Unuttum"
     },
     "APPBAR": {
         "MENU_EDIT": "Menü Düzenleme",
@@ -118,6 +120,9 @@
         "LATITUDE": "Enlem",
         "LONGITUDE": "Boylam",
         "SIGNUP_BUTTON": "Kayıt Ol",
+        "FORGOT_PASSWORD_BUTTON": "Şifremi Unuttum",
+        "FORGOT_PASSWORD_TITLE": "Şifremi Unuttum",
+        "FORGOT_PASSWORD_DESCRIPTION": "Eğer email adresinze ulaşamıyorsanız bize email üzerinden ulaşabilirsiniz.",
         "RESTAURANT_PICTURE": "Restoran Fotoğrafı",
         "CAMPAIGN_PICTURE": "Kampanya Fotoğrafı"
     }
