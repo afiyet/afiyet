@@ -10,9 +10,12 @@ import (
 	"time"
 )
 
-const maxRequestTime = 5 * time.Second
-const CloudFrontUrl = "https://d33virtamuit9v.cloudfront.net"
-const S3BucketName = "afiyet-media"
+const (
+	maxRequestTime   = 5 * time.Second
+	CloudFrontUrl    = "https://d33virtamuit9v.cloudfront.net"
+	S3BucketName     = "afiyet-media"
+	FromEmailAddress = "afiyetapp@gmail.com"
+)
 
 type AmazonService struct {
 	s3 *s3.Client
@@ -24,10 +27,10 @@ func NewAmazonService() (*AmazonService, error) {
 		return nil, fmt.Errorf("aws-config default package error: %w", err)
 	}
 
-	svc := s3.NewFromConfig(cfg)
+	s3 := s3.NewFromConfig(cfg)
 
 	return &AmazonService{
-		s3: svc,
+		s3: s3,
 	}, nil
 }
 
