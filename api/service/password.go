@@ -58,3 +58,5 @@ func (s *PasswordService) ChangePassword(pe model.PasswordTemp) error {
 // 		if err != nil {
 // 			panic(err)
 // 		}
+
+}
