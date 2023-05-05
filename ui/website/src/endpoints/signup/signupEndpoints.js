@@ -7,3 +7,7 @@ export function signup(payload) {
 export function forgotPassword(email){
     return axiosClient.post("/password/forgotten/"+email+"?type=restaurant")
 }
+
+export function changePassword(payload){
+    return axiosClient.post("/password/change")
+}

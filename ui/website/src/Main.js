@@ -11,6 +11,7 @@ import CommentsPage from "./restaurant/CommentsPage";
 import OrdersPage from "./restaurant/OrdersPage";
 import RestaurantSignUp from "./restaurant/RestaurantSignUp";
 import RestaurantForgotPassword from "./restaurant/RestaurantForgotPassword";
+import RestaurantChangePassword from "./restaurant/RestaurantChangePassword";
 
 function Main() {
 
@@ -38,6 +39,9 @@ function Main() {
                         </Route>
                         <Route path="/forgot-password">
                             <RestaurantForgotPassword />
+                        </Route>
+                        <Route path="/change-password">
+                            <RestaurantChangePassword />
                         </Route>
                         <Route path="/">
                             <RestaurantLogin />
