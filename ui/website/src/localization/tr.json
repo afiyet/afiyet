@@ -125,5 +125,14 @@
         "FORGOT_PASSWORD_DESCRIPTION": "Eğer email adresinze ulaşamıyorsanız bize email üzerinden ulaşabilirsiniz.",
         "RESTAURANT_PICTURE": "Restoran Fotoğrafı",
         "CAMPAIGN_PICTURE": "Kampanya Fotoğrafı"
+    },
+    "FORGOT_PASSWORD": {
+        "PASS_1": "Şifrenizi girin",
+        "PASS_2": "Şifrenizi tekrar girin",
+        "INVALID_TOKEN": "Tokeniniz hatalı, linki doğru kopyaladınız mı?",
+        "CHANGE_OK": "Şifre değiştirildi",
+        "CHANGE_ERR": "Şifre değişimi başarısız",
+        "BUTTON": "Şifremi değiştir",
+        "PASS_NEQ":"Şifreler uyuşmuyor"
     }
 }

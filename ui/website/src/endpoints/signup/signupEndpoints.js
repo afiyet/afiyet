@@ -9,5 +9,5 @@ export function forgotPassword(email){
 }
 
 export function changePassword(payload){
-    return axiosClient.post("/password/change")
+    return axiosClient.post("/password/change", payload)
 }

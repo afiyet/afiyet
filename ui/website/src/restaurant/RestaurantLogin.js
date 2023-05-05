@@ -105,7 +105,6 @@ const RestaurantLogin = () => {
 let styles = {
     restaurantLogin: {
         backgroundColor: '#d82227',
-        height: '100vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

@@ -127,5 +127,14 @@
         "FORGOT_PASSWORD_DESCRIPTION": "If you can't reach your email account reach us from email",
         "RESTAURANT_PICTURE": "Restaurant Picture",
         "CAMPAIGN_PICTURE": "Campaign Picture"
+    },
+    "FORGOT_PASSWORD": {
+        "PASS_1": "Enter your password",
+        "PASS_2": "Enter your password again",
+        "INVALID_TOKEN": "Invalid token, make sure you copied whole url",
+        "CHANGE_OK": "Password changed successfully",
+        "CHANGE_ERR": "Error occurred while caning password",
+        "BUTTON": "Change password",
+        "PASS_NEQ":"Password mismatch"
     }
 }

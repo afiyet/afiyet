@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import { Box, Button, TextField, Typography,Container } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import companyLogo from "../img/afiyet-logo-w.png";
@@ -12,21 +12,20 @@ const RestaurantChangePassword = () => {
   const [p1, setP1] = useState("");
   const [p2, setP2] = useState("");
   const { enqueueSnackbar } = useSnackbar();
-  const {params} = useParams();
   const [token,setToken] = useState("");
   const [error,setError] = useState(false);
 
   useEffect(() => {
-    if (params.token === ""){
-        setError(true)
-    }
+    const search = window.location.search;
+    const params = new URLSearchParams(search);
+    const token = params.get('token');
 
-    setToken((params.token))
-  },[])
+    setToken(token);
+  },[]);
 
   function handle() {
       if (p1 !== p2){
-          enqueueSnackbar(t("SNACKBAR.CHANGE_PASSWORD_MISMATCH"), { variant: "error" }); // TODO
+          enqueueSnackbar(t("FORGOT_PASSWORD.PASS_NEQ"), { variant: "error" });
           return
       }
 
@@ -38,73 +37,75 @@ const RestaurantChangePassword = () => {
     changePassword(payload)
       .then((res) => {
         console.log(res)
-        enqueueSnackbar(t("SNACKBAR.CHANGE_PASSWORD_SUCCESS"), { variant: "success" }); //TODO
+        enqueueSnackbar(t("FORGOT_PASSWORD.CHANGE_OK"), { variant: "success" });
       })
       .catch((err) => {
         console.log(err)
-        enqueueSnackbar(t("SNACKBAR.CHANGE_PASSWORD_ERROR"), { variant: "error" }); // TODO
+        enqueueSnackbar(t("FORGOT_PASSWORD.CHANGE_ERR"), { variant: "error" });
       });
   }
 
   return (
-    <>
-        <Box style={styles.changePassword}>
-            <FormControl>
-                <Box style={styles.fields}>
-                    <Box style={styles.passwordField}>
-                        <TextField
-                            id="outlined-search"
-                            value={p1}
-                            onChange={(event) => { setP1(event.target.value) }}
-                            label={t("LOGIN.NEW_PASSWORD")} // TODO
-                            type="password"
-                            style={{width: 250}}
-                        />
+    <Box style={styles.outer}>
+        <Box style={styles.form}>
+            <img style={styles.companyLogo} src={companyLogo} alt="Afiyet Logosu" />
+            <Box>
+                <FormControl>
+                    <Box style={styles.fields}>
+                        <Box style={styles.passwordField}>
+                            <TextField
+                                id="p1"
+                                value={p1}
+                                onChange={(event) => { setP1(event.target.value) }}
+                                label={t("FORGOT_PASSWORD.PASS_1")}
+                                type="password"
+                                style={{width: 250}}
+                            />
+                        </Box>
+                        <Box style={styles.passwordField}>
+                            <TextField
+                                id="p2"
+                                value={p2}
+                                onChange={(event) => { setP2(event.target.value) }}
+                                label={t("FORGOT_PASSWORD.PASS_2")}
+                                type="password"
+                                style={{width: 250}}
+                                error={p2 !== "" && p1 !== p2}
+                                helperText={p1 !== p2 && p2 !== "" ? t("FORGOT_PASSWORD.PASS_NEQ"): ""}
+                            />
+                        </Box>
+                        <Box style={styles.buttonContainer}>
+                            <Button
+                                style={{ textTransform: 'none' }}
+                                onClick={() => handle()}
+                                variant="contained"
+                                color="success">
+                                {t("FORGOT_PASSWORD.BUTTON")}
+                            </Button>
+                        </Box>
                     </Box>
-                    <Box style={styles.passwordField}>
-                        <TextField
-                            id="outlined-search"
-                            value={p2}
-                            onChange={(event) => { setP2(event.target.value) }}
-                            label={t("LOGIN.NEW_PASSWORD")} // TODO
-                            type="password"
-                            style={{width: 250}}
-                        />
-                    </Box>
-                    <Box style={styles.changeButton}>
-                        <Button
-                            style={{ textTransform: 'none' }}
-                            onClick={() => handle()}
-                            variant="contained"
-                            color="success">
-                            {t("LOGIN.FORGOT_PASSWORD_BUTTON")}
-                        </Button>
-                    </Box>
-                </Box>
-            </FormControl>
+                </FormControl>
+            </Box>
         </Box>
-        </>
+    </Box>
   );
 };
 
-export default RestaurantChangePassword;
-
 let styles = {
-    changePassword: { backgroundColor: '#d82227', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '20px', },
-    fields: {
+    outer: {
+        backgroundColor: '#d82227',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'column',
         gap: '20px',
-        marginTop: '20px'
+        height: '100vh',
     },
-    loginForm: {
+    form: {
         backgroundColor: 'white',
         padding: '4rem',
         boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
         display: 'flex',
-        maxWidth: "300px",
         flexDirection: 'column',
         borderRadius: '15px',
     },
@@ -112,6 +113,17 @@ let styles = {
         height: '150px',
         width: '150px',
         alignSelf: 'center',
-        marginBottom: '20px',
+    },
+    passwordField: {
+        marginTop: '25px',
+        marginBottom: '25px',
+    },
+    buttonContainer: {
+        marginTop: '25px',
+        display: 'flex',
+        justifyContent: 'center',
+        textTransform: 'none',
     },
 };
+
+export default RestaurantChangePassword;

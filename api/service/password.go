@@ -37,7 +37,7 @@ func (s *PasswordService) ReqPasswordChange(pe model.PasswordChange) error {
 		return err
 	}
 
-	//err = SendGmailEmail(pe.Email, token)
+	err = SendGmailEmail(pe.Email, token)
 
 	if err != nil {
 		return err
