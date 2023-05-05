@@ -45,13 +45,13 @@ func (pr PasswordRepository) IsEmailValid(pe model.PasswordChange) (bool, error)
 }
 
 func (pr PasswordRepository) AddPasswordLog(pe model.PasswordChange, token string) error {
-	return pr.db.Raw("INSERT INTO password (email, token, userType) VALUES(?,?,?);",
+	return pr.db.Exec("INSERT INTO password_changes (email, token, user_type) VALUES(?,?,?);",
 		pe.Email, token, pe.UserType).Error
 }
 
 func (pr PasswordRepository) ValidateToken(pe model.PasswordTemp) (bool, error) {
 	var result string
-	err := pr.db.Raw("select 1 from passwordChange pc where pc.token = ?", pe.Token).Scan(&result).Error
+	err := pr.db.Raw("select 1 from password_changes pc where pc.token = ?", pe.Token).Scan(&result).Error
 
 	if err != nil {
 		return false, err
@@ -70,20 +70,20 @@ func (pr PasswordRepository) ChangePassword(pe model.PasswordTemp) error {
 
 	var tmp model.PasswordChange
 
-	err := pr.db.Raw("select * from passwordChange pc where pc.token = ?", pe.Token).Scan(&tmp).Error
+	err := pr.db.Raw("select * from password_changes pc where pc.token = ?", pe.Token).Scan(&tmp).Error
 
 	if err != nil {
 		return err
 	}
 
 	if tmp.UserType == "restaurant" {
-		err = pr.db.Raw("update restaurants set password = ? where mail = ? ", passwordStr, tmp.Email).Error
+		err = pr.db.Exec("update restaurants set password = ? where mail = ? ", passwordStr, tmp.Email).Error
 
 		if err != nil {
 			return err
 		}
 	} else if tmp.UserType == "user" {
-		err = pr.db.Raw("update users set password = ? where mail = ? ", passwordStr, tmp.Email).Error
+		err = pr.db.Exec("update users set password = ? where mail = ? ", passwordStr, tmp.Email).Error
 
 		if err != nil {
 			return err

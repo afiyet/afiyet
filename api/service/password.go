@@ -28,24 +28,24 @@ func (s *PasswordService) ReqPasswordChange(pe model.PasswordChange) error {
 		return fmt.Errorf("email validatoin sql: %w", err)
 	}
 
-	if valid {
-		seed := strconv.Itoa(int(time.Now().UnixNano()))
-		// Create token
-		tmp, err := bcrypt.GenerateFromPassword([]byte(seed), 4)
-		token := string(tmp[:])
-
-		err = s.r.AddPasswordLog(pe, token)
-		if err != nil {
-			return err
-		}
-
-		err = SendGmailEmail(pe.Email, token)
-
-		if err != nil {
-			return err
-		}
-	} else {
+	if !valid {
 		return errors.New("mail is not found")
+	}
+
+	seed := strconv.Itoa(int(time.Now().UnixNano()))
+	// Create token
+	tmp, err := bcrypt.GenerateFromPassword([]byte(seed), 4)
+	token := string(tmp[:])
+
+	err = s.r.AddPasswordLog(pe, token)
+	if err != nil {
+		return err
+	}
+
+	//err = SendGmailEmail(pe.Email, token)
+
+	if err != nil {
+		return err
 	}
 
 	return nil

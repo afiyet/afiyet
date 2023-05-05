@@ -17,6 +17,6 @@ type PasswordChange struct {
 }
 
 type PasswordTemp struct {
-	TempPassword string
-	Token        string
+	TempPassword string `json:"tempPassword"`
+	Token        string `json:"token"`
 }
