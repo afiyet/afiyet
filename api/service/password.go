@@ -1,14 +1,12 @@
 package service
 
 import (
+	"crypto/rand"
+	"encoding/base64"
 	"errors"
 	"fmt"
-	"strconv"
-	"time"
-
 	"github.com/afiyet/afiytet/api/data/model"
 	"github.com/afiyet/afiytet/api/data/repo"
-	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -32,10 +30,7 @@ func (s *PasswordService) ReqPasswordChange(pe model.PasswordChange) error {
 		return errors.New("mail is not found")
 	}
 
-	seed := strconv.Itoa(int(time.Now().UnixNano()))
-	// Create token
-	tmp, err := bcrypt.GenerateFromPassword([]byte(seed), 4)
-	token := string(tmp[:])
+	token, err := generateRandomString(256)
 
 	err = s.r.AddPasswordLog(pe, token)
 	if err != nil {
@@ -68,4 +63,26 @@ func (s *PasswordService) ChangePassword(pe model.PasswordTemp) error {
 	}
 
 	return nil
+}
+
+// GenerateRandomString returns a URL-safe, base64 encoded
+// securely generated random string.
+func generateRandomString(s int) (string, error) {
+	b, err := generateRandomBytes(s)
+	return base64.URLEncoding.EncodeToString(b), err
+}
+
+// GenerateRandomBytes returns securely generated random bytes.
+// It will return an error if the system's secure random
+// number generator fails to function correctly, in which
+// case the caller should not continue.
+func generateRandomBytes(n int) ([]byte, error) {
+	b := make([]byte, n)
+	_, err := rand.Read(b)
+	// Note that err == nil only if we read len(b) bytes.
+	if err != nil {
+		return nil, err
+	}
+
+	return b, nil
 }
