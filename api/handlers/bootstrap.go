@@ -122,8 +122,5 @@ func Bootstrap(db *gorm.DB, e *echo.Echo, sha string) error {
 		return c.String(http.StatusOK, sha)
 	})
 
-	e.GET("/password/email/:email", PasswordHandler.ReqPasswordChange)
-	e.GET("/password/change/:password", PasswordHandler.ChangePassword)
-
 	return nil
 }

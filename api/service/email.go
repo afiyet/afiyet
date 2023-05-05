@@ -31,11 +31,7 @@ func SendGmailEmail(to, token string) error {
 
 	<br>
 
-	<a href="%s"> Tıklayınız </a>
-
-	Saygılarla, <br> <br>
-
-	Afiyet
+	<a href="%s"> Şifrenizi değiştirmek için tıklayın </a> <br>
 	`, "http://localhost:3000/password-change/"+token)
 
 	m := mail{
