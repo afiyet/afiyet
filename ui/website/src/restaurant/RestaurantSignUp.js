@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { toBase64 } from '../util';
 import { signup } from '../endpoints';
+import { useSnackbar } from 'notistack';
 
 const RestaurantSignUp = () => {
   /**
@@ -36,6 +37,7 @@ const RestaurantSignUp = () => {
   const id = useId();
   const [pictureBase64, setPictureBase64] = useState("");
   const [campaignPictureBase64, setCampaignPictureBase64] = useState("");
+  const { enqueueSnackbar } = useSnackbar();
 
   
   async function handlePicture() {
@@ -65,10 +67,11 @@ const RestaurantSignUp = () => {
 
     signup(payload)
     .then((res) => {
-
+      enqueueSnackbar(t("SIGNUP_PAGE.SUCCESS"), { variant: "success" });
     })
     .catch((err) => {
         console.log(err);
+        enqueueSnackbar(t("SIGNUP_PAGE.ERROR"), { variant: "error" });
     })
   }
 

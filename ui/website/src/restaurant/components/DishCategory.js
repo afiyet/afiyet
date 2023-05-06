@@ -17,6 +17,7 @@ import { addMenuItem, deleteMenuItem } from '../../endpoints';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@mui/material/Tooltip';
 import {toBase64} from "../../util";
+import { useSnackbar } from 'notistack';
 
 const DishCategory = (props) => {
 
@@ -36,6 +37,7 @@ const DishCategory = (props) => {
 	const [ingredientsTextFieldValue, setInredientsTextFieldValue] = useState("");
 	const menu = useSelector(state => state.menuState.menu);
 	const { t, i18n } = useTranslation();
+	const { enqueueSnackbar } = useSnackbar();
 
 	function handleMenuDialogClose() {
 		setFoodNAmeTextFieldValue("");
@@ -65,6 +67,7 @@ const DishCategory = (props) => {
 			})
 			.catch((err) => {
 				console.log(err);
+				enqueueSnackbar(t("MENU_EDIT_PAGE.ADD_MENU_ITEM_ERROR"), { variant: "error" });
 			})
 	}
 
@@ -77,7 +80,7 @@ const DishCategory = (props) => {
 							console.log(res);
 						})
 						.catch((err) => {
-
+							enqueueSnackbar(t("MENU_EDIT_PAGE.DELETE_MENU_ITEM_ERROR"), { variant: "error" });
 						})
 				});
 			}

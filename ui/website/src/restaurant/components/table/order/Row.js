@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Box from "@mui/material/Box";
-import Collapse from "@mui/material/Collapse";
-import IconButton from "@mui/material/IconButton";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { Button } from '@mui/material';
-import { deleteOrder } from '../../../../endpoints';
+import { acceptCashPayment, completeCashPayment, deleteOrder } from '../../../../endpoints';
 import { useTranslation } from 'react-i18next';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Chip from '@mui/material/Chip';
+import PriceCheckIcon from '@mui/icons-material/PriceCheck';
+import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
+import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
+import { useSnackbar } from 'notistack';
 
 export default function Row(props) {
     const {
@@ -21,13 +23,43 @@ export default function Row(props) {
     } = props;
 
     const { t, i18n } = useTranslation();
+    const { enqueueSnackbar } = useSnackbar();
 
-    function handleClickCompleteOrder() {
+    function removeOrder() {
         deleteOrder(order.orderId)
             .then((res) => {
                 fetchOrders();
             })
-            .catch((err) => { console.log(err); })
+            .catch((err) => {
+                console.log(err);
+                enqueueSnackbar(t("ORDERS_PAGE.REMOVE_ORDER_ERROR"), { variant: "error" });
+            })
+    }
+
+    function handleAcceptCashPayment() {
+        acceptCashPayment({
+            ID: order.orderId
+        })
+            .then((res) => {
+                fetchOrders();
+            })
+            .catch((err) => {
+                console.log(err);
+                enqueueSnackbar(t("ORDERS_PAGE.ACCEPT_CASH_PAYMENT_ERROR"), { variant: "error" });
+            })
+    }
+
+    function handleOrderDelivered() {
+        completeCashPayment({
+            ID: order.orderId
+        })
+            .then((res) => {
+                fetchOrders();
+            })
+            .catch((err) => {
+                console.log(err);
+                enqueueSnackbar(t("ORDERS_PAGE.ORDER_COMPLETE_ERROR"), { variant: "error" });
+            })
     }
 
     return (
@@ -35,20 +67,70 @@ export default function Row(props) {
             <TableRow>
                 <TableCell component="th" scope="row" align="left">
                     <Typography variant="h6" component="div">
-                        <Box style={{ fontWeight: "bold" }}>
-                            {t("REVIEWS_PAGE.TABLE_ORDER")} {order.orderId}
+                        <Box style={{ fontWeight: "bold", display: "flex", gap: "1vw" }}>
+                            {t("ORDERS_PAGE.TABLES.TABLE_ORDER")} {order.orderId}
+                            {
+                                (order.isPaid === 1 || order.paymentType === "CARD") ?
+                                    <Chip label={<PriceCheckIcon />} color="success" />
+                                    :
+                                    <Chip label={<PriceCheckIcon />} color="default" />
+                            }
+                            {
+                                (order.orderStatus === "WAITER_CALLED") ?
+                                    <Chip label={<EmojiPeopleIcon />} color="warning" />
+                                    :
+                                    <Chip label={<EmojiPeopleIcon />} color="default" />
+                            }
+                            {
+                                (order.isCompleted === 1) ?
+                                    <Chip label={<DinnerDiningIcon />} color="success" />
+                                    :
+                                    <Chip label={<DinnerDiningIcon />} color="default" />
+                            }
                         </Box>
+
                     </Typography>
                 </TableCell>
                 <TableCell align="right">
-                    <Button
-                        size="large"
-                        variant="contained"
-                        style={{ height: "100%" }}
-                        onClick={handleClickCompleteOrder}
-                    >
-                        {t("REVIEWS_PAGE.ORDER_COMPLETED_BUTTON")}
-                    </Button>
+                    <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                        {
+                            (order.isPaid === 0 && order.paymentType === "CASH") ?
+                                <Button
+                                    size="large"
+                                    style={{ height: "100%" }}
+                                    onClick={handleAcceptCashPayment}
+                                >
+                                    {t("ORDERS_PAGE.ACCEPT_PAYMENT_BUTTON")}
+                                </Button>
+                                :
+                                null
+                        }
+                        {
+                            (order.isCompleted === 0) ?
+                                <Button
+                                    size="large"
+                                    style={{ height: "100%" }}
+                                    onClick={handleOrderDelivered}
+                                >
+                                    {t("ORDERS_PAGE.ORDER_COMPLETED_BUTTON")}
+                                </Button>
+                                :
+                                null
+                        }
+                        {
+                            ((order.isPaid === 1 && order.isCompleted === 1) || (order.paymentType === "CARD" && order.isCompleted === 1)) ?
+                                <Button
+                                    size="large"
+                                    style={{ height: "100%" }}
+                                    onClick={removeOrder}
+                                    color={"error"}
+                                >
+                                    {t("ORDERS_PAGE.REMOVE_ORDER_BUTTON")}
+                                </Button>
+                                :
+                                null
+                        }
+                    </ButtonGroup>
                 </TableCell>
             </TableRow>
             <TableRow>
@@ -60,21 +142,21 @@ export default function Row(props) {
                                     <TableCell>
                                         <Typography variant="h6" >
                                             <Box style={{ fontWeight: "bold" }}>
-                                                {t("REVIEWS_PAGE.FOOD")}
+                                                {t("ORDERS_PAGE.TABLES.FOOD")}
                                             </Box>
                                         </Typography>
                                     </TableCell>
                                     <TableCell align="right">
                                         <Typography variant="h6" >
                                             <Box style={{ fontWeight: "bold" }}>
-                                                {t("REVIEWS_PAGE.AMOUNT")}
+                                                {t("ORDERS_PAGE.TABLES.AMOUNT")}
                                             </Box>
                                         </Typography>
                                     </TableCell>
                                     <TableCell align="right">
                                         <Typography variant="h6" >
                                             <Box style={{ fontWeight: "bold" }}>
-                                                {t("REVIEWS_PAGE.TOTAL")}
+                                                {t("ORDERS_PAGE.TABLES.TOTAL")}
                                             </Box>
                                         </Typography>
                                     </TableCell>

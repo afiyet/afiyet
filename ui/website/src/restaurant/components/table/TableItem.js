@@ -11,23 +11,28 @@ import TableItemDelete from './TableItemDelete';
 import TableItemUpdate from './TableItemUpdate';
 import TableItemQR from './TableItemQR';
 import Chip from '@mui/material/Chip';
-import TableItemOrder from './TableItemOrder';
+import { useTranslation } from 'react-i18next';
 
 export default function TableItem(props) {
 
     const {
         item,
-        fetchTables
+        fetchTables,
+        isAvailable
     } = props;
 
     const restaurant = useSelector(state => state.restaurantState);
     const qrRef = useRef();
+    const { t, i18n } = useTranslation();
 
     return (
         <Grid item sm={6} xs={3} xl={2} md={3}>
             <Card>
                 <CardContent>
-                    <Box ref={qrRef}>
+                    <Box
+                        ref={qrRef}
+                        style={{marginBottom: 15}}
+                    >
                         <QRCodeCanvas
                             id="qrCode"
                             value={restaurant.restaurantId + ":" + item.ID}
@@ -38,7 +43,8 @@ export default function TableItem(props) {
                         />
                     </Box>
                     <Box style={styles.nameAndChip}>
-                        <Typography gutterBottom noWrap={true} variant="h5">{item.name}</Typography>
+                        <Typography noWrap={true} variant="h5">{item.name}</Typography>
+                        <Chip label={(isAvailable) ? t("TABLES_PAGE.CHIP.EMPTY") : t("TABLES_PAGE.CHIP.FULL")} color={(isAvailable) ? "success" : "error"} variant="contained" />
                     </Box>
                 </CardContent>
                 <CardActions>

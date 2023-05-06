@@ -7,11 +7,11 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import LanguageIcon from '@mui/icons-material/Language';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { useHistory } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
+import TranslateIcon from '@mui/icons-material/Translate';
 
 export default function AppbarMenu() {
 
@@ -108,7 +108,7 @@ export default function AppbarMenu() {
                 <Divider />
                 <MenuItem onClick={handleChangeLanguage}>
                     <ListItemIcon>
-                        <LanguageIcon fontSize="small" />
+                        <TranslateIcon fontSize="small" />
                     </ListItemIcon>
                     {t("APPBAR.APPBAR_MENU.CHANGE_LANG")}
                 </MenuItem>

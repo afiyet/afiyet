@@ -5,8 +5,14 @@ import { useTranslation } from 'react-i18next';
 import MapLeaflet from './components/mainPage/MapLeaflet';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { toBase64 } from '../util';
-import { getRestaurantInfo, updateRestaurantInfo } from '../endpoints';
+import { forgotPassword, getRestaurantInfo, updateRestaurantInfo } from '../endpoints';
 import { RestaurantActions } from '../actions';
+import { useSnackbar } from 'notistack';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 const RestaurantMain = () => {
   /**
@@ -40,6 +46,9 @@ const RestaurantMain = () => {
   const id = useId();
   const [pictureBase64, setPictureBase64] = useState("");
   const [campaignPictureBase64, setCampaignPictureBase64] = useState("");
+  const { enqueueSnackbar } = useSnackbar();
+
+  const [passwordDialogOpen, setPasswordDialogOpen] = useState(false);
 
   function handleRestaurantStateChange() {
     setName(restaurantState.name);
@@ -65,7 +74,7 @@ const RestaurantMain = () => {
   }
 
   async function handleCampaignPicture() {
-    let file = document.getElementById(id+"campaign").files[0];
+    let file = document.getElementById(id + "campaign").files[0];
     const b64 = await toBase64(file);
     setCampaignPictureBase64(b64);
   }
@@ -92,11 +101,12 @@ const RestaurantMain = () => {
           })
           .catch((err) => {
             console.log(err);
+            enqueueSnackbar(t("MAIN_PAGE.RECEIVE_ERROR"), { variant: "error" });
           })
       })
       .catch((err) => {
         console.log(err);
-        //snackbar
+        enqueueSnackbar(t("MAIN_PAGE.UPDATE_ERROR"), { variant: "error" });
       })
   }
 
@@ -129,16 +139,16 @@ const RestaurantMain = () => {
                   <Box style={styles.imageBox}>
                     <Typography style={styles.pageTitle} gutterBottom variant="button">{t("MAIN_PAGE.CAMPAIGN_PICTURE")}</Typography>
                     <Button
-                        component="label"
-                        variant="text"
-                        style={{ minHeight: 350 }}
+                      component="label"
+                      variant="text"
+                      style={{ minHeight: 350 }}
                     >
                       {((campaignPicture !== "" && campaignPicture != null) || (campaignPictureBase64 !== "" && campaignPictureBase64 != null)) ?
-                          <img height={350} width={"100%"} src={campaignPictureBase64 || campaignPicture} style={styles.t} />
-                          :
-                          <AddAPhotoIcon style={styles.t} sx={{ margin: 0 }} />
+                        <img height={350} width={"100%"} src={campaignPictureBase64 || campaignPicture} style={styles.t} />
+                        :
+                        <AddAPhotoIcon style={styles.t} sx={{ margin: 0 }} />
                       }
-                      <input id={id+"campaign"} type="file" accept="image/png, image/gif, image/jpeg" hidden onChange={handleCampaignPicture} />
+                      <input id={id + "campaign"} type="file" accept="image/png, image/gif, image/jpeg" hidden onChange={handleCampaignPicture} />
                     </Button>
                   </Box>
                 </Grid>
@@ -179,6 +189,17 @@ const RestaurantMain = () => {
                     size="large"
                     variant="contained"
                     style={{ height: "100%" }}
+                    onClick={() => {
+                      setPasswordDialogOpen(true);
+                      forgotPassword(mail)
+                        .then((res) => {
+                          enqueueSnackbar(t("SNACKBAR.FORGOT_PASSWORD_SUCCESS"), { variant: "success" });
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                          enqueueSnackbar(t("SNACKBAR.FORGOT_PASSWORD_ERROR"), { variant: "error" });
+                        })
+                    }}
                   >
                     {t("MAIN_PAGE.CHANGE_PASSWORD")}
                   </Button>
@@ -226,7 +247,6 @@ const RestaurantMain = () => {
               </Grid>
             </Box>
           </Box>
-
           <Box>
             {
               (restaurantState.latitude !== "" || restaurantState.latitude !== "") ?
@@ -239,7 +259,30 @@ const RestaurantMain = () => {
             }
           </Box>
         </Box>
-
+        <Dialog
+          open={passwordDialogOpen}
+          onClose={() => {
+            setPasswordDialogOpen(false);
+          }}
+        >
+          <DialogTitle id="alert-dialog-title">
+            {t("MAIN_PAGE.PASSWORD_DIALOG.TITLE")}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              {t("MAIN_PAGE.PASSWORD_DIALOG.BODY")}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => {
+              setPasswordDialogOpen(false);
+            }}
+              autoFocus
+            >
+              {t("MAIN_PAGE.PASSWORD_DIALOG.BUTTON")}
+            </Button>
+          </DialogActions>
+        </Dialog>
 
       </Box>
     </Box>

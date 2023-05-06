@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import CollapsibleTable from './components/table/order/CollapsibleTable.';
 import { getRestaurantOrders, getTables } from '../endpoints';
 import { useSelector } from "react-redux";
+import { useSnackbar } from 'notistack';
 
 export default function OrdersPage() {
 
@@ -11,6 +12,7 @@ export default function OrdersPage() {
     const [search, setSearch] = useState("");
     const [ordersSeperatedTables, setOrdersSeperatedTables] = useState([]);
     const restaurantId = useSelector(state => state.restaurantState.restaurantId);
+    const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
         fetchOrders();
@@ -70,7 +72,11 @@ export default function OrdersPage() {
                                 let table = reconstructedData.find((dataObj) => (dataObj.tableId == tableId));
                                 table.orders.push({
                                     orderId: order.ID,
-                                    dishes: order.dishes
+                                    dishes: order.dishes,
+                                    orderStatus: order.Status,
+                                    paymentType: order.paymentType,
+                                    isPaid: order.isPaid,
+                                    isCompleted: order.isCompleted
                                 });
                             });
                         });
@@ -78,10 +84,16 @@ export default function OrdersPage() {
                         console.log(reconstructedData);
                         setOrdersSeperatedTables(reconstructedData);
                     })
-                    .catch((err) => { console.log(err) })
+                    .catch((err) => { 
+                        console.log(err);
+                        enqueueSnackbar(t("ORDERS_PAGE.ORDERS_ERROR"), { variant: "error" });
+                    })
                 console.log(reconstructedData);
             })
-            .catch((err) => { console.log(err) })
+            .catch((err) => { 
+                console.log(err);
+                enqueueSnackbar(t("ORDERS_PAGE.TABLES_ERROR"), { variant: "error" });
+            })
     }
 
     return (
@@ -107,7 +119,7 @@ export default function OrdersPage() {
                                     <Box style={{ marginBottom: 20 }} key={index + table.tableId}>
                                         <CollapsibleTable
                                             key={table.tableId}
-                                            tableOrders={table.orders}
+                                            tableOrders={table.orders.sort((a,b) => (a.orderId - b.orderId))}
                                             tableName={table.tableName}
                                             fetchOrders={fetchOrders}
                                         />

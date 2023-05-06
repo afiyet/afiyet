@@ -5,30 +5,33 @@ import { getComments } from '../endpoints';
 import { useSelector } from 'react-redux';
 import Rating from '@mui/material/Rating';
 import { useTranslation } from 'react-i18next';
+import { useSnackbar } from 'notistack';
 
 export default function Comments() {
   const [selectedFilter, setSelectedFilter] = useState("");
   const [comments, setComments] = useState([]);
   const restaurnatState = useSelector(state => state.restaurantState);
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     getComments(restaurnatState.restaurantId)
-    .then((res) => {
-      console.log(res.data);
-      setComments(res.data);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+      .then((res) => {
+        console.log(res.data);
+        setComments(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        enqueueSnackbar(t("REVIEWS_PAGE.FETCH_ERROR"), { variant: "error" });
+      })
   }, []);
 
   const buttons = [
-    <Button variant={(selectedFilter === "5") ? "contained" : "outlined"} key="five" onClick={() => {handleFilterButtonClick("5")}}><Rating value={5} readOnly /></Button>,
-    <Button variant={(selectedFilter === "4") ? "contained" : "outlined"} key="four" onClick={() => {handleFilterButtonClick("4")}}><Rating value={4} readOnly /></Button>,
-    <Button variant={(selectedFilter === "3") ? "contained" : "outlined"} key="three" onClick={() => {handleFilterButtonClick("3")}}><Rating value={3} readOnly /></Button>,
-    <Button variant={(selectedFilter === "2") ? "contained" : "outlined"} key="two" onClick={() => {handleFilterButtonClick("2")}}><Rating value={2} readOnly /></Button>,
-    <Button variant={(selectedFilter === "1") ? "contained" : "outlined"} key="one" onClick={() => {handleFilterButtonClick("1")}}><Rating value={1} readOnly /></Button>,
+    <Button variant={(selectedFilter === "5") ? "contained" : "outlined"} key="five" onClick={() => { handleFilterButtonClick("5") }}><Rating value={5} readOnly /></Button>,
+    <Button variant={(selectedFilter === "4") ? "contained" : "outlined"} key="four" onClick={() => { handleFilterButtonClick("4") }}><Rating value={4} readOnly /></Button>,
+    <Button variant={(selectedFilter === "3") ? "contained" : "outlined"} key="three" onClick={() => { handleFilterButtonClick("3") }}><Rating value={3} readOnly /></Button>,
+    <Button variant={(selectedFilter === "2") ? "contained" : "outlined"} key="two" onClick={() => { handleFilterButtonClick("2") }}><Rating value={2} readOnly /></Button>,
+    <Button variant={(selectedFilter === "1") ? "contained" : "outlined"} key="one" onClick={() => { handleFilterButtonClick("1") }}><Rating value={1} readOnly /></Button>,
   ];
 
   function handleFilterButtonClick(clickedButtonValue) {
@@ -58,17 +61,17 @@ export default function Comments() {
               return comment.point.toString() === selectedFilter;
             }
           })
-          .map((comment) => {
-            return (
-              <CommentItem
-                key={comment.ID} 
-                userFullName={comment.user.name + " " + comment.user.surname}
-                comment={comment.comment}
-                point={comment.point}
-                date={comment.createdAt}
-              />
-            );
-          })
+            .map((comment) => {
+              return (
+                <CommentItem
+                  key={comment.ID}
+                  userFullName={comment.user.name + " " + comment.user.surname}
+                  comment={comment.comment}
+                  point={comment.point}
+                  date={comment.createdAt}
+                />
+              );
+            })
         }
       </Box>
     </Box>
