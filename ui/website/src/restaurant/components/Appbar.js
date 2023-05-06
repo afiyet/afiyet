@@ -18,11 +18,11 @@ function Appbar() {
         title: t("APPBAR.ORDERS"),
         uri: "/orders"
     }, {
-        title: t("APPBAR.MENU_EDIT"),
-        uri: "/edit-menu"
-    }, {
         title: t("APPBAR.TABLES"),
         uri: "/tables"
+    }, {
+        title: t("APPBAR.MENU_EDIT"),
+        uri: "/edit-menu"
     }, {
         title: t("APPBAR.REVIEWS"),
         uri: "/comments"

@@ -71,6 +71,10 @@
                 "CANCEL_BUTTON": "İptal",
                 "CHANGE_BUTTON": "Değiştir"
             }
+        },
+        "CHIP": {
+            "FULL": "Dolu",
+            "EMPTY": "Müsait"
         }
     },
     "REVIEWS_PAGE": {
@@ -112,7 +116,12 @@
         "RESTAURANT_PICTURE": "Restoran Fotoğrafı",
         "CAMPAIGN_PICTURE": "Kampanya Fotoğrafı",
         "UPDATE_ERROR": "Güncellenirken hata oluştu!",
-        "RECEIVE_ERROR": "Restoran bilgileri alınırken hata oluştu."
+        "RECEIVE_ERROR": "Restoran bilgileri alınırken hata oluştu.",
+        "PASSWORD_DIALOG": {
+            "TITLE": "Şifre Değiştirme Talebi",
+            "BODY": "Şifrenizi değiştirebilmek için e-posta adresinize gönderdiğimiz bağlantıya tıklayınız.",
+            "BUTTON": "Tamam"
+        }
     },
     "SNACKBAR": {
         "LOCATION_ERROR": "Konum Bilgisi Alınamadı!",
@@ -124,7 +133,9 @@
         "TABLE_DELETE_SUCCESS": "Masa başarıyla silindi!",
         "TABLE_DELETE_ERROR": "Masa silinemedi!",
         "TABLE_UPDATE_SUCCESS": "Masa adı başarıyla değiştirildi!",
-        "TABLE_UPDATE_ERROR": "Masa adı değiştirilemedi!"
+        "TABLE_UPDATE_ERROR": "Masa adı değiştirilemedi!",
+        "FORGOT_PASSWORD_SUCCESS": "E-posta gönderildi",
+        "FORGOT_PASSWORD_ERROR": "E-posta gönderilirken hata oluştu!"
     },
     "SIGNUP_PAGE": {
         "TITLE": "Kayıt Ol",
