@@ -48,13 +48,6 @@ func Bootstrap(db *gorm.DB, e *echo.Echo, sha string) error {
 		s: service.NewPasswordService(db),
 	}
 
-	e.POST("/users", userHandler.Add)
-	e.DELETE("/users/:id", userHandler.Delete)
-	e.GET("/users/:id", userHandler.Get)
-	e.GET("/users", userHandler.List)
-	e.PUT("/users/:id", userHandler.Update)
-	e.PUT("/users/:id/ratings", userHandler.GetRatings)
-
 	e.POST("/users/signup", userHandler.Signup)
 	e.POST("/users/login", userHandler.Login)
 
