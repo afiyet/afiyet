@@ -44,6 +44,10 @@ func Bootstrap(db *gorm.DB, e *echo.Echo, sha string) error {
 		orderDishService: orderHandler.o,
 	}
 
+	PasswordHandler := PasswordHandler{
+		s: service.NewPasswordService(db),
+	}
+
 	e.POST("/users", userHandler.Add)
 	e.DELETE("/users/:id", userHandler.Delete)
 	e.GET("/users/:id", userHandler.Get)
@@ -99,6 +103,9 @@ func Bootstrap(db *gorm.DB, e *echo.Echo, sha string) error {
 	e.POST("/restaurants/createCashOrder", PaymentHandler.CreateWithCashPayment)
 	e.POST("/restaurants/completeCashPayment", PaymentHandler.CompleteCashPayment)
 	e.POST("/restaurants/callWaiter", PaymentHandler.CallWaiterForCashPayment)
+
+	e.POST("/password/forgotten/:email", PasswordHandler.ReqPasswordChange)
+	e.POST("/password/change", PasswordHandler.ChangePassword)
 
 	// Ops
 

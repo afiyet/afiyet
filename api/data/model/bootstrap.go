@@ -24,5 +24,6 @@ func MigrateAll(db *gorm.DB) error {
 		&User{},
 		&Order{},
 		&Table{},
-		&OrderDish{})
+		&OrderDish{},
+		&PasswordChange{})
 }
