@@ -49,7 +49,8 @@
         "GET_MENU_ERROR": "Error occured while fetching menu",
         "ADD_MENU_ITEM_ERROR": "Error occured while adding dish",
         "DELETE_MENU_ITEM_ERROR": "Error occured while deleting dish",
-        "UPDATE_MENU_ITEM_ERROR": "Error occured while updating dish"
+        "UPDATE_MENU_ITEM_ERROR": "Error occured while updating dish",
+        "UPDATE_MENU_ITEM_SUCCESS": "Update successful"
     },
     "TABLES_PAGE": {
         "SEARCH_TABLES": "Search Tables",

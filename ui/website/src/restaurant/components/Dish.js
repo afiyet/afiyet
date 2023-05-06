@@ -108,6 +108,7 @@ const Dish = (props) => {
                                 IsDisabled: !IsDisabled
                             })
                                 .then((res) => {
+                                    enqueueSnackbar(t("MENU_EDIT_PAGE.UPDATE_MENU_ITEM_SUCCESS"), { variant: "success" });
                                     dispatch(MenuActions.updateMenuItem({
                                         restaurantId: restaurantId,
                                         name: name,
@@ -125,7 +126,7 @@ const Dish = (props) => {
                                 })
                         }}
                     >
-                        {IsDisabled ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                        {!IsDisabled ? <VisibilityIcon /> : <VisibilityOffIcon />}
                     </IconButton>
                 </Tooltip>
                 <Tooltip title={t("MENU_EDIT_PAGE.DELETE_DISH_BUTTON")}>
@@ -163,6 +164,7 @@ const Dish = (props) => {
                                 IsDisabled: IsDisabled
                             })
                                 .then((res) => {
+                                    enqueueSnackbar(t("MENU_EDIT_PAGE.UPDATE_MENU_ITEM_SUCCESS"), { variant: "success" });
                                     dispatch(MenuActions.updateMenuItem({
                                         restaurantId: restaurantId,
                                         name: foodNameTextFieldValue || name,
