@@ -22,20 +22,12 @@ func (s *OrderService) Get(id int) (*model.Order, error) {
 	return s.r.Get(id)
 }
 
-func (s *OrderService) List() ([]model.Order, error) {
-	return s.r.List()
-}
-
 func (s *OrderService) Update(order model.Order) (*model.Order, error) {
 	return s.r.Update(order)
 }
 
 func (s *OrderService) Delete(id int) error {
 	return s.r.Delete(id)
-}
-
-func (s *OrderService) GetByTableID(id int) ([]model.Order, error) {
-	return s.r.GetByTableID(id)
 }
 
 func (s *OrderService) GetByRestaurantId(id int) ([]model.Order, error) {
