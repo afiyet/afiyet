@@ -5,7 +5,7 @@ import { addMenuItem, deleteMenuItem, getRestaurantMenu, updateMenuItem } from "
 import { getComments } from "./comments/commentEndpoints";
 import { updateRestaurantInfo, getRestaurantInfo } from "./mainPage/mainPageEndpoints";
 import { getRestaurantOrders, deleteOrder } from "./order/orderEndpoints";
-import { signup } from "./signup/signupEndpoints";
+import { signup, forgotPassword } from "./signup/signupEndpoints";
 
 export {
     axiosClient,
@@ -23,5 +23,6 @@ export {
     getRestaurantInfo,
     getRestaurantOrders,
     deleteOrder,
-    signup
+    signup,
+    forgotPassword
 };
