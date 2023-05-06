@@ -60,8 +60,6 @@ func Bootstrap(db *gorm.DB, e *echo.Echo, sha string) error {
 	e.POST("/ratings/:restaurantId/:userId", ratingHandler.Add)
 	e.DELETE("/ratings/:ratingId", ratingHandler.Delete)
 
-	e.POST("/restaurants", restaurantHandler.Add)
-	e.DELETE("/restaurants/:id", restaurantHandler.Delete)
 	e.GET("/restaurants/:id", restaurantHandler.Get)
 	e.GET("/restaurants", restaurantHandler.List)
 	e.PUT("/restaurants/:id", restaurantHandler.Update)
