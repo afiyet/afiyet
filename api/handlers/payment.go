@@ -202,7 +202,7 @@ func (h *PaymentHandler) CreateWithCashPayment(c echo.Context) error {
 		}
 	}
 
-	return c.JSON(http.StatusOK, "Order Accepted")
+	return c.JSON(http.StatusOK, order.ID)
 }
 
 func (h *PaymentHandler) CallWaiterForCashPayment(c echo.Context) error {
@@ -297,7 +297,7 @@ func (h *PaymentHandler) PaymentCallBackURL(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, nil)
+	return c.JSON(http.StatusOK, order.ID)
 }
 
 func prepareDishes(dishes []basketItem) string {
