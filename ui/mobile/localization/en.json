@@ -32,7 +32,7 @@
     "WRONG_CREDS": "Wrong credentials!",
     "WRONG_INPUT": "Provided information is wrong or invalid!",
     "PASSWORD_LENGTH": "Password must be 6 - 14 characters long!",
-    "SIGNUP_SUCCESS": "Sign up successfull!",
+    "SIGNUP_SUCCESS": "Sign up successful!",
     "SIGNUP_ERROR": "Sign up failed!",
     "SIGNUP_ERROR_EMAIL": "Sign up failed! Please try another email!",
 
@@ -83,7 +83,7 @@
         "MODAL_MESSAGE": "Your cart has been updated.",
         "PAY_CREDIT": "Pay with Credit Card now",
         "PAY_CASH": "Pay with Cash later",
-        "CREDIT_SUCCESS": "Payment Successfull",
+        "CREDIT_SUCCESS": "Payment Successful",
         "CALL_WAITER": "Call waiter to make payment"
     },
 

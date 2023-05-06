@@ -41,7 +41,7 @@ export default function CollapsibleTable(props) {
                         <TableCell colSpan={2}>
                             <Typography variant="h5" gutterBottom component="div">
                                 <Box style={{ fontWeight: "bold" }}>
-                                    {tableName} {t("REVIEWS_PAGE.TABLE_ORDERS")}
+                                    {tableName} {t("ORDERS_PAGE.TABLES.TABLE_ORDERS")}
                                 </Box>
                             </Typography>
                         </TableCell>
@@ -56,7 +56,7 @@ export default function CollapsibleTable(props) {
                         />
                     ))}
                     <TableRow>
-                        <TableCell>{t("REVIEWS_PAGE.TABLE_TOTAL")}</TableCell>
+                        <TableCell>{t("ORDERS_PAGE.TABLES.TABLE_TOTAL")}</TableCell>
                         <TableCell align="right">
                             {tableTotal}
                         </TableCell>

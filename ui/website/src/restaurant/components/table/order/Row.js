@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Box from "@mui/material/Box";
-import Collapse from "@mui/material/Collapse";
-import IconButton from "@mui/material/IconButton";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { Button } from '@mui/material';
 import { acceptCashPayment, completeCashPayment, deleteOrder } from '../../../../endpoints';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +14,7 @@ import Chip from '@mui/material/Chip';
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
+import { useSnackbar } from 'notistack';
 
 export default function Row(props) {
     const {
@@ -26,14 +23,17 @@ export default function Row(props) {
     } = props;
 
     const { t, i18n } = useTranslation();
-
+    const { enqueueSnackbar } = useSnackbar();
 
     function removeOrder() {
         deleteOrder(order.orderId)
             .then((res) => {
                 fetchOrders();
             })
-            .catch((err) => { console.log(err); })
+            .catch((err) => {
+                console.log(err);
+                enqueueSnackbar(t("ORDERS_PAGE.REMOVE_ORDER_ERROR"), { variant: "error" });
+            })
     }
 
     function handleAcceptCashPayment() {
@@ -45,6 +45,7 @@ export default function Row(props) {
             })
             .catch((err) => {
                 console.log(err);
+                enqueueSnackbar(t("ORDERS_PAGE.ACCEPT_CASH_PAYMENT_ERROR"), { variant: "error" });
             })
     }
 
@@ -57,6 +58,7 @@ export default function Row(props) {
             })
             .catch((err) => {
                 console.log(err);
+                enqueueSnackbar(t("ORDERS_PAGE.ORDER_COMPLETE_ERROR"), { variant: "error" });
             })
     }
 
@@ -66,7 +68,7 @@ export default function Row(props) {
                 <TableCell component="th" scope="row" align="left">
                     <Typography variant="h6" component="div">
                         <Box style={{ fontWeight: "bold", display: "flex", gap: "1vw" }}>
-                            {t("REVIEWS_PAGE.TABLE_ORDER")} {order.orderId}
+                            {t("ORDERS_PAGE.TABLES.TABLE_ORDER")} {order.orderId}
                             {
                                 (order.isPaid === 1 || order.paymentType === "CARD") ?
                                     <Chip label={<PriceCheckIcon />} color="success" />
@@ -98,7 +100,7 @@ export default function Row(props) {
                                     style={{ height: "100%" }}
                                     onClick={handleAcceptCashPayment}
                                 >
-                                    {"ödeme alındı"}
+                                    {t("ORDERS_PAGE.ACCEPT_PAYMENT_BUTTON")}
                                 </Button>
                                 :
                                 null
@@ -110,7 +112,7 @@ export default function Row(props) {
                                     style={{ height: "100%" }}
                                     onClick={handleOrderDelivered}
                                 >
-                                    {t("REVIEWS_PAGE.ORDER_COMPLETED_BUTTON")}
+                                    {t("ORDERS_PAGE.ORDER_COMPLETED_BUTTON")}
                                 </Button>
                                 :
                                 null
@@ -123,7 +125,7 @@ export default function Row(props) {
                                     onClick={removeOrder}
                                     color={"error"}
                                 >
-                                    {"sil"}
+                                    {t("ORDERS_PAGE.REMOVE_ORDER_BUTTON")}
                                 </Button>
                                 :
                                 null
@@ -140,21 +142,21 @@ export default function Row(props) {
                                     <TableCell>
                                         <Typography variant="h6" >
                                             <Box style={{ fontWeight: "bold" }}>
-                                                {t("REVIEWS_PAGE.FOOD")}
+                                                {t("ORDERS_PAGE.TABLES.FOOD")}
                                             </Box>
                                         </Typography>
                                     </TableCell>
                                     <TableCell align="right">
                                         <Typography variant="h6" >
                                             <Box style={{ fontWeight: "bold" }}>
-                                                {t("REVIEWS_PAGE.AMOUNT")}
+                                                {t("ORDERS_PAGE.TABLES.AMOUNT")}
                                             </Box>
                                         </Typography>
                                     </TableCell>
                                     <TableCell align="right">
                                         <Typography variant="h6" >
                                             <Box style={{ fontWeight: "bold" }}>
-                                                {t("REVIEWS_PAGE.TOTAL")}
+                                                {t("ORDERS_PAGE.TABLES.TOTAL")}
                                             </Box>
                                         </Typography>
                                     </TableCell>

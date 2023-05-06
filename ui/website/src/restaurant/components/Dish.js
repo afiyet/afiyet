@@ -15,6 +15,7 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { toBase64 } from '../../util';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useSnackbar } from 'notistack';
 
 const Dish = (props) => {
 
@@ -33,6 +34,7 @@ const Dish = (props) => {
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
     const dispatch = useDispatch();
     const { t, i18n } = useTranslation();
+    const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
         setFoodNameTextFieldValue(name);
@@ -119,6 +121,7 @@ const Dish = (props) => {
                                 })
                                 .catch((err) => {
                                     console.log(err);
+                                    enqueueSnackbar(t("MENU_EDIT_PAGE.UPDATE_MENU_ITEM_ERROR"), { variant: "error" });
                                 })
                         }}
                     >
@@ -139,7 +142,7 @@ const Dish = (props) => {
                                     fetchMenu();
                                 })
                                 .catch((err) => {
-
+                                    enqueueSnackbar(t("MENU_EDIT_PAGE.DELETE_MENU_ITEM_ERROR"), { variant: "error" });
                                 })
                         }}
                     >
@@ -173,6 +176,7 @@ const Dish = (props) => {
                                 })
                                 .catch((err) => {
                                     console.log(err);
+                                    enqueueSnackbar(t("MENU_EDIT_PAGE.UPDATE_MENU_ITEM_ERROR"), { variant: "error" });
                                 })
                         }}
                     >

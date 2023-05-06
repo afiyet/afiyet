@@ -20,6 +20,7 @@ import { MenuActions } from '../actions';
 
 import { addTable, getRestaurantMenu } from '../endpoints';
 import { useTranslation } from 'react-i18next';
+import { useSnackbar } from 'notistack';
 
 const EditMenu = () => {
 
@@ -28,6 +29,7 @@ const EditMenu = () => {
 	const restaurantId = useSelector(state => state.restaurantState.restaurantId);
 	const dispatch = useDispatch();
 	const {t, i18n} = useTranslation();
+	const { enqueueSnackbar } = useSnackbar();
 
 	useEffect(() => {
 		fetchMenu();
@@ -40,6 +42,7 @@ const EditMenu = () => {
 		})
 		.catch((err) => {
 			console.log(err);
+			enqueueSnackbar(t("MENU_EDIT_PAGE.GET_MENU_ERROR"), { variant: "error" });
 		})
 	}
 

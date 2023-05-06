@@ -7,6 +7,7 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { toBase64 } from '../util';
 import { getRestaurantInfo, updateRestaurantInfo } from '../endpoints';
 import { RestaurantActions } from '../actions';
+import { useSnackbar } from 'notistack';
 
 const RestaurantMain = () => {
   /**
@@ -40,6 +41,7 @@ const RestaurantMain = () => {
   const id = useId();
   const [pictureBase64, setPictureBase64] = useState("");
   const [campaignPictureBase64, setCampaignPictureBase64] = useState("");
+  const { enqueueSnackbar } = useSnackbar();
 
   function handleRestaurantStateChange() {
     setName(restaurantState.name);
@@ -92,11 +94,12 @@ const RestaurantMain = () => {
           })
           .catch((err) => {
             console.log(err);
+            enqueueSnackbar(t("MAIN_PAGE.RECEIVE_ERROR"), { variant: "error" });
           })
       })
       .catch((err) => {
         console.log(err);
-        //snackbar
+        enqueueSnackbar(t("MAIN_PAGE.UPDATE_ERROR"), { variant: "error" });
       })
   }
 
