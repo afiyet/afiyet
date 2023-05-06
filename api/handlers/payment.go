@@ -339,9 +339,13 @@ func getPrice(dishes []basketItem) string {
 }
 
 func (h *PaymentHandler) changeOrderStatus(order *model.Order, status string) (*model.Order, error) {
+	order, err := h.orderService.Get(int(order.ID))
+	if err != nil {
+		return nil, err
+	}
 	order.Status = status
 
-	order, err := h.orderService.Update(*order)
+	order, err = h.orderService.Update(*order)
 	if err != nil {
 		return nil, err
 	}
