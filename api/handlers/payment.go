@@ -161,6 +161,80 @@ func (h *PaymentHandler) CreatePaymentWithForm(c echo.Context) error {
 	return c.JSON(http.StatusOK, awsResponse["paymentPageUrl"])
 }
 
+func (h *PaymentHandler) CreateWithCashPayment(c echo.Context) error {
+	var rbind paymentRequest
+	err := (&echo.DefaultBinder{}).BindBody(c, &rbind)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	var orderDishes []model.OrderDish
+
+	for i := 0; i < len(rbind.BasketItems); i++ {
+		temp := model.OrderDish{
+			DishId: strconv.Itoa(int(rbind.BasketItems[i].ID)),
+		}
+		for j := 0; j < int(rbind.BasketItems[i].Counter); j++ {
+
+			orderDishes = append(orderDishes, temp)
+		}
+	}
+
+	tempOrder := model.Order{
+		TableId:      rbind.TableID,
+		RestaurantId: rbind.RestaurantID,
+		Status:       "CASH_PAYMENT",
+	}
+
+	order, err := h.orderService.Add(tempOrder)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	for i := 0; i < len(orderDishes); i++ {
+		orderDishes[i].OrderId = strconv.Itoa(int(order.ID))
+	}
+
+	for i := 0; i < len(orderDishes); i++ {
+		_, err := h.orderDishService.Add(orderDishes[i])
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, err.Error())
+		}
+	}
+
+	return c.JSON(http.StatusOK, "Order Accepted")
+}
+
+func (h *PaymentHandler) CallWaiterForCashPayment(c echo.Context) error {
+	var order *model.Order
+	err := (&echo.DefaultBinder{}).BindBody(c, &order)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	order, err = h.changeOrderStatus(order, "WAITER_CALLED")
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, "Waiter Called")
+}
+
+func (h *PaymentHandler) CompleteCashPayment(c echo.Context) error {
+	var order *model.Order
+	err := (&echo.DefaultBinder{}).BindBody(c, &order)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	order, err = h.changeOrderStatus(order, "PAYMENT_ACCEPTED")
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, "Payment Completed")
+}
+
 // TODO:This is just a place holder
 func (h *PaymentHandler) SetPaymentResult(c echo.Context) error {
 	var rbind paymentResult
@@ -214,12 +288,11 @@ func (h *PaymentHandler) PaymentCallBackURL(c echo.Context) error {
 	fmt.Println("payment status: ", status)
 
 	if status == "SUCCESS" {
-		order.Status = "PAYMENT_ACCEPTED"
+		order, err = h.changeOrderStatus(order, "PAYMENT_ACCEPTED")
 	} else {
-		order.Status = "PAYMENT_FAILED"
+		order, err = h.changeOrderStatus(order, "PAYMENT_FAILED")
 	}
 
-	order, err = h.orderService.Update(*order)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -263,4 +336,14 @@ func getPrice(dishes []basketItem) string {
 	}
 
 	return fmt.Sprintf("%f", price)
+}
+
+func (h *PaymentHandler) changeOrderStatus(order *model.Order, status string) (*model.Order, error) {
+	order.Status = status
+
+	order, err := h.orderService.Update(*order)
+	if err != nil {
+		return nil, err
+	}
+	return order, nil
 }
