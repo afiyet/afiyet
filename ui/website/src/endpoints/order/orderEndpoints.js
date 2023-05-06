@@ -11,3 +11,7 @@ export function deleteOrder(orderId) {
 export function completeCashPayment(payload) {
     return axiosClient.post("/restaurants/completeCashPayment", payload);
 };
+
+export function acceptCashPayment(payload) {
+    return axiosClient.post("/restaurants/acceptCashPayment", payload);
+};

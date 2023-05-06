@@ -14,6 +14,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { RadioButton } from 'react-native-paper';
 import CashPayment from './CashPayment';
 import { createCashOrder } from '../../endpoints/cart/cartEndpoints';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 export const themeColor = '#1e1e1e';
@@ -38,6 +39,7 @@ export default function StepperMain() {
   const isFocused = useIsFocused();
   const [checkedRadio, setCheckedRadio] = useState("credit");
   const [cashOrderIdArray, setCashOrderIdArray] = useState([]);
+  const [creditSuccess, setCreditSuccess] = useState(false);
 
   useEffect(() => {
     setCartItemsChangedError(true);
@@ -68,6 +70,8 @@ export default function StepperMain() {
 
 
   function onConfirmOrderClicked() {
+    setCreditSuccess(false);
+    setIyzicoVisible(false);
     /* let payload = {
       "buyerID": 4,
       "restaurantID": "5",
@@ -174,6 +178,7 @@ export default function StepperMain() {
   function handleChange(params) {
     if (params.url.includes("/orderCallback")) {
       setIyzicoVisible(false);
+      setCreditSuccess(true);
     }
   }
 
@@ -327,10 +332,21 @@ export default function StepperMain() {
                   onNavigationStateChange={handleChange}
                 />
                 :
-                null
+                (checkedRadio === "credit" && creditSuccess) ?
+                  <View style={{ display: "flex", justifyContent: "center", alignItems: "center", flex: 1 }}>
+                    <Ionicons
+                      name="shield-checkmark-sharp"
+                      color={'#00ff00'}
+                      size={250}
+                    />
+                    <Text>{t("CART_SCREEN.CREDIT_SUCCESS")}</Text>
+                  </View>
+                  :
+                  null
+
             }
             {
-              (iyzicoVisible && checkedRadio === "cash") ?
+              (checkedRadio === "cash") ?
                 <CashPayment
                   cashOrderIdArray={cashOrderIdArray}
                 />

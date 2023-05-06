@@ -1,6 +1,8 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { callWaiter } from '../../endpoints/cart/cartEndpoints';
+import Entypo from 'react-native-vector-icons/Entypo';
+import { useTranslation } from 'react-i18next';
 
 export default function CallWaiterButton(props) {
 
@@ -9,6 +11,7 @@ export default function CallWaiterButton(props) {
     } = props;
 
     const [isCalled, setIsCalled] = useState(false);
+    const { t, i18n } = useTranslation();
 
 
     function handleCallWaiter() {
@@ -28,12 +31,17 @@ export default function CallWaiterButton(props) {
     return (
         <View style={styles.container}>
             <TouchableOpacity
-                style={(isCalled) ? styles.buttonContainerCalled : styles.buttonContainerNotCalled}
                 onPress={() => {
                     handleCallWaiter();
                 }}
+                style={{display: "flex", justifyContent: "center", alignItems: "center"}}
             >
-                <Text style={styles.text}>Garson Çağır</Text>
+                <Entypo
+                    name="hand"
+                    color={(isCalled) ? "#00ff00" : "#000"}
+                    size={400}
+                  />
+                <Text style={styles.text}>{t("CART_SCREEN.CALL_WAITER")}</Text>
             </TouchableOpacity>
         </View>
 
@@ -44,7 +52,7 @@ export default function CallWaiterButton(props) {
 const styles = StyleSheet.create({
     buttonContainerCalled: {
         borderRadius: 200,
-        backgroundColor: "green",
+        backgroundColor: "#00ff00",
         width: "60%",
         height: "60%",
         display: "flex",
@@ -69,7 +77,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontWeight: "bold",
-        fontSize: 29,
-        color: "#fff"
+        fontSize: 22,
+        color: "#000",
     }
 });

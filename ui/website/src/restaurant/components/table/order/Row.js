@@ -11,10 +11,13 @@ import Typography from "@mui/material/Typography";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { Button } from '@mui/material';
-import { completeCashPayment, deleteOrder } from '../../../../endpoints';
+import { acceptCashPayment, completeCashPayment, deleteOrder } from '../../../../endpoints';
 import { useTranslation } from 'react-i18next';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Chip from '@mui/material/Chip';
+import PriceCheckIcon from '@mui/icons-material/PriceCheck';
+import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
+import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
 
 export default function Row(props) {
     const {
@@ -23,9 +26,9 @@ export default function Row(props) {
     } = props;
 
     const { t, i18n } = useTranslation();
-    const [gotCashPayment, setGotCashPayment] = useState(false);
 
-    function handleClickCompleteOrder() {
+
+    function removeOrder() {
         deleteOrder(order.orderId)
             .then((res) => {
                 fetchOrders();
@@ -33,12 +36,24 @@ export default function Row(props) {
             .catch((err) => { console.log(err); })
     }
 
-    function handleClickCompleteCashPayment() {
+    function handleAcceptCashPayment() {
+        acceptCashPayment({
+            ID: order.orderId
+        })
+            .then((res) => {
+                fetchOrders();
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+    function handleOrderDelivered() {
         completeCashPayment({
             ID: order.orderId
         })
             .then((res) => {
-                setGotCashPayment(true);
+                fetchOrders();
             })
             .catch((err) => {
                 console.log(err);
@@ -53,10 +68,22 @@ export default function Row(props) {
                         <Box style={{ fontWeight: "bold", display: "flex", gap: "1vw" }}>
                             {t("REVIEWS_PAGE.TABLE_ORDER")} {order.orderId}
                             {
-                                (order.orderStatus === "WAITER_CALLED") ?
-                                    <Chip label="Garson Bekliyor" color="success" />
+                                (order.isPaid === 1 || order.paymentType === "CARD") ?
+                                    <Chip label={<PriceCheckIcon />} color="success" />
                                     :
-                                    null
+                                    <Chip label={<PriceCheckIcon />} color="default" />
+                            }
+                            {
+                                (order.orderStatus === "WAITER_CALLED") ?
+                                    <Chip label={<EmojiPeopleIcon />} color="warning" />
+                                    :
+                                    <Chip label={<EmojiPeopleIcon />} color="default" />
+                            }
+                            {
+                                (order.isCompleted === 1) ?
+                                    <Chip label={<DinnerDiningIcon />} color="success" />
+                                    :
+                                    <Chip label={<DinnerDiningIcon />} color="default" />
                             }
                         </Box>
 
@@ -65,27 +92,42 @@ export default function Row(props) {
                 <TableCell align="right">
                     <ButtonGroup variant="contained" aria-label="outlined primary button group">
                         {
-                            (order.orderStatus !== "PAYMENT_ACCEPTED") ?
+                            (order.isPaid === 0 && order.paymentType === "CASH") ?
                                 <Button
                                     size="large"
                                     style={{ height: "100%" }}
-                                    onClick={handleClickCompleteCashPayment}
-                                    color={(gotCashPayment) ? "success" : "warning"}
-                                    disabled={(gotCashPayment) ? true : false}
+                                    onClick={handleAcceptCashPayment}
                                 >
-                                    {"Complete cash payment"}
+                                    {"ödeme alındı"}
                                 </Button>
                                 :
                                 null
                         }
-
-                        <Button
-                            size="large"
-                            style={{ height: "100%" }}
-                            onClick={handleClickCompleteOrder}
-                        >
-                            {t("REVIEWS_PAGE.ORDER_COMPLETED_BUTTON")}
-                        </Button>
+                        {
+                            (order.isCompleted === 0) ?
+                                <Button
+                                    size="large"
+                                    style={{ height: "100%" }}
+                                    onClick={handleOrderDelivered}
+                                >
+                                    {t("REVIEWS_PAGE.ORDER_COMPLETED_BUTTON")}
+                                </Button>
+                                :
+                                null
+                        }
+                        {
+                            ((order.isPaid === 1 && order.isCompleted === 1) || (order.paymentType === "CARD" && order.isCompleted === 1)) ?
+                                <Button
+                                    size="large"
+                                    style={{ height: "100%" }}
+                                    onClick={removeOrder}
+                                    color={"error"}
+                                >
+                                    {"sil"}
+                                </Button>
+                                :
+                                null
+                        }
                     </ButtonGroup>
                 </TableCell>
             </TableRow>

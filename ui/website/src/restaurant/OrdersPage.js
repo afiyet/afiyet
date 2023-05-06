@@ -71,7 +71,10 @@ export default function OrdersPage() {
                                 table.orders.push({
                                     orderId: order.ID,
                                     dishes: order.dishes,
-                                    orderStatus: order.Status
+                                    orderStatus: order.Status,
+                                    paymentType: order.paymentType,
+                                    isPaid: order.isPaid,
+                                    isCompleted: order.isCompleted
                                 });
                             });
                         });
