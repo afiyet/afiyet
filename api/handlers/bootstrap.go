@@ -1,12 +1,13 @@
 package handlers
 
 import (
+	"net/http"
+	"os"
+
 	"github.com/afiyet/afiytet/api/service"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"gorm.io/gorm"
-	"net/http"
-	"os"
 )
 
 func Bootstrap(db *gorm.DB, e *echo.Echo, sha string) error {
@@ -94,6 +95,9 @@ func Bootstrap(db *gorm.DB, e *echo.Echo, sha string) error {
 	e.POST("/restaurants/orderPayment", PaymentHandler.CreatePaymentWithForm)
 	e.POST("/restaurants/setOrderResult", PaymentHandler.SetPaymentResult)
 	e.POST("/restaurants/orderCallback", PaymentHandler.PaymentCallBackURL)
+	e.POST("/restaurants/createCashOrder", PaymentHandler.CreateWithCashPayment)
+	e.POST("/restaurants/completeCashPayment", PaymentHandler.CompleteCashPayment)
+	e.POST("/restaurants/callWaiter", PaymentHandler.CallWaiterForCashPayment)
 
 	// Ops
 

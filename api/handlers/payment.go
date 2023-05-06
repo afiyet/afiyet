@@ -73,8 +73,6 @@ func (h *PaymentHandler) CreatePaymentWithForm(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	fmt.Println(rbind.BasketItems)
-
 	var orderDishes []model.OrderDish
 
 	for i := 0; i < len(rbind.BasketItems); i++ {
@@ -135,10 +133,106 @@ func (h *PaymentHandler) CreatePaymentWithForm(c echo.Context) error {
 		fmt.Sprintf("%q:%q},", "address", "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1") +
 		fmt.Sprintf("%q:%s}", "basketItems", prepareDishes(rbind.BasketItems))
 
+	var awsResponse map[string]interface{}
+	body := []byte(resp)
+	url := "https://lz4fmbvlq6hb6tmzm7vdzwm7ry0iaaar.lambda-url.eu-central-1.on.aws/"
+
+	awsRequest, err := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(body))
+	awsRequest.Header.Add("Content-type", "application/json")
+	client := &http.Client{}
+
+	res, err := client.Do(awsRequest)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	body, err = ioutil.ReadAll(res.Body)
+
+	defer res.Body.Close()
+	json.Unmarshal([]byte(body), &awsResponse)
+
+	order.Token = awsResponse["token"].(string)
+
+	h.orderService.Update(*order)
+
 	resp = strings.ReplaceAll(resp, "\\", "")
 	resp = strings.ReplaceAll(resp, "\"", `"`)
 
-	return c.JSON(http.StatusOK, resp)
+	return c.JSON(http.StatusOK, awsResponse["paymentPageUrl"])
+}
+
+func (h *PaymentHandler) CreateWithCashPayment(c echo.Context) error {
+	var rbind paymentRequest
+	err := (&echo.DefaultBinder{}).BindBody(c, &rbind)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	var orderDishes []model.OrderDish
+
+	for i := 0; i < len(rbind.BasketItems); i++ {
+		temp := model.OrderDish{
+			DishId: strconv.Itoa(int(rbind.BasketItems[i].ID)),
+		}
+		for j := 0; j < int(rbind.BasketItems[i].Counter); j++ {
+
+			orderDishes = append(orderDishes, temp)
+		}
+	}
+
+	tempOrder := model.Order{
+		TableId:      rbind.TableID,
+		RestaurantId: rbind.RestaurantID,
+		Status:       "CASH_PAYMENT",
+	}
+
+	order, err := h.orderService.Add(tempOrder)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	for i := 0; i < len(orderDishes); i++ {
+		orderDishes[i].OrderId = strconv.Itoa(int(order.ID))
+	}
+
+	for i := 0; i < len(orderDishes); i++ {
+		_, err := h.orderDishService.Add(orderDishes[i])
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, err.Error())
+		}
+	}
+
+	return c.JSON(http.StatusOK, "Order Accepted")
+}
+
+func (h *PaymentHandler) CallWaiterForCashPayment(c echo.Context) error {
+	var order *model.Order
+	err := (&echo.DefaultBinder{}).BindBody(c, &order)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	order, err = h.changeOrderStatus(order, "WAITER_CALLED")
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, "Waiter Called")
+}
+
+func (h *PaymentHandler) CompleteCashPayment(c echo.Context) error {
+	var order *model.Order
+	err := (&echo.DefaultBinder{}).BindBody(c, &order)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	order, err = h.changeOrderStatus(order, "PAYMENT_ACCEPTED")
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, "Payment Completed")
 }
 
 // TODO:This is just a place holder
@@ -160,14 +254,14 @@ func (h *PaymentHandler) PaymentCallBackURL(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	fmt.Printf("After token bind: ")
-	fmt.Println(token)
+	order, err := h.orderService.GetByToken(token.Token)
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
 
 	body := []byte(`{"token":"` + token.Token + `"}`)
 	url := "https://reot3nxkw2g4yofbhaiz4s5v7i0obstg.lambda-url.eu-central-1.on.aws/"
-
-	fmt.Printf("Before Awspost")
-	fmt.Println(string(body))
 
 	var awsResponse map[string]interface{}
 
@@ -178,7 +272,7 @@ func (h *PaymentHandler) PaymentCallBackURL(c echo.Context) error {
 
 	res, err := client.Do(awsRequest)
 	if err != nil {
-		panic(err)
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 	fmt.Printf("After Aws Post\n")
 
@@ -189,8 +283,19 @@ func (h *PaymentHandler) PaymentCallBackURL(c echo.Context) error {
 
 	fmt.Printf("After response unmarshal")
 
-	status := awsResponse["status"]
-	fmt.Println(status, string(body))
+	status := awsResponse["paymentStatus"]
+
+	fmt.Println("payment status: ", status)
+
+	if status == "SUCCESS" {
+		order, err = h.changeOrderStatus(order, "PAYMENT_ACCEPTED")
+	} else {
+		order, err = h.changeOrderStatus(order, "PAYMENT_FAILED")
+	}
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
 
 	return c.JSON(http.StatusOK, nil)
 }
@@ -203,7 +308,6 @@ func prepareDishes(dishes []basketItem) string {
 		//and also math library pretends like float 32 doesn't exist which we use so on top of every thing we have to cast them
 		//to float 64 so we can finally have this abomination of a line same thing is present in getPrices Function
 		price := fmt.Sprintf("%f", math.Ceil(float64(dishes[i].Price*100))/100)
-		fmt.Println(dishes[i].Counter)
 
 		for j := 0; j < int(dishes[i].Counter); j++ {
 			fmt.Printf("dishid: %d\n", dishes[i].ID)
@@ -232,4 +336,14 @@ func getPrice(dishes []basketItem) string {
 	}
 
 	return fmt.Sprintf("%f", price)
+}
+
+func (h *PaymentHandler) changeOrderStatus(order *model.Order, status string) (*model.Order, error) {
+	order.Status = status
+
+	order, err := h.orderService.Update(*order)
+	if err != nil {
+		return nil, err
+	}
+	return order, nil
 }

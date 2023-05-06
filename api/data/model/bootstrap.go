@@ -9,6 +9,8 @@ func MigrateAll(db *gorm.DB) error {
 					'IN_PROGRESS',
 					'PAYMENT_ACCEPTED',
 					'PAYMENT_FAILED',
+					'CASH_PAYMENT',
+					'WAITER_CALLED',
 					'COMPLETED');
 			EXCEPTION
     			WHEN duplicate_object THEN null;

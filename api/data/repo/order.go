@@ -20,7 +20,7 @@ func NewOrderRepository(db *gorm.DB) OrderRepository {
 
 func (or OrderRepository) GetByTableID(id int) ([]model.Order, error) {
 	var rs []model.Order
-	err := or.db.Preload("Dishes").Where("table_id = ?", id).Find(&rs).Error
+	err := or.db.Preload("Dishes").Where("table_id = ? AND status <> ? AND status <> ?", id, "PAYMENT_FAILED", "IN_PROGRESS").Find(&rs).Error
 
 	if err != nil {
 		return nil, err
@@ -31,13 +31,24 @@ func (or OrderRepository) GetByTableID(id int) ([]model.Order, error) {
 
 func (or OrderRepository) GetByRestaurantId(id int) ([]model.Order, error) {
 	var rs []model.Order
-	err := or.db.Preload("Dishes").Where("restaurant_id = ?", id).Find(&rs).Error
+	err := or.db.Preload("Dishes").Where("restaurant_id = ? AND status <> ? AND status <> ?", id, "PAYMENT_FAILED", "IN_PROGRESS").Find(&rs).Error
 
 	if err != nil {
 		return nil, err
 	}
 
 	return rs, nil
+}
+
+func (or OrderRepository) GetByToken(token string) (*model.Order, error) {
+	var rs model.Order
+	err := or.db.Where("token = ?", token).Find(&rs).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &rs, nil
 }
 
 func (or OrderRepository) DeleteByTableId(id int) ([]model.Order, error) {
