@@ -4,7 +4,7 @@ import { login } from "./login/loginEndpoints";
 import { addMenuItem, deleteMenuItem, getRestaurantMenu, updateMenuItem } from "./menu/menuEndpoints";
 import { getComments } from "./comments/commentEndpoints";
 import { updateRestaurantInfo, getRestaurantInfo } from "./mainPage/mainPageEndpoints";
-import { getRestaurantOrders, deleteOrder } from "./order/orderEndpoints";
+import { getRestaurantOrders, deleteOrder, completeCashPayment } from "./order/orderEndpoints";
 import { signup } from "./signup/signupEndpoints";
 
 export {
@@ -23,5 +23,6 @@ export {
     getRestaurantInfo,
     getRestaurantOrders,
     deleteOrder,
-    signup
+    signup,
+    completeCashPayment
 };

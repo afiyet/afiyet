@@ -80,7 +80,9 @@
         "MODAL_CLOSE": "Close",
         "SOLD_OUT_ITEMS": "Sold out items: ",
         "PRICE_CHANGED_ITEMS": "Price changed items: ",
-        "MODAL_MESSAGE": "Your cart has been updated."
+        "MODAL_MESSAGE": "Your cart has been updated.",
+        "PAY_CREDIT": "Pay with Credit Card now",
+        "PAY_CASH": "Pay with Cash later"
     },
 
     "COMMENT_SCREEN": {

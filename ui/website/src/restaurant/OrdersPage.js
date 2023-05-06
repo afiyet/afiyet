@@ -70,7 +70,8 @@ export default function OrdersPage() {
                                 let table = reconstructedData.find((dataObj) => (dataObj.tableId == tableId));
                                 table.orders.push({
                                     orderId: order.ID,
-                                    dishes: order.dishes
+                                    dishes: order.dishes,
+                                    orderStatus: order.Status
                                 });
                             });
                         });

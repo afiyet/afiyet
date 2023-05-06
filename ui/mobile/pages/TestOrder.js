@@ -92,7 +92,7 @@ const TestOrder = (props) => {
     }, [route]);
 
 
-    useInterval(fetchNewMenu, (isFocused && !modalVisible) ? 30000 : null);
+    useInterval(fetchNewMenu, (isFocused && !modalVisible) ? 10000 : null);
 
     function detectChangeInMenu(newMenu) {
 

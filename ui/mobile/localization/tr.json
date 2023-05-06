@@ -80,7 +80,9 @@
         "MODAL_CLOSE": "Kapat",
         "SOLD_OUT_ITEMS": "Tükenen ürünler: ",
         "PRICE_CHANGED_ITEMS": "Fiyatı değişen ürünler: ",
-        "MODAL_MESSAGE": "Sepetiniz otomatik olarak güncellenmiştir."
+        "MODAL_MESSAGE": "Sepetiniz otomatik olarak güncellenmiştir.",
+        "PAY_CREDIT": "Kredi Kartıyla Şimdi Öde",
+        "PAY_CASH": "Nakit Olarak Sonra Öde"
     },
 
     "COMMENT_SCREEN": {

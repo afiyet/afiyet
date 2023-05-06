@@ -11,8 +11,10 @@ import Typography from "@mui/material/Typography";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { Button } from '@mui/material';
-import { deleteOrder } from '../../../../endpoints';
+import { completeCashPayment, deleteOrder } from '../../../../endpoints';
 import { useTranslation } from 'react-i18next';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Chip from '@mui/material/Chip';
 
 export default function Row(props) {
     const {
@@ -21,6 +23,7 @@ export default function Row(props) {
     } = props;
 
     const { t, i18n } = useTranslation();
+    const [gotCashPayment, setGotCashPayment] = useState(false);
 
     function handleClickCompleteOrder() {
         deleteOrder(order.orderId)
@@ -30,25 +33,60 @@ export default function Row(props) {
             .catch((err) => { console.log(err); })
     }
 
+    function handleClickCompleteCashPayment() {
+        completeCashPayment({
+            ID: order.orderId
+        })
+            .then((res) => {
+                setGotCashPayment(true);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
     return (
         <React.Fragment>
             <TableRow>
                 <TableCell component="th" scope="row" align="left">
                     <Typography variant="h6" component="div">
-                        <Box style={{ fontWeight: "bold" }}>
+                        <Box style={{ fontWeight: "bold", display: "flex", gap: "1vw" }}>
                             {t("REVIEWS_PAGE.TABLE_ORDER")} {order.orderId}
+                            {
+                                (order.orderStatus === "WAITER_CALLED") ?
+                                    <Chip label="Garson Bekliyor" color="success" />
+                                    :
+                                    null
+                            }
                         </Box>
+
                     </Typography>
                 </TableCell>
                 <TableCell align="right">
-                    <Button
-                        size="large"
-                        variant="contained"
-                        style={{ height: "100%" }}
-                        onClick={handleClickCompleteOrder}
-                    >
-                        {t("REVIEWS_PAGE.ORDER_COMPLETED_BUTTON")}
-                    </Button>
+                    <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                        {
+                            (order.orderStatus !== "PAYMENT_ACCEPTED") ?
+                                <Button
+                                    size="large"
+                                    style={{ height: "100%" }}
+                                    onClick={handleClickCompleteCashPayment}
+                                    color={(gotCashPayment) ? "success" : "warning"}
+                                    disabled={(gotCashPayment) ? true : false}
+                                >
+                                    {"Complete cash payment"}
+                                </Button>
+                                :
+                                null
+                        }
+
+                        <Button
+                            size="large"
+                            style={{ height: "100%" }}
+                            onClick={handleClickCompleteOrder}
+                        >
+                            {t("REVIEWS_PAGE.ORDER_COMPLETED_BUTTON")}
+                        </Button>
+                    </ButtonGroup>
                 </TableCell>
             </TableRow>
             <TableRow>
