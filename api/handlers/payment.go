@@ -88,6 +88,7 @@ func (h *PaymentHandler) CreatePaymentWithForm(c echo.Context) error {
 	tempOrder := model.Order{
 		TableId:      rbind.TableID,
 		RestaurantId: rbind.RestaurantID,
+		PaymentType:  "CARD",
 	}
 
 	order, err := h.orderService.Add(tempOrder)
@@ -184,6 +185,7 @@ func (h *PaymentHandler) CreateWithCashPayment(c echo.Context) error {
 		TableId:      rbind.TableID,
 		RestaurantId: rbind.RestaurantID,
 		Status:       "CASH_PAYMENT",
+		PaymentType:  "CASH",
 	}
 
 	order, err := h.orderService.Add(tempOrder)
