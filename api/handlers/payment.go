@@ -229,7 +229,35 @@ func (h *PaymentHandler) CompleteCashPayment(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	order, err = h.changeOrderStatus(order, "PAYMENT_ACCEPTED")
+	order, err = h.orderService.Get(int(order.ID))
+	if err != nil {
+		return err
+	}
+
+	order.IsCompleted = 1
+
+	order, err = h.orderService.Update(*order)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, "Order Completed")
+}
+
+func (h *PaymentHandler) AcceptCashPayment(c echo.Context) error {
+	var order *model.Order
+	err := (&echo.DefaultBinder{}).BindBody(c, &order)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	order, err = h.orderService.Get(int(order.ID))
+	if err != nil {
+		return err
+	}
+
+	order.IsPaid = 1
+	order, err = h.orderService.Update(*order)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
