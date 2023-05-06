@@ -103,7 +103,7 @@ func Bootstrap(db *gorm.DB, e *echo.Echo, sha string) error {
 	e.POST("/restaurants/createCashOrder", PaymentHandler.CreateWithCashPayment)
 	e.POST("/restaurants/completeCashPayment", PaymentHandler.CompleteCashPayment)
 	e.POST("/restaurants/callWaiter", PaymentHandler.CallWaiterForCashPayment)
-	e.POST("restaurants/acceptCashPayment", PaymentHandler.AcceptCashPayment)
+	e.POST("/restaurants/acceptCashPayment", PaymentHandler.AcceptCashPayment)
 
 	e.POST("/password/forgotten/:email", PasswordHandler.ReqPasswordChange)
 	e.POST("/password/change", PasswordHandler.ChangePassword)
