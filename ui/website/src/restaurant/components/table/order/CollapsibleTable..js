@@ -51,7 +51,7 @@ export default function CollapsibleTable(props) {
                     {tableOrders.map((order, index) => (
                         <Row
                             order={order}
-                            key={index}
+                            key={order.orderId}
                             fetchOrders={fetchOrders}
                         />
                     ))}

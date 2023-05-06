@@ -111,7 +111,7 @@ export default function OrdersPage() {
                                     <Box style={{ marginBottom: 20 }} key={index + table.tableId}>
                                         <CollapsibleTable
                                             key={table.tableId}
-                                            tableOrders={table.orders}
+                                            tableOrders={table.orders.sort((a,b) => (a.orderId - b.orderId))}
                                             tableName={table.tableName}
                                             fetchOrders={fetchOrders}
                                         />
