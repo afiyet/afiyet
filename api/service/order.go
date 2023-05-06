@@ -26,6 +26,10 @@ func (s *OrderService) List() ([]model.Order, error) {
 	return s.r.List()
 }
 
+func (s *OrderService) Update(order model.Order) (*model.Order, error) {
+	return s.r.Update(order)
+}
+
 func (s *OrderService) Delete(id int) error {
 	return s.r.Delete(id)
 }
@@ -36,6 +40,10 @@ func (s *OrderService) GetByTableID(id int) ([]model.Order, error) {
 
 func (s *OrderService) GetByRestaurantId(id int) ([]model.Order, error) {
 	return s.r.GetByRestaurantId(id)
+}
+
+func (s *OrderService) GetByToken(token string) (*model.Order, error) {
+	return s.r.GetByToken(token)
 }
 
 func (s *OrderService) DeleteByTableId(id int) ([]model.Order, error) {

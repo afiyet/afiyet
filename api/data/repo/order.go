@@ -40,6 +40,17 @@ func (or OrderRepository) GetByRestaurantId(id int) ([]model.Order, error) {
 	return rs, nil
 }
 
+func (or OrderRepository) GetByToken(token string) (*model.Order, error) {
+	var rs model.Order
+	err := or.db.Where("token = ?", token).Find(&rs).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &rs, nil
+}
+
 func (or OrderRepository) DeleteByTableId(id int) ([]model.Order, error) {
 
 	var rs []model.Order
