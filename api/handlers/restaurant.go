@@ -55,7 +55,6 @@ func (h *RestaurantHandler) Update(c echo.Context) error {
 	}
 	rbind.ID = uint(id)
 
-	// TODO(umutgercek) change wen adding, password changing feature
 	old, err := h.s.Get(id)
 	if err != nil {
 		err = fmt.Errorf("cannot get old restaurant: %w", err)
