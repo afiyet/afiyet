@@ -63,7 +63,7 @@ func uploadImage(aws *AmazonService, rawb64 string, keyPrefix string) (pictureUr
 	s3key := keyPrefix + "." + extension
 	reader := strings.NewReader(b64)
 
-	err = aws.S3Upload(s3key, reader)
+	err = aws.S3UploadImage(s3key, reader, extension)
 	if err != nil {
 		return "", fmt.Errorf("s3 upload: %w", err)
 	}
