@@ -153,7 +153,7 @@ const RestaurantSignUp = () => {
                     id="outlined-basic"
                     label={t("SIGNUP_PAGE.PASSWORD")}
                     variant="outlined"
-                    value={address}
+                    value={password}
                     onChange={(e) => { setPassword(e.target.value) }}
                   />
                 </Grid>
