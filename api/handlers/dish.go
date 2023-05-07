@@ -13,6 +13,8 @@ type DishHandler struct {
 	s *service.DishService
 }
 
+// cur-res
+
 func (h *DishHandler) Add(c echo.Context) error {
 	var dbind model.Dish
 
@@ -42,52 +44,6 @@ func (h *DishHandler) Delete(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, "Dish successfully Deleted")
-}
-
-func (h *DishHandler) Get(c echo.Context) error {
-	restaurantId := c.QueryParam("restaurantId")
-
-	if restaurantId == "" {
-		return h.normalGet(c)
-	}
-
-	return h.getWithCategory(c)
-}
-
-func (h *DishHandler) normalGet(c echo.Context) error {
-	idStr := c.Param("id")
-	id, err := strconv.Atoi(idStr)
-
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", idStr))
-	}
-
-	d, err := h.s.Get(id)
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
-	}
-
-	return c.JSON(http.StatusOK, d)
-}
-
-func (h *DishHandler) getWithCategory(c echo.Context) error {
-	cat := c.Param("category")
-
-	ds, err := h.s.GetWithCategory(cat)
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
-	}
-
-	return c.JSON(http.StatusOK, ds)
-}
-
-func (h *DishHandler) List(c echo.Context) error {
-	ds, err := h.s.List()
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
-	}
-
-	return c.JSON(http.StatusOK, ds)
 }
 
 func (h *DishHandler) Update(c echo.Context) error {
