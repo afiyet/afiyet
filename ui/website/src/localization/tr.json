@@ -45,7 +45,12 @@
             "CANCEL_BUTTON": "İptal",
             "ADD_BUTTON": "Ekle",
             "UPLOAD_IMAGE_BUTTON": "Fotoğraf Yükle"
-        }
+        },
+        "GET_MENU_ERROR": "Menü verisi alınırken hata oluştu.",
+        "ADD_MENU_ITEM_ERROR": "Yemek eklenirken hata oluştu.",
+        "DELETE_MENU_ITEM_ERROR": "Yemek silinirken hata oluştu.",
+        "UPDATE_MENU_ITEM_ERROR": "Yemek güncellenirken hata oluştu.",
+        "UPDATE_MENU_ITEM_SUCCESS": "Güncelleme başarılı"
     },
     "TABLES_PAGE": {
         "SEARCH_TABLES": "Masa Ara",
@@ -66,20 +71,35 @@
                 "CANCEL_BUTTON": "İptal",
                 "CHANGE_BUTTON": "Değiştir"
             }
+        },
+        "CHIP": {
+            "FULL": "Dolu",
+            "EMPTY": "Müsait"
         }
     },
     "REVIEWS_PAGE": {
         "TITLE": "Yorumlar",
-        "ORDER_COMPLETED_BUTTON": "Teslim Edildi",
-        "TABLE_ORDERS": "Siparişleri",
-        "TABLE_ORDER": "Sipariş",
-        "FOOD": "Yemek",
-        "AMOUNT": "Adet",
-        "TOTAL": "Toplam (TL)",
-        "TABLE_TOTAL": "Masa Toplamı (TL)"
+        "FETCH_ERROR": "Yorum verisi alınırken hata oluştu."
     },
     "ORDERS_PAGE": {
-        "TITLE": "Siparişler"
+        "TITLE": "Siparişler",
+        "TABLES_ERROR": "Masa verisi alınamadı.",
+        "ORDERS_ERROR": "Sipariş verisi alınamadı.",
+        "REMOVE_ORDER_ERROR": "Sipariş silinemedi.",
+        "ACCEPT_CASH_PAYMENT_ERROR": "Nakit ödemesi alınırken hata oluştu.",
+        "ORDER_COMPLETED_BUTTON": "Teslİm Edİldİ",
+        "ORDER_COMPLETE_ERROR": "Sipariş teslim edilirken hata oluştu.",
+        "ACCEPT_PAYMENT_BUTTON": "Ödeme Alındı",
+        "REMOVE_ORDER_BUTTON": "Sİl",
+        "TABLES": {
+            "TITLE": "Yorumlar",
+            "TABLE_ORDERS": "Siparişleri",
+            "TABLE_ORDER": "Sipariş",
+            "FOOD": "Yemek",
+            "AMOUNT": "Adet",
+            "TOTAL": "Toplam (TL)",
+            "TABLE_TOTAL": "Masa Toplamı (TL)"
+        }
     },
     "MAIN_PAGE": {
         "TITLE": "Restoran Bilgileri",
@@ -94,7 +114,15 @@
         "LONGITUDE": "Boylam",
         "UPDATE_BUTTON": "Güncelle",
         "RESTAURANT_PICTURE": "Restoran Fotoğrafı",
-        "CAMPAIGN_PICTURE": "Kampanya Fotoğrafı"
+        "CAMPAIGN_PICTURE": "Kampanya Fotoğrafı",
+        "UPDATE_ERROR": "Güncellenirken hata oluştu!",
+        "UPDATE_SUCCESS": "Başarıyla güncellendi",
+        "RECEIVE_ERROR": "Restoran bilgileri alınırken hata oluştu.",
+        "PASSWORD_DIALOG": {
+            "TITLE": "Şifre Değiştirme Talebi",
+            "BODY": "Şifrenizi değiştirebilmek için e-posta adresinize gönderdiğimiz bağlantıya tıklayınız.",
+            "BUTTON": "Tamam"
+        }
     },
     "SNACKBAR": {
         "LOCATION_ERROR": "Konum Bilgisi Alınamadı!",
@@ -106,7 +134,9 @@
         "TABLE_DELETE_SUCCESS": "Masa başarıyla silindi!",
         "TABLE_DELETE_ERROR": "Masa silinemedi!",
         "TABLE_UPDATE_SUCCESS": "Masa adı başarıyla değiştirildi!",
-        "TABLE_UPDATE_ERROR": "Masa adı değiştirilemedi!"
+        "TABLE_UPDATE_ERROR": "Masa adı değiştirilemedi!",
+        "FORGOT_PASSWORD_SUCCESS": "E-posta gönderildi",
+        "FORGOT_PASSWORD_ERROR": "E-posta gönderilirken hata oluştu!"
     },
     "SIGNUP_PAGE": {
         "TITLE": "Kayıt Ol",
@@ -124,7 +154,9 @@
         "FORGOT_PASSWORD_TITLE": "Şifremi Unuttum",
         "FORGOT_PASSWORD_DESCRIPTION": "Eğer email adresinze ulaşamıyorsanız bize email üzerinden ulaşabilirsiniz.",
         "RESTAURANT_PICTURE": "Restoran Fotoğrafı",
-        "CAMPAIGN_PICTURE": "Kampanya Fotoğrafı"
+        "CAMPAIGN_PICTURE": "Kampanya Fotoğrafı",
+        "ERROR": "Kayıt başarısız",
+        "SUCCESS": "Kayıt başarılı"
     },
     "FORGOT_PASSWORD": {
         "PASS_1": "Şifrenizi girin",

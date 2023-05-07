@@ -19,3 +19,11 @@ export function getPaymentResult(payload) {
 export function completePayment(payload) {
     return axiosClient.post("/restaurants/setOrderResult", payload);
 }
+
+export function callWaiter(payload) {
+    return axiosClient.post("/restaurants/callWaiter", payload);
+}
+
+export function createCashOrder(payload) {
+    return axiosClient.post("/restaurants/createCashOrder", payload);
+}

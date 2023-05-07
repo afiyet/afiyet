@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import AddIcon from '@mui/icons-material/Add';
 import Grid from '@mui/material/Grid';
-import { addTable, getTables } from '../endpoints';
+import { addTable, getRestaurantOrders, getTables } from '../endpoints';
 import { useSelector } from 'react-redux';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -25,7 +25,8 @@ export default function TablesPage() {
   const [textValueAdd, setTextValueAdd] = useState("");
   const [search, setSearch] = useState("");
   const { enqueueSnackbar } = useSnackbar();
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
+  const [tableAvailabilityArray, setTableAvailabilityArray] = useState([]);
 
   const handleClickOpenAdd = () => {
     setOpenAdd(true);
@@ -57,6 +58,29 @@ export default function TablesPage() {
     getTables(restaurant.restaurantId)
       .then((res) => {
         setTables(res.data);
+
+        getRestaurantOrders(restaurant.restaurantId)
+          .then((resO) => {
+            let tempAvailability = [];
+            res.data.map((table) => {
+              let resOrdersFilteredByTableId = resO.data.filter((item) => (item.tabelId == table.ID)) //orderları masaIdye göre filter
+              if (resOrdersFilteredByTableId.length > 0) {
+                tempAvailability.push({
+                  tableId: table.ID,
+                  isAvailable: false
+                });
+              } else {
+                tempAvailability.push({
+                  tableId: table.ID,
+                  isAvailable: true
+                });
+              }
+            });
+            setTableAvailabilityArray(tempAvailability);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
       })
       .catch((err) => {
         console.log(err);
@@ -78,7 +102,7 @@ export default function TablesPage() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-        {t("TABLES_PAGE.ADD_TABLE_DIALOG.TITLE")}
+          {t("TABLES_PAGE.ADD_TABLE_DIALOG.TITLE")}
         </DialogTitle>
         <DialogContent>
           <FormControl>
@@ -114,19 +138,25 @@ export default function TablesPage() {
                 label={t("TABLES_PAGE.SEARCH_TABLES")}
               />
               <Button variant="contained" size="large" onClick={handleClickOpenAdd} startIcon={<AddIcon />}>
-              {t("TABLES_PAGE.ADD_TABLE_BUTTON")}
+                {t("TABLES_PAGE.ADD_TABLE_BUTTON")}
               </Button>
             </CardContent>
           </Card>
         </Grid>
         {
           tables.map((item, index) => {
+            let isAvailable = tableAvailabilityArray.find((x) => {
+              if (x.tableId === item.ID) {
+                return x.isAvailable;
+              }
+            });
             if (item.name.includes(search)) {
               return (
                 <TableItem
                   key={item.ID}
                   item={item}
                   fetchTables={fetchTables}
+                  isAvailable={isAvailable}
                 />
               );
             }

@@ -12,6 +12,7 @@ import companyLogo from "../img/afiyet-logo-w.png";
 import { RestaurantActions } from "../actions";
 import { login } from "../endpoints";
 import { useTranslation } from 'react-i18next';
+import TranslateIcon from '@mui/icons-material/Translate';
 
 const RestaurantLogin = () => {
     const history = useHistory();
@@ -20,7 +21,18 @@ const RestaurantLogin = () => {
     const { t, i18n } = useTranslation();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [language, setLanguage] = useState("tr");
 
+    function handleChangeLanguage() {
+
+        if (language === "tr") {
+            setLanguage("en");
+            i18n.changeLanguage("en");
+        } else {
+            setLanguage("tr");
+            i18n.changeLanguage("tr");
+        }
+    }
 
     function authenticateRestaurant() {
         login({
@@ -50,7 +62,7 @@ const RestaurantLogin = () => {
                             <TextField
                                 id="outlined-search"
                                 value={email}
-                                onChange={(event) => { setEmail(event.target.value) }}
+                                onChange={(event) => { setEmail(event.target.value); }}
                                 label={t("LOGIN.EMAIL")}
                                 type="search"
                             />
@@ -59,7 +71,7 @@ const RestaurantLogin = () => {
                             <TextField
                                 id="outlined-password-input"
                                 value={password}
-                                onChange={(event) => { setPassword(event.target.value) }}
+                                onChange={(event) => { setPassword(event.target.value); }}
                                 label={t("LOGIN.PASSWORD")}
                                 type="password"
                                 autoComplete="current-password"
@@ -79,7 +91,7 @@ const RestaurantLogin = () => {
                             <Button
                                 fullWidth
                                 style={{ textTransform: 'none' }}
-                                onClick={() => { history.push("/signup") }}
+                                onClick={() => { history.push("/signup"); }}
                                 variant="contained"
                                 color="info">
                                 {t("LOGIN.SIGNUP_BUTTON")}
@@ -89,10 +101,21 @@ const RestaurantLogin = () => {
                             <Button
                                 fullWidth
                                 style={{ textTransform: 'none' }}
-                                onClick={() => { history.push("/forgot-password") }}
+                                onClick={() => { history.push("/forgot-password"); }}
                                 variant="contained"
                                 color="secondary">
                                 {t("LOGIN.FORGOT_PASSWORD_BUTTON")}
+                            </Button>
+                        </Box>
+                        <Box style={styles.buttonContainer}>
+                            <Button
+                                variant="outlined"
+                                startIcon={<TranslateIcon />}
+                                color="primary"
+                                fullWidth
+                                onClick={() => { handleChangeLanguage(); }}
+                            >
+                                {t("APPBAR.APPBAR_MENU.CHANGE_LANG")}
                             </Button>
                         </Box>
                     </FormControl>

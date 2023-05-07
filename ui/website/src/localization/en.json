@@ -45,7 +45,12 @@
             "CANCEL_BUTTON": "Cancel",
             "ADD_BUTTON": "Add",
             "UPLOAD_IMAGE_BUTTON": "Upload Image"
-        }
+        },
+        "GET_MENU_ERROR": "Error occured while fetching menu",
+        "ADD_MENU_ITEM_ERROR": "Error occured while adding dish",
+        "DELETE_MENU_ITEM_ERROR": "Error occured while deleting dish",
+        "UPDATE_MENU_ITEM_ERROR": "Error occured while updating dish",
+        "UPDATE_MENU_ITEM_SUCCESS": "Update successful"
     },
     "TABLES_PAGE": {
         "SEARCH_TABLES": "Search Tables",
@@ -66,20 +71,34 @@
                 "CANCEL_BUTTON": "Cancel",
                 "CHANGE_BUTTON": "Change"
             }
+        },
+        "CHIP": {
+            "FULL": "Occupied",
+            "EMPTY": "Available"
         }
     },
     "REVIEWS_PAGE": {
         "TITLE": "Reviews",
-        "ORDER_COMPLETED_BUTTON": "Order Completed",
-        "TABLE_ORDERS": "Orders",
-        "TABLE_ORDER": "Order",
-        "FOOD": "Food",
-        "AMOUNT": "Amount",
-        "TOTAL": "Total (TL)",
-        "TABLE_TOTAL": "Table Total (TL)"
+        "FETCH_ERROR": "Error occured while fetching reviews"
     },
     "ORDERS_PAGE": {
-        "TITLE": "Orders"
+        "TITLE": "Orders",
+        "TABLES_ERROR": "Table data could not be received.",
+        "ORDERS_ERROR": "Order data could not be received.",
+        "REMOVE_ORDER_ERROR": "Error occured while removing order.",
+        "ACCEPT_CASH_PAYMENT_ERROR": "Error occured while accepting cash payment.",
+        "ORDER_COMPLETED_BUTTON": "Order Completed",
+        "ORDER_COMPLETE_ERROR": "Error occured while delivering order.",
+        "ACCEPT_PAYMENT_BUTTON": "Received Payment",
+        "REMOVE_ORDER_BUTTON": "Remove",
+        "TABLES": {
+            "TABLE_ORDERS": "Orders",
+            "TABLE_ORDER": "Order",
+            "FOOD": "Food",
+            "AMOUNT": "Amount",
+            "TOTAL": "Total (TL)",
+            "TABLE_TOTAL": "Table Total (TL)"
+        }
     },
     "MAIN_PAGE": {
         "TITLE": "Restaurant Information",
@@ -94,7 +113,15 @@
         "LONGITUDE": "Longitude",
         "UPDATE_BUTTON": "Update",
         "RESTAURANT_PICTURE": "Restaurant Picture",
-        "CAMPAIGN_PICTURE": "Campaign Picture"
+        "CAMPAIGN_PICTURE": "Campaign Picture",
+        "UPDATE_ERROR": "Update Error!",
+        "UPDATE_SUCCESS": "Successfully updated",
+        "RECEIVE_ERROR": "Error occurred while fetching restaurant data.",
+        "PASSWORD_DIALOG": {
+            "TITLE": "Change Password Request",
+            "BODY": "In order to change your password, click the link we have sent to your e-mail address.",
+            "BUTTON": "Okay"
+        }
     },
     "SNACKBAR": {
         "LOCATION_ERROR": "Location Info Error!",
@@ -126,7 +153,9 @@
         "FORGOT_PASSWORD_TITLE": "Forgot password",
         "FORGOT_PASSWORD_DESCRIPTION": "If you can't reach your email account reach us from email",
         "RESTAURANT_PICTURE": "Restaurant Picture",
-        "CAMPAIGN_PICTURE": "Campaign Picture"
+        "CAMPAIGN_PICTURE": "Campaign Picture",
+        "ERROR": "Sign up error",
+        "SUCCESS": "Sign up successful"
     },
     "FORGOT_PASSWORD": {
         "PASS_1": "Enter your password",
@@ -135,6 +164,6 @@
         "CHANGE_OK": "Password changed successfully",
         "CHANGE_ERR": "Error occurred while caning password",
         "BUTTON": "Change password",
-        "PASS_NEQ":"Password mismatch"
+        "PASS_NEQ": "Password mismatch"
     }
 }

@@ -22,31 +22,6 @@ func NewRestaurantService(db *gorm.DB, aws *AmazonService) *RestaurantService {
 	}
 }
 
-func (s *RestaurantService) Add(r model.Restaurant) (*model.Restaurant, error) {
-	if shouldUploadImage(r.Picture) {
-		url, err := uploadImage(s.aws, r.Picture, restaurantPicturePrefix(r))
-		if err != nil {
-			return nil, fmt.Errorf("restaurant picture add: %w", err)
-		}
-		r.Picture = url
-	}
-
-	if shouldUploadImage(r.CampaignPicture) {
-		url, err := uploadImage(s.aws, r.CampaignPicture, campaignPicturePrefix(r))
-		if err != nil {
-			return nil, fmt.Errorf("campaign picture add: %w", err)
-		}
-		r.CampaignPicture = url
-
-	}
-
-	return s.r.Add(r)
-}
-
-func (s *RestaurantService) Delete(id int) error {
-	return s.r.Delete(id)
-}
-
 func (s *RestaurantService) Get(id int) (*model.Restaurant, error) {
 	return s.r.Get(id)
 }
@@ -108,12 +83,29 @@ func (s *RestaurantService) GetRestaurantAverageRating(id int) (float64, error) 
 }
 
 func (s *RestaurantService) Signup(r model.Restaurant) (*model.Restaurant, error) {
-
 	if r.Mail == "" || r.Password == "" {
-		return nil, errors.New("Boş Değer")
+		return nil, errors.New("empty mail or password")
 	}
+
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(r.Password), 4)
 	r.Password = string(hashedPassword[:])
+
+	if shouldUploadImage(r.Picture) {
+		url, err := uploadImage(s.aws, r.Picture, restaurantPicturePrefix(r))
+		if err != nil {
+			return nil, fmt.Errorf("restaurant picture add: %w", err)
+		}
+		r.Picture = url
+	}
+
+	if shouldUploadImage(r.CampaignPicture) {
+		url, err := uploadImage(s.aws, r.CampaignPicture, campaignPicturePrefix(r))
+		if err != nil {
+			return nil, fmt.Errorf("campaign picture add: %w", err)
+		}
+		r.CampaignPicture = url
+
+	}
 
 	ret, err := s.r.Add(r)
 

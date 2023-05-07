@@ -43,7 +43,7 @@ const RestaurantForgotPassword = () => {
                                 onChange={(event) => { setMail(event.target.value) }}
                                 label={t("LOGIN.EMAIL")}
                                 type="search"
-                                style={{width: 250}}
+                                fullWidth
                             />
                         </Box>
                         <Box style={styles.buttonContainer}>

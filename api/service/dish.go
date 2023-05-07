@@ -38,18 +38,6 @@ func (s *DishService) Delete(id int) error {
 	return s.r.Delete(id)
 }
 
-func (s *DishService) Get(id int) (*model.Dish, error) {
-	return s.r.Get(id)
-}
-
-func (s *DishService) GetWithCategory(cat string) ([]model.Dish, error) {
-	return s.r.GetWithCategory(cat)
-}
-
-func (s *DishService) List() ([]model.Dish, error) {
-	return s.r.List()
-}
-
 func (s *DishService) Update(d model.Dish) (*model.Dish, error) {
 	if shouldUploadImage(d.Picture) {
 		prefix, err := getS3PrefixFromUrl(d.Picture)

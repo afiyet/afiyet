@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { toBase64 } from '../util';
 import { signup } from '../endpoints';
+import { useSnackbar } from 'notistack';
 
 const RestaurantSignUp = () => {
   /**
@@ -36,6 +37,7 @@ const RestaurantSignUp = () => {
   const id = useId();
   const [pictureBase64, setPictureBase64] = useState("");
   const [campaignPictureBase64, setCampaignPictureBase64] = useState("");
+  const { enqueueSnackbar } = useSnackbar();
 
   
   async function handlePicture() {
@@ -58,17 +60,18 @@ const RestaurantSignUp = () => {
       password: password,
       mail: mail,
       picture: pictureBase64 || picture,
-      latitude: latitude,
-      longitude: longitude,
+      latitude: Number(latitude),
+      longitude: Number(longitude),
       campaignPicture: campaignPictureBase64 || campaignPicture
     }
 
     signup(payload)
     .then((res) => {
-
+      enqueueSnackbar(t("SIGNUP_PAGE.SUCCESS"), { variant: "success" });
     })
     .catch((err) => {
         console.log(err);
+        enqueueSnackbar(t("SIGNUP_PAGE.ERROR"), { variant: "error" });
     })
   }
 
@@ -150,7 +153,8 @@ const RestaurantSignUp = () => {
                     id="outlined-basic"
                     label={t("SIGNUP_PAGE.PASSWORD")}
                     variant="outlined"
-                    value={address}
+                    value={password}
+                    type="password"
                     onChange={(e) => { setPassword(e.target.value) }}
                   />
                 </Grid>
@@ -171,6 +175,10 @@ const RestaurantSignUp = () => {
                     label={t("SIGNUP_PAGE.LATITUDE")}
                     variant="outlined"
                     value={latitude}
+                    type="number"
+                    inputProps={{
+                      step: "0.05"
+                    }}
                     onChange={(e) => { setLatitude(e.target.value) }}
                   />
                 </Grid>
@@ -181,6 +189,10 @@ const RestaurantSignUp = () => {
                     label={t("SIGNUP_PAGE.LONGITUDE")}
                     variant="outlined"
                     value={longitude}
+                    type="number"
+                    inputProps={{
+                      step: "0.05"
+                    }}
                     onChange={(e) => { setLongitude(e.target.value) }}
                   />
                 </Grid>

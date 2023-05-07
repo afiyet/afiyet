@@ -11,6 +11,10 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { OrderActions } from '../../actions';
 import { useIsFocused } from '@react-navigation/native';
+import { RadioButton } from 'react-native-paper';
+import CashPayment from './CashPayment';
+import { createCashOrder } from '../../endpoints/cart/cartEndpoints';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 export const themeColor = '#1e1e1e';
@@ -33,6 +37,9 @@ export default function StepperMain() {
   const [priceChangeMessage, setPriceChangeMessage] = useState([]);
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
+  const [checkedRadio, setCheckedRadio] = useState("credit");
+  const [cashOrderIdArray, setCashOrderIdArray] = useState([]);
+  const [creditSuccess, setCreditSuccess] = useState(false);
 
   useEffect(() => {
     setCartItemsChangedError(true);
@@ -60,9 +67,11 @@ export default function StepperMain() {
     setCartItemsChangedError(true);
   }
 
-  
+
 
   function onConfirmOrderClicked() {
+    setCreditSuccess(false);
+    setIyzicoVisible(false);
     /* let payload = {
       "buyerID": 4,
       "restaurantID": "5",
@@ -126,7 +135,6 @@ export default function StepperMain() {
           setCartItemsChangedError(false);
         }
 
-
         if (shouldProcess && !cartItemsChangedError) {
           let payload = {
             buyerID: userState.userId,
@@ -138,28 +146,29 @@ export default function StepperMain() {
           console.log("on confirm order clicked: ");
           console.log(payload);
 
-          initializePayment(payload)
-            .then((res) => {
-              setIyzicoVisible(true);
-              console.log("initialize payment: ");
-              console.log(res);
-              getWebViewUrlFromAWS(res.data)
-                .then((response) => {
-                  console.log("iyzico from aws:");
-                  console.log(response);
-                  setWebViewURL(response.data.paymentPageUrl);
-                  setToken(response.data.token);
-                })
-                .catch((error) => {
-                  console.log(error);
-                })
-
-            })
-            .catch((err) => {
-              console.log(err);
-            })
+          if (checkedRadio === "credit") {
+            initializePayment(payload)
+              .then((res) => {
+                setIyzicoVisible(true);
+                console.log("initialize payment: ");
+                console.log(res);
+                setWebViewURL(res.data);
+              })
+              .catch((err) => {
+                console.log(err);
+              })
+          } else {
+            createCashOrder(payload)
+              .then((res) => {
+                let newArr = cashOrderIdArray;
+                newArr.push(res.data);
+                setCashOrderIdArray(newArr);
+              })
+              .catch((err) => {
+                console.log(err);
+              })
+          }
         }
-
       })
       .catch((err) => {
         console.log(err);
@@ -168,20 +177,8 @@ export default function StepperMain() {
 
   function handleChange(params) {
     if (params.url.includes("/orderCallback")) {
-      getPaymentResult({ "token": token })
-        .then((res) => {
-          completePayment(res)
-            .then((res) => {
-              console.log(res);
-              setIyzicoVisible(false);
-            })
-            .catch((err) => {
-              console.log(err);
-            })
-        })
-        .catch((err) => {
-          console.log(err);
-        })
+      setIyzicoVisible(false);
+      setCreditSuccess(true);
     }
   }
 
@@ -224,6 +221,8 @@ export default function StepperMain() {
           {...firstProgressStep}
           onNext={onConfirmOrderClicked}
           errors={cartItemsChangedError}
+          viewProps={{ flex: 1 }}
+          scrollable={false}
         >
           <View style={styles.headerWithBilling}>
             <Text style={styles.textHeader}>{t("CART_SCREEN.CART")}</Text>
@@ -232,7 +231,7 @@ export default function StepperMain() {
             </View>
           </View>
           <ScrollView
-            showsVerticalScrollIndicator={false}
+            showsVerticalScrollIndicator={true}
           >
             {
               orderState.orderedItems.map((item, index) => {
@@ -242,6 +241,32 @@ export default function StepperMain() {
               })
             }
           </ScrollView>
+          <View style={{ marginHorizontal: 10 }}>
+            <View style={styles.radio}>
+              <TouchableOpacity style={styles.radio} onPress={() => { setCheckedRadio("credit"); }}>
+                <RadioButton
+                  value="credit"
+                  status={(checkedRadio === "credit") ? "checked" : "unchecked"}
+                  color='black'
+                  uncheckedColor='gray'
+                  onPress={() => { setCheckedRadio("credit"); }}
+                />
+                <Text>{t("CART_SCREEN.PAY_CREDIT")}</Text>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <TouchableOpacity style={styles.radio} onPress={() => { setCheckedRadio("cash"); }}>
+                <RadioButton
+                  value="cash"
+                  status={(checkedRadio === "cash") ? "checked" : "unchecked"}
+                  color='black'
+                  uncheckedColor='gray'
+                  onPress={() => { setCheckedRadio("cash"); }}
+                />
+                <Text>{t("CART_SCREEN.PAY_CASH")}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
           <Modal
             animationType="slide"
             transparent={true}
@@ -292,17 +317,38 @@ export default function StepperMain() {
           nextBtnStyle={styles.nextBtnStyle}
           onPrevious={onReturnToCartClicked}
           onSubmit={onPlaceOrderClicked}
+          viewProps={{ flex: 1 }}
+          scrollable={false}
         >
           <Text style={styles.textHeader}>{t("CART_SCREEN.PAYMENT")}</Text>
           <View style={styles.iyzicoContainer}>
             {
-              (iyzicoVisible) ?
+              (iyzicoVisible && checkedRadio === "credit") ?
                 <WebView
                   style={{ height: 400, width: 420, resizeMode: 'contain', flex: 1 }}
                   source={{ uri: webViewURL }}
                   /* scalesPageToFit={false}
                   scrollEnabled={true} */
                   onNavigationStateChange={handleChange}
+                />
+                :
+                (checkedRadio === "credit" && creditSuccess) ?
+                  <View style={{ display: "flex", justifyContent: "center", alignItems: "center", flex: 1 }}>
+                    <Ionicons
+                      name="shield-checkmark-sharp"
+                      color={'#00ff00'}
+                      size={250}
+                    />
+                    <Text>{t("CART_SCREEN.CREDIT_SUCCESS")}</Text>
+                  </View>
+                  :
+                  null
+
+            }
+            {
+              (checkedRadio === "cash") ?
+                <CashPayment
+                  cashOrderIdArray={cashOrderIdArray}
                 />
                 :
                 null
@@ -384,7 +430,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   iyzicoContainer: {
-
+    flex: 1,
   },
   centeredView: {
     flex: 1,
@@ -429,4 +475,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18
   },
+  radio: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  radioView: {
+    backgroundColor: "red",
+    borderRadius: 15,
+    elevation: 5,
+    position: "absolute",
+    bottom: 0
+  }
 });
