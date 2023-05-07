@@ -60,8 +60,8 @@ const RestaurantSignUp = () => {
       password: password,
       mail: mail,
       picture: pictureBase64 || picture,
-      latitude: latitude,
-      longitude: longitude,
+      latitude: Number(latitude),
+      longitude: Number(longitude),
       campaignPicture: campaignPictureBase64 || campaignPicture
     }
 
@@ -154,6 +154,7 @@ const RestaurantSignUp = () => {
                     label={t("SIGNUP_PAGE.PASSWORD")}
                     variant="outlined"
                     value={password}
+                    type="password"
                     onChange={(e) => { setPassword(e.target.value) }}
                   />
                 </Grid>
@@ -174,6 +175,10 @@ const RestaurantSignUp = () => {
                     label={t("SIGNUP_PAGE.LATITUDE")}
                     variant="outlined"
                     value={latitude}
+                    type="number"
+                    inputProps={{
+                      step: "0.05"
+                    }}
                     onChange={(e) => { setLatitude(e.target.value) }}
                   />
                 </Grid>
@@ -184,6 +189,10 @@ const RestaurantSignUp = () => {
                     label={t("SIGNUP_PAGE.LONGITUDE")}
                     variant="outlined"
                     value={longitude}
+                    type="number"
+                    inputProps={{
+                      step: "0.05"
+                    }}
                     onChange={(e) => { setLongitude(e.target.value) }}
                   />
                 </Grid>

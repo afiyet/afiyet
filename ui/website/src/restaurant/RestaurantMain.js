@@ -87,8 +87,8 @@ const RestaurantMain = () => {
       //password: "",
       mail: mail,
       picture: pictureBase64 || picture,
-      latitude: latitude,
-      longitude: longitude,
+      latitude: Number(latitude),
+      longitude: Number(longitude),
       campaignPicture: campaignPictureBase64 || campaignPicture
     }
 
@@ -221,6 +221,10 @@ const RestaurantMain = () => {
                     label={t("MAIN_PAGE.LATITUDE")}
                     variant="outlined"
                     value={latitude}
+                    type="number"
+                    inputProps={{
+                      step: "0.05"
+                    }}
                     onChange={(e) => { setLatitude(e.target.value) }}
                   />
                 </Grid>
@@ -231,6 +235,10 @@ const RestaurantMain = () => {
                     label={t("MAIN_PAGE.LONGITUDE")}
                     variant="outlined"
                     value={longitude}
+                    type="number"
+                    inputProps={{
+                      step: "0.05"
+                    }}
                     onChange={(e) => { setLongitude(e.target.value) }}
                   />
                 </Grid>
