@@ -94,7 +94,7 @@ const RestaurantMain = () => {
 
     updateRestaurantInfo(restaurantState.restaurantId, payload)
       .then((res) => {
-        //snackbar
+        enqueueSnackbar(t("MAIN_PAGE.UPDATE_SUCCESS"), { variant: "success" });
         getRestaurantInfo(restaurantState.restaurantId)
           .then((res) => {
             dispatch(RestaurantActions.setRestaurant(res.data));
