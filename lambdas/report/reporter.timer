@@ -1,0 +1,10 @@
+[Unit]
+Description=Send customer daily reports
+Requires=reporter.service
+
+[Timer]
+Unit=myMonitor.service
+OnCalendar=*-*-* 23:45:00
+
+[Install]
+WantedBy=timers.target
