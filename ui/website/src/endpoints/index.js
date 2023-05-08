@@ -4,7 +4,7 @@ import { login } from "./login/loginEndpoints";
 import { addMenuItem, deleteMenuItem, getRestaurantMenu, updateMenuItem } from "./menu/menuEndpoints";
 import { getComments, getAveragePoint } from "./comments/commentEndpoints";
 import { updateRestaurantInfo, getRestaurantInfo } from "./mainPage/mainPageEndpoints";
-import { getRestaurantOrders, deleteOrder, completeCashPayment, acceptCashPayment } from "./order/orderEndpoints";
+import { getRestaurantOrders, deleteOrder, completeCashPayment, acceptCashPayment, moveOrdersToAnotherTable } from "./order/orderEndpoints";
 import { signup, forgotPassword } from "./signup/signupEndpoints";
 
 export {
@@ -27,5 +27,6 @@ export {
     completeCashPayment,
     forgotPassword,
     acceptCashPayment,
-    getAveragePoint
+    getAveragePoint,
+    moveOrdersToAnotherTable
 };

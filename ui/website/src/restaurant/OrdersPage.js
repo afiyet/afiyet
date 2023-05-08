@@ -13,6 +13,7 @@ export default function OrdersPage() {
     const { t, i18n } = useTranslation();
     const [search, setSearch] = useState("");
     const [ordersSeperatedTables, setOrdersSeperatedTables] = useState([]);
+    const [tables, setTables] = useState([]);
     const restaurantId = useSelector(state => state.restaurantState.restaurantId);
     const { enqueueSnackbar } = useSnackbar();
     const location = useLocation();
@@ -21,17 +22,22 @@ export default function OrdersPage() {
         fetchOrders();
     }, []);
 
-    useInterval(fetchOrders, (location.pathname === "/orders") ? 10000 : null);
+    useInterval(fetchOrders, (location.pathname === "/orders") ? 1000000 : null);
 
     function fetchOrders() {
         let reconstructedData = [];
         let existingTableIds = [];
-
+        let existingTables = [];
         getTables(restaurantId)
             .then((res) => {
                 res.data.map((table) => {
                     existingTableIds.push(table.ID);
                     let found = reconstructedData.find((item) => (item.tableId === table.ID));
+
+                    existingTables.push({
+                        tableId: table.ID,
+                        tableName: table.name
+                    });
 
                     if (found === null || found === undefined) {
                         reconstructedData.push({
@@ -41,7 +47,7 @@ export default function OrdersPage() {
                         });
                     }
                 });
-
+                setTables(existingTables);
                 getRestaurantOrders(restaurantId)
                     .then((res) => {
                         existingTableIds.map((tableId) => { //masalar kadar dönüyor
@@ -127,6 +133,7 @@ export default function OrdersPage() {
                                             tableOrders={table.orders.sort((a,b) => (a.orderId - b.orderId))}
                                             tableName={table.tableName}
                                             fetchOrders={fetchOrders}
+                                            tables={tables}
                                         />
                                     </Box>
                                 );

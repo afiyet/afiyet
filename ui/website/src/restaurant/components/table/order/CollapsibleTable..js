@@ -9,18 +9,21 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Row from './Row';
 import { useTranslation } from 'react-i18next';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
+import MoveOrdersDialog from './MoveOrdersDialog';
 
 export default function CollapsibleTable(props) {
 
     const {
         tableOrders,
         tableName,
-        fetchOrders
+        fetchOrders,
+        tables
     } = props;
 
     const [tableTotal, setTableTotal] = useState(0);
     const { t, i18n } = useTranslation();
+    const [openDialog, setOpenDialog] = useState(false);
 
     useEffect(() => {
         let total = 0;
@@ -44,6 +47,16 @@ export default function CollapsibleTable(props) {
                                     {tableName} {t("ORDERS_PAGE.TABLES.TABLE_ORDERS")}
                                 </Box>
                             </Typography>
+                            <Box>
+                                <Button
+                                    size="large"
+                                    style={{ height: "100%" }}
+                                    onClick={() => {setOpenDialog(true);}}
+                                    variant='contained'
+                                >
+                                    {"************Siparişleri başka masaya taşı"}
+                                </Button>
+                            </Box>
                         </TableCell>
                     </TableRow>
                 </TableHead>
@@ -63,6 +76,14 @@ export default function CollapsibleTable(props) {
                     </TableRow>
                 </TableBody>
             </Table>
+            <MoveOrdersDialog 
+                open={openDialog}
+                setOpen={setOpenDialog}
+                tables={tables}
+                tableName={tableName}
+                tableOrders={tableOrders}
+                fetchOrders={fetchOrders}
+            />
         </TableContainer>
     );
 }

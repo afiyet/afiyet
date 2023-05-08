@@ -15,3 +15,7 @@ export function completeCashPayment(payload) {
 export function acceptCashPayment(payload) {
     return axiosClient.post("/restaurants/acceptCashPayment", payload);
 };
+
+export function moveOrdersToAnotherTable(orderId, toTableId) {
+    return axiosClient.post("/restaurants/tables/switch/" + orderId + "/" + toTableId, {});
+}
