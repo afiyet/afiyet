@@ -1,17 +1,25 @@
-import { Box, Typography, Button, ButtonGroup } from '@mui/material';
+import { Box, Typography, Button, ButtonGroup, Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import CommentItem from './components/CommentItem';
-import { getComments } from '../endpoints';
+import { getAveragePoint, getComments } from '../endpoints';
 import { useSelector } from 'react-redux';
 import Rating from '@mui/material/Rating';
 import { useTranslation } from 'react-i18next';
 import { useSnackbar } from 'notistack';
 import useInterval from '../customHooks/UseInterval';
 import { useLocation } from 'react-router-dom';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
+import SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';
+import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
+import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
+import PropTypes from 'prop-types';
+import { styled } from '@mui/material/styles';
 
 export default function Comments() {
   const [selectedFilter, setSelectedFilter] = useState("");
   const [comments, setComments] = useState([]);
+  const [avgPoint, setAvgPoint] = useState(0);
   const restaurnatState = useSelector(state => state.restaurantState);
   const { t, i18n } = useTranslation();
   const { enqueueSnackbar } = useSnackbar();
@@ -33,6 +41,14 @@ export default function Comments() {
         console.log(err);
         enqueueSnackbar(t("REVIEWS_PAGE.FETCH_ERROR"), { variant: "error" });
       })
+
+      getAveragePoint(restaurnatState.restaurantId)
+      .then((res) => {
+        setAvgPoint(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   };
 
   const buttons = [
@@ -42,6 +58,44 @@ export default function Comments() {
     <Button variant={(selectedFilter === "2") ? "contained" : "outlined"} key="two" onClick={() => { handleFilterButtonClick("2") }}><Rating value={2} readOnly /></Button>,
     <Button variant={(selectedFilter === "1") ? "contained" : "outlined"} key="one" onClick={() => { handleFilterButtonClick("1") }}><Rating value={1} readOnly /></Button>,
   ];
+
+  const StyledRating = styled(Rating)(({ theme }) => ({
+    '& .MuiRating-iconEmpty .MuiSvgIcon-root': {
+      color: theme.palette.action.disabled,
+    },
+  }));
+
+  const customIcons = {
+    1: {
+      icon: <SentimentVeryDissatisfiedIcon fontSize="large" color="error" />,
+      label: 'Very Dissatisfied',
+    },
+    2: {
+      icon: <SentimentDissatisfiedIcon fontSize="large" color="error" />,
+      label: 'Dissatisfied',
+    },
+    3: {
+      icon: <SentimentSatisfiedIcon fontSize="large" color="warning" />,
+      label: 'Neutral',
+    },
+    4: {
+      icon: <SentimentSatisfiedAltIcon fontSize="large" color="success" />,
+      label: 'Satisfied',
+    },
+    5: {
+      icon: <SentimentVerySatisfiedIcon fontSize="large" color="success" />,
+      label: 'Very Satisfied',
+    },
+  };
+
+  function IconContainer(props) {
+    const { value, ...other } = props;
+    return <span {...other}>{customIcons[value].icon}</span>;
+  }
+
+  IconContainer.propTypes = {
+    value: PropTypes.number.isRequired,
+  };
 
   function handleFilterButtonClick(clickedButtonValue) {
     if (selectedFilter === clickedButtonValue) {
@@ -57,10 +111,29 @@ export default function Comments() {
         <Box style={styles.titleAndFilter}>
           <Typography style={styles.pageTitle} variant="h3">{t("REVIEWS_PAGE.TITLE")}</Typography>
           <Box style={styles.buttonsContainer}>
-            <ButtonGroup size="medium" aria-label="large button group">
-              {buttons}
-            </ButtonGroup>
+            <StyledRating
+              name="highlight-selected-only"
+              defaultValue={0}
+              value={avgPoint}
+              IconContainerComponent={IconContainer}
+              readOnly
+              size='large'
+              highlightSelectedOnly
+            />
           </Box>
+          <Grid container style={{ width: "auto" }}>
+            {
+              buttons.map((button) => {
+                return (
+                  <Box style={styles.buttonsContainer}>
+                    <Grid item>
+                      {button}
+                    </Grid>
+                  </Box>
+                );
+              })
+            }
+          </Grid>
         </Box>
         {
           comments.filter((comment) => {
@@ -109,7 +182,8 @@ const styles = {
   pageTitle: { fontFamily: "monospace", color: "#fff" },
   buttonsContainer: {
     backgroundColor: "#fff",
-    borderRadius: 4
+    borderRadius: 4,
+    display: "flex"
   },
   titleAndFilter: {
     display: "flex",
