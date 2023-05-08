@@ -63,6 +63,7 @@ export default function AppbarMenu() {
                         aria-controls={open ? 'account-menu' : undefined}
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
+                        style={{backgroundColor: "white"}}
                     >
                         <Avatar sx={{ width: 32, height: 32 }} src={restaurant.picture}>
                             {restaurant.picture === "" ? restaurant.name[0] : ""}

@@ -124,7 +124,7 @@ const RestaurantMain = () => {
                     <Button
                       component="label"
                       variant="text"
-                      style={{ minHeight: 350 }}
+                      style={{ minHeight: 350, maxHeight: 350, backgroundColor: "white" }}
                     >
                       {((picture !== "" && picture != null) || (pictureBase64 !== "" && pictureBase64 != null)) ?
                         <img height={350} width={"100%"} src={pictureBase64 || picture} style={styles.t} />
@@ -141,7 +141,7 @@ const RestaurantMain = () => {
                     <Button
                       component="label"
                       variant="text"
-                      style={{ minHeight: 350 }}
+                      style={{ minHeight: 350, maxHeight: 350, backgroundColor: "white" }}
                     >
                       {((campaignPicture !== "" && campaignPicture != null) || (campaignPictureBase64 !== "" && campaignPictureBase64 != null)) ?
                         <img height={350} width={"100%"} src={campaignPictureBase64 || campaignPicture} style={styles.t} />

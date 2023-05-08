@@ -117,7 +117,7 @@ export default function OrdersPage() {
                             id="outlined-password-input"
                             value={search}
                             onChange={(event) => { setSearch(event.target.value) }}
-                            variant='outlined'
+                            variant='filled'
                             label={t("TABLES_PAGE.SEARCH_TABLES")}
                         />
                     </Box>
@@ -170,7 +170,6 @@ const styles = {
     searchTableContainer: {
         backgroundColor: "#fff",
         borderRadius: 4,
-        padding: 10
     },
     titleAndFilter: {
         display: "flex",

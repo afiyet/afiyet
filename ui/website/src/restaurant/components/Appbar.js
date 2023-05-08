@@ -37,6 +37,8 @@ function Appbar() {
                             alt="company logo"
                             width={50}
                             height={50}
+                            onClick={() => { history.push("/orders") }}
+                            style={{ cursor: "pointer"}}
                         />
                     </Box>
                     <Button
