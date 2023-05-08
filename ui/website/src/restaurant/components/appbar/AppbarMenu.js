@@ -12,11 +12,13 @@ import Logout from '@mui/icons-material/Logout';
 import { useHistory } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import TranslateIcon from '@mui/icons-material/Translate';
+import {useSelector} from "react-redux";
 
 export default function AppbarMenu() {
 
     const history = useHistory();
     const {t, i18n} = useTranslation();
+    const restaurant = useSelector(state => state.restaurantState);
     const [language, setLanguage] = useState("tr");
 
 
@@ -62,7 +64,9 @@ export default function AppbarMenu() {
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
-                        <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                        <Avatar sx={{ width: 32, height: 32 }} src={restaurant.picture}>
+                            {restaurant.picture === "" ? restaurant.name[0] : ""}
+                        </Avatar>
                     </IconButton>
                 </Tooltip>
             </Box>
