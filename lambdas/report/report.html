@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
+    <style>
+        body {
+            text-align: center;
+        }
+        table{
+            margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .dollar-green {
+            color:	#1a652a;
+        }
+
+        img {
+            margin-top: 50px;
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <img src="https://d33virtamuit9v.cloudfront.net/other/afiyet-logo.png" >
+
+    <h1> {{ .RestaurantName }} {{ .Date }} Günlük Raporu </h1>
+
+    <h4> Ciro: <span class="dollar-green"> {{ printf "%.2f" .TotalSum  }} <span> </h4>
+
+    <h2> Yemeklere göre ciro </h2>
+
+
+    <table class="pure-table pure-table-striped">
+        <thead>
+        <tr>
+            <th>İsim</th>
+            <th>Kazanç</th>
+            <th>Sayı</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {{ range .Dishes}}
+        <tr>
+            <td>{{ .Name }}</td>
+            <td>{{ printf "%.2f" .Sum }}</td>
+            <td>{{ .Count }}</td>
+        </tr>
+        {{ end}}
+        </tbody>
+    </table>
+
+    <h2> Ödeme tipleri </h2>
+
+    <table class="pure-table pure-table-striped">
+        <thead>
+        <tr>
+            <th>Tip</th>
+            <th>Sayı</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {{ range .Payments}}
+        <tr>
+            <td>{{ .PType }}</td>
+            <td>{{ .Count }}</td>
+        </tr>
+        {{ end}}
+        </tbody>
+    </table>
+</body>
+</html>
