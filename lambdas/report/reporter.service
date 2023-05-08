@@ -1,0 +1,13 @@
+[Unit]
+Description=Run reporter app
+
+[Service]
+Type=simple
+User=root
+
+WorkingDirectory=/home/ubuntu/reporter
+ExecStart=/home/ubuntu/reporter/main
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
