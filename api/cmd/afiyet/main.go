@@ -25,9 +25,9 @@ func main() {
 
 	connstr := os.Getenv("DB_CONNECTION_STRING")
 
-	// if os.Getenv("AWS_ACCESS_KEY_ID") == "" || os.Getenv("AWS_SECRET_ACCESS_KEY") == "" {
-	// 	log.Fatal("Missing aws keys")
-	// }
+	if os.Getenv("AWS_ACCESS_KEY_ID") == "" || os.Getenv("AWS_SECRET_ACCESS_KEY") == "" {
+		log.Fatal("Missing aws keys")
+	}
 
 	app, err := NewApp(connstr)
 
