@@ -44,7 +44,7 @@ export default function AppbarMenu() {
 
     function handleLogout() {
         window.localStorage.removeItem("afiyet-login-info");
-        history.push("/");
+        history.push("/login");
         window.location.reload(true);
 
         handleClose();

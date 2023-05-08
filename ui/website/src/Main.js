@@ -12,6 +12,7 @@ import OrdersPage from "./restaurant/OrdersPage";
 import RestaurantSignUp from "./restaurant/RestaurantSignUp";
 import RestaurantForgotPassword from "./restaurant/RestaurantForgotPassword";
 import RestaurantChangePassword from "./restaurant/RestaurantChangePassword";
+import RedPage from "./restaurant/RedPage";
 
 function Main() {
 
@@ -21,7 +22,7 @@ function Main() {
 
     useEffect(() => {
         if (restaurant.restaurantId === undefined || restaurant.restaurantId === null) {
-            history.push("/");
+            history.push("/login");
         }
     }, [restaurant]);
 
@@ -43,8 +44,11 @@ function Main() {
                         <Route path="/change-password">
                             <RestaurantChangePassword />
                         </Route>
-                        <Route path="/">
+                        <Route path="/login">
                             <RestaurantLogin />
+                        </Route>
+                        <Route path="/">
+                            <RedPage />
                         </Route>
                         <Redirect push to="/" />
                     </Switch>
