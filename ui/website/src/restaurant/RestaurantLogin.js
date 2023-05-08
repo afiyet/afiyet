@@ -3,7 +3,7 @@ import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { useSnackbar } from 'notistack';
@@ -34,15 +34,36 @@ const RestaurantLogin = () => {
         }
     }
 
+    useEffect(() => {
+        let savedLoginInfo = window.localStorage.getItem("afiyet-login-info");
+
+        if (savedLoginInfo !== null && savedLoginInfo !== undefined) {
+
+            let payload = JSON.parse(savedLoginInfo);
+
+            login(payload)
+                .then((res) => {
+                    console.log(res);
+                    dispatch(RestaurantActions.setRestaurant(res.data));
+                    saveLoginInfoToLocalStorage(payload);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
+    }, []);
+
     function authenticateRestaurant() {
-        login({
+        let payload = {
             mail: email,
             password: password
-        })
+        };
+
+        login(payload)
             .then((res) => {
                 console.log(res);
                 dispatch(RestaurantActions.setRestaurant(res.data));
-
+                saveLoginInfoToLocalStorage(payload);
                 history.push("/restaurant-main");
                 enqueueSnackbar(t("SNACKBAR.LOGIN_SUCCESS"), { variant: "success" });
             })
@@ -50,6 +71,10 @@ const RestaurantLogin = () => {
                 console.log(err);
                 enqueueSnackbar(t("SNACKBAR.LOGIN_ERROR"), { variant: "error" });
             })
+    }
+
+    function saveLoginInfoToLocalStorage(payload) {
+        window.localStorage.setItem("afiyet-login-info", JSON.stringify(payload));
     }
 
     return (

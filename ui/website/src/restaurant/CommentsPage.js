@@ -123,9 +123,9 @@ export default function Comments() {
           </Box>
           <Grid container style={{ width: "auto" }}>
             {
-              buttons.map((button) => {
+              buttons.map((button, index) => {
                 return (
-                  <Box style={styles.buttonsContainer}>
+                  <Box style={styles.buttonsContainer} key={index}>
                     <Grid item>
                       {button}
                     </Grid>
