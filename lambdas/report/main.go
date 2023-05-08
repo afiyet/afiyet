@@ -35,10 +35,11 @@ type Report struct {
 	TotalSum       float64
 }
 
-type Res struct {
+type Restaurant struct {
 	Id    string
 	Email string
 	pdf   string
+	Name  string
 }
 
 //go:embed report.html
@@ -82,12 +83,12 @@ func main() {
 		log.Fatal("getRestaurants: %w", err)
 	}
 
-	emailCh := make(chan Res, 1)
+	emailCh := make(chan Restaurant, 1)
 	var wg sync.WaitGroup
 
 	for _, r := range restaurants {
 		wg.Add(1)
-		go func(r Res) {
+		go func(r Restaurant) {
 			defer wg.Done()
 			report, err := generateReport(db, r)
 			if err != nil {
@@ -191,23 +192,9 @@ order by Sum(price) desc;
 	return ds, nil
 }
 
-func getRestaurantName(db *sql.DB, restaurantId string) (name string, err error) {
-	err = db.QueryRow(`
-select name
-from restaurants
-where id = $1;
-`, restaurantId).Scan(&name)
-
-	if err != nil {
-		return "", fmt.Errorf("sql query: %w", err)
-	}
-
-	return name, nil
-}
-
-func getRestaurants(db *sql.DB) ([]Res, error) {
+func getRestaurants(db *sql.DB) ([]Restaurant, error) {
 	rows, err := db.Query(`
-select id, mail
+select id, mail, name
 from restaurants;
 `)
 
@@ -217,11 +204,11 @@ from restaurants;
 
 	defer rows.Close()
 
-	var rs []Res
+	var rs []Restaurant
 	for rows.Next() {
-		var r Res
+		var r Restaurant
 
-		if err = rows.Scan(&r.Id, &r.Email); err != nil {
+		if err = rows.Scan(&r.Id, &r.Email, &r.Name); err != nil {
 			return nil, fmt.Errorf("row scan: %w", err)
 		}
 		rs = append(rs, r)
@@ -235,7 +222,7 @@ from restaurants;
 
 }
 
-func generateReport(db *sql.DB, res Res) (string, error) {
+func generateReport(db *sql.DB, res Restaurant) (string, error) {
 	payments, err := getPayments(db, res.Id)
 	if err != nil {
 		return "", fmt.Errorf("getPayments: %w", err)
@@ -246,12 +233,6 @@ func generateReport(db *sql.DB, res Res) (string, error) {
 		return "", fmt.Errorf("getDishes: %w", err)
 	}
 
-	restaurantName, err := getRestaurantName(db, res.Id)
-
-	if err != nil {
-		return "", fmt.Errorf("getRestaurantName: %w", err)
-	}
-
 	var totalSum float64
 	for _, d := range dishes {
 		totalSum += d.Sum
@@ -259,13 +240,13 @@ func generateReport(db *sql.DB, res Res) (string, error) {
 
 	rep := Report{
 		Date:           dateString,
-		RestaurantName: restaurantName,
+		RestaurantName: res.Name,
 		Dishes:         dishes,
 		Payments:       payments,
 		TotalSum:       totalSum,
 	}
 
-	fmt.Printf("%s\t%f\n", res.Email, rep.TotalSum)
+	log.Printf("Generating pdf for :%s\n", res.Name)
 
 	tmpl := template.Must(template.New("Report").Parse(htmlTemplate))
 
@@ -296,7 +277,7 @@ func generateReport(db *sql.DB, res Res) (string, error) {
 	return result.String(), nil
 }
 
-func sendEmail(res Res, report string) error {
+func sendEmail(res Restaurant, report string) error {
 	sender := New("afiyetapp@gmail.com", os.Getenv("GMAIL_APP_PASSWORD"), "smtp.gmail.com")
 	m := NewMessage("Günlük Afiyet Raporu", "Raporunuz ektedir.")
 	m.To = []string{res.Email}
@@ -311,7 +292,7 @@ func sendEmail(res Res, report string) error {
 	return nil
 }
 
-func emailWorker(ch chan Res, total int) {
+func emailWorker(ch chan Restaurant, total int) {
 	var count int
 	for res := range ch {
 		count++
