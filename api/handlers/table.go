@@ -81,3 +81,35 @@ func (h *TableHandler) GetByRestaurant(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, ds)
 }
+
+func (h *TableHandler) SwitchTable(c echo.Context) error {
+	orderIdtmp := c.Param("orderId")
+	orderId, err := strconv.Atoi(orderIdtmp)
+	toTabletmp := c.Param("toTableId")
+	toTable, err := strconv.Atoi(toTabletmp)
+
+	err = h.s.SwitchTable(orderId, toTable)
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, nil)
+}
+
+func (h *TableHandler) IsEmptyTable(c echo.Context) error {
+	restId := c.Param("restId")
+	id, err := strconv.Atoi(restId)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", restId))
+	}
+
+	var res bool
+	res, err = h.s.IsEmptyTable(id)
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, res)
+}

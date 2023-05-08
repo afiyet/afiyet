@@ -1,6 +1,9 @@
 package main
 
 import (
+	"log"
+	"os"
+
 	"github.com/afiyet/afiytet/api/data/model"
 	"github.com/afiyet/afiytet/api/handlers"
 	"github.com/joho/godotenv"
@@ -8,8 +11,6 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"log"
-	"os"
 )
 
 // CommitSHA is set in compilation
@@ -24,9 +25,9 @@ func main() {
 
 	connstr := os.Getenv("DB_CONNECTION_STRING")
 
-	if os.Getenv("AWS_ACCESS_KEY_ID") == "" || os.Getenv("AWS_SECRET_ACCESS_KEY") == "" {
-		log.Fatal("Missing aws keys")
-	}
+	// if os.Getenv("AWS_ACCESS_KEY_ID") == "" || os.Getenv("AWS_SECRET_ACCESS_KEY") == "" {
+	// 	log.Fatal("Missing aws keys")
+	// }
 
 	app, err := NewApp(connstr)
 

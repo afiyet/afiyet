@@ -79,6 +79,8 @@ func Bootstrap(db *gorm.DB, e *echo.Echo, sha string) error {
 	e.POST("/restaurants/tables", tableHandler.Add)
 	e.DELETE("/restaurants/tables/:id", tableHandler.Delete)
 	e.PUT("/restaurants/tables/:id", tableHandler.Update)
+	e.POST("/restaurants/tables/switch/:orderId/:toTableId", tableHandler.SwitchTable)
+	e.POST("/restaurants/tables/emptyTable/:restId", tableHandler.IsEmptyTable)
 
 	e.GET("/locations", locationHandler.GetLocationList)
 	e.GET("/locations/:id", locationHandler.GetLocationWithId)
