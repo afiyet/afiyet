@@ -1,0 +1,28 @@
+name: Deploy Frontend (Web)
+
+on:
+  push:
+    paths:
+      - ui/website/**
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+      - name: Build React App
+        run: | 
+          cd ui/website
+          npm install && npm run build
+      - name: Deploy app build to S3 bucket
+        run: |
+          cd ui/website
+          aws s3 sync ./build/ s3://www.afiyet.site --delete
