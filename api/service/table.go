@@ -29,3 +29,12 @@ func (s *TableService) Delete(id int) error {
 func (s *TableService) GetByRestaurant(id int) ([]model.Table, error) {
 	return s.r.GetWithRestaurantId(id)
 }
+
+func (s *TableService) SwitchTable(OrderId int, toTable int) error {
+	s.r.SwitchTable(OrderId, toTable)
+	return nil
+}
+
+func (s *TableService) IsEmptyTable(id int) (bool, error) {
+	return s.r.IsEmptyTable(id)
+}
