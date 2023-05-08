@@ -6,6 +6,7 @@ import (
 	_ "embed"
 	"fmt"
 	wkhtml "github.com/SebastiaanKlippert/go-wkhtmltopdf"
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"html/template"
 	"log"
@@ -52,6 +53,12 @@ func init() {
 }
 
 func main() {
+	err := godotenv.Load()
+
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	connstr := os.Getenv("DB_CONNECTION_STRING")
 
 	if connstr == "" {
