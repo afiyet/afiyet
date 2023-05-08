@@ -5,6 +5,8 @@ import CollapsibleTable from './components/table/order/CollapsibleTable.';
 import { getRestaurantOrders, getTables } from '../endpoints';
 import { useSelector } from "react-redux";
 import { useSnackbar } from 'notistack';
+import { useLocation } from 'react-router-dom';
+import useInterval from '../customHooks/UseInterval';
 
 export default function OrdersPage() {
 
@@ -13,10 +15,13 @@ export default function OrdersPage() {
     const [ordersSeperatedTables, setOrdersSeperatedTables] = useState([]);
     const restaurantId = useSelector(state => state.restaurantState.restaurantId);
     const { enqueueSnackbar } = useSnackbar();
+    const location = useLocation();
 
     useEffect(() => {
         fetchOrders();
     }, []);
+
+    useInterval(fetchOrders, (location.pathname === "/orders") ? 10000 : null);
 
     function fetchOrders() {
         let reconstructedData = [];

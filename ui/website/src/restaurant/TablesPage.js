@@ -16,6 +16,8 @@ import FormControl from '@mui/material/FormControl';
 import { useSnackbar } from 'notistack';
 import TableItem from './components/table/TableItem';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
+import useInterval from '../customHooks/UseInterval';
 
 export default function TablesPage() {
 
@@ -27,6 +29,7 @@ export default function TablesPage() {
   const { enqueueSnackbar } = useSnackbar();
   const { t, i18n } = useTranslation();
   const [tableAvailabilityArray, setTableAvailabilityArray] = useState([]);
+  const location = useLocation();
 
   const handleClickOpenAdd = () => {
     setOpenAdd(true);
@@ -92,6 +95,7 @@ export default function TablesPage() {
     fetchTables();
   }, []);
 
+  useInterval(fetchTables, (location.pathname === "/tables") ? 20000 : null);
 
   return (
     <Box sx={{ flexGrow: 1, marginTop: '2vh' }}>

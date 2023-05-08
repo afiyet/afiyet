@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 import Rating from '@mui/material/Rating';
 import { useTranslation } from 'react-i18next';
 import { useSnackbar } from 'notistack';
+import useInterval from '../customHooks/UseInterval';
+import { useLocation } from 'react-router-dom';
 
 export default function Comments() {
   const [selectedFilter, setSelectedFilter] = useState("");
@@ -13,8 +15,15 @@ export default function Comments() {
   const restaurnatState = useSelector(state => state.restaurantState);
   const { t, i18n } = useTranslation();
   const { enqueueSnackbar } = useSnackbar();
+  const location = useLocation();
 
   useEffect(() => {
+    fetchComments();
+  }, []);
+
+  useInterval(fetchComments, (location.pathname === "/comments") ? 30000 : null);
+
+  function fetchComments() {
     getComments(restaurnatState.restaurantId)
       .then((res) => {
         console.log(res.data);
@@ -24,7 +33,7 @@ export default function Comments() {
         console.log(err);
         enqueueSnackbar(t("REVIEWS_PAGE.FETCH_ERROR"), { variant: "error" });
       })
-  }, []);
+  };
 
   const buttons = [
     <Button variant={(selectedFilter === "5") ? "contained" : "outlined"} key="five" onClick={() => { handleFilterButtonClick("5") }}><Rating value={5} readOnly /></Button>,
