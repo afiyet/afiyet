@@ -48,27 +48,16 @@ func Bootstrap(db *gorm.DB, e *echo.Echo, sha string) error {
 		s: service.NewPasswordService(db),
 	}
 
-	e.POST("/users", userHandler.Add)
-	e.DELETE("/users/:id", userHandler.Delete)
-	e.GET("/users/:id", userHandler.Get)
-	e.GET("/users", userHandler.List)
-	e.PUT("/users/:id", userHandler.Update)
-	e.PUT("/users/:id/ratings", userHandler.GetRatings)
-
 	e.POST("/users/signup", userHandler.Signup)
 	e.POST("/users/login", userHandler.Login)
 
 	e.POST("/dishes", dishHandler.Add)
 	e.DELETE("/dishes/:id", dishHandler.Delete)
-	e.GET("/dishes/:id", dishHandler.Get)
-	e.GET("/dishes", dishHandler.List)
 	e.PUT("/dishes/:id", dishHandler.Update)
 
 	e.POST("/ratings/:restaurantId/:userId", ratingHandler.Add)
 	e.DELETE("/ratings/:ratingId", ratingHandler.Delete)
 
-	e.POST("/restaurants", restaurantHandler.Add)
-	e.DELETE("/restaurants/:id", restaurantHandler.Delete)
 	e.GET("/restaurants/:id", restaurantHandler.Get)
 	e.GET("/restaurants", restaurantHandler.List)
 	e.PUT("/restaurants/:id", restaurantHandler.Update)
@@ -85,11 +74,8 @@ func Bootstrap(db *gorm.DB, e *echo.Echo, sha string) error {
 	e.GET("/restaurants/:id/orders", orderHandler.GetByRestaurantId)
 	e.DELETE("/restaurants/orders/:id", orderHandler.DeleteCascade)
 	e.DELETE("/restaurants/tables/orders/:id", orderHandler.DeleteCascadeByTableId)
-	e.POST("/restaurants/orders", orderHandler.Add)
-	e.GET("/restaurants/orders/:id", orderHandler.Get)
 
 	e.GET("/restaurants/:id/tables", tableHandler.GetByRestaurant)
-	e.GET("/restaurants/tables/orders/:id", orderHandler.GetByTableID)
 	e.POST("/restaurants/tables", tableHandler.Add)
 	e.DELETE("/restaurants/tables/:id", tableHandler.Delete)
 	e.PUT("/restaurants/tables/:id", tableHandler.Update)

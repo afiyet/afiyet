@@ -12,6 +12,7 @@ import (
 
 	"github.com/afiyet/afiytet/api/data/model"
 	"github.com/afiyet/afiytet/api/service"
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 )
 
@@ -152,6 +153,15 @@ func (h *PaymentHandler) CreatePaymentWithForm(c echo.Context) error {
 	defer res.Body.Close()
 	json.Unmarshal([]byte(body), &awsResponse)
 
+	if awsResponse["token"] == nil {
+		uuidWithHyphen := uuid.New()
+
+		order.Token = "mock-" + uuidWithHyphen.String()
+		h.orderService.Update(*order)
+
+		return c.JSON(http.StatusOK, "http://iyzico-mock.s3-website.eu-central-1.amazonaws.com/?token="+order.Token+"&price="+getPrice(rbind.BasketItems))
+	}
+
 	order.Token = awsResponse["token"].(string)
 
 	h.orderService.Update(*order)
@@ -284,10 +294,23 @@ func (h *PaymentHandler) PaymentCallBackURL(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
+	fmt.Println(token.Token)
+
 	order, err := h.orderService.GetByToken(token.Token)
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	if token.Token[0:4] == "mock" {
+		order, err = h.changeOrderStatus(order, "PAYMENT_ACCEPTED")
+
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, err.Error())
+		}
+
+		return c.JSON(http.StatusOK, order.ID)
+
 	}
 
 	body := []byte(`{"token":"` + token.Token + `"}`)

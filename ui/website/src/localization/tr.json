@@ -116,6 +116,7 @@
         "RESTAURANT_PICTURE": "Restoran Fotoğrafı",
         "CAMPAIGN_PICTURE": "Kampanya Fotoğrafı",
         "UPDATE_ERROR": "Güncellenirken hata oluştu!",
+        "UPDATE_SUCCESS": "Başarıyla güncellendi",
         "RECEIVE_ERROR": "Restoran bilgileri alınırken hata oluştu.",
         "PASSWORD_DIALOG": {
             "TITLE": "Şifre Değiştirme Talebi",

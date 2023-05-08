@@ -34,14 +34,15 @@ func NewAmazonService() (*AmazonService, error) {
 	}, nil
 }
 
-func (a AmazonService) S3Upload(name string, reader io.Reader) error {
+func (a AmazonService) S3UploadImage(name string, reader io.Reader, extension string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), maxRequestTime)
 	defer cancel()
 
 	_, err := a.s3.PutObject(ctx, &s3.PutObjectInput{
-		Bucket: aws.String(S3BucketName),
-		Key:    &name,
-		Body:   reader,
+		Bucket:      aws.String(S3BucketName),
+		Key:         &name,
+		Body:        reader,
+		ContentType: aws.String("image/" + extension),
 	})
 
 	if err != nil {

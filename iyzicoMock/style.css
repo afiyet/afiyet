@@ -1,0 +1,709 @@
+/*! CSS Used from: Embedded */
+.css-1550pw2-Wrapper {
+    z-index: 16777271 !important;
+    position: fixed !important;
+    top: 0px !important;
+    left: 0px !important;
+    width: 100% !important;
+    height: 100% !important;
+    overflow-y: auto !important;
+    display: flex !important;
+    -webkit-box-align: center !important;
+    align-items: center !important;
+    -webkit-box-pack: center !important;
+    justify-content: center !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
+    font-size: 13px !important;
+    font-family: -apple-system, blinkmacsystemfont, "segoe ui", helvetica, arial, sans-serif, "apple color emoji", "segoe ui emoji", "segoe ui symbol" !important;
+    line-height: 1.45 !important;
+    color: rgb(33, 37, 41) !important;
+}
+
+.css-1ry8jzp-Overlay {
+    background: rgba(0, 0, 0, 0.7) !important;
+    position: fixed !important;
+    width: 100% !important;
+    height: 100% !important;
+    top: 0px !important;
+    left: 0px !important;
+}
+
+.css-1e2nqws-Holder {
+    position: relative !important;
+    animation: 0.2s ease-in 0s 1 normal none running animation-18q2eb6 !important;
+}
+
+.css-1uvoc62-ModalViewWrapper {
+    padding: 10px !important;
+}
+
+.css-1iumsyu-Global form {
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
+.css-1iumsyu-Global img {
+    align-self: unset;
+}
+
+.css-1iumsyu-Global a {
+    color: rgb(15, 90, 191);
+    text-decoration: none;
+}
+
+.css-1iumsyu-Global a:hover {
+    color: rgb(30, 100, 255);
+}
+
+.css-1iumsyu-Global * {
+    box-sizing: border-box !important;
+}
+
+@media (max-width: 600px) {
+    .css-1iumsyu-Global {
+        clear: both;
+    }
+}
+
+.css-11judmh-Body {
+    font-size: 13px !important;
+    font-family: -apple-system, blinkmacsystemfont, "segoe ui", helvetica, arial, sans-serif, "apple color emoji", "segoe ui emoji", "segoe ui symbol" !important;
+    line-height: 1.5 !important;
+    color: rgb(73, 80, 87) !important;
+    min-width: 320px !important;
+    -webkit-font-smoothing: antialiased !important;
+}
+
+.css-11judmh-Body label {
+    font-weight: normal !important;
+    text-decoration: none !important;
+    letter-spacing: initial !important;
+    font-size: 13px !important;
+}
+
+.css-11judmh-Body input {
+    margin: 0px !important;
+}
+
+.css-11judmh-Body input::placeholder {
+    font-size: 13px !important;
+    font-family: -apple-system, blinkmacsystemfont, "segoe ui", helvetica, arial, sans-serif, "apple color emoji", "segoe ui emoji", "segoe ui symbol" !important;
+}
+
+.css-11judmh-Body form {
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
+.css-1wwxgql-Close-Close {
+    position: absolute !important;
+    width: 16px !important;
+    height: 16px !important;
+    z-index: 100 !important;
+    cursor: pointer !important;
+    top: -12px !important;
+    right: -12px !important;
+}
+
+.css-xnsa8s-Popup-Popup-Box {
+    padding: 16px;
+    background-color: rgb(248, 249, 250) !important;
+    border-radius: 5px !important;
+    box-shadow: rgba(51, 51, 3, 0.23) 0px 0px 10px 5px !important;
+    width: 320px !important;
+}
+
+.css-jeo6sv-Body {
+    position: relative;
+}
+
+.css-1s7yuit-Sandbox {
+    text-align: center !important;
+    background: rgb(253, 224, 115) !important;
+    padding: 10px !important;
+    border-top-right-radius: 4px !important;
+    border-top-left-radius: 4px !important;
+}
+
+.css-15qt23s-TabsContainer {
+    padding-top: 16px !important;
+    background-color: rgb(248, 249, 250) !important;
+    position: relative !important;
+}
+
+.css-1wf3khk-TabsList {
+    display: flex !important;
+    -webkit-box-pack: justify !important;
+    justify-content: space-between !important;
+    -webkit-box-align: center !important;
+    align-items: center !important;
+    background-color: rgb(255, 255, 255) !important;
+    padding: 8px !important;
+    border-radius: 8px !important;
+    width: 100% !important;
+}
+
+.css-1om0utp-Tab-Tab {
+    flex-basis: 20rem;
+    font-family: "Mark Pro";
+    display: flex !important;
+    -webkit-box-align: center !important;
+    align-items: center !important;
+    -webkit-box-pack: center !important;
+    justify-content: center !important;
+    height: 48px !important;
+    width: 40% !important;
+    margin-left: 0px !important;
+    line-height: 1.33 !important;
+    border-radius: 6px !important;
+    border: 0.5px solid rgb(30, 100, 255) !important;
+    color: rgb(52, 58, 64) !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    transition: color 0.3s ease-in 0s, border 0.2s ease-in 0s !important;
+    cursor: default !important;
+    background-color: rgb(245, 249, 255) !important;
+}
+
+.css-17fq9jh-LabelWrapper {
+    display: flex !important;
+    align-items: flex-start !important;
+    text-align: center !important;
+    flex-direction: column !important;
+}
+
+.css-17fq9jh-LabelWrapper img {
+    display: inline-block !important;
+    height: 18px !important;
+}
+
+.css-gs03qm-Icon-Icon-Icon {
+    display: none;
+    height: 24px !important;
+    margin-right: 8px !important;
+}
+
+@media (max-width: 409px) {
+    .css-gs03qm-Icon-Icon-Icon {
+        display: none;
+    }
+}
+
+.css-2ymiyf-MarkUpWrapper {
+    font-size: 14px !important;
+    color: rgb(73, 80, 87) !important;
+    font-family: "Mark Pro" !important;
+    font-weight: 500 !important;
+}
+
+.css-1rbet0b-Tab-Tab {
+    flex-basis: auto;
+    font-family: "Mark Pro";
+    cursor: pointer !important;
+    display: flex !important;
+    -webkit-box-align: center !important;
+    align-items: center !important;
+    -webkit-box-pack: center !important;
+    justify-content: center !important;
+    height: 48px !important;
+    width: 50% !important;
+    margin-left: 0px !important;
+    line-height: 1.33 !important;
+    border-radius: 6px !important;
+    background-color: rgb(255, 255, 255) !important;
+    border: none !important;
+    color: rgb(15, 90, 191) !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    transition: color 0.3s ease-in 0s, border 0.2s ease-in 0s !important;
+}
+
+.css-1rbet0b-Tab-Tab:hover {
+    border-color: rgb(245, 249, 255) !important;
+    color: rgb(30, 100, 255) !important;
+}
+
+.css-f6wp4g-LabelWrapper {
+    display: flex !important;
+    align-items: flex-start !important;
+    text-align: center !important;
+    flex-direction: column !important;
+}
+
+.css-f6wp4g-LabelWrapper img {
+    display: inline-block !important;
+    height: 26px !important;
+}
+
+.css-526lju-MarkUpWrapper-MarkUpWrapper {
+    font-size: 14px !important;
+    color: rgb(33, 37, 41) !important;
+    font-family: "Mark Pro" !important;
+    font-weight: normal !important;
+    line-height: 0 !important;
+}
+
+.css-1l31bfw-Tab-Tab {
+    flex-basis: auto;
+    font-family: "Mark Pro";
+    cursor: pointer !important;
+    display: flex !important;
+    -webkit-box-align: center !important;
+    align-items: center !important;
+    -webkit-box-pack: center !important;
+    justify-content: center !important;
+    height: 48px !important;
+    width: 20px !important;
+    margin-left: 0px !important;
+    line-height: 1.33 !important;
+    border-radius: 6px !important;
+    background-color: rgb(255, 255, 255) !important;
+    border: none !important;
+    color: rgb(15, 90, 191) !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    transition: color 0.3s ease-in 0s, border 0.2s ease-in 0s !important;
+}
+
+.css-1l31bfw-Tab-Tab:hover {
+    border-color: rgb(245, 249, 255) !important;
+    color: rgb(30, 100, 255) !important;
+}
+
+.css-pbfbjd-LabelWrapper {
+    display: flex !important;
+    align-items: flex-start !important;
+    text-align: center !important;
+    flex-direction: column !important;
+}
+
+.css-pbfbjd-LabelWrapper img {
+    display: inline-block !important;
+    height: 48px !important;
+}
+
+.css-nu3k2s-Icon-Icon-Icon {
+    display: none;
+    height: 24px !important;
+    margin-right: 0px !important;
+}
+
+@media (max-width: 409px) {
+    .css-nu3k2s-Icon-Icon-Icon {
+        display: none;
+    }
+}
+
+.css-1qvd0z8-Screens-Screens-Screens {
+    margin-top: 16px;
+    border-radius: 8px;
+    background-color: rgb(255, 255, 255) !important;
+    position: relative !important;
+    padding: 16px !important;
+    min-height: 240px !important;
+    overflow: hidden auto !important;
+    max-height: 83vh !important;
+}
+
+.css-1qvd0z8-Screens-Screens-Screens::-webkit-scrollbar {
+    appearance: none;
+}
+
+.css-1qvd0z8-Screens-Screens-Screens::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 2px solid white;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.css-oe1wh5-Loading {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+}
+
+.css-1yu5mva-Wrapper {
+    position: relative !important;
+    background-color: rgb(255, 255, 255) !important;
+}
+
+.css-5lmu8w-CardInputGroupContainer {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    width: 100% !important;
+    margin-top: 1px !important;
+}
+
+.css-hzsxta-InputHolder-InputHolder-InputHolder {
+    width: 100% !important;
+    position: relative !important;
+    z-index: 0 !important;
+    border: none !important;
+    box-shadow: rgb(206, 212, 218) 0px 0px 0px 1px !important;
+    background: rgb(255, 255, 255) !important;
+    border-top-left-radius: 4px !important;
+    border-top-right-radius: 4px !important;
+}
+
+.css-1wxz9jq-IconWrapper {
+    position: absolute !important;
+    top: 0px !important;
+    left: 0px !important;
+    right: auto !important;
+    width: 35px !important;
+    height: 100% !important;
+    display: flex !important;
+    -webkit-box-pack: center !important;
+    justify-content: center !important;
+    -webkit-box-align: center !important;
+    align-items: center !important;
+}
+
+.css-1orv556-Input {
+    height: 48px !important;
+    border: none !important;
+    background: transparent !important;
+    width: 100% !important;
+    color: rgb(33, 37, 41) !important;
+    font-size: 14px !important;
+    padding: 0px 12px 0px 35px !important;
+    text-align: left !important;
+    outline: none !important;
+    border-radius: 4px !important;
+}
+
+.css-1u40dsv-InputHolder {
+    width: 100% !important;
+    position: relative !important;
+    z-index: 0 !important;
+    border: none !important;
+    box-shadow: rgb(206, 212, 218) 0px 0px 0px 1px !important;
+    background: rgb(255, 255, 255) !important;
+}
+
+.css-1h5j4ld-StyledInputMask {
+    height: 48px !important;
+    border: none !important;
+    background: transparent !important;
+    width: 100% !important;
+    color: rgb(33, 37, 41) !important;
+    font-size: 14px !important;
+    padding: 0px 12px 0px 35px !important;
+    text-align: left !important;
+    outline: none !important;
+    border-radius: 4px !important;
+}
+
+.css-1imxwec-InputHolder-InputHolder {
+    width: 50% !important;
+    position: relative !important;
+    z-index: 0 !important;
+    border: none !important;
+    box-shadow: rgb(206, 212, 218) 0px 0px 0px 1px !important;
+    background: rgb(255, 255, 255) !important;
+    border-bottom-left-radius: 4px !important;
+}
+
+.css-19q56ts-InputHolder-InputHolder {
+    width: 50% !important;
+    position: relative !important;
+    z-index: 0 !important;
+    border: none !important;
+    box-shadow: rgb(206, 212, 218) 0px 0px 0px 1px !important;
+    background: rgb(255, 255, 255) !important;
+    border-bottom-right-radius: 4px !important;
+}
+
+.css-y9ue2r-IconWrapper {
+    position: absolute !important;
+    top: 0px !important;
+    left: auto !important;
+    right: 0px !important;
+    width: 35px !important;
+    height: 100% !important;
+    display: flex !important;
+    -webkit-box-pack: center !important;
+    justify-content: center !important;
+    -webkit-box-align: center !important;
+    align-items: center !important;
+}
+
+.css-1pq5aha-InstallmentRadioContainer {
+    margin-top: 16px;
+}
+
+.css-10s63hi-Wrapper {
+    border: 1px solid rgb(206, 212, 218) !important;
+    border-radius: 6px !important;
+    background-color: rgb(255, 255, 255) !important;
+    width: 100% !important;
+}
+
+.css-14yv65k-Content {
+    padding: 10px;
+    color: rgb(134, 142, 150);
+    text-align: center;
+    line-height: 1.14;
+    font-size: 14px !important;
+}
+
+.css-wrz7ei-PermissionWrapper {
+    margin-top: 16px !important;
+}
+
+.css-1hzd13s-PermissionRow {
+    margin-bottom: 16px !important;
+}
+
+.css-1fq3mss-Wrapper {
+    position: relative !important;
+}
+
+.css-1fq3mss-Wrapper label {
+    display: flex !important;
+    -webkit-box-align: center !important;
+    align-items: center !important;
+    position: relative !important;
+    font-weight: normal !important;
+}
+
+.css-183y6j0-LabelWrapper {
+    cursor: pointer;
+    user-select: none;
+    width: 100% !important;
+    background-color: rgb(255, 255, 255) !important;
+}
+
+.css-1ify3qj-CheckboxItem {
+    cursor: pointer !important;
+    flex-shrink: 0 !important;
+    position: relative !important;
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 4px !important;
+    background-color: rgb(255, 255, 255) !important;
+    border: 2px solid rgb(206, 212, 218) !important;
+    box-sizing: border-box !important;
+}
+
+.css-u4zq6d-CheckboxInput {
+    cursor: pointer !important;
+    padding: 0px !important;
+    margin: 0px !important;
+    position: absolute !important;
+    top: -2px !important;
+    left: -2px !important;
+    width: 16px !important;
+    height: 16px !important;
+    opacity: 0 !important;
+}
+
+.css-u4zq6d-CheckboxInput:checked+.evaa3860 {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1) !important;
+}
+
+.css-9iiwmw-Check {
+    opacity: 0;
+    visibility: hidden;
+    display: flex !important;
+    -webkit-box-pack: center !important;
+    justify-content: center !important;
+    -webkit-box-align: center !important;
+    align-items: center !important;
+    position: absolute !important;
+    top: -2px !important;
+    left: -2px !important;
+    background-color: rgb(55, 178, 77) !important;
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 4px !important;
+    transform: scale(0.6) !important;
+    transition: all 0.3s linear 0s !important;
+}
+
+.css-9iiwmw-Check svg {
+    color: rgb(255, 255, 255);
+}
+
+.css-hkjqe0-Label {
+    cursor: pointer !important;
+    line-height: 1.3 !important;
+    padding-left: 8px !important;
+}
+
+.css-10ivw8u-Addon {
+    position: absolute !important;
+    right: 0px !important;
+    display: flex !important;
+    -webkit-box-pack: end !important;
+    justify-content: flex-end !important;
+    -webkit-box-align: center !important;
+    align-items: center !important;
+}
+
+.css-p68ol6-Wrapper {
+    display: flex !important;
+    -webkit-box-pack: end !important;
+    justify-content: flex-end !important;
+    -webkit-box-align: center !important;
+    align-items: center !important;
+    height: 41px !important;
+    padding: 0px 8px !important;
+    cursor: pointer !important;
+    color: rgb(74, 74, 74) !important;
+    font-size: 11px !important;
+}
+
+.css-f4qn07-Overlay {
+    max-width: 200px;
+    position: absolute !important;
+    visibility: hidden !important;
+    height: 0px !important;
+    top: 0px !important;
+    left: 43px !important;
+    right: auto !important;
+    background-color: rgb(255, 237, 167) !important;
+    padding: 15px !important;
+    border-radius: 6px !important;
+    border: 1px solid rgb(255, 237, 167) !important;
+    z-index: 100 !important;
+}
+
+.css-f4qn07-Overlay::before,
+.css-f4qn07-Overlay::after {
+    content: "" !important;
+    width: 0px !important;
+    height: 0px !important;
+    position: absolute !important;
+    border-top: 8px solid transparent !important;
+    border-bottom: 8px solid transparent !important;
+    top: 11px !important;
+}
+
+.css-f4qn07-Overlay::before {
+    display: block !important;
+    border-right: 8px solid rgb(255, 237, 167) !important;
+    border-left: none !important;
+    left: -8px !important;
+}
+
+.css-f4qn07-Overlay::after {
+    display: none !important;
+    border-left: 8px solid rgb(255, 237, 167) !important;
+    border-right: none !important;
+    right: -8px !important;
+}
+
+.css-1y2g72h-Title {
+    font-weight: 500 !important;
+    font-size: 15px !important;
+    margin-bottom: 10px !important;
+}
+
+.css-1lyxazt-Wrapper {
+    background-color: rgb(248, 249, 250) !important;
+    border-radius: 4px !important;
+    padding: 12px !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: row !important;
+    -webkit-box-pack: justify !important;
+    justify-content: space-between !important;
+    -webkit-box-align: center !important;
+    align-items: center !important;
+    cursor: pointer !important;
+}
+
+.css-2alf6b-Label {
+    line-height: 1.3 !important;
+    padding-left: 8px !important;
+    margin-right: 32px !important;
+}
+
+.css-p8f6td-LeadText {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    line-height: 18px !important;
+}
+
+.css-1s1pg9l-IyzicoLogo {
+    margin-right: 4px !important;
+    height: 15px !important;
+    vertical-align: middle !important;
+}
+
+.css-ebk55v-ErrorWrapper {
+    margin: 16px 0px !important;
+}
+
+.css-1vgluij-ActionButton {
+    margin-top: 16px !important;
+}
+
+.css-jyorbb-Button-Button {
+    font-family: "Mark Pro";
+    background-position: center center;
+    user-select: none !important;
+    display: flex !important;
+    -webkit-box-pack: center !important;
+    justify-content: center !important;
+    -webkit-box-align: center !important;
+    align-items: center !important;
+    cursor: pointer !important;
+    width: 100% !important;
+    height: 48px !important;
+    line-height: 48px !important;
+    border-radius: 100px !important;
+    opacity: 1 !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    outline: none !important;
+    padding: 0px !important;
+    background-color: rgb(30, 100, 255) !important;
+    color: rgb(255, 255, 255) !important;
+    border: none !important;
+    transition: all 0.3s linear 0s !important;
+}
+
+.css-jyorbb-Button-Button:active,
+.css-jyorbb-Button-Button:hover {
+    background-color: rgb(67, 147, 255) !important;
+    border-color: rgb(67, 147, 255) !important;
+}
+
+.css-1q7gc44-KvkkInfoWrapper {
+    display: block;
+    text-align: center;
+    padding: 14px 0px 13px;
+    border-bottom: 1px solid rgb(241, 243, 245);
+    color: rgb(134, 142, 150);
+    font-size: 12px;
+}
+
+/*! CSS Used fontfaces */
+@font-face {
+    font-family: "Mark Pro";
+    src: url("https://static.iyzipay.com/fonts/MarkPro/MarkPro-Regular.woff2") format("woff2"), url("https://static.iyzipay.com/fonts/MarkPro/MarkPro-Regular.woff") format("woff");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Mark Pro";
+    src: url("https://static.iyzipay.com/fonts/MarkPro/MarkPro-Medium.woff2") format("woff2"), url("https://static.iyzipay.com/fonts/MarkPro/MarkPro-Medium.woff") format("woff");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Mark Pro";
+    src: url("https://static.iyzipay.com/fonts/MarkPro/MarkPro-Bold.woff2") format("woff2"), url("https://static.iyzipay.com/fonts/MarkPro/MarkPro-Bold.woff") format("woff");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}

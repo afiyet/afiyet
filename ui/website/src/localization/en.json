@@ -115,7 +115,8 @@
         "RESTAURANT_PICTURE": "Restaurant Picture",
         "CAMPAIGN_PICTURE": "Campaign Picture",
         "UPDATE_ERROR": "Update Error!",
-        "RECEIVE_ERROR": "Error occured while fetching restaurant data.",
+        "UPDATE_SUCCESS": "Successfully updated",
+        "RECEIVE_ERROR": "Error occurred while fetching restaurant data.",
         "PASSWORD_DIALOG": {
             "TITLE": "Change Password Request",
             "BODY": "In order to change your password, click the link we have sent to your e-mail address.",
