@@ -13,18 +13,24 @@ import RestaurantSignUp from "./restaurant/RestaurantSignUp";
 import RestaurantForgotPassword from "./restaurant/RestaurantForgotPassword";
 import RestaurantChangePassword from "./restaurant/RestaurantChangePassword";
 import RedPage from "./restaurant/RedPage";
+import { useTranslation } from "react-i18next";
 
 function Main() {
 
     const location = useLocation();
     const history = useHistory();
     const restaurant = useSelector(state => state.restaurantState);
+    const {t, i18n} = useTranslation();
 
     useEffect(() => {
         if (restaurant.restaurantId === undefined || restaurant.restaurantId === null) {
             history.push("/login");
         }
     }, [restaurant]);
+
+    useEffect(() => {
+        i18n.changeLanguage(navigator.language.substring(0,2));
+    }, []);
 
     return (
         <div className="App">
