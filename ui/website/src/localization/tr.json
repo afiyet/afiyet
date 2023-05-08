@@ -99,6 +99,16 @@
             "AMOUNT": "Adet",
             "TOTAL": "Toplam (TL)",
             "TABLE_TOTAL": "Masa Toplamı (TL)"
+        },
+        "MOVE": {
+            "FROM": "Taşınan Masa",
+            "TO": "Taşınılacak Masa",
+            "PLACEHOLDER": "Masa Seç",
+            "DIALOG_OPEN_BUTTON": "Sİparİşlerİ Başka Masaya TaşI",
+            "DIALOG_CANCEL_BUTTON": "İptal",
+            "DIALOG_SWITCH_BUTTON": "TaşI",
+            "ORDER": "Sipariş",
+            "DIALOG_TITLE": "Siparişleri Başka Masaya Taşı"
         }
     },
     "MAIN_PAGE": {

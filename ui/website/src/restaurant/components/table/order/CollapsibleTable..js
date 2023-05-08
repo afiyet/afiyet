@@ -54,7 +54,7 @@ export default function CollapsibleTable(props) {
                                     onClick={() => {setOpenDialog(true);}}
                                     variant='contained'
                                 >
-                                    {"************Siparişleri başka masaya taşı"}
+                                    {t("ORDERS_PAGE.MOVE.DIALOG_OPEN_BUTTON")}
                                 </Button>
                             </Box>
                         </TableCell>

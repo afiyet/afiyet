@@ -7,6 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import TransferOrders from './TransferOrders';
 import { moveOrdersToAnotherTable } from '../../../../endpoints';
+import { useTranslation } from 'react-i18next';
 
 export default function MoveOrdersDialog(props) {
 
@@ -22,6 +23,7 @@ export default function MoveOrdersDialog(props) {
     const [shouldDisableButton, setShouldDisableButton] = useState(false);
     const [movedOrdersFinal, setMovedOrdersFinal] = useState([]);
     const [toTableIdFinal, setToTableIdFinal] = useState(0);
+    const { t, i18n } = useTranslation();
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -33,13 +35,17 @@ export default function MoveOrdersDialog(props) {
 
     function handleOrderSwitching() {
         movedOrdersFinal.map((order) => {
+            console.log({
+                a: order.orderId,
+                b: toTableIdFinal
+            })
             moveOrdersToAnotherTable(order.orderId, toTableIdFinal)
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+                .then((res) => {
+                    console.log(res);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
         });
         handleClose();
         fetchOrders();
@@ -53,7 +59,7 @@ export default function MoveOrdersDialog(props) {
             aria-describedby="alert-dialog-description"
         >
             <DialogTitle id="alert-dialog-title">
-                {"**********Siparişleri başka masya taşı"}
+                {t("ORDERS_PAGE.MOVE.DIALOG_TITLE")}
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
@@ -68,17 +74,19 @@ export default function MoveOrdersDialog(props) {
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button 
-                variant="contained" 
-                onClick={handleClose}
-                >Disagree</Button>
-                <Button 
-                variant="contained" 
-                onClick={handleOrderSwitching} 
-                autoFocus
-                disabled={shouldDisableButton}
+                <Button
+                    variant="contained"
+                    onClick={handleClose}
                 >
-                    Agree
+                    {t("ORDERS_PAGE.MOVE.DIALOG_CANCEL_BUTTON")}
+                </Button>
+                <Button
+                    variant="contained"
+                    onClick={handleOrderSwitching}
+                    autoFocus
+                    disabled={shouldDisableButton}
+                >
+                    {t("ORDERS_PAGE.MOVE.DIALOG_SWITCH_BUTTON")}
                 </Button>
             </DialogActions>
         </Dialog>

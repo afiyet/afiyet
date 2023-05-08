@@ -8,6 +8,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 function not(a, b) {
     return a.filter((value) => b.indexOf(value) === -1);
@@ -32,6 +33,7 @@ export default function TransferOrders(props) {
     const [left, setLeft] = useState([]);
     const [right, setRight] = useState([]);
     const [tableIdToBeMoved, setTableIdToBeMoved] = useState(0);
+    const { t, i18n } = useTranslation();
 
     const leftChecked = intersection(checked, left);
     const rightChecked = intersection(checked, right);
@@ -113,7 +115,7 @@ export default function TransferOrders(props) {
                                     }}
                                 />
                             </ListItemIcon>
-                            <ListItemText id={labelId} primary={`**Sipariş ${value.orderId}`} />
+                            <ListItemText id={labelId} primary={`${t("ORDERS_PAGE.MOVE.ORDER")} ${value.orderId}`} />
                         </ListItem>
                     );
                 })}
@@ -131,7 +133,7 @@ export default function TransferOrders(props) {
                         value={tableName}
                         disabled
                         variant='outlined'
-                        label={"***Taşınan Masa"}
+                        label={t("ORDERS_PAGE.MOVE.FROM")}
                     />
                     {customList(left)}
                 </Box>
@@ -185,16 +187,16 @@ export default function TransferOrders(props) {
                 <Box>
                     <Box sx={{ minWidth: 120 }}>
                         <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">***Taşınacak Masa</InputLabel>
+                            <InputLabel id="demo-simple-select-label">{t("ORDERS_PAGE.MOVE.TO")}</InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={tableIdToBeMoved}
-                                label={"***Taşınacak Masa"}
+                                label={t("ORDERS_PAGE.MOVE.TO")}
                                 onChange={(e) => { setTableIdToBeMoved(e.target.value); }}
                             >
                                 <MenuItem disabled value={0}>
-                                    <em>Placeholder</em>
+                                    <em>{t("ORDERS_PAGE.MOVE.PLACEHOLDER")}</em>
                                 </MenuItem>
                                 {
                                     tables.map((table) => (

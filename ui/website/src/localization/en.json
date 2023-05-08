@@ -98,6 +98,16 @@
             "AMOUNT": "Amount",
             "TOTAL": "Total (TL)",
             "TABLE_TOTAL": "Table Total (TL)"
+        },
+        "MOVE": {
+            "FROM": "Moved Table",
+            "TO": "Table to Move",
+            "PLACEHOLDER": "Choose Table",
+            "DIALOG_OPEN_BUTTON": "Move Orders to Another Table",
+            "DIALOG_CANCEL_BUTTON": "Cancel",
+            "DIALOG_SWITCH_BUTTON": "Switch",
+            "ORDER": "Order",
+            "DIALOG_TITLE": "Move Orders to Another Table"
         }
     },
     "MAIN_PAGE": {
