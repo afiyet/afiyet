@@ -32,7 +32,7 @@ func SendGmailEmail(to, token string) error {
 	<br>
 
 	<a href="%s"> Şifrenizi değiştirmek için tıklayın </a> <br>
-	`, "http://localhost:3000/change-password?token="+token) // TODO(umutgercek) move baseurl to cloud
+	`, "https://afiyet.site/change-password?token="+token)
 
 	m := mail{
 		Sender:  FromEmailAddress,
