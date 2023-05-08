@@ -3,7 +3,6 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import transparentLogo from "../../img/transparentLogo.png";
 import { useHistory } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import AppbarMenu from './appbar/AppbarMenu';
@@ -34,7 +33,7 @@ function Appbar() {
                 <Box style={styles.leftAndRight}>
                     <Box style={styles.logo}>
                         <img
-                            src={transparentLogo}
+                            src="https://d33virtamuit9v.cloudfront.net/other/transparentLogo.png"
                             alt="company logo"
                             width={50}
                             height={50}
