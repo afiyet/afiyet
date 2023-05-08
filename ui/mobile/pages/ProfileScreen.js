@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, SafeAreaView, StyleSheet, Linking } from 'react-native';
+import { View, SafeAreaView, StyleSheet, Linking, Modal, Pressable, Dimensions } from 'react-native';
 import {
     Avatar,
     Title,
@@ -15,7 +15,10 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 import { GeneralActions, LocationActions, OrderActions, SearchActions, UserActions } from '../actions';
+import { sendChangePasswordMail } from '../endpoints';
 
+const windowDimensions = Dimensions.get('window');
+const screenDimensions = Dimensions.get('screen');
 
 const ProfileScreen = () => {
 
@@ -24,7 +27,8 @@ const ProfileScreen = () => {
     const [address, setAddress] = useState({});
     const { t, i18n } = useTranslation();
     const dispatch = useDispatch();
-    
+    const [modalVisible, setModalVisible] = useState(false);
+
     const changeLang = () => {
         if (i18n.language === "tr") {
             i18n.changeLanguage("en");
@@ -62,8 +66,8 @@ const ProfileScreen = () => {
 
             <View style={styles.userInfoSection}>
                 <View style={{ flexDirection: 'row', marginTop: 15, alignItems: "center" }}>
-                    <View style={{width: 80, height: 80, borderRadius: 100, backgroundColor: "#d82227", display: "flex", justifyContent: "center", alignItems: "center"}}>
-                        <Text style={{fontSize: 40, color: "#fff"}}>{userState.name.toUpperCase()[0] + userState.surname.toUpperCase()[0]}</Text>
+                    <View style={{ width: 80, height: 80, borderRadius: 100, backgroundColor: "#d82227", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <Text style={{ fontSize: 40, color: "#fff" }}>{userState.name.toUpperCase()[0] + userState.surname.toUpperCase()[0]}</Text>
                     </View>
                     <View style={{ marginLeft: 20 }}>
                         <Title style={styles.title}>{userState.name + " " + userState.surname}</Title>
@@ -88,7 +92,15 @@ const ProfileScreen = () => {
             </View>
 
             <View style={styles.menuWrapper}>
-                <TouchableRipple onPress={() => { }}>
+                <TouchableRipple onPress={() => {
+                    sendChangePasswordMail(userState.mail)
+                    .then((res) => {
+                        setModalVisible(true);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    })
+                }}>
                     <View style={styles.menuItem}>
                         <MaterialCommunityIcons name="onepassword" color="#d82227" size={25} />
                         <Text style={styles.menuItemText}>{t("PROFILE_SCREEN.CHANGE_PASSWORD")}</Text>
@@ -113,6 +125,24 @@ const ProfileScreen = () => {
                     </View>
                 </TouchableRipple>
             </View>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalText}>{t("PASSWORD_CHANGE.TEXT")}</Text>
+                        <Pressable
+                            style={[styles.button, styles.buttonClose]}
+                            onPress={() => {
+                                setModalVisible(!modalVisible)
+                            }}>
+                            <Text style={styles.textStyle}>{t("PASSWORD_CHANGE.CLOSE_BTN")}</Text>
+                        </Pressable>
+                    </View>
+                </View>
+            </Modal>
         </SafeAreaView>
     );
 };
@@ -167,5 +197,48 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         fontSize: 16,
         lineHeight: 26,
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 22,
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 35,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+        width: screenDimensions.width * 0.8,
+    },
+    button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+    },
+    buttonClose: {
+        backgroundColor: '#D82227',
+        width: "100%"
+    },
+    textStyle: {
+        color: 'white',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontSize: 18
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 18
     },
 });

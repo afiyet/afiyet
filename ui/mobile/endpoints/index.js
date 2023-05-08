@@ -4,6 +4,7 @@ import { getSearchResults } from "./search/searchEndpoints";
 import { initializePayment, getWebViewUrlFromAWS, getPaymentResult, completePayment } from "./cart/cartEndpoints";
 import { getRestaurantComments, addCommentToRestaurant } from "./comment/commentEndpoints";
 import { getRestaurant, getRestaurants, getRestaurantMenu, getRestaurantsWithCampaignPicture } from "./order/orderEndpoints";
+import { sendChangePasswordMail } from "./password/passwordEndpoints";
 
 export {
     getMarkers,
@@ -19,5 +20,6 @@ export {
     getRestaurants, 
     getRestaurantMenu,
     addCommentToRestaurant,
-    getRestaurantsWithCampaignPicture
+    getRestaurantsWithCampaignPicture,
+    sendChangePasswordMail
 };

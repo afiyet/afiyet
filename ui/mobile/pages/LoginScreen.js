@@ -7,7 +7,10 @@ import {
     Platform,
     StyleSheet,
     StatusBar,
-    Alert
+    Alert,
+    Modal,
+    Pressable,
+    Dimensions
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -17,11 +20,13 @@ import Feather from 'react-native-vector-icons/Feather';
 import { useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
-import { login } from '../endpoints';
+import { login, sendChangePasswordMail } from '../endpoints';
 import { GeneralActions, UserActions } from '../actions';
 import SnackbarTemplate from '../components/snackbar/SnackbarTemplate';
 import { useTranslation } from 'react-i18next';
 
+const windowDimensions = Dimensions.get('window');
+const screenDimensions = Dimensions.get('screen');
 
 const LoginScreen = () => {
 
@@ -33,6 +38,7 @@ const LoginScreen = () => {
     const [snackbarText, setSnackbarText] = useState("");
     const [snackbarVariant, setSnackbarVariant] = useState("");
     const [snackbarVisible, setSnackbarVisible] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
 
     const [data, setData] = React.useState({
         email: '',
@@ -223,7 +229,21 @@ const LoginScreen = () => {
                 }
 
 
-                <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => {
+                        if (data.isValidUser && data.email.length > 0) {
+                            sendChangePasswordMail(data.email)
+                            .then((res) => {
+                                setModalVisible(true);
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            })
+                        } else {
+                            setModalVisible(true);
+                        }
+                    }}
+                >
                     <Text style={{ color: '#202533', marginTop: 15, fontWeight: "bold" }}>{t("FORGOT_PASSWORD")}</Text>
                 </TouchableOpacity>
                 <View style={styles.button}>
@@ -262,6 +282,24 @@ const LoginScreen = () => {
                 snackbarVariant={snackbarVariant}
                 snackbarDuration={4000}
             />
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalText}>{(data.isValidUser && data.email.length > 0) ? t("PASSWORD_CHANGE.TEXT") : t("PASSWORD_CHANGE.NOT_VALID_EMAIL")}</Text>
+                        <Pressable
+                            style={[styles.p_button, styles.buttonClose]}
+                            onPress={() => {
+                                setModalVisible(!modalVisible)
+                            }}>
+                            <Text style={styles.textStyle}>{t("PASSWORD_CHANGE.CLOSE_BTN")}</Text>
+                        </Pressable>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 };
@@ -334,5 +372,48 @@ const styles = StyleSheet.create({
     textSign: {
         fontSize: 18,
         fontWeight: 'bold'
-    }
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 22,
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 35,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+        width: screenDimensions.width * 0.8,
+    },
+    p_button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+    },
+    buttonClose: {
+        backgroundColor: '#D82227',
+        width: "100%"
+    },
+    textStyle: {
+        color: 'white',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontSize: 18
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 18
+    },
 });

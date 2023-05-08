@@ -42,7 +42,8 @@
     "react-native-vector-icons": "^9.2.0",
     "react-native-webview": "11.23.1",
     "react-redux": "^8.0.5",
-    "redux": "^4.2.1"
+    "redux": "^4.2.1",
+    "expo-localization": "~14.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

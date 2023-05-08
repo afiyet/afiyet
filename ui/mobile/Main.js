@@ -6,6 +6,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch, useSelector } from 'react-redux';
 import { GeneralActions, LocationActions } from './actions';
 import * as Location from 'expo-location';
+import { useTranslation } from 'react-i18next';
+import * as Localization from 'expo-localization';
+
 const Stack = createNativeStackNavigator();
 
 function Main() {
@@ -14,7 +17,7 @@ function Main() {
   const dispatch = useDispatch();
   const onboarded = useSelector(state => state.generalState.onboarded);
   const isLoggedIn = useSelector(state => state.generalState.isLoggedIn);
-
+  const { t, i18n } = useTranslation();
 
   /* const getOnboarded = async () => {
     try {
@@ -51,6 +54,9 @@ function Main() {
 
   }, []); */
 
+  useEffect(() => {
+    i18n.changeLanguage(Localization.getLocales()[0].languageCode);
+  },[]);
 
   useEffect(() => {
     (async () => {
