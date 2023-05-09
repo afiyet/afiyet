@@ -44,13 +44,13 @@ export default function TransferOrders(props) {
     }, []);
 
     useEffect(() => {
-        if (tableIdToBeMoved !== 0) {
+        if (tableIdToBeMoved !== 0 && right.length > 0) {
             setShouldDisableButton(false);
         } else {
             setShouldDisableButton(true);
         }
         setToTableIdFinal(tableIdToBeMoved);
-    }, [tableIdToBeMoved]);
+    }, [tableIdToBeMoved, right]);
 
     useEffect(() => {
         console.log(right);
