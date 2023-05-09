@@ -46,6 +46,11 @@ func (h *PasswordHandler) ChangePassword(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
+	if !IsPasswordOk(rbind.TempPassword) {
+		return c.JSON(http.StatusBadRequest, PasswordNotOk)
+
+	}
+
 	err = h.s.ChangePassword(rbind)
 
 	if err != nil {
