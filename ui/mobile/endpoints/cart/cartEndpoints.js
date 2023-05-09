@@ -27,3 +27,7 @@ export function callWaiter(payload) {
 export function createCashOrder(payload) {
     return axiosClient.post("/restaurants/createCashOrder", payload);
 }
+
+export function checkEmptyTableStatus(restaurantId) {
+    return axiosClient.post("/restaurants/tables/emptyTable/" + restaurantId, {});
+}

@@ -8,6 +8,7 @@ import { GeneralActions, LocationActions } from './actions';
 import * as Location from 'expo-location';
 import { useTranslation } from 'react-i18next';
 import * as Localization from 'expo-localization';
+import useInterval from './customHooks/UseInterval';
 
 const Stack = createNativeStackNavigator();
 
@@ -55,19 +56,24 @@ function Main() {
   }, []); */
 
   useEffect(() => {
-    i18n.changeLanguage(Localization.getLocales()[0].languageCode);
+    //i18n.changeLanguage(Localization.getLocales()[0].languageCode);
   },[]);
 
   useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        return;
-      }
-      let {coords} = await Location.getCurrentPositionAsync({accuracy: 5});
-      dispatch(LocationActions.setDeviceLocation(coords));
-    })();
+    getDeviceLocations();
   }, [isLoggedIn]);
+
+  async function getDeviceLocations () {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      return;
+    }
+    let {coords} = await Location.getCurrentPositionAsync({accuracy: 5});
+    console.log(coords);
+    dispatch(LocationActions.setDeviceLocation(coords));
+  }
+
+  useInterval(getDeviceLocations, (isLoggedIn) ? 150000 : null);
 
   return (
     <>

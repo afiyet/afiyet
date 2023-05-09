@@ -6,7 +6,8 @@ const types = {
     INCREASE_COUNT_OF_ORDERED_ITEM: "INCREASE_COUNT_OF_ORDERED_ITEM",
     DECREASE_COUNT_OF_ORDERED_ITEM: "DECREASE_COUNT_OF_ORDERED_ITEM",
     RESET: "RESET",
-    UPDATE_PRICE: "UPDATE_PRICE"
+    UPDATE_PRICE: "UPDATE_PRICE",
+    SET_RESTAURANT_LAT_LON: "SET_RESTAURANT_LAT_LON"
 }
 
 const setBarcodeParams = (value) => {
@@ -58,6 +59,13 @@ const updatePrice = (value) => {
     }
 }
 
+const setRestaurantLatLon = (value) => {
+    return {
+        type: types.SET_RESTAURANT_LAT_LON,
+        data: value
+    }
+}
+
 export default {
     types,
     setBarcodeParams,
@@ -66,5 +74,6 @@ export default {
     decreaseCountOfOrderedItem,
     increaseCountOfOrderedItem,
     setReset,
-    updatePrice
+    updatePrice,
+    setRestaurantLatLon
 };

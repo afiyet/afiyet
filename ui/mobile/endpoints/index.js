@@ -1,7 +1,7 @@
 import { getMarkers } from "./map/mapEndpoints"
 import { login, signUp } from "./auth/authEndpoints";
 import { getSearchResults } from "./search/searchEndpoints";
-import { initializePayment, getWebViewUrlFromAWS, getPaymentResult, completePayment } from "./cart/cartEndpoints";
+import { initializePayment, getWebViewUrlFromAWS, getPaymentResult, completePayment, checkEmptyTableStatus } from "./cart/cartEndpoints";
 import { getRestaurantComments, addCommentToRestaurant } from "./comment/commentEndpoints";
 import { getRestaurant, getRestaurants, getRestaurantMenu, getRestaurantsWithCampaignPicture } from "./order/orderEndpoints";
 import { sendChangePasswordMail } from "./password/passwordEndpoints";
@@ -21,5 +21,6 @@ export {
     getRestaurantMenu,
     addCommentToRestaurant,
     getRestaurantsWithCampaignPicture,
-    sendChangePasswordMail
+    sendChangePasswordMail,
+    checkEmptyTableStatus
 };

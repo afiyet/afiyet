@@ -2,6 +2,8 @@ import { OrderActions } from "../actions";
 
 const initialState = {
     restaurantId: "",
+    restaurantLatitude: 0,
+    restaurantLongitude: 0,
     tableId: "",
     orderedItems: []
 };
@@ -114,6 +116,12 @@ const OrderReducer = (state = initialState, action) => {
             });
             return {
                 ...state
+            }
+        case OrderActions.types.SET_RESTAURANT_LAT_LON:
+            return {
+                ...state,
+                restaurantLatitude: action.data.latitude,
+                restaurantLongitude: action.data.longitude,
             }
         default:
             return { ...state };

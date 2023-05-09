@@ -171,6 +171,10 @@ const TestOrder = (props) => {
                 getRestaurant(route.params.rID)
                     .then((res) => {
                         setRestaurant(res.data);
+                        dispatch(OrderActions.setRestaurantLatLon({
+                            latitude: res.data.Latitude,
+                            longitude: res.data.Longitude
+                        }));
                     })
                     .catch((err) => {
                         console.log(err)

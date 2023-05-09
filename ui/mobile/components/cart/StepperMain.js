@@ -54,6 +54,7 @@ export default function StepperMain() {
     });
 
     setTotalPrice(total);
+    console.log(orderState);
   }, [orderState]);
 
 
@@ -92,6 +93,32 @@ export default function StepperMain() {
       ]
     } */
 
+    if (orderState.tableId === "") {
+      // remote order
+      if (getDistanceFromLatLonInKm(Number(userLocation.latitude), Number(userLocation.longitude), Number(orderState.restaurantLatitude), Number(orderState.restaurantLongitude)) < 4) {
+        checkEmptyTableStatus(orderState.restaurantId)
+          .then((res) => {
+            if (res.data === true) {
+              // masa var
+              checkCartAndCreateOrder();
+            } else {
+              // masa yok
+              // modal çıkart
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+      }
+    } else {
+      // qr ile order
+      checkCartAndCreateOrder();
+    }
+
+
+  }
+
+  function checkCartAndCreateOrder() {
     getRestaurantMenu(orderState.restaurantId)
       .then((res) => {
         let soldOut = [];
@@ -140,6 +167,7 @@ export default function StepperMain() {
             buyerID: userState.userId,
             restaurantID: "" + orderState.restaurantId,
             tableID: orderState.tableId,
+            isRemote: (orderState.tableId) ? 0 : 1,
             basketItems: orderState.orderedItems
           }
 
@@ -255,12 +283,16 @@ export default function StepperMain() {
               </TouchableOpacity>
             </View>
             <View>
-              <TouchableOpacity style={styles.radio} onPress={() => { setCheckedRadio("cash"); }}>
+              <TouchableOpacity
+                style={styles.radio}
+                disabled={(orderState.tableId) ? false : true}
+                onPress={() => { setCheckedRadio("cash"); }}>
                 <RadioButton
                   value="cash"
                   status={(checkedRadio === "cash") ? "checked" : "unchecked"}
                   color='black'
                   uncheckedColor='gray'
+                  disabled={(orderState.tableId) ? false : true}
                   onPress={() => { setCheckedRadio("cash"); }}
                 />
                 <Text>{t("CART_SCREEN.PAY_CASH")}</Text>
