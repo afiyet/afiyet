@@ -96,6 +96,10 @@ func Bootstrap(db *gorm.DB, e *echo.Echo, sha string) error {
 	e.POST("/password/forgotten/:email", PasswordHandler.ReqPasswordChange)
 	e.POST("/password/change", PasswordHandler.ChangePassword)
 
+	e.RouteNotFound("/*", func(c echo.Context) error {
+		return c.String(http.StatusNotFound, "api endpoint does not exists")
+	})
+
 	// Ops
 
 	e.GET("/ping", func(c echo.Context) error {
@@ -103,7 +107,7 @@ func Bootstrap(db *gorm.DB, e *echo.Echo, sha string) error {
 	})
 
 	// authn
-	g := e.Group("")
+	g := e.Group("/admin")
 	g.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
 		if username == os.Getenv("BASIC_AUTH_USERNAME") && password == os.Getenv("BASIC_AUTH_PASSWORD") {
 			return true, nil
