@@ -15,6 +15,7 @@ import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
 import { useSnackbar } from 'notistack';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function Row(props) {
     const {
@@ -99,6 +100,7 @@ export default function Row(props) {
                                     size="large"
                                     style={{ height: "100%" }}
                                     onClick={handleAcceptCashPayment}
+                                    startIcon={<PriceCheckIcon />}
                                 >
                                     {t("ORDERS_PAGE.ACCEPT_PAYMENT_BUTTON")}
                                 </Button>
@@ -111,6 +113,7 @@ export default function Row(props) {
                                     size="large"
                                     style={{ height: "100%" }}
                                     onClick={handleOrderDelivered}
+                                    startIcon={<DinnerDiningIcon />}
                                 >
                                     {t("ORDERS_PAGE.ORDER_COMPLETED_BUTTON")}
                                 </Button>
@@ -124,6 +127,7 @@ export default function Row(props) {
                                     style={{ height: "100%" }}
                                     onClick={removeOrder}
                                     color={"error"}
+                                    startIcon={<DeleteIcon />}
                                 >
                                     {t("ORDERS_PAGE.REMOVE_ORDER_BUTTON")}
                                 </Button>

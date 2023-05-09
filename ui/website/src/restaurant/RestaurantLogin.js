@@ -13,6 +13,9 @@ import { RestaurantActions } from "../actions";
 import { login } from "../endpoints";
 import { useTranslation } from 'react-i18next';
 import TranslateIcon from '@mui/icons-material/Translate';
+import LoginIcon from '@mui/icons-material/Login';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import LockResetIcon from '@mui/icons-material/LockReset';
 
 const RestaurantLogin = () => {
     const history = useHistory();
@@ -108,7 +111,9 @@ const RestaurantLogin = () => {
                                 style={{ textTransform: 'none' }}
                                 onClick={authenticateRestaurant}
                                 variant="contained"
-                                color="success">
+                                color="success"
+                                startIcon={<LoginIcon />}
+                                >
                                 {t("LOGIN.LOGIN_BUTTON")}
                             </Button>
                         </Box>
@@ -118,7 +123,9 @@ const RestaurantLogin = () => {
                                 style={{ textTransform: 'none' }}
                                 onClick={() => { history.push("/signup"); }}
                                 variant="contained"
-                                color="info">
+                                startIcon={<AddBusinessIcon />}
+                                color="info"
+                                >
                                 {t("LOGIN.SIGNUP_BUTTON")}
                             </Button>
                         </Box>
@@ -128,7 +135,9 @@ const RestaurantLogin = () => {
                                 style={{ textTransform: 'none' }}
                                 onClick={() => { history.push("/forgot-password"); }}
                                 variant="contained"
-                                color="secondary">
+                                color="secondary"
+                                startIcon={<LockResetIcon />}
+                                >
                                 {t("LOGIN.FORGOT_PASSWORD_BUTTON")}
                             </Button>
                         </Box>

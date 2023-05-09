@@ -21,6 +21,7 @@ import { MenuActions } from '../actions';
 import { addTable, getRestaurantMenu } from '../endpoints';
 import { useTranslation } from 'react-i18next';
 import { useSnackbar } from 'notistack';
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 const EditMenu = () => {
 
@@ -109,6 +110,7 @@ const EditMenu = () => {
 								variant="contained"
 								className="menu-add-button"
 								onClick={handleCategoryDialogOpen}
+								startIcon={<PlaylistAddIcon />}
 								style={{height: "100%"}}
 							>
 								{t("MENU_EDIT_PAGE.ADD_CATEGORY_BUTTON")}

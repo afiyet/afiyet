@@ -6,6 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import { useSnackbar } from 'notistack';
 import {changePassword} from "../endpoints/signup/signupEndpoints";
 import { useParams } from "react-router-dom";
+import LockResetIcon from '@mui/icons-material/LockReset';
 
 const RestaurantChangePassword = () => {
   const { t, i18n } = useTranslation();
@@ -79,7 +80,9 @@ const RestaurantChangePassword = () => {
                                 style={{ textTransform: 'none' }}
                                 onClick={() => handle()}
                                 variant="contained"
-                                color="success">
+                                color="success"
+                                startIcon={<LockResetIcon />}
+                                >
                                 {t("FORGOT_PASSWORD.BUTTON")}
                             </Button>
                         </Box>

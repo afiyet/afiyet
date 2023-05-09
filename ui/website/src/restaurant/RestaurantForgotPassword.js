@@ -5,6 +5,7 @@ import { forgotPassword } from "../endpoints";
 import companyLogo from "../img/afiyet-logo-w.png";
 import FormControl from '@mui/material/FormControl';
 import { useSnackbar } from 'notistack';
+import LockResetIcon from '@mui/icons-material/LockReset';
 
 const RestaurantForgotPassword = () => {
   const { t, i18n } = useTranslation();
@@ -51,7 +52,9 @@ const RestaurantForgotPassword = () => {
                                 style={{ textTransform: 'none' }}
                                 onClick={() => handleClickForgotPassword()}
                                 variant="contained"
-                                color="success">
+                                color="success"
+                                startIcon={<LockResetIcon />}
+                                >
                                 {t("LOGIN.FORGOT_PASSWORD_BUTTON")}
                             </Button>
                         </Box>

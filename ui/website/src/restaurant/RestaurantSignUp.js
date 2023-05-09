@@ -6,6 +6,7 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { toBase64 } from '../util';
 import { signup } from '../endpoints';
 import { useSnackbar } from 'notistack';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 
 const RestaurantSignUp = () => {
   /**
@@ -202,6 +203,7 @@ const RestaurantSignUp = () => {
                     fullWidth
                     style={{ height: "100%" }}
                     onClick={handleClickSignUp}
+                    startIcon={<AddBusinessIcon />}
                   >
                     {t("SIGNUP_PAGE.SIGNUP_BUTTON")}
                   </Button>

@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import Tooltip from '@mui/material/Tooltip';
 import { toBase64 } from "../../util";
 import { useSnackbar } from 'notistack';
+import RestaurantIcon from '@mui/icons-material/Restaurant';
 
 const DishCategory = (props) => {
 
@@ -167,6 +168,7 @@ const DishCategory = (props) => {
 						<Button
 							variant="contained"
 							onClick={handleMenuDialogOpen}
+							startIcon={<RestaurantIcon />}
 							style={{ height: "100%" }}
 						>
 							{t("MENU_EDIT_PAGE.ADD_DISH_BUTTON")}

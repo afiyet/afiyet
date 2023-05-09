@@ -13,6 +13,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import CachedIcon from '@mui/icons-material/Cached';
+import LockResetIcon from '@mui/icons-material/LockReset';
 
 const RestaurantMain = () => {
   /**
@@ -188,6 +190,7 @@ const RestaurantMain = () => {
                     fullWidth
                     size="large"
                     variant="contained"
+                    startIcon={<LockResetIcon />}
                     style={{ height: "100%" }}
                     onClick={() => {
                       setPasswordDialogOpen(true);
@@ -248,6 +251,7 @@ const RestaurantMain = () => {
                     fullWidth
                     style={{ height: "100%" }}
                     onClick={handleClickUpdate}
+                    startIcon={<CachedIcon />}
                   >
                     {t("MAIN_PAGE.UPDATE_BUTTON")}
                   </Button>
