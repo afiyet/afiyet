@@ -28,12 +28,13 @@ func Bootstrap(db *gorm.DB, e *echo.Echo, sha string) error {
 	restaurantHandler := RestaurantHandler{
 		s: service.NewRestaurantService(db, aws),
 	}
-	tableHandler := TableHandler{
-		s: service.NewTableService(db),
-	}
 	orderHandler := OrderHandler{
 		s: service.NewOrderService(db),
 		o: service.NewOrderDishService(db),
+	}
+	tableHandler := TableHandler{
+		s:  service.NewTableService(db),
+		os: orderHandler.s,
 	}
 	locationHandler := LocationHandler{
 		s: service.NewLocationService(db),

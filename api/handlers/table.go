@@ -12,7 +12,8 @@ import (
 )
 
 type TableHandler struct {
-	s *service.TableService
+	s  *service.TableService
+	os *service.OrderService
 }
 
 func (h *TableHandler) Add(c echo.Context) error {
@@ -86,9 +87,15 @@ func (h *TableHandler) SwitchTable(c echo.Context) error {
 	orderIdtmp := c.Param("orderId")
 	orderId, err := strconv.Atoi(orderIdtmp)
 	toTabletmp := c.Param("toTableId")
-	toTable, err := strconv.Atoi(toTabletmp)
+	//toTable, err := strconv.Atoi(toTabletmp)
 
-	err = h.s.SwitchTable(orderId, toTable)
+	order, err := h.os.Get(orderId)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	order.TableId = toTabletmp
+	h.os.Update(*order)
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
