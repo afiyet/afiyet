@@ -1,0 +1,10 @@
+[Unit]
+Description=Send customer daily reports
+Requires=reporter.service
+
+[Timer]
+Unit=reporter.service
+OnCalendar=*-*-* 20:45:00 # UTC, 3 hours behind Turkey (+3)
+
+[Install]
+WantedBy=timers.target
