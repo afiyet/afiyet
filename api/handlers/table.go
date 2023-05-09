@@ -120,3 +120,20 @@ func (h *TableHandler) IsEmptyTable(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, res)
 }
+
+func (h *TableHandler) DoesHaveRemoteOrder(c echo.Context) error {
+	Id := c.Param("Id")
+	id, err := strconv.Atoi(Id)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, fmt.Sprintf("%s is not number", Id))
+	}
+
+	var res bool
+	res, err = h.s.DoesHaveRemoteOrder(id)
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, res)
+}

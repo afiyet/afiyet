@@ -81,3 +81,27 @@ func (tr TableRepository) IsEmptyTable(restId int) (bool, error) {
 
 	return false, nil
 }
+
+func (tr TableRepository) DoesHaveRemoteOrder(id int) (bool, error) {
+	var table model.Table
+
+	fmt.Println(id)
+
+	err := tr.db.Preload("Orders").Find(&table, id).Error
+
+	if err != nil {
+		return false, err
+	}
+
+	if len(table.Orders) == 0 {
+		return false, nil
+	}
+
+	for i := 0; i < len(table.Orders); i++ {
+		if table.Orders[i].IsRemote == 1 {
+			return true, nil
+		}
+	}
+
+	return false, nil
+}

@@ -94,3 +94,25 @@ func (ur RestaurantRepository) Search(str string) ([]model.LocationQuery, error)
 
 	return ds, nil
 }
+
+func (ur RestaurantRepository) GetEmptyTableId(id int) (int, error) {
+
+	var rest model.Restaurant
+	err := ur.db.Preload("Tables.Orders").First(&rest, id).Error
+
+	if err != nil {
+		return 0, err
+	}
+
+	if len(rest.Tables) == 0 {
+		return 0, err
+	}
+
+	for i := 0; i < len(rest.Tables); i++ {
+		if len(rest.Tables[i].Orders) == 0 {
+			return int(rest.Tables[i].ID), nil
+		}
+	}
+
+	return -1, err
+}

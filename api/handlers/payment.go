@@ -17,9 +17,10 @@ import (
 )
 
 type PaymentHandler struct {
-	orderService     *service.OrderService
-	userService      *service.UserService
-	orderDishService *service.OrderDishService
+	orderService      *service.OrderService
+	userService       *service.UserService
+	orderDishService  *service.OrderDishService
+	restaurantService *service.RestaurantService
 }
 
 type paymentRequest struct {
@@ -27,6 +28,7 @@ type paymentRequest struct {
 	BuyerID      int          `json:"buyerID"`
 	TableID      string       `json:"tableID"`
 	RestaurantID string       `json:"restaurantID"`
+	IsRemote     int          `json: isRemote`
 }
 
 type basketItem struct {
@@ -69,6 +71,7 @@ type paymentToken struct {
 func (h *PaymentHandler) CreatePaymentWithForm(c echo.Context) error {
 
 	var rbind paymentRequest
+	var tempOrder model.Order
 	err := (&echo.DefaultBinder{}).BindBody(c, &rbind)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
@@ -86,10 +89,26 @@ func (h *PaymentHandler) CreatePaymentWithForm(c echo.Context) error {
 		}
 	}
 
-	tempOrder := model.Order{
-		TableId:      rbind.TableID,
-		RestaurantId: rbind.RestaurantID,
-		PaymentType:  "CARD",
+	if rbind.IsRemote == 0 {
+		tempOrder = model.Order{
+			TableId:      rbind.TableID,
+			RestaurantId: rbind.RestaurantID,
+			PaymentType:  "CARD",
+		}
+	} else {
+		resID, err := strconv.Atoi(rbind.RestaurantID)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, err.Error())
+		}
+		tableId, err := h.restaurantService.GetEmptyTableId(resID)
+		if err != nil || tableId == -1 {
+			return c.JSON(http.StatusBadRequest, err.Error())
+		}
+		tempOrder = model.Order{
+			TableId:      string(tableId),
+			RestaurantId: rbind.RestaurantID,
+			PaymentType:  "CARD",
+		}
 	}
 
 	order, err := h.orderService.Add(tempOrder)

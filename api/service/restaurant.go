@@ -3,6 +3,7 @@ package service
 import (
 	"errors"
 	"fmt"
+
 	"github.com/afiyet/afiytet/api/data/model"
 	"github.com/afiyet/afiytet/api/data/repo"
 	"github.com/google/uuid"
@@ -140,4 +141,8 @@ func restaurantPicturePrefix(res model.Restaurant) string {
 
 func campaignPicturePrefix(res model.Restaurant) string {
 	return fmt.Sprintf("campaign/%s-%s", res.Name, uuid.NewString())
+}
+
+func (s *RestaurantService) GetEmptyTableId(id int) (int, error) {
+	return s.r.GetEmptyTableId(id)
 }

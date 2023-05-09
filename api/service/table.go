@@ -38,3 +38,7 @@ func (s *TableService) SwitchTable(OrderId int, toTable int) error {
 func (s *TableService) IsEmptyTable(id int) (bool, error) {
 	return s.r.IsEmptyTable(id)
 }
+
+func (s *TableService) DoesHaveRemoteOrder(id int) (bool, error) {
+	return s.r.DoesHaveRemoteOrder(id)
+}

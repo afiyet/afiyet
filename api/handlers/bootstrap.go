@@ -40,9 +40,10 @@ func Bootstrap(db *gorm.DB, e *echo.Echo, sha string) error {
 		s: service.NewLocationService(db),
 	}
 	PaymentHandler := PaymentHandler{
-		orderService:     orderHandler.s,
-		userService:      userHandler.s,
-		orderDishService: orderHandler.o,
+		orderService:      orderHandler.s,
+		userService:       userHandler.s,
+		orderDishService:  orderHandler.o,
+		restaurantService: restaurantHandler.s,
 	}
 
 	PasswordHandler := PasswordHandler{
@@ -82,6 +83,7 @@ func Bootstrap(db *gorm.DB, e *echo.Echo, sha string) error {
 	e.PUT("/restaurants/tables/:id", tableHandler.Update)
 	e.POST("/restaurants/tables/switch/:orderId/:toTableId", tableHandler.SwitchTable)
 	e.POST("/restaurants/tables/emptyTable/:restId", tableHandler.IsEmptyTable)
+	e.POST("/restaurants/tables/doesHaveRemoteOrder/:Id", tableHandler.DoesHaveRemoteOrder)
 
 	e.GET("/locations", locationHandler.GetLocationList)
 	e.GET("/locations/:id", locationHandler.GetLocationWithId)

@@ -38,6 +38,7 @@ type Order struct {
 	Status       string         `gorm:"type:status;default:'IN_PROGRESS'"`
 	Token        string         `json:"token"`
 	PaymentType  string         `json:"paymentType"`
-	IsPaid       uint           `gorm:"defaul:'0'" json:"isPaid"`
-	IsCompleted  uint           `gorm:"defaul:'0'" json:"isCompleted"`
+	IsPaid       uint           `gorm:"default:0" json:"isPaid"`
+	IsCompleted  uint           `gorm:"default:0" json:"isCompleted"`
+	IsRemote     uint           `json:"isRemote"`
 }
