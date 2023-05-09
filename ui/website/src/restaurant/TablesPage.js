@@ -121,9 +121,9 @@ export default function TablesPage() {
           </FormControl>
 
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseAdd}>{t("TABLES_PAGE.ADD_TABLE_DIALOG.CANCEL_BUTTON")}</Button>
-          <Button onClick={handleAddTable} autoFocus>{t("TABLES_PAGE.ADD_TABLE_DIALOG.ADD_BUTTON")}</Button>
+        <DialogActions style={{padding: "0px 24px 16px 24px"}}>
+          <Button variant='contained' fullWidth color='error' onClick={handleCloseAdd}>{t("TABLES_PAGE.ADD_TABLE_DIALOG.CANCEL_BUTTON")}</Button>
+          <Button variant='contained' fullWidth onClick={handleAddTable} autoFocus>{t("TABLES_PAGE.ADD_TABLE_DIALOG.ADD_BUTTON")}</Button>
         </DialogActions>
       </Dialog>
       <Grid container spacing={4}>
