@@ -166,7 +166,8 @@
         "RESTAURANT_PICTURE": "Restoran Fotoğrafı",
         "CAMPAIGN_PICTURE": "Kampanya Fotoğrafı",
         "ERROR": "Kayıt başarısız",
-        "SUCCESS": "Kayıt başarılı"
+        "SUCCESS": "Kayıt başarılı",
+        "PASS_INVALID": "Şifreniz 8-14 karakter aralığında olmalı; en az bir rakam, bir küçük harf, bir büyük harf ve en az bir noktalama işareti içermeli"
     },
     "FORGOT_PASSWORD": {
         "PASS_1": "Şifrenizi girin",
