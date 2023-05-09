@@ -68,12 +68,18 @@ function Main() {
     if (status !== 'granted') {
       return;
     }
-    let {coords} = await Location.getCurrentPositionAsync({accuracy: 5});
-    console.log(coords);
-    dispatch(LocationActions.setDeviceLocation(coords));
+    /* let {coords} = await Location.getCurrentPositionAsync({accuracy: 5});
+    console.log(coords); */
+
+    Location.watchPositionAsync({
+      accuracy: Location.Accuracy.High,
+      distanceInterval: 999,
+    }, (data) => {
+      console.log(data.coords);
+      dispatch(LocationActions.setDeviceLocation(data.coords));
+    });
   }
 
-  useInterval(getDeviceLocations, (isLoggedIn) ? 150000 : null);
 
   return (
     <>

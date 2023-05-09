@@ -13,7 +13,7 @@ import { OrderActions } from '../../actions';
 import { useIsFocused } from '@react-navigation/native';
 import { RadioButton } from 'react-native-paper';
 import CashPayment from './CashPayment';
-import { createCashOrder } from '../../endpoints/cart/cartEndpoints';
+import { checkEmptyTableStatus, createCashOrder } from '../../endpoints/cart/cartEndpoints';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import getDistanceFromLatLonInKm from '../home/DistanceCalculations';
 
@@ -42,6 +42,8 @@ export default function StepperMain() {
   const [cashOrderIdArray, setCashOrderIdArray] = useState([]);
   const [creditSuccess, setCreditSuccess] = useState(false);
   const userLocation = useSelector(state => state.locationState);
+  const [noTableBool, setNoTableBool] = useState(false);
+  const [notCloseEnoughBool, setNotCloseEnoughBool] = useState(false);
 
   useEffect(() => {
     setCartItemsChangedError(true);
@@ -75,6 +77,8 @@ export default function StepperMain() {
   function onConfirmOrderClicked() {
     setCreditSuccess(false);
     setIyzicoVisible(false);
+    setNotCloseEnoughBool(false);
+    setNoTableBool(false);
     /* let payload = {
       "buyerID": 4,
       "restaurantID": "5",
@@ -106,23 +110,21 @@ export default function StepperMain() {
             } else {
               // masa yok
               // modal çıkart
-              console.log("masa yok");
+              setNoTableBool(true);
+              setModalVisible(true);
             }
           })
           .catch((err) => {
             console.log(err);
           })
       } else {
-        console.log("yakın değil");
-        console.log(Number(userLocation.latitude), Number(userLocation.longitude));
-        console.log(getDistanceFromLatLonInKm(Number(userLocation.latitude), Number(userLocation.longitude), Number(orderState.restaurantLatitude), Number(orderState.restaurantLongitude)));
+        setNotCloseEnoughBool(true);
+        setModalVisible(true);
       }
     } else {
       // qr ile order
       checkCartAndCreateOrder();
     }
-
-
   }
 
   function checkCartAndCreateOrder() {
@@ -337,9 +339,22 @@ export default function StepperMain() {
                     :
                     null
                 }
-                <Text style={styles.modalText}>
-                  {t("CART_SCREEN.MODAL_MESSAGE")}
-                </Text>
+                {
+                  (notCloseEnoughBool) ?
+                    <Text style={styles.modalText}>
+                      {t("CART_SCREEN.NOT_CLOSE_ENOUGH")}
+                    </Text>
+                    :
+                    (noTableBool) ?
+                      <Text style={styles.modalText}>
+                        {t("CART_SCREEN.NO_TABLE")}
+                      </Text>
+                      :
+                      <Text style={styles.modalText}>
+                        {t("CART_SCREEN.MODAL_MESSAGE")}
+                      </Text>
+                }
+
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => {

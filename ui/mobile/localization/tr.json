@@ -84,7 +84,9 @@
         "PAY_CREDIT": "Kredi Kartıyla Şimdi Öde",
         "PAY_CASH": "Nakit Olarak Sonra Öde",
         "CREDIT_SUCCESS": "Ödeme Başarılı",
-        "CALL_WAITER": "Ödeme yapmak için garson çağır"
+        "CALL_WAITER": "Ödeme yapmak için garson çağır",
+        "NOT_CLOSE_ENOUGH": "Restorana sipariş verebilmeniz için en az 4km yakında olmalısınız.",
+        "NO_TABLE": "Restorandaki bütün masalar şuanda dolu."
     },
 
     "COMMENT_SCREEN": {

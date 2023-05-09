@@ -84,7 +84,9 @@
         "PAY_CREDIT": "Pay with Credit Card now",
         "PAY_CASH": "Pay with Cash later",
         "CREDIT_SUCCESS": "Payment Successful",
-        "CALL_WAITER": "Call waiter to make payment"
+        "CALL_WAITER": "Call waiter to make payment",
+        "NOT_CLOSE_ENOUGH": "You need to be at least 4km near the restaurant to order food.",
+        "NO_TABLE": "All tables in the restaurant are currently occupied."
     },
 
     "COMMENT_SCREEN": {
