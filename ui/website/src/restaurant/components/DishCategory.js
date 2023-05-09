@@ -11,12 +11,12 @@ import ImageIcon from '@mui/icons-material/Image';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from "react-redux";
 import Dish from './Dish';
-import {useId, useState} from 'react';
+import { useId, useState } from 'react';
 import { MenuActions } from '../../actions';
 import { addMenuItem, deleteMenuItem } from '../../endpoints';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@mui/material/Tooltip';
-import {toBase64} from "../../util";
+import { toBase64 } from "../../util";
 import { useSnackbar } from 'notistack';
 
 const DishCategory = (props) => {
@@ -90,7 +90,7 @@ const DishCategory = (props) => {
 		}));
 	}
 
-	async function handlePicture(){
+	async function handlePicture() {
 		let file = document.getElementById(id).files[0];
 		const b64 = await toBase64(file);
 		setPictureBase64(b64);
@@ -141,9 +141,9 @@ const DishCategory = (props) => {
 						<input id={id} type="file" accept="image/png, image/gif, image/jpeg" hidden onChange={handlePicture} />
 					</Button>
 				</DialogContent>
-				<DialogActions>
-					<Button onClick={handleMenuDialogClose}>{t("MENU_EDIT_PAGE.DISH_DIALOG.CANCEL_BUTTON")}</Button>
-					<Button onClick={handleMenuAdd}>{t("MENU_EDIT_PAGE.DISH_DIALOG.ADD_BUTTON")}</Button>
+				<DialogActions style={{ padding: "0px 24px 16px 24px" }}>
+					<Button variant='contained' fullWidth color='error' onClick={handleMenuDialogClose}>{t("MENU_EDIT_PAGE.DISH_DIALOG.CANCEL_BUTTON")}</Button>
+					<Button variant='contained' fullWidth onClick={handleMenuAdd}>{t("MENU_EDIT_PAGE.DISH_DIALOG.ADD_BUTTON")}</Button>
 				</DialogActions>
 			</Dialog>
 
@@ -167,7 +167,7 @@ const DishCategory = (props) => {
 						<Button
 							variant="contained"
 							onClick={handleMenuDialogOpen}
-							style={{height: "100%"}}
+							style={{ height: "100%" }}
 						>
 							{t("MENU_EDIT_PAGE.ADD_DISH_BUTTON")}
 						</Button>

@@ -95,9 +95,9 @@ const EditMenu = () => {
 						onChange={(event) => { setCategoryTextFieldValue(event.target.value) }}
 					/>
 				</DialogContent>
-				<DialogActions>
-					<Button onClick={handleCategoryDialogClose}>{t("MENU_EDIT_PAGE.CATEGORY_DIALOG.CANCEL_BUTTON")}</Button>
-					<Button onClick={handleCategoryAdd}>{t("MENU_EDIT_PAGE.CATEGORY_DIALOG.ADD_BUTTON")}</Button>
+				<DialogActions style={{padding: "0px 24px 16px 24px"}} >
+					<Button variant='contained' fullWidth color='error' onClick={handleCategoryDialogClose}>{t("MENU_EDIT_PAGE.CATEGORY_DIALOG.CANCEL_BUTTON")}</Button>
+					<Button variant='contained' fullWidth onClick={handleCategoryAdd}>{t("MENU_EDIT_PAGE.CATEGORY_DIALOG.ADD_BUTTON")}</Button>
 				</DialogActions>
 			</Dialog>
 			<Box style={styles.editMenuPage}>

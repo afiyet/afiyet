@@ -79,9 +79,9 @@ export default function TableItemUpdate(props) {
                     </FormControl>
 
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseUpdate}>{t("TABLES_PAGE.TABLE_CART.EDIT_TABLE_DIALOG.CANCEL_BUTTON")}</Button>
-                    <Button onClick={handleEditTable} autoFocus>{t("TABLES_PAGE.TABLE_CART.EDIT_TABLE_DIALOG.CHANGE_BUTTON")}</Button>
+                <DialogActions style={{padding: "0px 24px 16px 24px"}} >
+                    <Button variant='contained' fullWidth color='error' onClick={handleCloseUpdate}>{t("TABLES_PAGE.TABLE_CART.EDIT_TABLE_DIALOG.CANCEL_BUTTON")}</Button>
+                    <Button variant='contained' fullWidth onClick={handleEditTable} autoFocus>{t("TABLES_PAGE.TABLE_CART.EDIT_TABLE_DIALOG.CHANGE_BUTTON")}</Button>
                 </DialogActions>
             </Dialog>
             <Tooltip title={t("TABLES_PAGE.TABLE_CART.EDIT_TOOLTIP")}>

@@ -93,11 +93,10 @@ export default function TransferOrders(props) {
     };
 
     const customList = (items) => (
-        <Paper sx={{ width: 200, height: 230, overflow: 'auto' }}>
-            <List dense component="div" role="list">
+        <Paper sx={{ minWidth: "11vw", width: "100%", height: 230, overflow: 'auto' }}>
+            <List>
                 {items.map((value) => {
-                    const labelId = `transfer-list-item-${value}-label`;
-
+                    const labelId = `transfer-list-item-${value.orderId}-label`;
                     return (
                         <ListItem
                             key={value}
@@ -125,8 +124,8 @@ export default function TransferOrders(props) {
 
     return (
         <Grid container spacing={2} justifyContent="center" alignItems="center">
-            <Grid item>
-                <Box>
+            <Grid item xs={5}>
+                <Box style={{display: "flex", flex: 1, flexDirection: "column"}}>
                     <TextField
                         style={{ marginTop: 10 }}
                         id="outlined-password-input"
@@ -134,12 +133,13 @@ export default function TransferOrders(props) {
                         disabled
                         variant='outlined'
                         label={t("ORDERS_PAGE.MOVE.FROM")}
+                        fullWidth
                     />
                     {customList(left)}
                 </Box>
 
             </Grid>
-            <Grid item>
+            <Grid item xs={2}>
                 <Grid container direction="column" alignItems="center">
                     <Button
                         sx={{ my: 0.5 }}
@@ -183,7 +183,7 @@ export default function TransferOrders(props) {
                     </Button>
                 </Grid>
             </Grid>
-            <Grid item>
+            <Grid item xs={5}>
                 <Box>
                     <Box sx={{ minWidth: 120 }}>
                         <FormControl fullWidth>

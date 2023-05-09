@@ -73,10 +73,12 @@ export default function MoveOrdersDialog(props) {
                     />
                 </DialogContentText>
             </DialogContent>
-            <DialogActions>
+            <DialogActions style={{padding: "0px 24px 16px 24px"}}>
                 <Button
                     variant="contained"
                     onClick={handleClose}
+                    color="error"
+                    fullWidth
                 >
                     {t("ORDERS_PAGE.MOVE.DIALOG_CANCEL_BUTTON")}
                 </Button>
@@ -85,6 +87,7 @@ export default function MoveOrdersDialog(props) {
                     onClick={handleOrderSwitching}
                     autoFocus
                     disabled={shouldDisableButton}
+                    fullWidth
                 >
                     {t("ORDERS_PAGE.MOVE.DIALOG_SWITCH_BUTTON")}
                 </Button>
