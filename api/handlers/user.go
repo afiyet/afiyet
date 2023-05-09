@@ -24,7 +24,7 @@ func (h *UserHandler) Signup(c echo.Context) error {
 	}
 
 	if !IsPasswordOk(ubind.Password) {
-		return c.JSON(http.StatusBadRequest, PasswordNotOk)
+		return c.JSON(http.StatusBadRequest, PasswordNotOk.Error())
 	}
 
 	u, err := h.s.Signup(ubind)

@@ -47,7 +47,7 @@ func (h *PasswordHandler) ChangePassword(c echo.Context) error {
 	}
 
 	if !IsPasswordOk(rbind.TempPassword) {
-		return c.JSON(http.StatusBadRequest, PasswordNotOk)
+		return c.JSON(http.StatusBadRequest, PasswordNotOk.Error())
 
 	}
 

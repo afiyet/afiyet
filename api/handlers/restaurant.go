@@ -125,7 +125,7 @@ func (h *RestaurantHandler) Signup(c echo.Context) error {
 	}
 
 	if !IsPasswordOk(rbind.Password) {
-		return c.JSON(http.StatusBadRequest, PasswordNotOk)
+		return c.JSON(http.StatusBadRequest, PasswordNotOk.Error())
 	}
 	u, err := h.s.Signup(rbind)
 	if err != nil {
