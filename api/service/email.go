@@ -1,6 +1,7 @@
 package service
 
 import (
+	_ "embed"
 	"errors"
 	"fmt"
 	"net/smtp"
@@ -15,24 +16,19 @@ type mail struct {
 	Body    string
 }
 
+//go:embed mail.html
+var emailTemplate string
+
 func SendGmailEmail(to, token string) error {
 	appPassword := os.Getenv("GMAIL_APP_PASSWORD")
 	if appPassword == "" {
 		return errors.New("empty credential")
 	}
 
-	h := fmt.Sprintf(`
-	<h1> Afiyet Şifre Değişikliği Talebi </h1>
-
-	<p>
-	Eğer bu email sizin tarafınızdan atılmadıysa, dikakte almanıza gerek yoktur.
-	Bu tür emailleri birden fazla alırsanız, lütfen afiyet.helpdesk@gmail.com'a bildiriniz.
-	</p>
-
-	<br>
-
-	<a href="%s"> Şifrenizi değiştirmek için tıklayın </a> <br>
-	`, "https://afiyet.site/change-password?token="+token)
+	h := fmt.Sprintf(emailTemplate,
+		"https://afiyet.site/change-password?token="+token,
+		"https://afiyet.site/change-password?token="+token,
+	)
 
 	m := mail{
 		Sender:  FromEmailAddress,
