@@ -69,7 +69,6 @@ type paymentToken struct {
 }
 
 func (h *PaymentHandler) CreatePaymentWithForm(c echo.Context) error {
-
 	var rbind paymentRequest
 	var tempOrder model.Order
 	err := (&echo.DefaultBinder{}).BindBody(c, &rbind)
@@ -101,11 +100,16 @@ func (h *PaymentHandler) CreatePaymentWithForm(c echo.Context) error {
 			return c.JSON(http.StatusBadRequest, err.Error())
 		}
 		tableId, err := h.restaurantService.GetEmptyTableId(resID)
-		if err != nil || tableId == -1 {
+		if err != nil {
 			return c.JSON(http.StatusBadRequest, err.Error())
 		}
+
+		if tableId == -1 {
+			return c.JSON(http.StatusBadRequest, "no empty table")
+		}
+
 		tempOrder = model.Order{
-			TableId:      string(tableId),
+			TableId:      strconv.Itoa(tableId),
 			RestaurantId: rbind.RestaurantID,
 			PaymentType:  "CARD",
 		}
