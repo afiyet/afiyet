@@ -165,7 +165,8 @@
         "RESTAURANT_PICTURE": "Restaurant Picture",
         "CAMPAIGN_PICTURE": "Campaign Picture",
         "ERROR": "Sign up error",
-        "SUCCESS": "Sign up successful"
+        "SUCCESS": "Sign up successful",
+        "PASS_INVALID": "Your password should be in 8-14 characters; and it should contain at least, a number, an uppercase letter, a lowercase letter and punctuation"
     },
     "FORGOT_PASSWORD": {
         "PASS_1": "Enter your password",

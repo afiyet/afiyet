@@ -71,7 +71,11 @@ const RestaurantSignUp = () => {
     })
     .catch((err) => {
         console.log(err);
-        enqueueSnackbar(t("SIGNUP_PAGE.ERROR"), { variant: "error" });
+        if (err?.response?.data === "password does not match criteria" ){
+          enqueueSnackbar(t("SIGNUP_PAGE.PASS_INVALID"), { variant: "error" });
+        } else {
+          enqueueSnackbar(t("SIGNUP_PAGE.ERROR"), { variant: "error" });
+        }
     })
   }
 
