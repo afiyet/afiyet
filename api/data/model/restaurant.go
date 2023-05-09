@@ -16,7 +16,7 @@ type Restaurant struct {
 	Category        string         `json:"category"`
 	Dishes          []Dish         `gorm:"-" json:"dishes,omitempty"`
 	Ratings         []Rating       `gorm:"-" json:"ratings,omitempty"`
-	Tables          []Table        `gorm:"-" json:"tables,omitempty"`
+	Tables          []Table        `gorm:"foreignKey:RestaurantId" json:"tables,omitempty"`
 	Latitude        float64
 	Longitude       float64
 	Password        string `json:"password"`

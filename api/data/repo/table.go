@@ -59,19 +59,25 @@ type Temp struct {
 
 func (tr TableRepository) IsEmptyTable(restId int) (bool, error) {
 
-	var temp Temp
+	var rest model.Restaurant
 
-	err := tr.db.Raw("select t.id as foo from tables t left join orders o on t.id = o.table_id where o.table_id  is null and t.restaurant_id = ? limit 1", restId).Scan(&temp).Error
+	fmt.Println(restId)
+
+	err := tr.db.Preload("Tables.Orders").Find(&rest, restId).Error
 
 	if err != nil {
 		return false, err
 	}
 
-	fmt.Printf(" %d --- TEMP FOO", temp.Foo)
+	if len(rest.Tables) == 0 {
+		return false, err
+	}
 
-	// if res == nil {
-	// 	return false, nil
-	// }
+	for i := 0; i < len(rest.Tables); i++ {
+		if len(rest.Tables[i].Orders) == 0 {
+			return true, nil
+		}
+	}
 
-	return true, nil
+	return false, nil
 }
