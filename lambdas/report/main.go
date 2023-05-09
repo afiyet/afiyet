@@ -139,6 +139,13 @@ group by payment_type;
 			return nil, fmt.Errorf("row scan: %w", err)
 		}
 
+		//TODO spagetti show
+		if p.PType == "CASH" {
+			p.PType = "Nakit"
+		} else if p.PType == "CARD" {
+			p.PType = "Kart"
+		}
+
 		ps = append(ps, p)
 	}
 
