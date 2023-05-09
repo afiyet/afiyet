@@ -43,25 +43,29 @@ export default function CollapsibleTable(props) {
                 <TableHead>
                     <TableRow>
                         <TableCell colSpan={2}>
-                            <Box style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                            <Box style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                                 <Typography variant="h5" gutterBottom component="div">
                                     <Box style={{ fontWeight: "bold" }}>
                                         {tableName} {t("ORDERS_PAGE.TABLES.TABLE_ORDERS")}
                                     </Box>
                                 </Typography>
-                                <Box>
-                                    <Button
-                                        size="large"
-                                        style={{ height: "100%" }}
-                                        onClick={() => { setOpenDialog(true); }}
-                                        variant='contained'
-                                        startIcon={<MoveDownIcon />}
-                                    >
-                                        {t("ORDERS_PAGE.MOVE.DIALOG_OPEN_BUTTON")}
-                                    </Button>
-                                </Box>
+                                {
+                                    (tableOrders.length > 0) ?
+                                        <Box>
+                                            <Button
+                                                size="large"
+                                                style={{ height: "100%" }}
+                                                onClick={() => { setOpenDialog(true); }}
+                                                variant='contained'
+                                                startIcon={<MoveDownIcon />}
+                                            >
+                                                {t("ORDERS_PAGE.MOVE.DIALOG_OPEN_BUTTON")}
+                                            </Button>
+                                        </Box>
+                                        :
+                                        null
+                                }
                             </Box>
-
                         </TableCell>
                     </TableRow>
                 </TableHead>
