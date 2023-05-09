@@ -15,6 +15,7 @@ import { RadioButton } from 'react-native-paper';
 import CashPayment from './CashPayment';
 import { createCashOrder } from '../../endpoints/cart/cartEndpoints';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import getDistanceFromLatLonInKm from '../home/DistanceCalculations';
 
 
 export const themeColor = '#1e1e1e';
@@ -40,6 +41,7 @@ export default function StepperMain() {
   const [checkedRadio, setCheckedRadio] = useState("credit");
   const [cashOrderIdArray, setCashOrderIdArray] = useState([]);
   const [creditSuccess, setCreditSuccess] = useState(false);
+  const userLocation = useSelector(state => state.locationState);
 
   useEffect(() => {
     setCartItemsChangedError(true);
@@ -93,7 +95,7 @@ export default function StepperMain() {
       ]
     } */
 
-    if (orderState.tableId === "") {
+    if (!orderState.tableId) {
       // remote order
       if (getDistanceFromLatLonInKm(Number(userLocation.latitude), Number(userLocation.longitude), Number(orderState.restaurantLatitude), Number(orderState.restaurantLongitude)) < 4) {
         checkEmptyTableStatus(orderState.restaurantId)
@@ -104,11 +106,16 @@ export default function StepperMain() {
             } else {
               // masa yok
               // modal çıkart
+              console.log("masa yok");
             }
           })
           .catch((err) => {
             console.log(err);
           })
+      } else {
+        console.log("yakın değil");
+        console.log(Number(userLocation.latitude), Number(userLocation.longitude));
+        console.log(getDistanceFromLatLonInKm(Number(userLocation.latitude), Number(userLocation.longitude), Number(orderState.restaurantLatitude), Number(orderState.restaurantLongitude)));
       }
     } else {
       // qr ile order
