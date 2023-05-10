@@ -55,8 +55,14 @@ function Main() {
 
   }, []); */
 
+
   useEffect(() => {
-    //i18n.changeLanguage(Localization.getLocales()[0].languageCode);
+    /**
+     *  REMOTE JS DEBUGGING MUST BE CLOSED !!!
+     *  REMOTE JS DEBUGGING MUST BE CLOSED !!!
+     *  REMOTE JS DEBUGGING MUST BE CLOSED !!!
+     */
+    i18n.changeLanguage(Localization.getLocales()[0].languageCode);
   },[]);
 
   useEffect(() => {
