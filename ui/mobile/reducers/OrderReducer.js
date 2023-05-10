@@ -123,6 +123,11 @@ const OrderReducer = (state = initialState, action) => {
                 restaurantLatitude: action.data.latitude,
                 restaurantLongitude: action.data.longitude,
             }
+        case OrderActions.types.CLEAR_BASKET_ITEMS:
+            return {
+                ...state,
+                orderedItems: []
+            }
         default:
             return { ...state };
     }

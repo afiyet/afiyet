@@ -190,6 +190,7 @@ export default function StepperMain() {
                 console.log("initialize payment: ");
                 console.log(res);
                 setWebViewURL(res.data);
+                dispatch(OrderActions.clearBasketItems());
               })
               .catch((err) => {
                 console.log(err);
@@ -200,6 +201,7 @@ export default function StepperMain() {
                 let newArr = cashOrderIdArray;
                 newArr.push(res.data);
                 setCashOrderIdArray(newArr);
+                dispatch(OrderActions.clearBasketItems());
               })
               .catch((err) => {
                 console.log(err);

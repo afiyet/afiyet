@@ -7,7 +7,8 @@ const types = {
     DECREASE_COUNT_OF_ORDERED_ITEM: "DECREASE_COUNT_OF_ORDERED_ITEM",
     RESET: "RESET",
     UPDATE_PRICE: "UPDATE_PRICE",
-    SET_RESTAURANT_LAT_LON: "SET_RESTAURANT_LAT_LON"
+    SET_RESTAURANT_LAT_LON: "SET_RESTAURANT_LAT_LON",
+    CLEAR_BASKET_ITEMS: "CLEAR_BASKET_ITEMS"
 }
 
 const setBarcodeParams = (value) => {
@@ -66,6 +67,13 @@ const setRestaurantLatLon = (value) => {
     }
 }
 
+const clearBasketItems = (value) => {
+    return {
+        type: types.CLEAR_BASKET_ITEMS,
+        data: value
+    }
+}
+
 export default {
     types,
     setBarcodeParams,
@@ -75,5 +83,6 @@ export default {
     increaseCountOfOrderedItem,
     setReset,
     updatePrice,
-    setRestaurantLatLon
+    setRestaurantLatLon,
+    clearBasketItems
 };
