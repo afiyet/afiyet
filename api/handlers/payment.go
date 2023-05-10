@@ -112,6 +112,7 @@ func (h *PaymentHandler) CreatePaymentWithForm(c echo.Context) error {
 			TableId:      strconv.Itoa(tableId),
 			RestaurantId: rbind.RestaurantID,
 			PaymentType:  "CARD",
+			IsRemote:     1,
 		}
 	}
 
