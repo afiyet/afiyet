@@ -5,6 +5,7 @@ import { initializePayment, getWebViewUrlFromAWS, getPaymentResult, completePaym
 import { getRestaurantComments, addCommentToRestaurant } from "./comment/commentEndpoints";
 import { getRestaurant, getRestaurants, getRestaurantMenu, getRestaurantsWithCampaignPicture } from "./order/orderEndpoints";
 import { sendChangePasswordMail } from "./password/passwordEndpoints";
+import { doesHaveRemoteOrderOnTable } from "./scanner/scannerEndpoints";
 
 export {
     getMarkers,
@@ -22,5 +23,6 @@ export {
     addCommentToRestaurant,
     getRestaurantsWithCampaignPicture,
     sendChangePasswordMail,
-    checkEmptyTableStatus
+    checkEmptyTableStatus,
+    doesHaveRemoteOrderOnTable
 };

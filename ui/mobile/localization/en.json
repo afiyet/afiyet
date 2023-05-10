@@ -106,5 +106,8 @@
         "TEXT": "Password change link has been sent to your e-mail address.",
         "CLOSE_BTN": "Close",
         "NOT_VALID_EMAIL": "E-mail you have entered is not a valid e-mail address."
+    },
+    "SCANNER_SCREEN": {
+        "MODAL_TEXT": "Table is reserved."
     }
 }
