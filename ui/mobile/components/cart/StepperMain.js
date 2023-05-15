@@ -234,7 +234,7 @@ export default function StepperMain() {
   const progressStep = {
 
     previousBtnText: t("CART_SCREEN.RETURN_TO_CART"),
-    finishBtnText: t("CART_SCREEN.PLACE_ORDER"),
+    finishBtnText: "",
     previousBtnStyle: styles.previousButton,
     nextBtnTextStyle: styles.buttonText,
     previousBtnTextStyle: styles.buttonText,
@@ -370,7 +370,8 @@ export default function StepperMain() {
         </ProgressStep>
         <ProgressStep
           label={t("CART_SCREEN.PAYMENT")} {...progressStep}
-          nextBtnStyle={styles.nextBtnStyle}
+          nextBtnStyle={[styles.nextBtnStyle, {marginLeft: 800}]}
+          nextBtnTextStyle={{visibility: "hidden"}}
           onPrevious={onReturnToCartClicked}
           onSubmit={onPlaceOrderClicked}
           viewProps={{ flex: 1 }}
