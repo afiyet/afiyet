@@ -67,7 +67,7 @@ pc where pc.token = ?
 		return false, err
 	}
 
-	if result.Add(time.Hour * 12).Before(time.Now()) {
+	if time.Now().Before(result.Add(time.Hour * 12)) {
 		return true, nil
 	} else {
 		return false, errors.New("passwd more than 12 hours")
