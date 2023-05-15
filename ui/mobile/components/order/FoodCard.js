@@ -20,7 +20,7 @@ const FoodCard = (props) => {
                 setSelectedMenuItem(item);
                 setIsBottomSheetOpen(true);
             }}
-        //disabled={(orderState.tableId === undefined || orderState.tableId === "") || item.IsDisabled ? true : false}
+        disabled={item.IsDisabled ? true : false}
         >
             <View>
                 {
