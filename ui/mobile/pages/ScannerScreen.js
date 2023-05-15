@@ -63,7 +63,7 @@ function ScannerScreen(props) {
         doesHaveRemoteOrderOnTable(tId)
             .then((res) => {
                 console.log(res);
-                if (res.data) {
+                if (res.data === true) {
                     //masa dolu
                     setModalVisible(true);
                 } else {

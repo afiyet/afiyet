@@ -370,7 +370,7 @@ export default function StepperMain() {
         </ProgressStep>
         <ProgressStep
           label={t("CART_SCREEN.PAYMENT")} {...progressStep}
-          nextBtnStyle={[styles.nextBtnStyle, {marginLeft: 800}]}
+          nextBtnStyle={{marginLeft: 800}}
           nextBtnTextStyle={{visibility: "hidden"}}
           onPrevious={onReturnToCartClicked}
           onSubmit={onPlaceOrderClicked}
