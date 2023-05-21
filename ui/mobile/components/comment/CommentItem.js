@@ -21,7 +21,12 @@ export default function CommentItem(props) {
                 </View>
             </View>
             <View style={styles.timeContainer}>
-                <Text style={styles.timeText}>{new Intl.DateTimeFormat("en-GB").format(new Date(time))}</Text>
+                {
+                    (time.length > 0) ?
+                        <Text style={styles.timeText}>{time.substring(8, 10) + "/" + time.substring(5, 7) + "/" + time.substring(0, 4)}</Text>
+                        :
+                        null
+                }
             </View>
             <View style={styles.commentContainer}>
                 <Text style={styles.commentText}>{commentText}</Text>
