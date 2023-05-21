@@ -21,24 +21,24 @@
       "supportsTablet": true
     },
     "android": {
-      "usesCleartextTraffic":"true",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FD2400"
       },
       "config": {
-        "googleMapsApiKey": "AIzaSyAmvaopkWa3rC9mKB0AFh2Jh6lrS2NO9DQ"
-      },
-      "supportsTablet": true,
-      "infoPlist": {
-        "NSAppTransportSecurity" : {
-          "NSAllowsArbitraryLoads" : true
+        "googleMaps": {
+          "apiKey": "AIzaSyCE2w1dcRtzZv65NSfektddkNXFsEqVKBs"
         }
-      }
-      
+      },
+      "package": "com.ogrenciumut.afiyetmobileui"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "5210b79d-6107-4eb4-9099-6a113ecc8f27"
+      }
     }
   }
 }
