@@ -1,0 +1,1 @@
+(TR) See screenshots, architecture, implementation details ... on [./report.pdf](./report.pdf)
